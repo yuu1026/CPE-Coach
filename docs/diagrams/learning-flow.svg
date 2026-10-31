@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1480" viewBox="0 0 1440 1480" role="img" aria-labelledby="title desc">
+<title id="title">CPE Coach 學習流程</title><desc id="desc">登入選題後，使用者可獨立執行 C++ 測試或詢問助理；結果保存後可繼續對話、修改程式或自行標記完成。</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#60758a"/></marker></defs>
+<style>text{font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif} .head{font-size:34px;font-weight:700;fill:#183047}.sub{font-size:18px;fill:#60758a}.node{font-size:22px;font-weight:600;fill:#20384b}.note{font-size:17px;fill:#556d81}.label{font-size:17px;fill:#4e657a}.edge{fill:none;stroke:#60758a;stroke-width:2.5;marker-end:url(#arrow);stroke-linejoin:round}</style>
+<rect width="1440" height="1480" fill="#f5f8fc"/><rect x="90" y="20" width="1260" height="1420" rx="28" fill="white" stroke="#dbe5ed"/>
+<text x="720" y="65" text-anchor="middle" class="head">CPE Coach｜學習流程</text><text x="720" y="94" text-anchor="middle" class="sub">從理解題意開始，以測試證據與分級提示完成自己的解法</text>
+<rect x="520" y="125" width="400" height="62" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
+<text x="720.0" y="163.0" text-anchor="middle" class="node">登入個人帳號</text>
+<rect x="520" y="225" width="400" height="62" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
+<text x="720.0" y="263.0" text-anchor="middle" class="node">下拉選擇 CPE 題目</text>
+<rect x="520" y="325" width="400" height="76" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
+<text x="720.0" y="358" text-anchor="middle" class="node">解題工作區</text>
+<text x="720.0" y="386" text-anchor="middle" class="note">題目／程式與測試／助理對話</text>
+<path class="edge" d="M720 187 V225"/>
+<path class="edge" d="M720 287 V325"/>
+<path class="edge" d="M720 401 V433"/>
+<path d="M720 433 L850 475 L720 517 L590 475 Z" fill="#fff3d9" stroke="#dfc486" stroke-width="1.6"/>
+<text x="720" y="482" text-anchor="middle" class="node">選擇操作</text>
+<path class="edge" d="M590 475 H380 V560"/>
+<path class="edge" d="M850 475 H1060 V560"/>
+<text x="380" y="535" text-anchor="middle" class="label">執行測試</text>
+<text x="1060" y="535" text-anchor="middle" class="label">送出訊息</text>
+<rect x="160" y="560" width="440" height="80" rx="13" fill="#eaf1ff" stroke="#c4d4ef" stroke-width="1.6"/>
+<text x="380.0" y="593" text-anchor="middle" class="node">提供 C++ 程式碼</text>
+<text x="380.0" y="621" text-anchor="middle" class="note">留白時提示輸入，不啟動判題</text>
+<rect x="840" y="560" width="440" height="80" rx="13" fill="#e5f5ee" stroke="#badccf" stroke-width="1.6"/>
+<text x="1060.0" y="593" text-anchor="middle" class="node">提出問題或回答助理</text>
+<text x="1060.0" y="621" text-anchor="middle" class="note">程式可留白，不執行編譯</text>
+<rect x="160" y="690" width="440" height="88" rx="13" fill="#eaf1ff" stroke="#c4d4ef" stroke-width="1.6"/>
+<text x="380.0" y="723" text-anchor="middle" class="node">Docker 隔離編譯與執行</text>
+<text x="380.0" y="751" text-anchor="middle" class="note">限制時間、記憶體、輸出量；無網路</text>
+<rect x="840" y="690" width="440" height="88" rx="13" fill="#e5f5ee" stroke="#badccf" stroke-width="1.6"/>
+<text x="1060.0" y="723" text-anchor="middle" class="node">整理本輪對話與測試證據</text>
+<text x="1060.0" y="751" text-anchor="middle" class="note">留白則起步引導；同版可沿用測試</text>
+<path class="edge" d="M380 640 V690"/>
+<path class="edge" d="M1060 640 V690"/>
+<rect x="160" y="828" width="440" height="88" rx="13" fill="#eaf1ff" stroke="#c4d4ef" stroke-width="1.6"/>
+<text x="380.0" y="861" text-anchor="middle" class="node">比對預期輸出與實際輸出</text>
+<text x="380.0" y="889" text-anchor="middle" class="note">通過／答案不符／編譯錯誤／超時</text>
+<rect x="840" y="828" width="440" height="88" rx="13" fill="#e5f5ee" stroke="#badccf" stroke-width="1.6"/>
+<text x="1060.0" y="861" text-anchor="middle" class="node">本地模型產生分級提示</text>
+<text x="1060.0" y="889" text-anchor="middle" class="note">題意理解 → 定位問題 → 局部提示</text>
+<path class="edge" d="M380 778 V828"/>
+<path class="edge" d="M1060 778 V828"/>
+<rect x="160" y="966" width="440" height="80" rx="13" fill="#eaf1ff" stroke="#c4d4ef" stroke-width="1.6"/>
+<text x="380.0" y="999" text-anchor="middle" class="node">顯示測資結果</text>
+<text x="380.0" y="1027" text-anchor="middle" class="note">此操作不呼叫模型</text>
+<rect x="840" y="966" width="440" height="80" rx="13" fill="#e5f5ee" stroke="#badccf" stroke-width="1.6"/>
+<text x="1060.0" y="999" text-anchor="middle" class="node">顯示助理回覆</text>
+<text x="1060.0" y="1027" text-anchor="middle" class="note">避免直接提供完整答案</text>
+<path class="edge" d="M380 916 V966"/>
+<path class="edge" d="M1060 916 V966"/>
+<rect x="520" y="1100" width="400" height="76" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
+<text x="720.0" y="1133" text-anchor="middle" class="node">保存本輪紀錄</text>
+<text x="720.0" y="1161" text-anchor="middle" class="note">程式版本、測試結果與對話</text>
+<path class="edge" d="M380 1046 V1138 H520"/>
+<path class="edge" d="M1060 1046 V1138 H920"/>
+<rect x="520" y="1220" width="400" height="76" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
+<text x="720.0" y="1253" text-anchor="middle" class="node">直接回覆或修改程式</text>
+<text x="720.0" y="1281" text-anchor="middle" class="note">在同一段對話接續學習</text>
+<path class="edge" d="M720 1176 V1220"/>
+<path class="edge" d="M520 1258 H112 V363 H520"/>
+<text x="263" y="1303" text-anchor="middle" class="label">繼續練習</text>
+<rect x="520" y="1340" width="400" height="62" rx="13" fill="#fff3d9" stroke="#dfc486" stroke-width="1.6"/>
+<text x="720.0" y="1373" text-anchor="middle" class="node">自行標記完成，可隨時取消</text>
+
+<path class="edge" d="M720 1296 V1340"/>
+<text x="1055" y="1365" text-anchor="middle" class="note">完成標記依帳號保存</text>
+<text x="720" y="1420" text-anchor="middle" class="note">測資通過不等於涵蓋全部輸入；提示規則不保證零答案洩漏。</text>
+</svg>
