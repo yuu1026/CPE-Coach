@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %}{{ problem.title }} · CPE Coach{% endblock %}
+{% block body_class %}workspace-page{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'vendor/codemirror/codemirror.css' %}">{% endblock %}
+{% block content %}
+<div class="workspace-heading">
+  <div class="workspace-title"><a class="breadcrumb" href="/">練習總覽 <span>/</span> CPE 一星</a><h1>{{ problem.title }}</h1></div>
+  <div class="workspace-tools"><form action="{% url 'choose_problem' %}" method="get" class="problem-switcher"><label for="problem-select" class="sr-only">切換 CPE 題目</label><select id="problem-select" name="problem">{% for p in problems %}<option value="{{ p.pk }}" {% if p.pk == problem.pk %}selected{% endif %}>{% if p.pk in completed_ids %}✓ {% endif %}{{ p.title }}</option>{% endfor %}</select><button type="submit" class="button-quiet">切換</button></form>{% include 'completion_control.html' %}</div>
+</div>
+<div class="workspace-tabs" role="tablist" aria-label="解題工作區"><button type="button" role="tab" id="tab-problem" aria-controls="panel-problem" aria-selected="true" data-tab="problem">題目</button><button type="button" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false" data-tab="code">程式與測試</button><button type="button" role="tab" id="tab-chat" aria-controls="panel-chat" aria-selected="false" data-tab="chat">助理對話</button></div>
+<form method="post" {% if record %}action="{% url 'detail' record.pk %}"{% endif %} id="workspace-form" class="workbench" data-initial-tab="{% if form.code.errors or record.action == 'test' %}code{% elif record or form.question.errors %}chat{% else %}problem{% endif %}">
+  {% csrf_token %}{{ form.submission_id }}{{ form.parent_submission }}{{ form.action }}
+  <div class="workspace-errors">{{ form.non_field_errors }}{{ form.submission_id.errors }}{{ form.parent_submission.errors }}{{ form.action.errors }}</div>
+  <section class="pane problem-pane" id="panel-problem" aria-labelledby="tab-problem" data-pane="problem">
+    <div class="pane-header"><h2><span class="pane-icon" aria-hidden="true">01</span> 題目說明</h2><span class="badge neutral">一星</span></div>
+    <div class="pane-scroll problem-content"><span class="eyebrow">先讀懂，再動手</span><h3>{{ problem.title }}</h3><p class="problem-statement">{{ problem.statement }}</p><div class="section-label">自編測資範例</div><label>輸入</label><pre class="sample">{{ problem.sample_input }}</pre><label>預期輸出</label><pre class="sample">{{ problem.sample_output }}</pre><details class="subtle-details"><summary>題目來源與說明</summary><p class="muted">此頁為題意摘要，範例及測資由本專案編寫。</p><p class="source-text">{{ problem.source }}</p></details><div class="learning-note"><strong>沒有想法，也可以開始。</strong><p>程式留白，在右側告訴助理你讀懂了什麼，或讓它陪你拆解第一步。</p></div></div>
+    <div class="pane-footer muted">完成標記依你的學習狀況自行設定。</div>
+  </section>
+  <section class="pane code-pane" id="panel-code" aria-labelledby="tab-code" data-pane="code">
+    <div class="pane-header"><h2><span class="file-dot" aria-hidden="true"></span> main.cpp</h2><span class="badge neutral">C++17</span></div>
+    <div class="editor-wrapper"><label for="id_code" class="sr-only">你的 C++ 程式碼（可留白）</label>{{ form.code }}</div>
+    <div class="editor-status"><span id="editor-position">第 1 行，第 1 欄</span><span id="code-count">0 / 12000 字元</span><span>UTF-8</span></div><p id="editor-error" class="error editor-error" role="alert" hidden></p>{{ form.code.errors }}
+    <div class="test-toolbar"><span class="muted">只執行程式，不呼叫助理</span><button type="submit" name="action" value="test" id="run-test" class="button-test">▷ 執行測試</button></div>
+    <div class="test-area" id="test-area">
+      <div class="test-title"><h3>測試結果</h3>{% if judge.status == 'accepted' %}<span class="badge success">全部通過</span>{% elif judge.status == 'failed' or judge.status == 'compile_error' %}<span class="badge danger">需要檢查</span>{% else %}<span class="badge warning">{% if judge %}{{ judge.label }}{% else %}尚未測試{% endif %}</span>{% endif %}</div>
+      <p id="stale-result" class="notice" hidden>程式或測資已修改，以下是上一版本結果；請重新執行測試。</p>
+      {% if total_cases %}<div class="test-score {% if judge.status == 'accepted' %}is-passed{% endif %}"><strong>{{ passed_cases }}<span> / {{ total_cases }}</span></strong><span>測資通過{% if judge.reused_from %} · 沿用上次測試{% endif %}</span></div>{% elif judge %}<p class="muted">{{ judge.label }}</p>{% else %}<div class="empty-test"><span aria-hidden="true">▷</span><p>準備好後，試著執行看看。</p><small>輸出將與題目測資逐筆比對。</small></div>{% endif %}
+      {% if judge.reused_from %}<p class="reuse-note">沿用上次測試（紀錄 #{{ judge.reused_from }}）：程式碼與測資完全相同，本輪未重新執行。</p>{% endif %}
+      {% if judge.compiler %}<details class="test-case failed" open><summary>編譯訊息</summary><pre>{{ judge.compiler }}</pre></details>{% endif %}
+      {% for case in ordered_cases %}<details class="test-case {% if case.status == 'accepted' %}passed{% else %}failed{% endif %}" {% if case.status != 'accepted' %}open{% endif %}><summary><span class="case-mark" aria-hidden="true">{% if case.status == 'accepted' %}✓{% else %}!{% endif %}</span><span>{{ case.name }}</span><span class="case-verdict">{{ case.label }}</span><small>{{ case.seconds }} 秒</small></summary><div class="case-body"><label>輸入</label><pre>{{ case.input }}</pre><div class="output-compare"><div><label>預期輸出</label><pre>{{ case.expected }}</pre></div><div><label>實際輸出</label><pre>{{ case.actual }}</pre></div></div>{% if case.stderr %}<label>錯誤訊息</label><pre>{{ case.stderr }}</pre>{% endif %}</div></details>{% endfor %}
+      {% if judge.note %}<details class="subtle-details"><summary>測試說明</summary><p class="muted">{{ judge.note }}</p></details>{% endif %}
+      <details class="custom-tests" {% if form.run_custom.errors or form.custom_input.errors or form.custom_expected.errors %}open{% endif %}><summary>＋ 自訂測資</summary><div class="custom-check">{{ form.run_custom }}<label for="id_run_custom">額外執行自訂測資</label></div><label for="id_custom_input">輸入（stdin）</label>{{ form.custom_input }}{{ form.custom_input.errors }}<label for="id_custom_expected">預期輸出（stdout）</label>{{ form.custom_expected }}{{ form.custom_expected.errors }}</details><small class="test-disclaimer">通過這些測資，不代表所有合法輸入皆正確。</small>
+    </div>
+  </section>
+  <section class="pane chat-pane" id="panel-chat" aria-labelledby="tab-chat" data-pane="chat">
+    <div class="pane-header"><h2><span class="assistant-spark" aria-hidden="true">✦</span> 解題助理</h2><span class="badge {% if assistant_mode == 'demo' %}warning{% else %}neutral{% endif %}">{% if assistant_mode == 'demo' %}示範模式{% else %}本地模型{% endif %}</span></div>
+    <div class="chat-scroll" id="chat-history" aria-label="解題對話紀錄">
+      {% if assistant_mode == 'demo' %}<p class="notice">DEMO：固定示範文字，未分析實際程式。</p>{% endif %}
+      {% if not turns %}<div class="chat-welcome"><span class="welcome-icon" aria-hidden="true">✦</span><h3>一起想出下一步。</h3><p>說說你的想法，或貼上程式。<br>助理會給提示，讓你自己完成解法。</p><div class="starter-questions"><button type="button" class="question-chip" data-question="我完全沒有想法，請從理解題目開始引導我。">我不知道怎麼開始</button><button type="button" class="question-chip" data-question="請幫我釐清這題的輸入與輸出，先不要給解法。">先釐清輸入與輸出</button></div></div>{% endif %}
+      {% for turn in turns %}<div class="chat-turn" id="turn-{{ turn.pk }}">
+        {% if turn.action == 'test' %}<div class="test-event"><span aria-hidden="true">▷</span> {{ turn.judge_result.label }}<small>本輪未呼叫模型。</small></div>{% else %}
+        <div class="message user-message"><div class="message-label">你 <small>第 {{ forloop.counter }} 輪</small></div><div class="message-text">{{ turn.question|default:'請依題意引導我下一步。' }}</div>{% if not turn.code %}<small>尚未撰寫程式，從想法開始。</small>{% endif %}</div>
+        <div class="message assistant-message"><div class="message-label"><span class="assistant-spark" aria-hidden="true">✦</span> 助理 <small>第 {{ turn.hint_level }} 層提示</small></div>{% if turn.error %}<p class="error">{{ turn.error }}</p>{% elif turn.status == 'running' %}<p class="muted">仍在處理，或程序已中斷。重新整理不會重跑模型。</p>{% else %}{% if turn.status == 'partial' %}<p class="notice">此提示達輸出上限，以下內容可能不完整。</p>{% endif %}<div class="message-text markdown-message">{{ turn.answer }}</div>{% endif %}</div>{% endif %}
+      </div>{% endfor %}
+    </div>
+    <div class="chat-composer" id="reply"><div class="composer-top"><label for="id_question">你的回答或問題</label><label for="id_hint_level" class="sr-only">提示程度</label>{{ form.hint_level }}</div>{{ form.question }}{{ form.question.errors }}{{ form.hint_level.errors }}<div class="composer-bottom"><small>Ctrl + Enter 送出訊息</small><button type="submit" name="action" value="ask" id="ask-assistant">送出訊息 ↑</button></div><p class="wait-status" role="status" data-wait hidden></p><details class="technical-info"><summary>對話與模型資訊</summary><p>詢問助理不執行程式；執行測試不呼叫模型。模型優先參考最近六輪，過長時略過較早對話。</p><p>{{ active_model }}{% if record %}<br>提示版本：{{ record.prompt_version }} · 紀錄 #{{ record.pk }}{% endif %}</p></details></div>
+  </section>
+</form>
+{% if record %}{{ record.code|json_script:'original-code' }}{{ record.judge_result.custom_test|json_script:'original-custom-test' }}{% endif %}
+{% endblock %}
+{% block scripts %}<script src="{% static 'vendor/codemirror/codemirror.js' %}"></script><script src="{% static 'vendor/codemirror/clike.js' %}"></script><script src="{% static 'vendor/codemirror/matchbrackets.js' %}"></script><script src="{% static 'vendor/codemirror/closebrackets.js' %}"></script><script src="{% static 'vendor/markdown-it/markdown-it.min.js' %}"></script><script src="{% static 'coach/workbench.js' %}"></script>{% endblock %}

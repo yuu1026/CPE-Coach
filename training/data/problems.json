@@ -1,0 +1,227 @@
+[
+  {
+    "uva": 10055,
+    "title": "Hashmat the brave warrior",
+    "statement": "反覆讀取兩個非負整數到 EOF，逐行輸出兩者差的絕對值。輸入可達 2^32，順序不固定。",
+    "source": "https://onlinejudge.org/external/100/10055.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long a,b;while(cin>>a>>b)cout<<llabs(a-b)<<\"\\n\";}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "8 3\n3 8\n",
+        "expected": "5\n5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4294967296 0\n",
+        "expected": "4294967296\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "9 9\n1 4\n",
+        "expected": "0\n3\n"
+      }
+    ]
+  },
+  {
+    "uva": 10071,
+    "title": "Back to High School Physics",
+    "statement": "每組讀入 v 與 t，依題意的等加速度運動關係，輸出兩倍時間的位移；多組資料到 EOF。v 可為負，t 可為 0。",
+    "source": "https://onlinejudge.org/external/100/10071.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long v,t;while(cin>>v>>t)cout<<2*v*t<<\"\\n\";}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3 4\n",
+        "expected": "24\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "-5 3\n",
+        "expected": "-30\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "7 0\n2 5\n",
+        "expected": "0\n20\n"
+      }
+    ]
+  },
+  {
+    "uva": 10783,
+    "title": "Odd Sum",
+    "statement": "先讀 T，每組讀 a、b（0≤a≤b≤100），計算閉區間內奇數總和。輸出 Case k: 總和，編號從 1 開始。",
+    "source": "https://onlinejudge.org/external/107/10783.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;for(int k=1;k<=T;k++){int a,b,sum=0;cin>>a>>b;for(int i=a;i<=b;i++)if(i%2==1)sum+=i;cout<<\"Case \"<<k<<\": \"<<sum<<\"\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n3\n3\n0\n0\n",
+        "expected": "Case 1: 3\nCase 2: 0\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n2\n7\n1\n1\n",
+        "expected": "Case 1: 15\nCase 2: 1\n"
+      }
+    ]
+  },
+  {
+    "uva": 11332,
+    "title": "Summing Digits",
+    "statement": "讀取正整數 n（≤2000000000），反覆把十進位各位數加總直到一位數，逐行輸出。遇 0 結束且不輸出。",
+    "source": "https://onlinejudge.org/external/113/11332.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long n;while(cin>>n&&n){while(n>=10){long long s=0;while(n){s+=n%10;n/=10;}n=s;}cout<<n<<\"\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "99\n19\n0\n",
+        "expected": "9\n1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "10\n7\n0\n",
+        "expected": "1\n7\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2000000000\n0\n",
+        "expected": "2\n"
+      }
+    ]
+  },
+  {
+    "uva": 10931,
+    "title": "Parity",
+    "statement": "逐行讀正整數到 0 結束。輸出二進位表示與其中 1 的個數，格式為 The parity of B is P (mod 2).；P 保留計數，不先取模。",
+    "source": "https://onlinejudge.org/external/109/10931.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){unsigned n;while(cin>>n&&n){string b;int c=0;while(n){b+=char('0'+n%2);c+=n%2;n/=2;}reverse(b.begin(),b.end());cout<<\"The parity of \"<<b<<\" is \"<<c<<\" (mod 2).\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "10\n0\n",
+        "expected": "The parity of 1010 is 2 (mod 2).\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "7\n1\n0\n",
+        "expected": "The parity of 111 is 3 (mod 2).\nThe parity of 1 is 1 (mod 2).\n"
+      }
+    ]
+  },
+  {
+    "uva": 272,
+    "title": "TEX Quotes",
+    "statement": "讀取全文到 EOF，將雙引號交替換為兩個反引號與兩個單引號；引號配對狀態跨行延續，其他字元與換行保持原樣。",
+    "source": "https://onlinejudge.org/external/2/272.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){char c;bool open=true;while(cin.get(c)){if(c=='\"'){cout<<(open?\"``\":\"''\");open=!open;}else cout<<c;}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "\"a\nb\"\n",
+        "expected": "``a\nb''\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "x y \"z\"\n",
+        "expected": "x y ``z''\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "\"\" \"q\"\n",
+        "expected": "``'' ``q''\n"
+      }
+    ]
+  },
+  {
+    "uva": 10035,
+    "title": "Primary Arithmetic",
+    "statement": "每組讀兩個不到十位的非負整數，計算直式加法的進位次數，遇 0 0 結束。輸出 No carry operation.、1 carry operation. 或 N carry operations.。",
+    "source": "https://onlinejudge.org/external/100/10035.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long a,b;while(cin>>a>>b&&(a||b)){int carry=0,count=0;while(a||b){carry=(a%10+b%10+carry)>=10;count+=carry;a/=10;b/=10;}if(!count)cout<<\"No carry operation.\\n\";else if(count==1)cout<<\"1 carry operation.\\n\";else cout<<count<<\" carry operations.\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "99 1\n0 0\n",
+        "expected": "2 carry operations.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "5 5\n123 456\n0 0\n",
+        "expected": "1 carry operation.\nNo carry operation.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "0 7\n0 0\n",
+        "expected": "No carry operation.\n"
+      }
+    ]
+  },
+  {
+    "uva": 10038,
+    "title": "Jolly Jumpers",
+    "statement": "每組先讀 n（1≤n≤3000）與 n 個整數，直到 EOF。相鄰差的絕對值須恰好涵蓋 1 到 n-1，成立輸出 Jolly，否則 Not jolly。單元素成立。",
+    "source": "https://onlinejudge.org/external/100/10038.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;while(cin>>n){vector<int>a(n),seen(n);for(int&i:a)cin>>i;bool ok=true;for(int i=1;i<n;i++){int d=abs(a[i]-a[i-1]);if(d<=0||d>=n||seen[d])ok=false;else seen[d]=1;}cout<<(ok?\"Jolly\":\"Not jolly\")<<\"\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "4 1 4 2 3\n",
+        "expected": "Jolly\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4 1 2 3 4\n",
+        "expected": "Not jolly\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1 7\n2 8 8\n",
+        "expected": "Jolly\nNot jolly\n"
+      }
+    ]
+  },
+  {
+    "uva": 10041,
+    "title": "Vito's family",
+    "statement": "先讀案例數，每組讀親戚數與地址（可重複），選居住位置使到所有地址的距離總和最小，逐行輸出該最小總和。",
+    "source": "https://onlinejudge.org/external/100/10041.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;while(T--){int n;cin>>n;vector<int>a(n);for(int&x:a)cin>>x;sort(a.begin(),a.end());int p=a[n/2],s=0;for(int x:a)s+=abs(x-p);cout<<s<<\"\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n3 1 2 100\n",
+        "expected": "99\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n3 10 100 1\n",
+        "expected": "99\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 7\n4 5 5 5 5\n",
+        "expected": "0\n0\n"
+      }
+    ]
+  },
+  {
+    "uva": 10812,
+    "title": "Beat the Spread!",
+    "statement": "先讀 T，每組給非負整數總分 s 與差 d。求兩個非負整數分數，大者先輸出；無解輸出 impossible。",
+    "source": "https://onlinejudge.org/external/108/10812.pdf",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;while(T--){long long s,d;cin>>s>>d;if(s<d||(s+d)%2)cout<<\"impossible\\n\";else cout<<(s+d)/2<<\" \"<<(s-d)/2<<\"\\n\";}}",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n10 3\n2 8\n12 4\n",
+        "expected": "impossible\nimpossible\n8 4\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n0 0\n9 9\n",
+        "expected": "0 0\n9 0\n"
+      }
+    ]
+  }
+]

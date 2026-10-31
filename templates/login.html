@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="card" style="max-width:460px;margin:auto"><span class="tag">先思考，再前進</span><h1>開始你的練習</h1><p class="muted">登入後保存程式版本與提示歷程。帳號由本機管理指令建立。</p><form method="post">{% csrf_token %}{{ form.as_p }}<button>登入練習室</button></form></div>{% endblock %}

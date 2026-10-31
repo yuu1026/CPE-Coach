@@ -1,0 +1,28 @@
+<p style="display:flex;gap:12px;flex-wrap:wrap">
+  <button type="submit" name="action" value="ask">詢問助理 →</button>
+  <button type="submit" name="action" value="test" style="background:#bcccf5">執行測試</button>
+</p>
+<small>詢問助理不執行程式；執行測試不呼叫模型。</small>
+<p class="muted" role="status" data-wait hidden></p>
+<script>
+(() => {
+  const form = document.currentScript.closest('form');
+  const buttons = form.querySelectorAll('button[name="action"]');
+  form.addEventListener('submit', (event) => {
+    const action = event.submitter?.value || 'ask';
+    let field = form.querySelector('input[name="action"]');
+    if (!field) {
+      field = document.createElement('input'); field.type = 'hidden'; field.name = 'action'; form.appendChild(field);
+    }
+    field.value = action;
+    buttons.forEach(button => button.disabled = true);
+    const status = form.querySelector('[data-wait]');
+    status.textContent = action === 'test' ? '正在編譯與執行測資…' : '助理正在整理回覆…';
+    status.hidden = false;
+  });
+  window.addEventListener('pageshow', () => {
+    buttons.forEach(button => button.disabled = false);
+    form.querySelector('[data-wait]').hidden = true;
+  });
+})();
+</script>
