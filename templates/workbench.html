@@ -1,7 +1,7 @@
-{% extends 'base.html' %}{% load static %}
+{% extends 'base.html' %}{% load static coach_ui %}
 {% block title %}{{ problem.title }} · CPE Coach{% endblock %}
 {% block body_class %}workspace-page{% endblock %}
-{% block head %}<link rel="stylesheet" href="{% static 'vendor/codemirror/codemirror.css' %}">{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% versioned_static 'vendor/codemirror/codemirror.css' %}">{% endblock %}
 {% block content %}
 <div class="workspace-heading">
   <div class="workspace-title"><a class="breadcrumb" href="/">練習總覽 <span>/</span> CPE 一星</a><h1>{{ problem.title }}</h1></div>
@@ -53,4 +53,4 @@
 </form>
 {% if record %}{{ record.code|json_script:'original-code' }}{{ record.judge_result.custom_test|json_script:'original-custom-test' }}{% endif %}
 {% endblock %}
-{% block scripts %}<script src="{% static 'vendor/codemirror/codemirror.js' %}"></script><script src="{% static 'vendor/codemirror/clike.js' %}"></script><script src="{% static 'vendor/codemirror/matchbrackets.js' %}"></script><script src="{% static 'vendor/codemirror/closebrackets.js' %}"></script><script src="{% static 'vendor/markdown-it/markdown-it.min.js' %}"></script><script src="{% static 'coach/workbench.js' %}"></script><script src="{% static 'coach/workspace-preferences.js' %}"></script><script src="{% static 'coach/learning-tools.js' %}"></script>{% endblock %}
+{% block scripts %}<script src="{% versioned_static 'vendor/codemirror/codemirror.js' %}"></script><script src="{% versioned_static 'vendor/codemirror/clike.js' %}"></script><script src="{% versioned_static 'vendor/codemirror/matchbrackets.js' %}"></script><script src="{% versioned_static 'vendor/codemirror/closebrackets.js' %}"></script><script src="{% versioned_static 'vendor/markdown-it/markdown-it.min.js' %}"></script><script src="{% versioned_static 'coach/workbench.js' %}"></script><script src="{% versioned_static 'coach/workspace-preferences.js' %}"></script><script src="{% versioned_static 'coach/learning-tools.js' %}"></script>{% endblock %}

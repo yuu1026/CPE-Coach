@@ -4,12 +4,30 @@ from types import SimpleNamespace
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.test import override_settings
 from django.urls import reverse
 from .learning import TRACKS, learning_context
 from .models import Problem, ProblemCompletion, Submission
 
 
 class LearningTests(TestCase):
+    def test_asset_version_changes_with_contents_and_revalidates_cache(self):
+        from tempfile import TemporaryDirectory
+        from .templatetags.coach_ui import versioned_static
+        with TemporaryDirectory(dir=settings.BASE_DIR) as directory:
+            root = Path(directory)
+            (root / 'static').mkdir()
+            asset = root / 'static' / 'style.css'
+            asset.write_text('old', encoding='utf-8')
+            with override_settings(BASE_DIR=root):
+                first = versioned_static('style.css')
+                self.assertEqual(first, versioned_static('style.css'))
+                asset.write_text('new', encoding='utf-8')
+                self.assertNotEqual(first, versioned_static('style.css'))
+        response = self.client.get('/assets/coach/app.css')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('no-store', response['Cache-Control'])
+
     def test_all_49_topics_have_exactly_one_learning_group(self):
         catalog = json.loads((Path(settings.BASE_DIR) / 'data/cpe49.json').read_text(encoding='utf-8'))
         numbers = [number for *_, group in TRACKS for number in group]

@@ -2,11 +2,12 @@ from django.contrib.auth import views as auth
 from django.urls import path, re_path
 from django.conf import settings
 from django.views.static import serve
+from django.views.decorators.cache import never_cache
 from coach import views
 
 urlpatterns = [
     # Local development asset route; runserver remains loopback-only.
-    re_path(r'^assets/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static'}),
+    re_path(r'^assets/(?P<path>.*)$', never_cache(serve), {'document_root': settings.BASE_DIR / 'static'}),
     path('login/', auth.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth.LogoutView.as_view(), name='logout'),
     path('', views.index, name='index'),
