@@ -38,6 +38,23 @@
     throw "找不到具備 $modules 的 Python。請在已安裝套件的環境執行，或設定 CPE_PYTHON 指向該 python.exe。"
 }
 
+function Assert-CpePortAvailable {
+    param([int]$Port)
+    $client = New-Object System.Net.Sockets.TcpClient
+    $occupied = $false
+    try {
+        $connection = $client.ConnectAsync('127.0.0.1', $Port)
+        if ($connection.Wait(1000)) { $occupied = $client.Connected }
+    } catch {
+        $occupied = $false
+    } finally {
+        $client.Dispose()
+    }
+    if ($occupied) {
+        throw "127.0.0.1:$Port 已有服務執行，不要重複啟動。請直接使用現有服務；切換版本前先停止原程序。"
+    }
+}
+
 function Get-CpeExperiment {
     param([ValidateSet('v1', 'v2')][string]$Version = 'v2')
     $adapterPath = Join-Path $PSScriptRoot "training/runs/gemma3-cpe49-$Version"

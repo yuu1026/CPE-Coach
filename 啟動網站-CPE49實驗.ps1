@@ -2,6 +2,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 . (Join-Path $PSScriptRoot '啟動共用.ps1')
+Assert-CpePortAvailable -Port 8000
 $selection = Get-CpeExperiment -Version $Version
 $env:HINT_MODE = 'live'
 $env:Model_URL = 'http://127.0.0.1:11436'

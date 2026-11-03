@@ -2,6 +2,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 . (Join-Path $PSScriptRoot '啟動共用.ps1')
+Assert-CpePortAvailable -Port 11436
 $selection = Get-CpeExperiment -Version $Version
 Write-Warning '這是未設為預設的實驗版，抽查仍有定位不準或題意誤述；請配合實際測試結果比較。'
 if (-not $env:HF_MODEL_PATH) { $env:HF_MODEL_PATH = Join-Path $PSScriptRoot 'models/gemma-3-4b-it' }
