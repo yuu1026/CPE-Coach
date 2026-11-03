@@ -42,12 +42,27 @@ assert.equal(page.fields.question.value, 'hint?', 'failed ask preserves retry te
 page = workspace({stored:draft,dataset:{errors:'yes'}}); assert.equal(page.fields.code.value, '', 'server validation form wins over autosave');
 page = workspace({error:true}); page.form.dispatchEvent({type:'input'}); page.flush(); assert.match(page.nodes['draft-status'].textContent, /無法保存/);
 page = workspace(); page.fields.code.value = 'draft'; page.form.dispatchEvent({type:'submit', defaultPrevented:false}); assert.equal(page.saved().pending.token, 'new-token');
-const search = new Element(), filter = new Element('all'), select = new Element('1'), matches = new Element(), button = new Element();
-const options = [{value:'',textContent:'choose'},{value:'1',textContent:'UVa 100',dataset:{done:'yes'}},{value:'2',textContent:'UVa 101',dataset:{done:'no'}}];
+const search = new Element(), filter = new Element('all'), track = new Element(''), select = new Element('1'), matches = new Element(), button = new Element();
+const options = [{value:'',textContent:'choose'},{value:'1',textContent:'UVa 100',dataset:{done:'yes',track:'simulation'}},{value:'2',textContent:'UVa 101',dataset:{done:'no',track:'numbers'}}];
 select.options = [...options]; select.replaceChildren = (...children) => { select.options = children; };
-const picker = new Element(); picker.querySelector = name => ({'[data-search]':search,'[data-filter]':filter,'[data-topics]':select,'[data-matches]':matches,button})[name];
+const picker = new Element(); picker.querySelector = name => ({'[data-search]':search,'[data-filter]':filter,'[data-track-filter]':track,'[data-topics]':select,'[data-matches]':matches,button})[name];
 vm.runInNewContext(fs.readFileSync('static/coach/problem-picker.js','utf8'), {document:{querySelectorAll:() => [picker]}});
 filter.value = 'todo'; filter.dispatchEvent({type:'change'}); assert.equal(select.options.length,2); assert.equal(select.value,'');
 search.value = 'missing'; search.dispatchEvent({type:'input'}); assert.equal(button.disabled,true);
 search.value = ''; filter.value = 'all'; filter.dispatchEvent({type:'change'}); assert.equal(select.options.length,3, 'filtered options must return');
-console.log('Workspace draft and topic filtering checks passed.');
+track.value = 'numbers'; track.dispatchEvent({type:'change'}); assert.equal(select.options.length,2); assert.equal(select.options[1].value,'2');
+filter.value = 'done'; filter.dispatchEvent({type:'change'}); assert.equal(button.disabled,true, 'topic and completion filters intersect');
+const noteStorage = new Map();
+function notesPage(user, problem, blocked=false) {
+  const note = new Element(), status = new Element();
+  vm.runInNewContext(fs.readFileSync('static/coach/learning-tools.js','utf8'), {
+    document:{getElementById:id => ({'workspace-form':{dataset:{user,problem}},'thinking-notes':note,'notes-status':status})[id]},
+    localStorage:{getItem:key => noteStorage.get(key),setItem:(key,value) => { if (blocked) throw Error('storage blocked'); noteStorage.set(key,value); }}
+  });
+  return {note,status};
+}
+let notes = notesPage('7','100'); notes.note.value = 'my reasoning'; notes.note.dispatchEvent({type:'input'});
+assert.equal(notesPage('7','100').note.value,'my reasoning');
+assert.equal(notesPage('8','100').note.value,''); assert.equal(notesPage('7','101').note.value,'');
+notes = notesPage('7','100',true); notes.note.dispatchEvent({type:'input'}); assert.match(notes.status.textContent,/無法保存/);
+console.log('Workspace drafts, notes, and intersecting topic filters passed.');

@@ -7,14 +7,16 @@ from django.views.decorators.http import require_http_methods
 from .forms import SubmissionForm
 from .models import Problem, Submission, ProblemCompletion
 from .workflows import submit, thread_records
+from .learning import learning_context
 
 def cpe_problems():
     return Problem.objects.filter(category__startswith='CPE ').order_by('title')
 
 def completion_context(owner, problem=None):
     completed = set(ProblemCompletion.objects.filter(owner=owner, problem__in=cpe_problems()).values_list('problem_id', flat=True))
-    total = cpe_problems().count()
-    return {'completed_ids': completed, 'completed_count': len(completed), 'problem_count': total, 'completion_percent': round(len(completed) * 100 / total) if total else 0, 'is_completed': problem is not None and problem.pk in completed, 'can_mark_complete': problem is not None and problem.category.startswith('CPE ')}
+    problems = list(cpe_problems())
+    total = len(problems)
+    return {'completed_ids': completed, 'completed_count': len(completed), 'problem_count': total, 'completion_percent': round(len(completed) * 100 / total) if total else 0, 'is_completed': problem is not None and problem.pk in completed, 'can_mark_complete': problem is not None and problem.category.startswith('CPE ')} | learning_context(problems, completed, problem)
 
 def workbench_context(record=None):
     result = record.judge_result if record else {}
@@ -23,7 +25,14 @@ def workbench_context(record=None):
 
 @login_required
 def index(request):
-    return render(request, 'index.html', {'problems': cpe_problems(), 'history': Paginator(Submission.objects.filter(owner=request.user, problem__in=cpe_problems()).select_related('problem'), 10).get_page(request.GET.get('page'))} | completion_context(request.user))
+    records = Submission.objects.filter(owner=request.user, problem__in=cpe_problems()).select_related('problem')
+    context = completion_context(request.user)
+    selected = request.GET.get('track', '')
+    if selected not in {group['slug'] for group in context['learning_tracks']}:
+        selected = ''
+    return render(request, 'index.html', {'history': Paginator(records, 10).get_page(request.GET.get('page')),
+        'resume_record': records.first(), 'practiced_count': records.order_by().values('problem_id').distinct().count(),
+        'selected_track': selected} | context)
 
 @login_required
 @require_http_methods(['POST'])
