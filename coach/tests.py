@@ -454,3 +454,51 @@ class Cpe49CatalogTests(TestCase):
         self.assertTrue(matches('7330.382857 7000', '7330.382858 7000.000000', 'float_1e-6'))
         for bad in ['7330.39 7000', '7330.382858', 'nan 7000', 'inf 7000', 'text 7000']:
             self.assertFalse(matches(bad, '7330.382858 7000', 'float_1e-6'))
+
+
+class GemmaBackendTests(TestCase):
+    def test_default_path_is_project_relative_and_can_be_overridden(self):
+        import os
+        from model_backend import ROOT, model_path
+        with patch.dict(os.environ, {'HF_MODEL_PATH': ''}):
+            self.assertEqual(model_path(), ROOT / 'models/gemma-3-4b-it')
+        with patch.dict(os.environ, {'HF_MODEL_PATH': str(ROOT / 'models/custom-gemma')}):
+            self.assertEqual(model_path(), ROOT / 'models/custom-gemma')
+
+    def test_old_qwen_adapter_is_rejected_before_loading_gpu(self):
+        import json
+        from model_backend import validate_adapter, DEFAULT_MODEL_PATH
+        with patch('pathlib.Path.is_file', return_value=True), patch('pathlib.Path.read_text', return_value=json.dumps({'base_model_name_or_path': 'Qwen/Qwen3-4B-Instruct-2507'})):
+            with self.assertRaisesRegex(RuntimeError, 'Adapter'):
+                validate_adapter('adapter', DEFAULT_MODEL_PATH)
+        with patch('pathlib.Path.is_file', return_value=True), patch('pathlib.Path.read_text', return_value=json.dumps({'base_model_name_or_path': 'google/gemma-3-4b-it'})):
+            validate_adapter('adapter', DEFAULT_MODEL_PATH)
+
+    def test_multimodal_checkpoint_uses_text_model_and_explicit_weight_mapping(self):
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        from model_backend import load_text_model
+        loader = Mock()
+        loader.from_pretrained.return_value = ('loaded text model', {'missing_keys': [], 'mismatched_keys': []})
+        config = Mock()
+        config.from_pretrained.return_value = SimpleNamespace(model_type='gemma3')
+        with patch.dict('sys.modules', {'transformers': SimpleNamespace(AutoConfig=config, Gemma3ForCausalLM=loader)}):
+            self.assertEqual(load_text_model('gemma'), 'loaded text model')
+        options = loader.from_pretrained.call_args.kwargs
+        self.assertTrue(options['local_files_only'])
+        self.assertEqual(options['key_mapping'][r'^language_model\.model\.'], 'model.')
+
+    def test_incomplete_or_wrong_model_fails_instead_of_using_random_weights(self):
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        from model_backend import load_text_model
+        loader, config = Mock(), Mock()
+        config.from_pretrained.return_value = SimpleNamespace(model_type='qwen3')
+        with patch.dict('sys.modules', {'transformers': SimpleNamespace(AutoConfig=config, Gemma3ForCausalLM=loader)}):
+            with self.assertRaisesRegex(RuntimeError, 'Gemma'):
+                load_text_model('wrong-model')
+            loader.from_pretrained.assert_not_called()
+            config.from_pretrained.return_value = SimpleNamespace(model_type='gemma3')
+            loader.from_pretrained.return_value = ('partial', {'missing_keys': ['model.embed_tokens.weight']})
+            with self.assertRaisesRegex(RuntimeError, 'Gemma'):
+                load_text_model('incomplete-model')

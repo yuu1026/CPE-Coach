@@ -1,3 +1,5 @@
+> 狀態更新：目前網站使用 Google Gemma 3 4B IT。下文數據及舊指令為 Qwen 歷史實驗，不能作為 Gemma 的成績或用於啟動目前模型。新訓練入口預設 Gemma，請見 [Gemma 接入說明](../接入已下載模型.md)。
+
 # CPE 十題 QLoRA 試訓
 
 目的：訓練「依程式與實測證據提供分級提示」，不把完整解答當作 assistant 回覆。原始模型權重不改寫，輸出為 LoRA adapter。

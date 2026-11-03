@@ -42,8 +42,8 @@ flowchart LR
     C -->|stdout、stderr、返回碼、耗時| J
     J -->|輸出比對與測資結果| D
     D -->|只有詢問助理| M["本機模型 HTTP 服務<br/>127.0.0.1:11436"]
-    M --> T["Qwen3-4B-Instruct-2507<br/>4-bit NF4 推論"]
-    L["CPE 十題 LoRA adapter<br/>選配、本地保存"] -.-> T
+    M --> T["Gemma 3 4B IT<br/>純文字 4-bit NF4 推論"]
+    L["Gemma LoRA adapter<br/>重新訓練後才能選配"] -.-> T
     T -->|分級提示| M
     M --> D
     D -->|頁面與本地靜態資產| W
@@ -98,7 +98,7 @@ flowchart TD
     L -->|否，仍有較早對話| M["移除最早一組 user／assistant<br/>保留本輪完整程式"]
     M --> K
     L -->|否，本輪本身過長| N["回報長度限制，保留提交"]
-    L -->|是| O["Qwen3＋可選 adapter 生成提示"]
+    L -->|是| O["Gemma 3＋相容 adapter 生成提示"]
     O --> P{"回覆狀態"}
     P -->|正常| Q["顯示回覆"]
     P -->|達輸出上限| R["保留部分回覆並標示不完整"]
@@ -113,7 +113,7 @@ flowchart TD
 
 圖中的精確 token 計算與移除較早對話，指本專案本地模型服務。若改接其他後端，目前網站仍保留保守輸入估算。提示規則能降低直接洩漏答案的機率，並非零洩漏保證。
 
-## 5. 十題資料建立與 QLoRA 訓練
+## 5. 歷史十題資料建立與 QLoRA 訓練（Qwen）
 
 ```mermaid
 flowchart TD
@@ -132,6 +132,8 @@ flowchart TD
     K --> L["模型服務透過 HF_ADAPTER_PATH 載入"]
     L --> M["網站切換模型名稱，使用微調提示"]
 ```
+
+此段保留先前 Qwen 實驗紀錄，不代表目前 Gemma 已微調。Gemma 新訓練需重新執行與評估。
 
 本輪 loss 評估使用保留資料中第 1 層的 10 筆，另有六筆原始／adapter 回覆對照。評估題目仍是訓練見過的十題，只保留不同錯誤類型；不可宣稱是未見題目泛化測試。完整結果見 [訓練結果](../training/本輪訓練結果.md) 與 [文字報告](../training/reports/cpe10-v1/training_report.json)。
 

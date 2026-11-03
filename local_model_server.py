@@ -6,8 +6,9 @@ import os
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from model_backend import MODEL_NAME as DEFAULT_MODEL_NAME, model_path, load_text_model, validate_adapter
 
-MODEL_NAME = os.environ.get('HF_SERVE_MODEL_NAME', 'Qwen3-4B-Instruct-2507')
+MODEL_NAME = os.environ.get('HF_SERVE_MODEL_NAME') or DEFAULT_MODEL_NAME
 MAX_CONTEXT = 4096
 LOCK = threading.Lock()
 
@@ -31,16 +32,18 @@ def fit_history(tokenizer, messages, maximum, context):
 
 def load_model():
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-    path = Path(os.environ.get('HF_MODEL_PATH', r'C:\Users\tt\models\Qwen3-4B-Instruct-2507'))
+    from transformers import AutoTokenizer, BitsAndBytesConfig
+    path = model_path()
     if not (path / 'config.json').is_file():
         raise RuntimeError(f'找不到模型 config.json：{path}')
     if not torch.cuda.is_available():
         raise RuntimeError('PyTorch 無法使用 CUDA，請先安裝支援 RTX 5060 的 PyTorch。')
+    adapter = os.environ.get('HF_ADAPTER_PATH', '')
+    if adapter:
+        validate_adapter(adapter, path)
     tokenizer = AutoTokenizer.from_pretrained(str(path), local_files_only=True)
     quantization = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.bfloat16)
-    model = AutoModelForCausalLM.from_pretrained(str(path), local_files_only=True, device_map={'': 0}, quantization_config=quantization, dtype=torch.bfloat16, attn_implementation='sdpa')
-    adapter = os.environ.get('HF_ADAPTER_PATH', '')
+    model = load_text_model(path, device_map={'': 0}, quantization_config=quantization, dtype=torch.bfloat16, attn_implementation='sdpa')
     if adapter:
         from peft import PeftModel
         adapter_path = Path(adapter).resolve()
@@ -106,7 +109,7 @@ class Handler(BaseHTTPRequestHandler):
             inputs = self.server.tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors='pt').to('cuda:0')
             length = inputs['input_ids'].shape[-1]
             with torch.inference_mode():
-                output = self.server.model.generate(**inputs, max_new_tokens=maximum, do_sample=True, temperature=0.7, top_p=0.8, top_k=20, repetition_penalty=1.1, pad_token_id=self.server.tokenizer.eos_token_id)
+                output = self.server.model.generate(**inputs, max_new_tokens=maximum, do_sample=False, repetition_penalty=1.1, pad_token_id=self.server.tokenizer.pad_token_id if self.server.tokenizer.pad_token_id is not None else self.server.tokenizer.eos_token_id)
             tokens = output[0][length:]
             eos = self.server.model.generation_config.eos_token_id
             answer = self.server.tokenizer.decode(tokens, skip_special_tokens=True)

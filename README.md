@@ -17,7 +17,7 @@
 - Docker 隔離的 C++17 編譯、測資執行與預期輸出比對。
 - 程式與全部測資一致時，詢問可沿用同一段對話的測試結果並標記來源。
 - 三欄深色工作區、離線語法編輯器、響應式頁籤與失敗測資優先展開。
-- Qwen3-4B-Instruct-2507 的 NF4 推論，以及十題 QLoRA 試訓流程。
+- Google Gemma 3 4B IT 的純文字 NF4 推論；保留十題 QLoRA 資料與重新訓練入口。
 
 ## 快速啟動：不需要 GPU 的示範模式
 
@@ -34,7 +34,7 @@ python -m venv .venv
 
 開啟 [本地網站](http://127.0.0.1:8000)，以剛建立的帳號登入。沒有預設帳號或密碼。預設 `HINT_MODE=demo`，回傳固定示範提示，不會分析實際程式。`seed_cpe49` 只新增題目，不覆寫既有資料；原本十題的提交紀錄及完成標記會保留。`seed_cpe10` 保留為原十題匯入指令；`seed_problems` 是早期三題自編範例，目前不出現在 CPE 題庫。
 
-既有專案升級：在目前 Python 環境依序執行 `python manage.py migrate`、`python manage.py seed_cpe49`，並執行 `docker build -t cpe-judge:local ./judge` 更新判題映像，之後重新啟動網站。參考 [49 題題庫說明](docs/CPE49.md)。新增題目不代表重新訓練模型，現有 Adapter 的訓練範圍仍為十題。
+既有專案升級：在目前 Python 環境依序執行 `python manage.py migrate`、`python manage.py seed_cpe49`，並執行 `docker build -t cpe-judge:local ./judge` 更新判題映像，之後重新啟動網站。參考 [49 題題庫說明](docs/CPE49.md)。新增題目不代表重新訓練模型，目前改用未微調的 Gemma；舊 Qwen Adapter 不相容，歷史訓練範圍為十題。
 
 Linux/macOS 的虛擬環境 Python 路徑為 `.venv/bin/python`；模型訓練與 Windows GPU 相依套件另行配置。
 
@@ -50,15 +50,19 @@ docker build -t cpe-judge:local ./judge
 
 詳細限制及測資比較方式見 [編譯與測資功能](編譯與測資功能.md)。這是本機專題用隔離機制，不是經過對抗性驗證的公開線上 judge。
 
-## 接入 Qwen3 本地模型
+## 接入 Google Gemma 3 4B IT 本地模型
 
-使用具 CUDA 支援的獨立 Python 環境。以下命令需在已安裝相容 CUDA PyTorch 的環境中執行；不要在網站示範環境中任意混裝不同版 PyTorch。
+目前已完成原機的模型替換與連線實測，見 [Gemma 切換紀錄](docs/GEMMA-MIGRATION.md)。模型權重不包含在 GitHub 中。
+
+請先至 [Google 官方模型頁](https://huggingface.co/google/gemma-3-4b-it) 登入 Hugging Face 並同意模型條款，再在自己的終端機登入，Token 不要放進原始碼。使用具 CUDA 支援的獨立 Python 環境。以下命令需在已安裝相容 CUDA PyTorch 的環境中執行；不要在網站示範環境中任意混裝不同版 PyTorch。
 
 ```powershell
 python -m pip install -r requirements.txt -r requirements-model.txt
 python -m pip install huggingface_hub
-hf download Qwen/Qwen3-4B-Instruct-2507 --local-dir ./models/Qwen3-4B-Instruct-2507
-$env:HF_MODEL_PATH = "$PWD\models\Qwen3-4B-Instruct-2507"
+hf auth login
+hf download google/gemma-3-4b-it --local-dir ./models/gemma-3-4b-it
+$env:HF_MODEL_PATH = "$PWD\models\gemma-3-4b-it"
+Remove-Item Env:HF_ADAPTER_PATH -ErrorAction SilentlyContinue
 python local_model_server.py
 ```
 
@@ -67,18 +71,18 @@ python local_model_server.py
 ```powershell
 $env:HINT_MODE = 'live'
 $env:Model_URL = 'http://127.0.0.1:11436'
-$env:Model_Name = 'Qwen3-4B-Instruct-2507'
+$env:Model_Name = 'gemma-3-4b-it'
 $env:CONTEXT_TOKENS = '4096'
 python manage.py runserver 127.0.0.1:8000
 ```
 
-`Model_URL` 與 `Model_Name` 分別設定模型服務網址與模型名稱；實際呼叫的是本專案的 Hugging Face 推論服務，不需要另外安裝 Ollama。服務以 4-bit NF4 載入本地權重，使用實際 tokenizer 檢查上下文，不裁切本輪程式碼。
+`Model_URL` 與 `Model_Name` 分別設定模型服務網址與模型名稱；實際呼叫的是本專案的 Hugging Face 推論服務，不需要另外安裝 Ollama。服務使用 `Gemma3ForCausalLM`，只載入文字模型，以 4-bit NF4 推論；不載入視覺編碼器。使用 Gemma 原生對話模板與實際 tokenizer 檢查上下文，不裁切本輪程式碼。
 
-相依套件需配合 GPU、驅動、PyTorch/CUDA 與 Python 版本。RTX 5060 8GB 已完成本專案試訓，但不能保證任意版本組合均可直接執行。原機操作紀錄見 [模型接入說明](接入已下載模型.md)，其中個人路徑需自行調整。設定讀取環境變數，**不會自動載入 `.env`**。
+相依套件需配合 GPU、驅動、PyTorch/CUDA 與 Python 版本。先前 Qwen 曾於 RTX 5060 8GB 試訓；Gemma 的推論與微調需分別實測，不能沿用舊模型的記憶體數字。參考 [模型接入說明](接入已下載模型.md)，目前啟動入口已改用專案相對路徑。設定讀取環境變數，**不會自動載入 `.env`**。
 
-## 十題微調實驗
+## 歷史十題微調實驗（Qwen，非目前 Gemma 的成績）
 
-基礎模型為 [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)。以自行撰寫、經 Docker 驗證的程式與錯誤變體，建立 90 筆訓練對話、30 筆同題不同錯誤類型的評估對話。
+以下為先前 Qwen 的實驗，不能視為 Gemma 的訓練或效能證據。目前 Gemma 使用基礎 IT 權重，尚未重新微調。舊實驗的基礎模型為 [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)。以自行撰寫、經 Docker 驗證的程式與錯誤變體，建立 90 筆訓練對話、30 筆同題不同錯誤類型的評估對話。
 
 - 訓練一個 epoch、23 次參數更新，rank 8 QLoRA。
 - 原機 PyTorch 最高配置 GPU 記憶體約 5.53 GiB。
@@ -88,7 +92,7 @@ python manage.py runserver 127.0.0.1:8000
 
 [訓練流程](training/README.md) · [實驗說明與限制](training/本輪訓練結果.md) · [訓練報告](training/reports/cpe10-v1/training_report.json) · [回覆對照](training/reports/cpe10-v1/generation_comparison.json)
 
-模型與 adapter 權重不放進 Git。可依訓練流程重建 adapter，再透過 `HF_ADAPTER_PATH` 載入。原始模型權重不會被覆寫。題目摘要、程式、測資與提示由本專案編寫；原題來源逐題保存在 `training/data/problems.json`，不是官方授權題庫或完整官方題目重刊。
+模型與 adapter 權重不放進 Git。新的訓練入口預設 Gemma，輸出至 `training/runs/gemma3-cpe10-v1`；必須重新訓練並評估，才能設定 `HF_ADAPTER_PATH` 載入新的 Adapter。舊 Qwen Adapter 無法沿用。原始模型權重不會被覆寫。題目摘要、程式、測資與提示由本專案編寫；原題來源逐題保存在 `training/data/problems.json`，不是官方授權題庫或完整官方題目重刊。
 
 ## 專案結構
 
@@ -114,12 +118,12 @@ python manage.py check
 python manage.py test coach
 ```
 
-目前 35 項測試通過，包括帳號隔離、防重送、連續對話、判題結果沿用與失效、完成標記、空白程式引導、頁面與靜態資產。另通過 JavaScript 語法與 Markdown 注入檢查。新版 UI 尚未完成實際瀏覽器視覺與點擊驗證，見 [UI 更新說明](UI更新說明.md)。
+網站測試涵蓋 49 題匯入與模型切換設定，原有測試包括帳號隔離、防重送、連續對話、判題結果沿用與失效、完成標記、空白程式引導、頁面與靜態資產。另通過 JavaScript 語法與 Markdown 注入檢查。新版 UI 尚未完成實際瀏覽器視覺與點擊驗證，見 [UI 更新說明](UI更新說明.md)。
 
 ## 資料、授權與部署界線
 
 `.gitignore` 排除虛擬環境、模型、adapter、資料庫、`.env`、本地網站密鑰與壓縮檔。首次啟動會建立本機 `.local-secret`，帳號與紀錄只存在本機 SQLite。分享與提交前仍應確認沒有自行新增的敏感資料。
 
-第三方前端元件使用 MIT 授權，授權檔與固定版本來源保存在 [static/vendor](static/vendor/README.md)。Qwen 基礎模型依其官方模型授權使用。Repository 未另行授予本專案原始碼的開源授權。
+第三方前端元件使用 MIT 授權，授權檔與固定版本來源保存在 [static/vendor](static/vendor/README.md)。Gemma 基礎模型依 [Google Gemma 條款](https://ai.google.dev/gemma/terms) 使用。Repository 未另行授予本專案原始碼的開源授權。
 
 此版本適合 localhost 開發與課堂展示；`runserver`、本地靜態資產路由與現有 Docker 判題設計不應直接作為公開服務。公開部署需另行規劃正式主機、HTTPS、工作佇列、容量限制、專用沙箱、資料同意與刪除機制。

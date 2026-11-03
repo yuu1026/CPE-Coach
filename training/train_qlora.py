@@ -5,13 +5,16 @@ import json
 import math
 import random
 import time
+import sys
 from pathlib import Path
 
 import torch
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoTokenizer, BitsAndBytesConfig
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+from model_backend import model_path, load_text_model
 
 def read_records(path):
     return [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line.strip()]
@@ -45,8 +48,8 @@ def evaluate(model, encoded):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', default=r'C:\Users\tt\models\Qwen3-4B-Instruct-2507')
-    parser.add_argument('--output', type=Path, default=HERE / 'runs' / 'cpe10-v1')
+    parser.add_argument('--model', default=str(model_path()))
+    parser.add_argument('--output', type=Path, default=HERE / 'runs' / 'gemma3-cpe10-v1')
     parser.add_argument('--epochs', type=int, default=1)
     parser.add_argument('--max-length', type=int, default=1536)
     parser.add_argument('--accumulation', type=int, default=4)
@@ -64,7 +67,7 @@ def main():
     validation = [encode_record(tokenizer, r, args.max_length) for r in read_records(HERE / 'data/eval.jsonl') if r['hint_level'] == 1]
     print(f'Train={len(training)}, held-out bug eval={len(validation)}, max tokens={max(len(r["input_ids"]) for r in training)}', flush=True)
     quant = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.bfloat16)
-    model = AutoModelForCausalLM.from_pretrained(args.model, local_files_only=True, quantization_config=quant, device_map={'': 0}, dtype=torch.bfloat16, attn_implementation='sdpa')
+    model = load_text_model(args.model, quantization_config=quant, device_map={'': 0}, dtype=torch.bfloat16, attn_implementation='sdpa')
     model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=True, gradient_checkpointing_kwargs={'use_reentrant': False})
     model.config.use_cache = False
     model = get_peft_model(model, LoraConfig(r=8, lora_alpha=16, lora_dropout=0.05, target_modules=['q_proj', 'v_proj'], bias='none', task_type='CAUSAL_LM'))

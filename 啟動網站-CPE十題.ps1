@@ -1,7 +1,3 @@
-$ErrorActionPreference = 'Stop'
-Set-Location $PSScriptRoot
-$env:HINT_MODE = 'live'
-$env:Model_URL = 'http://127.0.0.1:11436'
-$env:Model_Name = 'Qwen3-4B-CPE10-v1'
-$env:CONTEXT_TOKENS = '4096'
-& 'C:\Users\tt\miniconda3\envs\cpe-ai\python.exe' manage.py runserver 127.0.0.1:8000
+﻿$ErrorActionPreference = 'Stop'
+Write-Warning '專案已切換為 Gemma 3 4B IT 基礎模型；原十題 Qwen Adapter 無法沿用。此舊入口會轉交新版啟動腳本。'
+& (Join-Path $PSScriptRoot '啟動網站-真實模型.ps1')

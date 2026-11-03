@@ -1,6 +1,3 @@
-$ErrorActionPreference = 'Stop'
-Set-Location $PSScriptRoot
-$env:HF_MODEL_PATH = 'C:\Users\tt\models\Qwen3-4B-Instruct-2507'
-$env:HF_ADAPTER_PATH = Join-Path $PSScriptRoot 'training/runs/cpe10-v1'
-$env:HF_SERVE_MODEL_NAME = 'Qwen3-4B-CPE10-v1'
-& 'C:\Users\tt\miniconda3\envs\cpe-ai\python.exe' local_model_server.py
+﻿$ErrorActionPreference = 'Stop'
+Write-Warning '專案已切換為 Gemma 3 4B IT 基礎模型；原十題 Qwen Adapter 無法沿用。此舊入口會轉交新版啟動腳本。'
+& (Join-Path $PSScriptRoot '啟動模型.ps1')
