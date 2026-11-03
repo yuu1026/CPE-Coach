@@ -1,5 +1,7 @@
 # Gemma 3 4B IT 切換紀錄
 
+後續已完成 [49 題教學微調](../training/CPE49.md)。以下保留初次替換與基礎模型的驗證紀錄。
+
 目前模型後端預設為 Google `google/gemma-3-4b-it`，本地 API 名稱為 `gemma-3-4b-it`。網站仍使用既有 49 題題庫、SQLite 學習紀錄與 Docker 判題。
 
 ## 實際驗證
@@ -19,4 +21,4 @@
 
 GitHub 不包含 Gemma 權重、登入 Token、使用者資料庫或本地服務日誌。其他電腦仍需自行同意 Google 模型條款、下載模型並初始化網站；參考 [接入與啟動說明](../接入已下載模型.md)。
 
-目前使用未微調的 Gemma IT 模型。舊 Qwen Adapter 不可直接轉用；新的訓練預設輸出目錄為 training/runs/gemma3-cpe10-v1，只有重新訓練並評估後才可啟用。
+初次替換時使用未微調的 Gemma IT 模型。舊 Qwen Adapter 不可直接轉用；新的訓練預設輸出目錄為 training/runs/gemma3-cpe49-v1，只有重新訓練並評估後才可啟用。

@@ -17,6 +17,7 @@ __pycache__/
 node_modules/
 models/
 training/runs/
+training/data/cpe49/judge_audit.jsonl
 checkpoint-*/
 *.safetensors
 *.gguf

@@ -137,6 +137,23 @@ flowchart TD
 
 本輪 loss 評估使用保留資料中第 1 層的 10 筆，另有六筆原始／adapter 回覆對照。評估題目仍是訓練見過的十題，只保留不同錯誤類型；不可宣稱是未見題目泛化測試。完整結果見 [訓練結果](../training/本輪訓練結果.md) 與 [文字報告](../training/reports/cpe10-v1/training_report.json)。
 
+## 6. Gemma 49 題微調實驗
+
+```mermaid
+flowchart TD
+    A["49 題自寫題意與參考程式"] --> B["Docker 驗證 147 個程式<br/>49 正確＋98 錯誤"]
+    B --> C["539 筆訓練對話<br/>找錯、通過、空白起步與連續對話"]
+    B --> D["147 筆評估對話<br/>相同題目、不同錯誤程式"]
+    C --> E["Gemma 3 4B NF4 QLoRA<br/>兩個學習率候選，各 135 次更新"]
+    D --> F["49 筆第一層 loss<br/>六個情境的實際回覆比較"]
+    E --> F
+    F --> G{"提示品質是否改善？"}
+    G -->|本輪仍有誤判| H["網站維持 Gemma 基礎模型<br/>保留兩個實驗 Adapter 與報告"]
+    G -->|未來通過檢查| I["完成標記與權重驗證<br/>才選為預設模型"]
+```
+
+本輪沒有啟用正式 Adapter 的完成標記。細節見 [49 題微調實驗](../training/CPE49.md)及 [兩版選擇紀錄](../training/reports/cpe49-selection.json)。
+
 ## 程式對照
 
 | 流程 | 實作位置 |

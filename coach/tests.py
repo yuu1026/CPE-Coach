@@ -502,3 +502,104 @@ class GemmaBackendTests(TestCase):
             loader.from_pretrained.return_value = ('partial', {'missing_keys': ['model.embed_tokens.weight']})
             with self.assertRaisesRegex(RuntimeError, 'Gemma'):
                 load_text_model('incomplete-model')
+
+
+class Cpe49TrainingDataTests(TestCase):
+    def records(self, name):
+        import json
+        from django.conf import settings
+        return [json.loads(line) for line in (settings.BASE_DIR / 'training/data/cpe49' / name).read_text(encoding='utf-8').splitlines()]
+
+    def test_all_topics_covered_and_evaluation_programs_are_separate(self):
+        import json
+        from django.conf import settings
+        topics = {p['uva'] for p in json.loads((settings.BASE_DIR / 'data/cpe49.json').read_text(encoding='utf-8'))}
+        train, evaluation = self.records('train.jsonl'), self.records('eval.jsonl')
+        self.assertEqual((len(train), len(evaluation)), (539, 147))
+        self.assertEqual({r['problem_id'] for r in train}, topics)
+        self.assertEqual({r['problem_id'] for r in evaluation}, topics)
+        self.assertFalse({r['id'] for r in train} & {r['id'] for r in evaluation})
+        train_codes = {json.loads(r['messages'][-2]['content'])['code'] for r in train}
+        eval_codes = {json.loads(r['messages'][-2]['content'])['code'] for r in evaluation}
+        self.assertFalse(train_codes & eval_codes)
+        self.assertTrue(all(r['variant'] == 'bug_eval' for r in evaluation))
+
+    def test_program_labels_have_real_compilation_evidence(self):
+        rows = self.records('verified_programs.jsonl')
+        self.assertEqual(len(rows), 147)
+        self.assertEqual(len({r['sha256'] for r in rows}), 147)
+        self.assertEqual(sum(r['variant'] == 'correct' for r in rows), 49)
+        for row in rows:
+            self.assertEqual(row['judge']['status'], 'accepted' if row['variant'] == 'correct' else 'failed')
+            if row['variant'] != 'correct':
+                self.assertTrue(any(c['status'] == 'wrong_answer' for c in row['judge']['cases']))
+
+    def test_teacher_targets_are_hints_and_empty_code_does_not_claim_execution(self):
+        import json
+        for row in self.records('train.jsonl') + self.records('eval.jsonl'):
+            answer = row['messages'][-1]['content']
+            self.assertNotIn('int main', answer)
+            self.assertNotIn('#include', answer)
+            self.assertLess(len(answer), 300)
+            payload = json.loads(row['messages'][-2]['content'])
+            if row['variant'] in ('getting_started', 'followup', 'clarification'):
+                self.assertEqual(payload['code'], '')
+                self.assertEqual(payload['execution_evidence']['status'], 'not_submitted')
+                self.assertEqual(payload['learning_mode'], 'getting_started')
+                self.assertNotIn('通過', answer)
+                self.assertEqual(len(row['messages']), 5 if row['variant'] != 'getting_started' else 3)
+
+
+class AdapterDeploymentTests(TestCase):
+    def fixture(self, folder, *, complete=True, correct_hash=True):
+        import json, hashlib
+        weights = b'test adapter content'
+        (folder / 'adapter_model.safetensors').write_bytes(weights)
+        (folder / 'training_report.json').write_text(json.dumps({'topics': 49, 'smoke_only': False, 'optimizer_steps': 135 if complete else 1, 'expected_steps': 135}), encoding='utf-8')
+        (folder / 'deployment_ready.json').write_text(json.dumps({'base_model': 'google/gemma-3-4b-it', 'adapter_sha256': hashlib.sha256(weights).hexdigest() if correct_hash else 'changed'}), encoding='utf-8')
+
+    def test_clone_without_ready_adapter_uses_base(self):
+        from model_backend import active_deployment
+        with patch('pathlib.Path.is_file', return_value=False):
+            self.assertEqual(active_deployment(), {'name': 'gemma-3-4b-it', 'adapter_path': ''})
+
+    def test_completed_matching_adapter_can_be_selected(self):
+        import tempfile
+        from pathlib import Path
+        from django.conf import settings
+        from model_backend import active_deployment
+        with tempfile.TemporaryDirectory(dir=settings.BASE_DIR) as name:
+            folder = Path(name).resolve()
+            self.assertTrue(folder.is_relative_to(settings.BASE_DIR))
+            self.fixture(folder)
+            with patch('model_backend.DEFAULT_ADAPTER_PATH', folder):
+                self.assertEqual(active_deployment()['name'], 'gemma-3-4b-cpe49-v1')
+                self.assertEqual(active_deployment()['adapter_path'], str(folder))
+
+    def test_partial_training_or_changed_weights_cannot_be_activated(self):
+        import tempfile
+        from pathlib import Path
+        from django.conf import settings
+        from model_backend import active_deployment
+        with tempfile.TemporaryDirectory(dir=settings.BASE_DIR) as name:
+            folder = Path(name).resolve()
+            self.assertTrue(folder.is_relative_to(settings.BASE_DIR))
+            with patch('model_backend.DEFAULT_ADAPTER_PATH', folder):
+                self.fixture(folder, complete=False)
+                with self.assertRaises(RuntimeError):
+                    active_deployment()
+                self.fixture(folder, correct_hash=False)
+                with self.assertRaises(RuntimeError):
+                    active_deployment()
+
+    def test_force_base_does_not_load_adapter_when_windows_removes_empty_environment_value(self):
+        import importlib, os
+        import local_model_server
+        try:
+            with patch.dict(os.environ, {'HF_USE_BASE_MODEL': '1', 'HF_SERVE_MODEL_NAME': 'gemma-3-4b-it'}), patch('model_backend.active_deployment', side_effect=AssertionError('base mode must bypass adapter')):
+                os.environ.pop('HF_ADAPTER_PATH', None)
+                server = importlib.reload(local_model_server)
+                self.assertEqual(server.ADAPTER_PATH, '')
+                self.assertEqual(server.MODEL_NAME, 'gemma-3-4b-it')
+        finally:
+            importlib.reload(local_model_server)

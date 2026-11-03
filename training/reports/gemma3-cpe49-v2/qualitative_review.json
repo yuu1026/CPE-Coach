@@ -1,0 +1,32 @@
+{
+  "candidate": "gemma3-cpe49-v2",
+  "learning_rate": 1e-05,
+  "decision": "not activated as default",
+  "samples": [
+    {
+      "id": "uva490-bug_eval-l1",
+      "assessment": "Identifies padding spaces and describes the concrete output difference."
+    },
+    {
+      "id": "uva10055-bug_eval-l1",
+      "assessment": "Fails to identify integer range; says no actual error message despite provided execution evidence."
+    },
+    {
+      "id": "uva11349-bug_eval-l1",
+      "assessment": "Only repeats a verdict difference without explaining central versus transpose symmetry."
+    },
+    {
+      "id": "uva118-getting_started-l1",
+      "assessment": "Misstates boundary movement; omits that only previously scented edge positions suppress an out-of-bounds instruction."
+    },
+    {
+      "id": "uva10055-correct-l1",
+      "assessment": "Acknowledges passing cases but overstates this as no errors and tells the student to stop."
+    },
+    {
+      "id": "uva10222-followup-l1",
+      "assessment": "Repeats the input/output starting question rather than advancing the preceding answer."
+    }
+  ],
+  "scope": "Six qualitative validation examples used for candidate selection; not an independent final test or diagnostic accuracy score. No independent teacher review."
+}

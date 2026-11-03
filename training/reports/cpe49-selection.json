@@ -1,0 +1,29 @@
+{
+  "topics": 49,
+  "training_conversations": 539,
+  "evaluation_conversations": 147,
+  "loss_evaluation_cases": 49,
+  "decision": "keep base Gemma as website default; both adapters available as experiments",
+  "candidates": [
+    {
+      "version": "v1",
+      "learning_rate": 5e-05,
+      "epochs": 1,
+      "updates": 135,
+      "loss_before": 7.852530265341,
+      "loss_after": 2.195500909065714,
+      "adapter_enabled_by_default": false
+    },
+    {
+      "version": "v2",
+      "learning_rate": 1e-05,
+      "epochs": 1,
+      "updates": 135,
+      "loss_before": 7.852530265341,
+      "loss_after": 3.4717768941606795,
+      "adapter_enabled_by_default": false
+    }
+  ],
+  "reason": "Both candidates lower assistant loss and shorten replies, but sampled diagnostic/teaching quality is inconsistent.",
+  "scope": "Same-topic different-program validation; not unseen-topic generalization. Six sampled conversations were used for the deployment decision."
+}

@@ -1,0 +1,33 @@
+{
+  "candidate": "gemma3-cpe49-v1",
+  "learning_rate": 5e-05,
+  "decision": "not activated as default",
+  "reason": "Lower loss and shorter replies did not reliably preserve diagnostic specificity.",
+  "samples": [
+    {
+      "id": "uva490-bug_eval-l1",
+      "assessment": "Too vague: asks to check positions but does not identify the non-space padding character."
+    },
+    {
+      "id": "uva10055-bug_eval-l1",
+      "assessment": "Incorrect/unhelpful statement about expected versus actual output; fails to identify integer range."
+    },
+    {
+      "id": "uva11349-bug_eval-l1",
+      "assessment": "Incorrect explanation; fails to distinguish transpose symmetry from central symmetry."
+    },
+    {
+      "id": "uva118-getting_started-l1",
+      "assessment": "Oversimplifies robot records to two integers and omits direction/instructions."
+    },
+    {
+      "id": "uva10055-correct-l1",
+      "assessment": "Acknowledges passing tests but unnecessarily discourages additional legal cases."
+    },
+    {
+      "id": "uva10222-followup-l1",
+      "assessment": "Acknowledges the previous answer and proposes a small next step."
+    }
+  ],
+  "scope": "Qualitative review of six examples; not teacher-reviewed, not diagnostic accuracy. These examples are validation material, not an independent final test."
+}

@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT))
 
 def main():
     import torch
-    from local_model_server import load_model, fit_history
+    from local_model_server import load_model, fit_history, MODEL_NAME, ADAPTER_PATH
     from model_backend import MODEL_ID, model_path
     tokenizer, model = load_model()
     messages = [
@@ -30,7 +30,7 @@ def main():
     reply = tokenizer.decode(tokens, skip_special_tokens=True)
     if not reply.strip():
         raise RuntimeError('Gemma did not produce a response.')
-    report = {'model': MODEL_ID, 'gpu': torch.cuda.get_device_name(0),
+    report = {'model': MODEL_ID, 'served_model': MODEL_NAME, 'adapter_enabled': bool(ADAPTER_PATH), 'gpu': torch.cuda.get_device_name(0),
               'quantization': 'NF4 text-only', 'input_tokens': inputs['input_ids'].shape[-1],
               'output_tokens': len(tokens), 'omitted_turns': omitted, 'reply': reply,
               'peak_allocated_gib': round(torch.cuda.max_memory_allocated()/1024**3, 3),

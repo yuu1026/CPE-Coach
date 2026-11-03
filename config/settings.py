@@ -28,7 +28,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 HINT_MODE = os.environ.get('HINT_MODE', 'demo')
 MODEL_URL = os.environ.get('Model_URL', 'http://127.0.0.1:11436').rstrip('/')
-MODEL_NAME = os.environ.get('Model_Name', 'gemma-3-4b-it')
+from model_backend import active_deployment
+MODEL_NAME = os.environ.get('Model_Name') or active_deployment()['name']
 OLLAMA_GATEWAY_API_KEY = os.environ.get('OLLAMA_GATEWAY_API_KEY', '')
 CONTEXT_TOKENS = int(os.environ.get('CONTEXT_TOKENS', '4096'))
 STATIC_URL = '/assets/'

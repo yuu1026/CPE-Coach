@@ -17,7 +17,7 @@
 - Docker 隔離的 C++17 編譯、測資執行與預期輸出比對。
 - 程式與全部測資一致時，詢問可沿用同一段對話的測試結果並標記來源。
 - 三欄深色工作區、離線語法編輯器、響應式頁籤與失敗測資優先展開。
-- Google Gemma 3 4B IT 的純文字 NF4 推論；保留十題 QLoRA 資料與重新訓練入口。
+- Google Gemma 3 4B IT 的純文字 NF4 推論，以及 49 題教學 QLoRA 微調與評估流程。
 
 ## 快速啟動：不需要 GPU 的示範模式
 
@@ -34,7 +34,7 @@ python -m venv .venv
 
 開啟 [本地網站](http://127.0.0.1:8000)，以剛建立的帳號登入。沒有預設帳號或密碼。預設 `HINT_MODE=demo`，回傳固定示範提示，不會分析實際程式。`seed_cpe49` 只新增題目，不覆寫既有資料；原本十題的提交紀錄及完成標記會保留。`seed_cpe10` 保留為原十題匯入指令；`seed_problems` 是早期三題自編範例，目前不出現在 CPE 題庫。
 
-既有專案升級：在目前 Python 環境依序執行 `python manage.py migrate`、`python manage.py seed_cpe49`，並執行 `docker build -t cpe-judge:local ./judge` 更新判題映像，之後重新啟動網站。參考 [49 題題庫說明](docs/CPE49.md)。新增題目不代表重新訓練模型，目前改用未微調的 Gemma；舊 Qwen Adapter 不相容，歷史訓練範圍為十題。
+既有專案升級：在目前 Python 環境依序執行 `python manage.py migrate`、`python manage.py seed_cpe49`，並執行 `docker build -t cpe-judge:local ./judge` 更新判題映像，之後重新啟動網站。參考 [49 題題庫說明](docs/CPE49.md)。新增題目不代表重新訓練模型，原機已完成 Gemma 的兩個 49 題微調實驗候選，尚未設為預設；舊 Qwen Adapter 不相容，十題結果另保留為歷史實驗。
 
 Linux/macOS 的虛擬環境 Python 路徑為 `.venv/bin/python`；模型訓練與 Windows GPU 相依套件另行配置。
 
@@ -63,6 +63,8 @@ hf auth login
 hf download google/gemma-3-4b-it --local-dir ./models/gemma-3-4b-it
 $env:HF_MODEL_PATH = "$PWD\models\gemma-3-4b-it"
 Remove-Item Env:HF_ADAPTER_PATH -ErrorAction SilentlyContinue
+$env:HF_USE_BASE_MODEL = '1'
+$env:HF_SERVE_MODEL_NAME = 'gemma-3-4b-it'
 python local_model_server.py
 ```
 
@@ -80,9 +82,24 @@ python manage.py runserver 127.0.0.1:8000
 
 相依套件需配合 GPU、驅動、PyTorch/CUDA 與 Python 版本。先前 Qwen 曾於 RTX 5060 8GB 試訓；Gemma 的推論與微調需分別實測，不能沿用舊模型的記憶體數字。參考 [模型接入說明](接入已下載模型.md)，目前啟動入口已改用專案相對路徑。設定讀取環境變數，**不會自動載入 `.env`**。
 
+## 49 題 Gemma 教學微調實驗
+
+已實際完成兩個候選版本，均以全部 49 題建立的 539 筆對話訓練一個 epoch、135 次更新，包含分級找錯提示、通過測資的回饋、空白起步與連續對話。另有 147 筆同題不同錯誤程式的評估對話；loss 使用其中第一層的 49 筆。
+
+| 候選 | Learning rate | 平均 assistant loss 前 → 後 | 部署決定 |
+|---|---:|---:|---|
+| v1 | 0.00005 | 7.8525 → 2.1955 | 保留為實驗，不設為預設 |
+| v2 | 0.00001 | 7.8525 → 3.4718 | 保留為實驗，不設為預設 |
+
+回覆雖變短，但六個情境的抽查仍有定位不準、只重述測試結果或誤述題意的問題，因此網站預設維持 Gemma 基礎 IT 模型。loss 不等於診斷正確率；這些題目都出現在訓練中，也不是未見題目的泛化測試。PyTorch 配置記憶體峰值約 5.30GiB，不等於整體 GPU 使用量。
+
+[資料與重建流程](training/CPE49.md) · [兩版比較與決定](training/reports/cpe49-selection.json) · [v1 報告](training/reports/gemma3-cpe49-v1/training_report.json) · [v2 報告](training/reports/gemma3-cpe49-v2/training_report.json)
+
+原機保留兩版 Adapter，可用「啟動模型-CPE49實驗.ps1」與「啟動網站-CPE49實驗.ps1」指定 -Version v1 或 v2，比較前請先停止目前模型與網站，避免佔用相同 GPU/連接埠。GitHub 不含權重，其他電腦需重新訓練。一般啟動入口不會自動啟用未通過回覆檢查的實驗權重；也可加 -BaseModel 明確使用基準模型。
+
 ## 歷史十題微調實驗（Qwen，非目前 Gemma 的成績）
 
-以下為先前 Qwen 的實驗，不能視為 Gemma 的訓練或效能證據。目前 Gemma 使用基礎 IT 權重，尚未重新微調。舊實驗的基礎模型為 [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)。以自行撰寫、經 Docker 驗證的程式與錯誤變體，建立 90 筆訓練對話、30 筆同題不同錯誤類型的評估對話。
+以下為先前 Qwen 的實驗，不能視為 Gemma 的訓練或效能證據。目前 Gemma 的 49 題實驗結果另見上節，網站預設仍維持基礎模型。舊實驗的基礎模型為 [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)。以自行撰寫、經 Docker 驗證的程式與錯誤變體，建立 90 筆訓練對話、30 筆同題不同錯誤類型的評估對話。
 
 - 訓練一個 epoch、23 次參數更新，rank 8 QLoRA。
 - 原機 PyTorch 最高配置 GPU 記憶體約 5.53 GiB。
@@ -92,7 +109,7 @@ python manage.py runserver 127.0.0.1:8000
 
 [訓練流程](training/README.md) · [實驗說明與限制](training/本輪訓練結果.md) · [訓練報告](training/reports/cpe10-v1/training_report.json) · [回覆對照](training/reports/cpe10-v1/generation_comparison.json)
 
-模型與 adapter 權重不放進 Git。新的訓練入口預設 Gemma，輸出至 `training/runs/gemma3-cpe10-v1`；必須重新訓練並評估，才能設定 `HF_ADAPTER_PATH` 載入新的 Adapter。舊 Qwen Adapter 無法沿用。原始模型權重不會被覆寫。題目摘要、程式、測資與提示由本專案編寫；原題來源逐題保存在 `training/data/problems.json`，不是官方授權題庫或完整官方題目重刊。
+模型與 adapter 權重不放進 Git。新的訓練入口預設 Gemma 的 49 題資料，輸出至 `training/runs/gemma3-cpe49-v1`；必須重新訓練並評估，才能設定 `HF_ADAPTER_PATH` 載入新的 Adapter。舊 Qwen Adapter 無法沿用。原始模型權重不會被覆寫。題目摘要、程式、測資與提示由本專案編寫；原題來源逐題保存在 `training/data/problems.json`，不是官方授權題庫或完整官方題目重刊。
 
 ## 專案結構
 

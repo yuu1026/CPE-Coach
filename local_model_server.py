@@ -6,9 +6,12 @@ import os
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from model_backend import MODEL_NAME as DEFAULT_MODEL_NAME, model_path, load_text_model, validate_adapter
+from model_backend import MODEL_NAME as DEFAULT_MODEL_NAME, active_deployment, model_path, load_text_model, validate_adapter
 
-MODEL_NAME = os.environ.get('HF_SERVE_MODEL_NAME') or DEFAULT_MODEL_NAME
+FORCE_BASE = os.environ.get('HF_USE_BASE_MODEL') == '1'
+DEPLOYMENT = active_deployment() if not FORCE_BASE and 'HF_ADAPTER_PATH' not in os.environ else {'name': DEFAULT_MODEL_NAME, 'adapter_path': ''}
+ADAPTER_PATH = '' if FORCE_BASE else os.environ.get('HF_ADAPTER_PATH', DEPLOYMENT['adapter_path'])
+MODEL_NAME = os.environ.get('HF_SERVE_MODEL_NAME') or (DEPLOYMENT['name'] if ADAPTER_PATH else DEFAULT_MODEL_NAME)
 MAX_CONTEXT = 4096
 LOCK = threading.Lock()
 
@@ -38,7 +41,7 @@ def load_model():
         raise RuntimeError(f'找不到模型 config.json：{path}')
     if not torch.cuda.is_available():
         raise RuntimeError('PyTorch 無法使用 CUDA，請先安裝支援 RTX 5060 的 PyTorch。')
-    adapter = os.environ.get('HF_ADAPTER_PATH', '')
+    adapter = ADAPTER_PATH
     if adapter:
         validate_adapter(adapter, path)
     tokenizer = AutoTokenizer.from_pretrained(str(path), local_files_only=True)

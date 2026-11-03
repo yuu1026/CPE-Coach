@@ -1,0 +1,16 @@
+{
+  "topics": 49,
+  "training_conversations": 539,
+  "evaluation_conversations": 147,
+  "verified_programs": 147,
+  "training_variants": [
+    "correct",
+    "bug_train",
+    "getting_started",
+    "followup",
+    "clarification"
+  ],
+  "evaluation_variant": "bug_eval",
+  "judge_policy": "cpp17-docker-v2",
+  "scope": "All 49 topics appear in training. Evaluation uses separate mutated programs on the same topics, not unseen-problem generalization. Teacher targets are authored, not independently teacher-reviewed."
+}

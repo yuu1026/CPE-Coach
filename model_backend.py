@@ -1,5 +1,6 @@
 """Shared Gemma text-only loading for inference and optional QLoRA training."""
 import json
+import hashlib
 import os
 from pathlib import Path
 
@@ -7,6 +8,26 @@ ROOT = Path(__file__).resolve().parent
 MODEL_ID = 'google/gemma-3-4b-it'
 MODEL_NAME = 'gemma-3-4b-it'
 DEFAULT_MODEL_PATH = ROOT / 'models' / MODEL_NAME
+DEFAULT_ADAPTER_PATH = ROOT / 'training/runs/gemma3-cpe49-v1'
+ADAPTER_MODEL_NAME = 'gemma-3-4b-cpe49-v1'
+
+
+def active_deployment():
+    """Only select a completed, reviewed local adapter; clones default to base."""
+    marker = DEFAULT_ADAPTER_PATH / 'deployment_ready.json'
+    if not marker.is_file():
+        return {'name': MODEL_NAME, 'adapter_path': ''}
+    ready = json.loads(marker.read_text(encoding='utf-8'))
+    report = json.loads((DEFAULT_ADAPTER_PATH / 'training_report.json').read_text(encoding='utf-8'))
+    weights = DEFAULT_ADAPTER_PATH / 'adapter_model.safetensors'
+    if (ready.get('base_model') != MODEL_ID or report.get('topics') != 49
+            or report.get('smoke_only') is not False
+            or report.get('optimizer_steps', 0) <= 0
+            or report.get('optimizer_steps') != report.get('expected_steps')
+            or not weights.is_file()
+            or ready.get('adapter_sha256') != hashlib.sha256(weights.read_bytes()).hexdigest()):
+        raise RuntimeError('CPE49 Adapter 的完成標記或權重驗證不符，請先檢查訓練輸出。')
+    return {'name': ADAPTER_MODEL_NAME, 'adapter_path': str(DEFAULT_ADAPTER_PATH)}
 
 
 def model_path():
