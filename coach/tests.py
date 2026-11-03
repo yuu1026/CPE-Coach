@@ -246,6 +246,11 @@ class WorkflowTests(TestCase):
         asset = self.client.get('/assets/coach/workbench.js')
         self.assertEqual(asset.status_code, 200)
         self.assertIn(self.client.get('/assets/../db.sqlite3').status_code, (400, 404))
+        self.assertContains(response, f'data-user="{self.owner.pk}"')
+        self.assertContains(response, f'data-problem="{self.problem.pk}"')
+        for asset_name in ['workspace-preferences.js', 'problem-picker.js']:
+            self.assertContains(response, '/assets/coach/' + asset_name)
+            self.assertEqual(self.client.get('/assets/coach/' + asset_name).status_code, 200)
 
     def test_workspace_expands_failed_tests_first(self):
         self.client.force_login(self.owner)
@@ -253,8 +258,11 @@ class WorkflowTests(TestCase):
         record = Submission.objects.create(owner=self.owner, problem=self.problem, code='', hint_level=1, mode='judge', model='未呼叫模型', action='test', status='tested', judge_result={'status': 'failed', 'label': '測資通過 1 / 2', 'cases': cases})
         page = self.client.get(reverse('detail', args=[record.pk]))
         self.assertEqual(page.context['ordered_cases'][0]['name'], '失敗案例')
-        self.assertContains(page, 'test-case failed" open')
+        self.assertContains(page, 'test-case failed" open', count=1)
         self.assertContains(page, '需要檢查')
+        record.judge_result['cases'].append(cases[1] | {'name': '另一筆失敗'})
+        record.save(update_fields=['judge_result'])
+        self.assertContains(self.client.get(reverse('detail', args=[record.pk])), 'test-case failed" open', count=1)
 
     def test_test_action_never_calls_model_and_replays_once(self):
         self.client.force_login(self.owner)

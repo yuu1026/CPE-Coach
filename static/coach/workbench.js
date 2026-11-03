@@ -39,15 +39,18 @@
   const originalCode = originalNode ? JSON.parse(originalNode.textContent) : null;
   const originalCustomNode = document.getElementById('original-custom-test');
   const originalCustom = originalCustomNode ? JSON.parse(originalCustomNode.textContent) : null;
-  const customSnapshot = JSON.stringify(originalCustom && typeof originalCustom === 'object' ? originalCustom : {enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
+  function normalizeCustom(custom) { return JSON.stringify(custom?.enabled ? {enabled:true, input:custom.input || '', expected:custom.expected || ''} : {enabled:false}); }
+  const customSnapshot = normalizeCustom(originalCustom && typeof originalCustom === 'object' ? originalCustom : {enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
   function updateEditor() {
-    const count = code().length;
+    const count = Array.from(code()).length;
     const counter = document.getElementById('code-count');
     counter.textContent = `${count} / 12000 字元`;
     counter.classList.toggle('error', count > 12000);
     editorError.hidden = true;
-    const custom = JSON.stringify({enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
+    const custom = normalizeCustom({enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
     document.getElementById('stale-result').hidden = originalCode === null || (code() === originalCode && custom === customSnapshot);
+    document.getElementById('result-freshness').textContent = document.getElementById('stale-result').hidden ? '' : '已修改，請重新測試';
+    form.dispatchEvent(new Event('draft-change'));
   }
   textarea.addEventListener('input', updateEditor);
   ['id_run_custom', 'id_custom_input', 'id_custom_expected'].forEach(id => document.getElementById(id).addEventListener('input', updateEditor));
@@ -56,27 +59,34 @@
   if (window.markdownit) {
     const md = markdownit({html:false, breaks:true, linkify:false}).disable('image');
     md.renderer.rules.link_open = (tokens, index, options, env, renderer) => { tokens[index].attrSet('rel', 'noopener noreferrer'); return renderer.renderToken(tokens, index, options); };
-    document.querySelectorAll('.markdown-message').forEach(message => { message.innerHTML = md.render(message.textContent); message.classList.add('is-rendered'); });
+    document.querySelectorAll('.markdown-message').forEach(message => {
+      message.innerHTML = md.render(message.textContent); message.classList.add('is-rendered');
+      const next = [...message.querySelectorAll('p, li')].reverse().find(item => /[？?]|請試|請先|試著/.test(item.textContent));
+      if (next) { next.classList.add('next-step'); const label = document.createElement('strong'); label.textContent = '下一步'; label.className = 'next-step-label'; next.prepend(label); }
+    });
   }
   const history = document.getElementById('chat-history');
   history.scrollTop = history.scrollHeight;
-  document.querySelectorAll('[data-question]').forEach(chip => chip.addEventListener('click', () => { question.value = chip.dataset.question; question.focus(); }));
+  document.querySelectorAll('[data-question]').forEach(chip => chip.addEventListener('click', () => { question.value = chip.dataset.question; question.dispatchEvent(new Event('input', {bubbles:true})); question.focus(); }));
   question.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); form.requestSubmit(askButton); } });
   form.addEventListener('submit', event => {
+    if (form.getAttribute('aria-busy') === 'true') { event.preventDefault(); return; }
     if (editor) editor.save();
     const action = event.submitter?.value || 'ask';
-    if (code().length > 12000 || (action === 'test' && !code().trim())) {
+    if (Array.from(code()).length > 12000 || (action === 'test' && !code().trim())) {
       event.preventDefault(); showPane('code');
-      editorError.textContent = code().length > 12000 ? '程式碼超過 12000 字元，請縮小範圍。' : '請先輸入程式碼；沒有想法時可直接送出訊息。';
+      editorError.textContent = Array.from(code()).length > 12000 ? '程式碼超過 12000 字元，請縮小範圍。' : '請先輸入程式碼；沒有想法時可直接送出訊息。';
       editorError.hidden = false;
       if (editor) editor.focus(); else textarea.focus();
       return;
     }
     form.querySelector('input[name="action"]').value = action;
+    form.setAttribute('aria-busy', 'true');
     testButton.disabled = askButton.disabled = true;
     wait.textContent = action === 'test' ? '正在編譯與執行測資…' : '助理正在整理回覆…';
     wait.hidden = false;
+    if (action === 'test') document.getElementById('result-freshness').textContent = '正在編譯與執行測資…';
     if (action === 'test') testButton.textContent = '測試中…'; else askButton.textContent = '回覆中…';
   });
-  window.addEventListener('pageshow', () => { testButton.disabled = askButton.disabled = false; testButton.textContent = '▷ 執行測試'; askButton.textContent = '送出訊息 ↑'; wait.hidden = true; });
+  window.addEventListener('pageshow', () => { form.removeAttribute('aria-busy'); testButton.disabled = askButton.disabled = false; testButton.textContent = '▷ 執行測試'; askButton.textContent = '送出訊息 ↑'; wait.hidden = true; });
 })();

@@ -1,18 +1,1 @@
-<section class="card">
-  <h2>CPE 題目選擇</h2>
-  {% if problems %}
-  <form method="get" action="{% url 'choose_problem' %}">
-    <label for="problem-select">選擇想練習的題目 · 共 {{ problem_count }} 題</label>
-    <select id="problem-select" name="problem" required>
-      <option value="" disabled {% if not problem %}selected{% endif %}>請選擇 CPE 題目</option>
-      {% for p in problems %}
-      <option value="{{ p.pk }}" {% if problem.pk == p.pk %}selected{% endif %}>{% if p.pk in completed_ids %}✓ 已完成 · {% endif %}{{ p.title }}</option>
-      {% endfor %}
-    </select>
-    <p><button type="submit">開啟題目 →</button></p>
-  </form>
-  {% if problem %}<small>切換題目前，請先保存尚未提交的程式碼。</small>{% endif %}
-  {% else %}
-  <p class="muted">目前尚未匯入 CPE 題目。</p>
-  {% endif %}
-</section>
+<section class="card"><h2>CPE 題目選擇</h2>{% if problems %}<p>共 {{ problem_count }} 題，可搜尋題號或英文名稱。</p>{% include 'problem_picker.html' %}{% else %}<p>目前尚未匯入 CPE 題目。</p>{% endif %}</section>
