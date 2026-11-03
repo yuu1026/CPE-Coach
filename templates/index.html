@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% load coach_ui %}
 {% block content %}
-<div class="dashboard-heading"><div><span class="eyebrow">你的 CPE 練習空間</span><h1>今天，往前一步。</h1><p class="muted">選擇一個主題，從理解題意開始，逐步完成自己的解法。</p></div><a class="button button-quiet" href="#practice-picker">自由選題 ↓</a></div>
+<div class="dashboard-heading"><div><span class="eyebrow">你的 CPE 練習空間</span><h1>努力不一定會成功，但不努力一定會很輕鬆</h1><p class="muted">選擇一個主題，從理解題意開始，逐步完成自己的解法。</p></div><a class="button button-quiet" href="#practice-picker">自由選題 ↓</a></div>
 <section class="learning-overview" aria-label="個人學習概況">
   <div class="overview-progress"><span class="eyebrow">我的 CPE 進度</span><strong>{{ completed_count }} <small>/ {{ problem_count }} 題已完成</small></strong><progress value="{{ completed_count }}" max="{{ problem_count|default:1 }}" aria-label="CPE 題目完成進度"></progress><small>{{ completion_percent }}% · 完成標記由你自行設定</small></div>
   <div><span class="eyebrow">已開始練習</span><strong>{{ practiced_count }} <small>題</small></strong><p class="muted">包含詢問助理或執行測試的題目。</p></div>
