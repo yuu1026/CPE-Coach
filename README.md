@@ -10,7 +10,7 @@
 
 ## 功能
 
-- 十題 CPE 一星選集，下拉選題與個人完成進度。
+- 49 題 CPE 一星選集，下拉選題與個人完成進度；每題包含自寫題意摘要、自編輸入與預期輸出。
 - 程式可留白，從題意、手算與小問題開始引導。
 - 連續對話：回覆助理時不必離開解題頁，不同練習各自保存。
 - 「送出訊息」與「執行測試」分開，避免每次對話都重新編譯。
@@ -27,12 +27,14 @@
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe manage.py migrate
-.\.venv\Scripts\python.exe manage.py seed_cpe10
+.\.venv\Scripts\python.exe manage.py seed_cpe49
 .\.venv\Scripts\python.exe manage.py createsuperuser
 .\.venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000
 ```
 
-開啟 [本地網站](http://127.0.0.1:8000)，以剛建立的帳號登入。沒有預設帳號或密碼。預設 `HINT_MODE=demo`，回傳固定示範提示，不會分析實際程式。`seed_cpe10` 只新增題目，不覆寫既有資料。`seed_problems` 是早期三題自編範例，目前不出現在 CPE 題庫。
+開啟 [本地網站](http://127.0.0.1:8000)，以剛建立的帳號登入。沒有預設帳號或密碼。預設 `HINT_MODE=demo`，回傳固定示範提示，不會分析實際程式。`seed_cpe49` 只新增題目，不覆寫既有資料；原本十題的提交紀錄及完成標記會保留。`seed_cpe10` 保留為原十題匯入指令；`seed_problems` 是早期三題自編範例，目前不出現在 CPE 題庫。
+
+既有專案升級：在目前 Python 環境依序執行 `python manage.py migrate`、`python manage.py seed_cpe49`，並執行 `docker build -t cpe-judge:local ./judge` 更新判題映像，之後重新啟動網站。參考 [49 題題庫說明](docs/CPE49.md)。新增題目不代表重新訓練模型，現有 Adapter 的訓練範圍仍為十題。
 
 Linux/macOS 的虛擬環境 Python 路徑為 `.venv/bin/python`；模型訓練與 Windows GPU 相依套件另行配置。
 
@@ -96,6 +98,8 @@ config/                網站設定與路由
 templates/             題庫與解題工作區
 static/                本地編輯器、樣式、對話互動與第三方授權
 judge/                 隔離編譯與執行容器
+data/                  49 題網站題庫與實際測資驗證報告（不含解答）
+tools/                 題庫重建與維護者參考程式驗證工具
 training/data/         自編訓練、評估、題目與實測稽核資料
 training/reports/      可追溯的實驗結果
 training/              資料建立、QLoRA 與回覆比較程式

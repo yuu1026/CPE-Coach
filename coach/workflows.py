@@ -10,10 +10,12 @@ def test_inputs(problem, data):
     tests = [{'name': '範例測資', 'input': problem.sample_input, 'expected': problem.sample_output}] + problem.test_cases[:8]
     if data['run_custom']:
         tests.append({'name': '自訂測資', 'input': data['custom_input'], 'expected': data['custom_expected']})
+    if problem.output_comparison != 'exact':
+        tests = [dict(case, comparison=problem.output_comparison) for case in tests]
     return tests
 
 def test_fingerprint(code, tests):
-    snapshot = json.dumps({'code': code, 'tests': tests, 'policy': 'cpp17-docker-v1'}, ensure_ascii=False, sort_keys=True)
+    snapshot = json.dumps({'code': code, 'tests': tests, 'policy': 'cpp17-docker-v2'}, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(snapshot.encode('utf-8')).hexdigest()
 
 def prior_result(parent, fingerprint):

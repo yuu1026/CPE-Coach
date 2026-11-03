@@ -1,0 +1,253 @@
+{
+  "method": "project-authored C++17 reference programs, Docker cpe-judge:local",
+  "note": "Validates these authored test cases only; not official judge coverage or model evaluation.",
+  "topics": 49,
+  "test_cases": 145,
+  "results": [
+    {
+      "uva": 100,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 118,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 272,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 299,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 490,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 948,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10008,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10019,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10035,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10038,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10041,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10050,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10055,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10056,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10057,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10062,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10071,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10093,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10101,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10170,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10189,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10190,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10193,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10221,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10222,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10226,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10235,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10242,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10252,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10268,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10409,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10415,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10420,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10642,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10783,
+      "status": "accepted",
+      "cases": 2
+    },
+    {
+      "uva": 10812,
+      "status": "accepted",
+      "cases": 2
+    },
+    {
+      "uva": 10908,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10922,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10929,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 10931,
+      "status": "accepted",
+      "cases": 2
+    },
+    {
+      "uva": 11005,
+      "status": "accepted",
+      "cases": 4
+    },
+    {
+      "uva": 11063,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11150,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11321,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11332,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11349,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11417,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 11461,
+      "status": "accepted",
+      "cases": 3
+    },
+    {
+      "uva": 12019,
+      "status": "accepted",
+      "cases": 3
+    }
+  ]
+}

@@ -10,6 +10,7 @@ class Problem(models.Model):
     category = models.CharField(max_length=50)
     source = models.CharField(max_length=200, default='專案自編教學題，非官方 CPE 題目')
     test_cases = models.JSONField(default=list, blank=True)
+    output_comparison = models.CharField(max_length=20, default='exact', choices=[('exact', '文字比對'), ('line_rstrip', '忽略各行結尾空白'), ('float_1e-6', '數值絕對誤差 1e-6')])
 
 class ProblemCompletion(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

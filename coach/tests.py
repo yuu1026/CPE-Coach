@@ -385,3 +385,72 @@ class TrainingDataTests(TestCase):
         for record in audit:
             self.assertEqual(record['judge']['status'], 'accepted' if record['variant'] == 'correct' else 'failed')
         self.assertTrue(all('int main' not in r['messages'][-1]['content'] for r in train + evaluation))
+
+
+class Cpe49CatalogTests(TestCase):
+    def catalog(self):
+        import json
+        from django.conf import settings
+        return json.loads((settings.BASE_DIR / 'data/cpe49.json').read_text(encoding='utf-8'))
+
+    def seed(self, command='seed_cpe49'):
+        from io import StringIO
+        from django.core.management import call_command
+        call_command(command, stdout=StringIO())
+
+    def test_catalog_is_complete_and_contains_no_reference_answers(self):
+        expected = {100,118,272,299,490,948,10008,10019,10035,10038,10041,10050,10055,10056,10057,10062,10071,10093,10101,10170,10189,10190,10193,10221,10222,10226,10235,10242,10252,10268,10409,10415,10420,10642,10783,10812,10908,10922,10929,10931,11005,11063,11150,11321,11332,11349,11417,11461,12019}
+        catalog = self.catalog()
+        self.assertEqual(len(catalog), 49)
+        self.assertEqual({p['uva'] for p in catalog}, expected)
+        for p in catalog:
+            self.assertNotIn('code', p)
+            self.assertTrue(p['statement'] and p['source'].startswith('https://onlinejudge.org/'))
+            self.assertGreaterEqual(len(p['tests']), 2)
+            for case in p['tests']:
+                self.assertIsInstance(case['input'], str)
+                self.assertIsInstance(case['expected'], str)
+                self.assertIn(case.get('comparison', 'exact'), ('exact', 'line_rstrip', 'float_1e-6'))
+
+    def test_upgrade_from_ten_is_idempotent_and_keeps_student_records(self):
+        self.seed('seed_cpe10')
+        original = Problem.objects.order_by('pk').first()
+        owner = get_user_model().objects.create_user('catalog-student')
+        completion = ProblemCompletion.objects.create(owner=owner, problem=original)
+        record = Submission.objects.create(owner=owner, problem=original, code='student code', hint_level=1, mode='demo', model='demo')
+        original.statement = '教師自行調整的題意'
+        original.save()
+        self.seed()
+        self.seed()
+        self.assertEqual(Problem.objects.filter(category__startswith='CPE ').count(), 49)
+        original.refresh_from_db()
+        record.refresh_from_db()
+        self.assertEqual(original.statement, '教師自行調整的題意')
+        self.assertEqual(record.problem_id, original.pk)
+        self.assertTrue(ProblemCompletion.objects.filter(pk=completion.pk).exists())
+        self.client.force_login(owner)
+        response = self.client.get('/')
+        self.assertEqual(response.context['problem_count'], 49)
+        self.assertEqual(response.context['completed_count'], 1)
+        from django.utils.html import escape
+        for problem in Problem.objects.all():
+            self.assertContains(response, escape(problem.title))
+
+    def test_special_comparison_survives_database_and_reaches_judge(self):
+        from .workflows import test_inputs, test_fingerprint
+        self.seed()
+        for number, mode in [(490, 'line_rstrip'), (10221, 'float_1e-6')]:
+            problem = Problem.objects.get(title__startswith=f'UVa {number} ·')
+            self.assertEqual(problem.output_comparison, mode)
+            tests = test_inputs(problem, {'run_custom': True, 'custom_input': 'custom', 'custom_expected': 'expected'})
+            self.assertTrue(all(c['comparison'] == mode for c in tests))
+            self.assertNotEqual(test_fingerprint('code', tests), test_fingerprint('code', [dict(c, comparison='exact') for c in tests]))
+
+    def test_comparison_modes_accept_formatting_and_reject_real_errors(self):
+        from .judging import matches
+        self.assertTrue(matches('xa  \n b \n c\n', 'xa\n b\n c\n', 'line_rstrip'))
+        self.assertFalse(matches('xa\nb\nc\n', 'xa\n b\n c\n', 'line_rstrip'))
+        self.assertFalse(matches('a \nb', 'a\nb'))
+        self.assertTrue(matches('7330.382857 7000', '7330.382858 7000.000000', 'float_1e-6'))
+        for bad in ['7330.39 7000', '7330.382858', 'nan 7000', 'inf 7000', 'text 7000']:
+            self.assertFalse(matches(bad, '7330.382858 7000', 'float_1e-6'))

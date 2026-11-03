@@ -3,9 +3,21 @@ import json
 import shutil
 import subprocess
 import uuid
+import math
 
 def normalize(text):
     return text.replace('\r\n', '\n').replace('\r', '\n').rstrip()
+
+def matches(actual, expected, comparison='exact'):
+    if comparison == 'line_rstrip':
+        return normalize('\n'.join(line.rstrip(' \t') for line in actual.replace('\r\n', '\n').replace('\r', '\n').split('\n'))) == normalize('\n'.join(line.rstrip(' \t') for line in expected.replace('\r\n', '\n').replace('\r', '\n').split('\n')))
+    if comparison == 'float_1e-6':
+        try:
+            left, right = [float(x) for x in actual.split()], [float(x) for x in expected.split()]
+            return len(left) == len(right) and all(math.isfinite(a) and math.isfinite(b) and math.isclose(a, b, rel_tol=0, abs_tol=1.000001e-6) for a, b in zip(left, right))
+        except ValueError:
+            return False
+    return normalize(actual) == normalize(expected)
 
 def compare_results(payload, tests):
     compilation = payload['compile']
@@ -19,10 +31,12 @@ def compare_results(payload, tests):
     cases = []
     labels = {'accepted': '通過', 'wrong_answer': '答案不符', 'time_limit': '執行超時', 'output_limit': '輸出超限', 'runtime_error': '執行錯誤'}
     for case, run in zip(tests, runs):
-        status = 'time_limit' if run['timeout'] else 'output_limit' if run['output_limit'] else 'runtime_error' if run['returncode'] != 0 else 'accepted' if normalize(run['stdout']) == normalize(case['expected']) else 'wrong_answer'
+        status = 'time_limit' if run['timeout'] else 'output_limit' if run['output_limit'] else 'runtime_error' if run['returncode'] != 0 else 'accepted' if matches(run['stdout'], case['expected'], case.get('comparison', 'exact')) else 'wrong_answer'
         cases.append({'name': case['name'], 'input': case['input'], 'expected': case['expected'], 'actual': run['stdout'], 'stderr': run['stderr'], 'status': status, 'label': labels[status], 'seconds': run['seconds']})
     passed = sum(c['status'] == 'accepted' for c in cases)
-    return {'status': 'accepted' if passed == len(cases) else 'failed', 'label': f'測資通過 {passed} / {len(cases)}', 'compiler': compilation['stderr'], 'cases': cases, 'note': '只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。'}
+    modes = {c.get('comparison', 'exact') for c in tests}
+    policy = '忽略各行結尾空白，其餘內容逐字比較。' if modes == {'line_rstrip'} else '逐個數值比較，絕對誤差須不超過 0.000001。' if modes == {'float_1e-6'} else '忽略輸出結尾空白，其他內容逐字比較。'
+    return {'status': 'accepted' if passed == len(cases) else 'failed', 'label': f'測資通過 {passed} / {len(cases)}', 'compiler': compilation['stderr'], 'cases': cases, 'note': '只代表通過本次提供的測資，不保證所有輸入皆正確。' + policy}
 
 def judge(code, tests):
     if not shutil.which('docker'):

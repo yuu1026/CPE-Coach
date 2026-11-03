@@ -2,7 +2,7 @@
   <h2>CPE 題目選擇</h2>
   {% if problems %}
   <form method="get" action="{% url 'choose_problem' %}">
-    <label for="problem-select">選擇想練習的題目</label>
+    <label for="problem-select">選擇想練習的題目 · 共 {{ problem_count }} 題</label>
     <select id="problem-select" name="problem" required>
       <option value="" disabled {% if not problem %}selected{% endif %}>請選擇 CPE 題目</option>
       {% for p in problems %}
