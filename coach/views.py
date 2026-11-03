@@ -19,7 +19,7 @@ def completion_context(owner, problem=None):
 def workbench_context(record=None):
     result = record.judge_result if record else {}
     cases = result.get('cases', [])
-    return {'record': record, 'judge': result, 'ordered_cases': sorted(cases, key=lambda c: c.get('status') == 'accepted'), 'passed_cases': sum(c.get('status') == 'accepted' for c in cases), 'total_cases': len(cases), 'assistant_mode': settings.HINT_MODE, 'active_model': settings.OLLAMA_MODEL if settings.HINT_MODE == 'live' else '固定示範回覆'}
+    return {'record': record, 'judge': result, 'ordered_cases': sorted(cases, key=lambda c: c.get('status') == 'accepted'), 'passed_cases': sum(c.get('status') == 'accepted' for c in cases), 'total_cases': len(cases), 'assistant_mode': settings.HINT_MODE, 'active_model': settings.MODEL_NAME if settings.HINT_MODE == 'live' else '固定示範回覆'}
 
 @login_required
 def index(request):

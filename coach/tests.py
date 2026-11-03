@@ -79,12 +79,12 @@ class WorkflowTests(TestCase):
         self.assertEqual(payload['question'], next_payload['question'])
         self.assertEqual([m['role'] for m in current.messages], ['system', 'user', 'assistant', 'user'])
 
-    @override_settings(CONTEXT_TOKENS=1600, OLLAMA_URL='http://127.0.0.1:11434')
+    @override_settings(CONTEXT_TOKENS=1600, MODEL_URL='http://127.0.0.1:11434')
     def test_context_rejected_without_truncation(self):
         with self.assertRaises(HintError):
             build_messages(self.problem, 'a' * 5000, '', 1, [])
 
-    @override_settings(CONTEXT_TOKENS=4096, OLLAMA_URL='http://127.0.0.1:11436')
+    @override_settings(CONTEXT_TOKENS=4096, MODEL_URL='http://127.0.0.1:11436')
     def test_local_bridge_uses_server_token_budget(self):
         import json
         code = '// 中文程式註解\n' * 100
@@ -97,7 +97,7 @@ class WorkflowTests(TestCase):
         self.assertEqual(payload['execution_evidence']['failed_case_excerpts'], [])
         self.assertNotIn('1000 1000', messages[1]['content'])
 
-    @override_settings(HINT_MODE='live', OLLAMA_URL='http://127.0.0.1:11436')
+    @override_settings(HINT_MODE='live', MODEL_URL='http://127.0.0.1:11436')
     def test_exact_token_rejection_is_explained(self):
         import httpx
         original = httpx.Client

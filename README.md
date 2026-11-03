@@ -64,13 +64,13 @@ python local_model_server.py
 
 ```powershell
 $env:HINT_MODE = 'live'
-$env:OLLAMA_URL = 'http://127.0.0.1:11436'
-$env:OLLAMA_MODEL = 'Qwen3-4B-Instruct-2507'
+$env:Model_URL = 'http://127.0.0.1:11436'
+$env:Model_Name = 'Qwen3-4B-Instruct-2507'
 $env:CONTEXT_TOKENS = '4096'
 python manage.py runserver 127.0.0.1:8000
 ```
 
-`OLLAMA_*` 是沿用教材的介面設定名稱；此時實際呼叫的是本專案的 Hugging Face 推論服務，不需要另外安裝 Ollama。服務以 4-bit NF4 載入本地權重，使用實際 tokenizer 檢查上下文，不裁切本輪程式碼。
+`Model_URL` 與 `Model_Name` 分別設定模型服務網址與模型名稱；實際呼叫的是本專案的 Hugging Face 推論服務，不需要另外安裝 Ollama。服務以 4-bit NF4 載入本地權重，使用實際 tokenizer 檢查上下文，不裁切本輪程式碼。
 
 相依套件需配合 GPU、驅動、PyTorch/CUDA 與 Python 版本。RTX 5060 8GB 已完成本專案試訓，但不能保證任意版本組合均可直接執行。原機操作紀錄見 [模型接入說明](接入已下載模型.md)，其中個人路徑需自行調整。設定讀取環境變數，**不會自動載入 `.env`**。
 

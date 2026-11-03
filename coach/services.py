@@ -47,7 +47,7 @@ def build_messages(problem, code, question, level, history, evidence=None):
     estimate = sum(len(m['content'].encode('utf-8')) + 32 for m in messages)
     if estimate > 60000:
         raise HintError('輸入內容過大，請縮小程式與問題範圍；系統未裁切程式碼。')
-    local_bridge = settings.OLLAMA_URL in ('http://127.0.0.1:11436', 'http://localhost:11436')
+    local_bridge = settings.MODEL_URL in ('http://127.0.0.1:11436', 'http://localhost:11436')
     if not local_bridge and estimate + 1024 + 512 > settings.CONTEXT_TOKENS:
         raise HintError('內容超出保守輸入預算。請縮小程式與問題範圍；系統未裁切程式碼。')
     return messages
@@ -74,14 +74,14 @@ def generate_hint(messages, level):
     headers = {'X-API-Key': settings.OLLAMA_GATEWAY_API_KEY} if settings.OLLAMA_GATEWAY_API_KEY else {}
     try:
         with httpx.Client(trust_env=False, follow_redirects=False, timeout=120) as client:
-            with client.stream('POST', settings.OLLAMA_URL + '/api/chat', headers=headers, json={'model': settings.OLLAMA_MODEL, 'messages': messages, 'stream': False, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': 1024}}) as response:
+            with client.stream('POST', settings.MODEL_URL + '/api/chat', headers=headers, json={'model': settings.MODEL_NAME, 'messages': messages, 'stream': False, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': 1024}}) as response:
                 body = bytearray()
                 for chunk in response.iter_bytes():
                     body.extend(chunk)
                     if len(body) > 1000000:
                         raise HintError('模型回應過大。')
                 data = json.loads(body)
-                if response.status_code == 400 and settings.OLLAMA_URL in ('http://127.0.0.1:11436', 'http://localhost:11436') and isinstance(data, dict) and data.get('code') == 'context_limit':
+                if response.status_code == 400 and settings.MODEL_URL in ('http://127.0.0.1:11436', 'http://localhost:11436') and isinstance(data, dict) and data.get('code') == 'context_limit':
                     raise HintError('模型實際輸入長度超過可用範圍。請縮小程式或問題後重試；測資結果已保留，程式碼未裁切。')
                 response.raise_for_status()
         if not isinstance(data, dict):

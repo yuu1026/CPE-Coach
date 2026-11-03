@@ -49,7 +49,7 @@ flowchart LR
     D -->|頁面與本地靜態資產| W
 ```
 
-模型服務提供本專案相容的 `/api/chat` 介面，使用 Hugging Face Transformers；雖然網站沿用 `OLLAMA_*` 設定名稱，這條路徑不需要 Ollama。Docker 不載入模型，模型也不直接執行學生程式。
+模型服務提供本專案相容的 `/api/chat` 介面，使用 Hugging Face Transformers；網站透過 `Model_URL` 與 `Model_Name` 設定連線，這條路徑不需要 Ollama。Docker 不載入模型，模型也不直接執行學生程式。
 
 ## 3. 測試與詢問的分流、結果沿用
 

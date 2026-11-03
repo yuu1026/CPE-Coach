@@ -45,7 +45,7 @@ def thread_records(record):
 
 def submit(owner, problem, data, parent=None):
     action = data.get('action') or 'ask'
-    record, created = Submission.objects.get_or_create(owner=owner, submission_id=data['submission_id'], defaults={'problem': problem, 'parent': parent, 'action': action, 'code': data['code'], 'question': data['question'], 'hint_level': data['hint_level'], 'mode': 'judge' if action == 'test' else settings.HINT_MODE, 'model': '未呼叫模型' if action == 'test' else 'demo' if settings.HINT_MODE == 'demo' else settings.OLLAMA_MODEL, 'prompt_version': services.PROMPT_VERSION})
+    record, created = Submission.objects.get_or_create(owner=owner, submission_id=data['submission_id'], defaults={'problem': problem, 'parent': parent, 'action': action, 'code': data['code'], 'question': data['question'], 'hint_level': data['hint_level'], 'mode': 'judge' if action == 'test' else settings.HINT_MODE, 'model': '未呼叫模型' if action == 'test' else 'demo' if settings.HINT_MODE == 'demo' else settings.MODEL_NAME, 'prompt_version': services.PROMPT_VERSION})
     if not created:
         return record
     tests = test_inputs(problem, data)

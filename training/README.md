@@ -55,6 +55,6 @@ $env:HF_SERVE_MODEL_NAME = 'Qwen3-4B-CPE10-v1'
 & 'C:\Users\tt\miniconda3\envs\cpe-ai\python.exe' local_model_server.py
 ```
 
-另一個 PowerShell 啟動網站時設定 `OLLAMA_MODEL=Qwen3-4B-CPE10-v1`，其餘網址及 context 維持原值。也可參考根目錄「啟動模型-CPE十題.ps1」與「啟動網站-CPE十題.ps1」。移除 HF_ADAPTER_PATH 並恢復模型名稱，即可回到原始模型。網站讀取 adapter 時無須重新訓練。
+另一個 PowerShell 啟動網站時設定 `Model_Name=Qwen3-4B-CPE10-v1`，其餘網址及 context 維持原值。也可參考根目錄「啟動模型-CPE十題.ps1」與「啟動網站-CPE十題.ps1」。移除 HF_ADAPTER_PATH 並恢復模型名稱，即可回到原始模型。網站讀取 adapter 時無須重新訓練。
 
 新增的十題均使用自編測資，不是原題官方範例；題目摘要與測資設定可在網站資料庫另行擴充。seed_cpe10 只新增，不覆寫既有資料。
