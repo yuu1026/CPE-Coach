@@ -32,7 +32,7 @@ def index(request):
         selected = ''
     return render(request, 'index.html', {'history': Paginator(records, 10).get_page(request.GET.get('page')),
         'resume_record': records.first(), 'practiced_count': records.order_by().values('problem_id').distinct().count(),
-        'selected_track': selected} | context)
+        'selected_track': selected, 'selected_track_info': next((g for g in context['learning_tracks'] if g['slug'] == selected), None)} | context)
 
 @login_required
 @require_http_methods(['POST'])

@@ -6,7 +6,7 @@
   const status = document.getElementById('draft-status');
   const restore = document.getElementById('restore-draft');
   const draftKey = `cpe:draft:v1:${form.dataset.user}:${form.dataset.problem}`;
-  const prefKey = `cpe:layout:v1:${form.dataset.user}`;
+  const prefKey = `cpe:layout:v2:${form.dataset.user}`;
   let timer, saving = false, blocked = false, pending = null;
   function read(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
   function snapshot() {
@@ -67,9 +67,18 @@
 
   const reading = document.getElementById('reading-size');
   const coding = document.getElementById('editor-size');
-  let widths = [28, 38, 34];
+  let widths = [24, 48, 28];
+  const collapsed = {problem:false, chat:false};
+  const toggles = [...document.querySelectorAll('[data-toggle-pane]')];
   function layout() {
-    form.style.gridTemplateColumns = `minmax(220px,${widths[0]}fr) 10px minmax(330px,${widths[1]}fr) 10px minmax(300px,${widths[2]}fr)`;
+    form.style.gridTemplateColumns = `${collapsed.problem ? '0px 0px' : `minmax(220px,${widths[0]}fr) 10px`} minmax(330px,${widths[1]}fr) ${collapsed.chat ? '0px 0px' : `10px minmax(300px,${widths[2]}fr)`}`;
+    form.classList.toggle('is-problem-collapsed', collapsed.problem);
+    form.classList.toggle('is-chat-collapsed', collapsed.chat);
+    toggles.forEach(button => {
+      const name = button.dataset.togglePane;
+      button.setAttribute('aria-expanded', String(!collapsed[name]));
+      button.textContent = name === 'problem' ? (collapsed.problem ? '展開題目 ›' : '收合題目 ‹') : (collapsed.chat ? '展開助理 ‹' : '收合助理 ›');
+    });
     document.documentElement.style.setProperty('--reading-size', reading.value + 'px');
     document.documentElement.style.setProperty('--editor-size', coding.value + 'px');
     document.querySelectorAll('[data-divider]').forEach((handle, index) => {
@@ -78,15 +87,18 @@
     });
     if (editor) editor.refresh();
   }
-  function saveLayout() { try { localStorage.setItem(prefKey, JSON.stringify({reading:reading.value, coding:coding.value, widths})); } catch {} }
+  function saveLayout() { try { localStorage.setItem(prefKey, JSON.stringify({reading:reading.value, coding:coding.value, widths, collapsed})); } catch {} }
   const prefs = read(prefKey);
   if (prefs) {
+    collapsed.problem = prefs.collapsed?.problem === true;
+    collapsed.chat = prefs.collapsed?.chat === true;
     if ([...reading.options].some(option => option.value === prefs.reading)) reading.value = prefs.reading;
     if ([...coding.options].some(option => option.value === prefs.coding)) coding.value = prefs.coding;
     if (Array.isArray(prefs.widths) && prefs.widths.length === 3 && prefs.widths.every(n => Number.isFinite(n) && n >= 15 && n <= 60) && Math.abs(prefs.widths.reduce((a,b) => a+b,0)-100)<0.1) widths = prefs.widths;
   }
   [reading,coding].forEach(control => control.addEventListener('change', () => { layout(); saveLayout(); }));
-  document.getElementById('reset-layout').addEventListener('click', () => { reading.value = coding.value = '15'; widths = [28,38,34]; layout(); saveLayout(); });
+  toggles.forEach(button => button.addEventListener('click', () => { const name = button.dataset.togglePane; collapsed[name] = !collapsed[name]; layout(); saveLayout(); }));
+  document.getElementById('reset-layout').addEventListener('click', () => { reading.value = coding.value = '15'; widths = [24,48,28]; collapsed.problem = collapsed.chat = false; layout(); saveLayout(); });
   document.querySelectorAll('[data-divider]').forEach(handle => {
     const index = Number(handle.dataset.divider);
     let startX, initial;

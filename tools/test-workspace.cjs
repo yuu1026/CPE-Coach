@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 class Element {
-  constructor(value = '') { this.value = value; this.hidden = false; this.checked = false; this.dataset = {}; this.listeners = {}; this.style = {}; }
+  constructor(value = '') { this.value = value; this.hidden = false; this.checked = false; this.dataset = {}; this.listeners = {}; this.style = {}; this.classes = new Set(); this.classList = {toggle:(name,on) => on ? this.classes.add(name) : this.classes.delete(name)}; }
   addEventListener(name, fn) { (this.listeners[name] ||= []).push(fn); }
   dispatchEvent(event) { for (const fn of this.listeners[event.type] || []) fn(event); }
   setAttribute() {}
@@ -18,14 +18,21 @@ function workspace({stored, dataset = {}, error = false} = {}) {
   nodes['reading-size'].options = nodes['editor-size'].options = ['14','15','16','18'].map(value => ({value}));
   const key = 'cpe:draft:v1:7:100'; const storage = new Map(stored ? [[key, JSON.stringify(stored)]] : []);
   const window = new Element(); let nextTimer = 0; const timers = new Map();
-  const context = {document:{getElementById:id => id === 'workspace-form' ? form : nodes[id], querySelector:() => null, querySelectorAll:() => [], createElement:() => new Element(), documentElement:{style:{setProperty(){}}}}, window,
+  const toggles = ['problem','chat'].map(name => { const element = new Element(); element.dataset.togglePane = name; return element; });
+  const context = {document:{getElementById:id => id === 'workspace-form' ? form : nodes[id], querySelector:() => null, querySelectorAll:selector => selector === '[data-toggle-pane]' ? toggles : [], createElement:() => new Element(), documentElement:{style:{setProperty(){}}}}, window,
     localStorage:{getItem:key => storage.get(key) || null, setItem:(key,value) => { if (error) throw Error('unavailable'); storage.set(key,value); }, removeItem:key => storage.delete(key)},
     setTimeout:fn => { timers.set(++nextTimer, fn); return nextTimer; }, clearTimeout:id => timers.delete(id), Event:class {constructor(type) {this.type=type;}}};
   vm.runInNewContext(source, context);
-  return {form, fields, nodes, storage, key, window, flush:() => { for (const fn of [...timers.values()]) fn(); }, saved:() => JSON.parse(storage.get(key))};
+  return {form, fields, nodes, storage, key, window, toggles, flush:() => { for (const fn of [...timers.values()]) fn(); }, saved:() => JSON.parse(storage.get(key))};
 }
 const draft = {code:'int main(){}', question:'hint?', hint_level:'2', run_custom:true, custom_input:'1', custom_expected:'2', record:''};
 let page = workspace({stored:draft});
+page.toggles[0].dispatchEvent({type:'click'}); page.toggles[1].dispatchEvent({type:'click'});
+assert.ok(page.form.classes.has('is-problem-collapsed')); assert.ok(page.form.classes.has('is-chat-collapsed'));
+assert.match(page.form.style.gridTemplateColumns,/^0px 0px/);
+assert.equal(JSON.parse(page.storage.get('cpe:layout:v2:7')).collapsed.chat,true);
+page.nodes['reset-layout'].dispatchEvent({type:'click'}); assert.equal(page.form.classes.size,0);
+assert.match(page.form.style.gridTemplateColumns,/48fr/);
 assert.equal(page.fields.code.value, draft.code); assert.equal(page.fields.run_custom.checked, true);
 page.fields.question.value = 'new question'; page.form.dispatchEvent({type:'input'}); page.flush();
 assert.equal(page.saved().question, 'new question');
