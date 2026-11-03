@@ -349,7 +349,7 @@ class JudgeTests(TestCase):
 
     def test_missing_docker_does_not_execute_host_code(self):
         from .judging import judge
-        with patch('coach.judging.shutil.which', return_value=None), patch('coach.judging.subprocess.run') as run:
+        with patch('coach.judging.find_docker', return_value=None), patch('coach.judging.subprocess.run') as run:
             self.assertEqual(judge('any code', [])['status'], 'unavailable')
             run.assert_not_called()
 
@@ -365,6 +365,24 @@ class JudgeTests(TestCase):
         self.assertIn('--read-only', args)
         self.assertEqual(args[args.index('--network') + 1], 'none')
         self.assertEqual(run.call_args_list[-1].args[0][:3], ['docker', 'rm', '-f'])
+
+    def test_docker_desktop_can_be_found_outside_path(self):
+        from pathlib import Path
+        from .judging import find_docker
+        candidate = Path('C:/Apps/DockerDesktop/resources/bin/docker.exe')
+        with patch.dict('os.environ', {'DOCKER_EXE': ''}), patch('coach.judging.shutil.which', return_value=None), patch('coach.judging.docker_candidates', return_value=[candidate]), patch('pathlib.Path.is_file', return_value=True):
+            self.assertEqual(find_docker(), str(candidate))
+
+    def test_explicit_docker_path_used_for_execution_and_cleanup(self):
+        import json
+        from subprocess import CompletedProcess
+        from .judging import judge
+        executable = 'C:/Apps/Docker Desktop/docker.exe'
+        output = {'compile': self.run_result(), 'runs': [self.run_result('1')]}
+        with patch('coach.judging.find_docker', return_value=executable), patch('coach.judging.subprocess.run', return_value=CompletedProcess([], 0, stdout=json.dumps(output))) as run:
+            self.assertEqual(judge('code', [{'name': 'case', 'input': '', 'expected': '1'}])['status'], 'accepted')
+        self.assertEqual(run.call_args_list[0].args[0][0], executable)
+        self.assertEqual(run.call_args_list[-1].args[0][0], executable)
 
 class TrainingDataTests(TestCase):
     def test_ten_problem_dataset_split_and_executable_audit(self):

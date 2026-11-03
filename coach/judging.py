@@ -4,6 +4,31 @@ import shutil
 import subprocess
 import uuid
 import math
+import os
+from pathlib import Path
+
+
+def docker_candidates():
+    """Docker Desktop installs may not be in an already-running server's PATH."""
+    if os.name != 'nt':
+        return []
+    candidates = []
+    if os.environ.get('LOCALAPPDATA'):
+        candidates.append(Path(os.environ['LOCALAPPDATA']) / 'Programs/DockerDesktop/resources/bin/docker.exe')
+    candidates.append(Path.home() / 'AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe')
+    if os.environ.get('ProgramFiles'):
+        candidates.append(Path(os.environ['ProgramFiles']) / 'Docker/Docker/resources/bin/docker.exe')
+    return candidates
+
+
+def find_docker():
+    override = os.environ.get('DOCKER_EXE')
+    if override:
+        return str(Path(override)) if Path(override).is_file() else None
+    executable = shutil.which('docker')
+    if executable:
+        return executable
+    return next((str(path) for path in docker_candidates() if path.is_file()), None)
 
 def normalize(text):
     return text.replace('\r\n', '\n').replace('\r', '\n').rstrip()
@@ -39,10 +64,11 @@ def compare_results(payload, tests):
     return {'status': 'accepted' if passed == len(cases) else 'failed', 'label': f'測資通過 {passed} / {len(cases)}', 'compiler': compilation['stderr'], 'cases': cases, 'note': '只代表通過本次提供的測資，不保證所有輸入皆正確。' + policy}
 
 def judge(code, tests):
-    if not shutil.which('docker'):
-        return {'status': 'unavailable', 'label': '尚未執行：未找到 Docker', 'note': '請先安裝並啟動 Docker Desktop（Linux containers），再建立 cpe-judge:local 映像。', 'cases': []}
+    executable = find_docker()
+    if not executable:
+        return {'status': 'unavailable', 'label': '尚未執行：未找到 Docker', 'note': '找不到 docker.exe。請安裝 Docker Desktop，或用 DOCKER_EXE 指定其完整路徑，再重新啟動網站。', 'cases': []}
     name = 'cpe-judge-' + uuid.uuid4().hex
-    args = ['docker', 'run', '--rm', '-i', '--name', name, '--network', 'none', '--memory', '256m', '--memory-swap', '256m', '--cpus', '1', '--pids-limit', '32', '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--tmpfs', '/work:rw,exec,nosuid,size=64m,mode=1777', '--tmpfs', '/tmp:rw,noexec,nosuid,size=16m,mode=1777', '--log-driver', 'none', '--pull', 'never', 'cpe-judge:local']
+    args = [executable, 'run', '--rm', '-i', '--name', name, '--network', 'none', '--memory', '256m', '--memory-swap', '256m', '--cpus', '1', '--pids-limit', '32', '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--tmpfs', '/work:rw,exec,nosuid,size=64m,mode=1777', '--tmpfs', '/tmp:rw,noexec,nosuid,size=16m,mode=1777', '--log-driver', 'none', '--pull', 'never', 'cpe-judge:local']
     try:
         result = subprocess.run(args, input=json.dumps({'code': code, 'tests': tests}), text=True, encoding='utf-8', capture_output=True, timeout=45)
         if result.returncode != 0:
@@ -54,6 +80,6 @@ def judge(code, tests):
         return {'status': 'system_error', 'label': '判題回應無法解析或服務不可用', 'cases': []}
     finally:
         try:
-            subprocess.run(['docker', 'rm', '-f', name], capture_output=True, timeout=5)
+            subprocess.run([executable, 'rm', '-f', name], capture_output=True, timeout=5)
         except (OSError, subprocess.TimeoutExpired):
             pass
