@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 . (Join-Path $PSScriptRoot '啟動共用.ps1')
-$python = Get-CpePython
+$python = Get-CpePython -Purpose Website
 if ($BaseModel) {
     $selection = [pscustomobject]@{name='gemma-3-4b-it'; adapter_path=''}
 } else {

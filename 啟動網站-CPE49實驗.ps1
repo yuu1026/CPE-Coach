@@ -7,4 +7,4 @@ $env:HINT_MODE = 'live'
 $env:Model_URL = 'http://127.0.0.1:11436'
 $env:Model_Name = $selection.name
 $env:CONTEXT_TOKENS = '4096'
-& (Get-CpePython) manage.py runserver 127.0.0.1:8000
+& (Get-CpePython -Purpose Website) manage.py runserver 127.0.0.1:8000
