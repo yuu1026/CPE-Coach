@@ -6,11 +6,34 @@ import httpx
 from django.conf import settings
 from django.test import TestCase, override_settings
 from .answer_policy import requests_solution, reference_for, references
-from .reply_quality import traditional_reply
+from .reply_quality import traditional_reply, non_cpp_code
 from .services import build_messages, generate_hint, HintError
 
 
 class ReplyQualityTests(TestCase):
+    def test_code_language_guard_accepts_cpp_and_literal_test_output(self):
+        self.assertFalse(non_cpp_code('局部修正：\n```cpp\nstd::cout << sum << "\\n";\n```'))
+        self.assertFalse(non_cpp_code('預期輸出：\n```text\nprint(example)\n```'))
+        self.assertTrue(non_cpp_code('```python\nprint(sum(values))\n```'))
+        self.assertTrue(non_cpp_code('```javascript\nconsole.log(sum);\n```'))
+        self.assertTrue(non_cpp_code('```cpp\ndef solve():\n    pass\n```'))
+        self.assertTrue(non_cpp_code('    for value in values:\n        print(value)'))
+
+    @override_settings(HINT_MODE='live')
+    def test_foreign_code_is_regenerated_as_cpp(self):
+        answers = iter(['請參考：\n```python\nprint(1)\n```', '請參考：\n```cpp\nstd::cout << 1;\n```'])
+        original = httpx.Client
+        calls = []
+        def handler(request):
+            calls.append(json.loads(request.content))
+            return httpx.Response(200,json={'done':True,'message':{'content':next(answers)}})
+        with patch('coach.services.httpx.Client',side_effect=lambda **kw:original(transport=httpx.MockTransport(handler),**kw)):
+            result = generate_hint([{'role':'system','content':'C++17'},{'role':'user','content':'{}'}],1)
+        self.assertEqual(len(calls),2)
+        self.assertIn('std::cout',result)
+        self.assertNotIn('print(1)',result)
+        self.assertIn('不能只替其他語言的程式改標籤',calls[1]['messages'][0]['content'])
+
     def problem(self, item):
         return SimpleNamespace(title=f"UVa {item['uva']} · {item['title']}", statement=item['statement'],
             sample_input=item['tests'][0]['input'], sample_output=item['tests'][0]['expected'],

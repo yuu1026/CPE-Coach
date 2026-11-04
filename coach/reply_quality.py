@@ -42,6 +42,8 @@ def prose_only(text):
     return ''.join(collected)
 
 def quality_issue(answer, messages):
+    if non_cpp_code(answer):
+        return 'code_language'
     prose = prose_only(answer)
     chinese = len(re.findall(r'[\u3400-\u9fff]', prose))
     english = len(re.findall(r'[A-Za-z]{2,}', prose))
@@ -56,3 +58,31 @@ def quality_issue(answer, messages):
     if len(sentences) >= 3 and len(set(sentences)) <= len(sentences) // 2:
         return 'repetition'
     return None
+
+
+def non_cpp_code(answer):
+    """Reject explicit foreign-language blocks and obvious mislabeled snippets.
+
+    This is a format guard, not a C++ compiler or a correctness verdict.
+    """
+    foreign = re.compile(r'^\s*(?:def\s+\w+\s*\(|from\s+\w+\s+import\b|import\s+\w+|print\s*\(|for\s+\w+\s+in\s+|function\s+\w+\s*\(|console\.log\s*\(|public\s+static\s+void\s+main\s*\(|System\.out\.print|package\s+\w+)', re.M)
+    fence, label, body = None, '', []
+    def invalid():
+        if label in {'text', 'plaintext', 'output'}:
+            return False
+        if label not in {'', 'cpp', 'c++', 'cxx', 'cc', 'hpp', 'c++17', 'cpp17'}:
+            return True
+        return bool(foreign.search(''.join(body)))
+    for line in answer.splitlines(keepends=True):
+        marker = re.match(r'^ {0,3}(`{3,}|~{3,})(.*)$', line.rstrip('\r\n'))
+        if fence is None and marker:
+            fence, label, body = marker[1], marker[2].strip().lower(), []
+        elif fence is not None and marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not marker[2].strip():
+            if invalid():
+                return True
+            fence = None
+        elif fence is not None:
+            body.append(line)
+        elif foreign.match(line):
+            return True
+    return invalid() if fence is not None else False
