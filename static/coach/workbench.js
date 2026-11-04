@@ -69,6 +69,14 @@
   history.scrollTop = history.scrollHeight;
   document.querySelectorAll('[data-question]').forEach(chip => chip.addEventListener('click', () => { question.value = chip.dataset.question; question.dispatchEvent(new Event('input', {bubbles:true})); question.focus(); }));
   question.addEventListener('keydown', event => { if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && event.keyCode !== 229) { event.preventDefault(); if (!event.repeat) form.requestSubmit(askButton); } });
+  // Native submission has already captured the message at this point.
+  // Clearing in the submit handler would accidentally send an empty question.
+  form.addEventListener('formdata', event => {
+    if (event.formData.get('action') === 'ask') {
+      question.value = '';
+      form.dispatchEvent(new Event('chat-sent'));
+    }
+  });
   const clearButton = document.getElementById('clear-chat');
   function resetBusy() {
     form.removeAttribute('aria-busy'); testButton.disabled = askButton.disabled = clearButton.disabled = false;

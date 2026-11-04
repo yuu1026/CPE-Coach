@@ -35,7 +35,7 @@
   const draft = read(draftKey);
   if (draft && typeof draft.code === 'string') {
     const submitted = draft.pending && draft.pending.token === form.dataset.token;
-    if (submitted && draft.pending.action === 'ask' && ['done','partial'].includes(form.dataset.status) && draft.question === draft.pending.question) draft.question = '';
+    if (submitted && draft.pending.action === 'ask' && draft.question === draft.pending.question) draft.question = '';
     if (!form.dataset.errors && (draft.record === form.dataset.record || submitted)) apply(draft);
     else { blocked = true; restore.hidden = false; status.textContent = '另有保存草稿，可手動還原至目前對話'; }
   }
@@ -54,6 +54,7 @@
   form.addEventListener('input', schedule);
   form.addEventListener('change', schedule);
   form.addEventListener('draft-change', schedule);
+  form.addEventListener('chat-sent', save);
   form.addEventListener('chat-cleared', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
   form.addEventListener('test-completed', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
   form.addEventListener('submit', event => {

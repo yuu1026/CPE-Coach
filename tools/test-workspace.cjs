@@ -45,7 +45,7 @@ page.nodes['restore-draft'].dispatchEvent({type:'click'}); assert.equal(page.fie
 page = workspace({stored:{...draft, pending:{token:'posted',action:'ask',question:'hint?'}},dataset:{record:'1',token:'posted',status:'done'}});
 assert.equal(page.fields.question.value, '', 'successful ask clears only the submitted question');
 page = workspace({stored:{...draft, pending:{token:'posted',action:'ask',question:'hint?'}},dataset:{record:'1',token:'posted',status:'failed'}});
-assert.equal(page.fields.question.value, 'hint?', 'failed ask preserves retry text');
+assert.equal(page.fields.question.value, '', 'a submitted message must not reappear in the composer after a failed reply');
 page = workspace({stored:draft,dataset:{errors:'yes'}}); assert.equal(page.fields.code.value, '', 'server validation form wins over autosave');
 page = workspace({error:true}); page.form.dispatchEvent({type:'input'}); page.flush(); assert.match(page.nodes['draft-status'].textContent, /無法保存/);
 page = workspace(); page.fields.code.value = 'draft'; page.form.dispatchEvent({type:'submit', defaultPrevented:false}); assert.equal(page.saved().pending.token, 'new-token');

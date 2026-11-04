@@ -24,6 +24,7 @@ const submissions=[]; form.requestSubmit=button=>submissions.push(button.value);
 class FakeFormData {
   constructor(source) { this.values=new Map(source?Object.entries(fields).map(([name,field])=>[name,field.value]):[]); }
   delete(key) { this.values.delete(key); } set(key,value) { this.values.set(key,value); }
+  get(key) { return this.values.get(key); }
 }
 const requests=[], locations=[];
 const browser=new Element(); browser.confirm=()=>true; browser.alert=message=>{throw Error(message);}; browser.history={replaceState:(_,__,url)=>locations.push(url)};
@@ -42,6 +43,12 @@ vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
   assert.equal(question.value,'not submitted'); assert.equal(nodes['chat-history'].children.length,0);
   assert.equal(fields.parent_submission.value,4); assert.equal(fields.submission_id.value,'new-token');
   assert.equal(nodes['ask-assistant'].disabled,false);
+  await form.emit('submit',{submitter:nodes['ask-assistant']});
+  const sentData = new FakeFormData(form);
+  await form.emit('formdata',{formData:sentData});
+  assert.equal(question.value,'','sending chat clears the visible composer');
+  assert.equal(sentData.get('question'),'not submitted','the actual message must remain in the outgoing request');
+  await browser.emit('pageshow');
   await nodes['clear-chat'].emit('click');
   assert.equal(requests[1].url,'/clear/'); assert.equal(question.value,''); assert.equal(code.value,'int main(){}');
   assert.equal(nodes['chat-history'].children.length,1); assert.equal(fields.submission_id.value,'clear-token');
