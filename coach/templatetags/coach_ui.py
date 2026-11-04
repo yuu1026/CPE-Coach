@@ -5,6 +5,11 @@ from hashlib import sha256
 
 register = template.Library()
 
+@register.filter
+def readable_answer(value):
+    from coach.code_format import format_cpp_blocks
+    return format_cpp_blocks(str(value))
+
 @register.simple_tag
 def versioned_static(path):
     """Change asset URLs when their contents change, including cached local browsers."""

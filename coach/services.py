@@ -3,6 +3,7 @@ import httpx
 from django.conf import settings
 from .answer_policy import requests_solution, reference_for, reference_answer
 from .reply_quality import traditional_reply, quality_issue
+from .code_format import format_cpp_blocks
 
 PROMPT_VERSION = 'cpe-tutor-v6'
 
@@ -146,4 +147,4 @@ def generate_hint(messages, level):
         answer = traditional_reply(str(reply))
         if quality_issue(answer, messages):
             raise HintError('模型這次仍未產生符合繁體中文、C++ 程式語言或連貫性要求的回覆，已停止重複回答。請指出需要解釋的步驟，或明確要求完整解答。')
-    return HintText(answer, truncated=getattr(reply, 'truncated', False), omitted_history_turns=getattr(reply, 'omitted_history_turns', 0))
+    return HintText(format_cpp_blocks(answer), truncated=getattr(reply, 'truncated', False), omitted_history_turns=getattr(reply, 'omitted_history_turns', 0))

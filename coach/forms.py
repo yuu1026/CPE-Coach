@@ -1,6 +1,15 @@
 from django import forms
 
 class SubmissionForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.is_bound and self.data.get('action') == 'test':
+            # Testing must ignore an unsent chat draft and its validation rules.
+            self.fields['question'].disabled = True
+            self.fields['hint_level'].disabled = True
+            self.initial['question'] = ''
+            self.initial['hint_level'] = 1
+
     action = forms.ChoiceField(required=False, choices=[('ask', '詢問助理'), ('test', '執行測試')], widget=forms.HiddenInput)
     parent_submission = forms.IntegerField(required=False, min_value=1, widget=forms.HiddenInput)
     run_custom = forms.BooleanField(label='額外執行自訂測資', required=False)

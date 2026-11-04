@@ -36,11 +36,11 @@
   }
   function code() { return editor ? editor.getValue() : textarea.value; }
   const originalNode = document.getElementById('original-code');
-  const originalCode = originalNode ? JSON.parse(originalNode.textContent) : null;
+  let originalCode = originalNode ? JSON.parse(originalNode.textContent) : null;
   const originalCustomNode = document.getElementById('original-custom-test');
   const originalCustom = originalCustomNode ? JSON.parse(originalCustomNode.textContent) : null;
   function normalizeCustom(custom) { return JSON.stringify(custom?.enabled ? {enabled:true, input:custom.input || '', expected:custom.expected || ''} : {enabled:false}); }
-  const customSnapshot = normalizeCustom(originalCustom && typeof originalCustom === 'object' ? originalCustom : {enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
+  let customSnapshot = normalizeCustom(originalCustom && typeof originalCustom === 'object' ? originalCustom : {enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
   function updateEditor() {
     const count = Array.from(code()).length;
     const counter = document.getElementById('code-count');
@@ -53,7 +53,7 @@
     form.dispatchEvent(new Event('draft-change'));
   }
   textarea.addEventListener('input', updateEditor);
-  ['id_run_custom', 'id_custom_input', 'id_custom_expected'].forEach(id => document.getElementById(id).addEventListener('input', updateEditor));
+  form.addEventListener('input', event => { if (['id_run_custom','id_custom_input','id_custom_expected'].includes(event.target.id)) updateEditor(); });
   updateEditor();
   showPane(form.dataset.initialTab);
   if (window.markdownit) {
@@ -68,11 +68,17 @@
   const history = document.getElementById('chat-history');
   history.scrollTop = history.scrollHeight;
   document.querySelectorAll('[data-question]').forEach(chip => chip.addEventListener('click', () => { question.value = chip.dataset.question; question.dispatchEvent(new Event('input', {bubbles:true})); question.focus(); }));
-  question.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); form.requestSubmit(askButton); } });
-  form.addEventListener('submit', event => {
+  question.addEventListener('keydown', event => { if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && event.keyCode !== 229) { event.preventDefault(); if (!event.repeat) form.requestSubmit(askButton); } });
+  const clearButton = document.getElementById('clear-chat');
+  function resetBusy() {
+    form.removeAttribute('aria-busy'); testButton.disabled = askButton.disabled = clearButton.disabled = false;
+    testButton.textContent = '▷ 執行測試'; askButton.textContent = '送出訊息 ↑'; wait.hidden = true;
+  }
+  form.addEventListener('submit', async event => {
     if (form.getAttribute('aria-busy') === 'true') { event.preventDefault(); return; }
     if (editor) editor.save();
     const action = event.submitter?.value || 'ask';
+    if (action === 'test') event.preventDefault();
     if (Array.from(code()).length > 12000 || (action === 'test' && !code().trim())) {
       event.preventDefault(); showPane('code');
       editorError.textContent = Array.from(code()).length > 12000 ? '程式碼超過 12000 字元，請縮小範圍。' : '請先輸入程式碼；沒有想法時可直接送出訊息。';
@@ -82,11 +88,58 @@
     }
     form.querySelector('input[name="action"]').value = action;
     form.setAttribute('aria-busy', 'true');
-    testButton.disabled = askButton.disabled = true;
+    const testData = action === 'test' ? new FormData(form) : null;
+    if (testData) { testData.delete('question'); testData.delete('hint_level'); }
+    testButton.disabled = askButton.disabled = clearButton.disabled = true;
     wait.textContent = action === 'test' ? '正在編譯與執行測資…' : '助理正在整理回覆…';
-    wait.hidden = false;
+    wait.hidden = action === 'test';
     if (action === 'test') document.getElementById('result-freshness').textContent = '正在編譯與執行測資…';
     if (action === 'test') testButton.textContent = '測試中…'; else askButton.textContent = '回覆中…';
+    if (action === 'test') {
+      try {
+        const response = await fetch(form.dataset.testUrl, {method:'POST', body:testData, headers:{Accept:'application/json'}});
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || Object.values(result.errors || {}).flat().map(item => item.message).join('；') || '測試失敗，請稍後重試。');
+        const currentCustom = {enabled:document.getElementById('id_run_custom').checked,input:document.getElementById('id_custom_input').value,expected:document.getElementById('id_custom_expected').value};
+        document.getElementById('test-results').innerHTML = result.html;
+        document.getElementById('id_run_custom').checked = currentCustom.enabled;
+        document.getElementById('id_custom_input').value = currentCustom.input;
+        document.getElementById('id_custom_expected').value = currentCustom.expected;
+        originalCode = result.code; customSnapshot = normalizeCustom(result.custom_test);
+        form.elements.namedItem('parent_submission').value = result.record;
+        form.elements.namedItem('submission_id').value = result.next_token;
+        form.dataset.record = String(result.record); form.dataset.token = result.token;
+        form.action = form.dataset.practiceUrl;
+        window.history.replaceState(null, '', result.url);
+        updateEditor();
+        form.dispatchEvent(new Event('test-completed'));
+      } catch (error) {
+        editorError.textContent = error.message || '測試連線失敗，請重試。'; editorError.hidden = false;
+        document.getElementById('result-freshness').textContent = '本次測試未取得結果';
+        form.elements.namedItem('submission_id').value = crypto.randomUUID();
+      } finally { resetBusy(); }
+    }
   });
-  window.addEventListener('pageshow', () => { form.removeAttribute('aria-busy'); testButton.disabled = askButton.disabled = false; testButton.textContent = '▷ 執行測試'; askButton.textContent = '送出訊息 ↑'; wait.hidden = true; });
+  clearButton.addEventListener('click', async () => {
+    if (form.getAttribute('aria-busy') === 'true' || !window.confirm('清除此題的所有聊天紀錄？程式碼、測試紀錄與完成標記會保留。')) return;
+    form.setAttribute('aria-busy','true'); testButton.disabled = askButton.disabled = clearButton.disabled = true;
+    try {
+      const data = new FormData(); data.set('csrfmiddlewaretoken',form.elements.namedItem('csrfmiddlewaretoken').value);
+      const response = await fetch(form.dataset.clearUrl,{method:'POST',body:data,headers:{Accept:'application/json'}});
+      if (!response.ok) throw new Error('清除失敗，請重新整理後重試。');
+      const result = await response.json();
+      history.replaceChildren();
+      const notice = document.createElement('p'); notice.className = 'muted'; notice.textContent = '聊天紀錄已清除，可以開始新的對話。'; history.append(notice);
+      question.value = '';
+      form.elements.namedItem('parent_submission').value = result.parent;
+      form.elements.namedItem('submission_id').value = result.next_token;
+      form.dataset.record = String(result.parent); form.dataset.token = '';
+      form.action = form.dataset.practiceUrl;
+      window.history.replaceState(null,'',result.url);
+      const shortcuts = document.querySelector('.shortcut-drawer'); if (shortcuts) shortcuts.open = true;
+      form.dispatchEvent(new Event('chat-cleared'));
+    } catch (error) { window.alert(error.message); }
+    finally { resetBusy(); }
+  });
+  window.addEventListener('pageshow', resetBusy);
 })();

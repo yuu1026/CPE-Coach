@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.db import transaction
 from .forms import SubmissionForm
 from .models import Problem, Submission, ProblemCompletion
 from .workflows import submit, thread_records
@@ -22,6 +25,39 @@ def workbench_context(record=None):
     result = record.judge_result if record else {}
     cases = result.get('cases', [])
     return {'record': record, 'judge': result, 'ordered_cases': sorted(cases, key=lambda c: c.get('status') == 'accepted'), 'passed_cases': sum(c.get('status') == 'accepted' for c in cases), 'total_cases': len(cases), 'assistant_mode': settings.HINT_MODE, 'active_model': settings.MODEL_NAME if settings.HINT_MODE == 'live' else '固定示範回覆'}
+
+@login_required
+@require_http_methods(['POST'])
+def test_program(request, pk):
+    problem = get_object_or_404(cpe_problems(), pk=pk)
+    payload = request.POST.copy()
+    payload['action'] = 'test'
+    form = SubmissionForm(payload)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors.get_json_data()}, status=400)
+    parent_id = form.cleaned_data.get('parent_submission')
+    parent = get_object_or_404(Submission, pk=parent_id, owner=request.user, problem=problem) if parent_id else None
+    record = submit(request.user, problem, form.cleaned_data, parent)
+    # A replay token must never expose another problem's record.
+    if record.problem_id != problem.pk or record.action != 'test':
+        return JsonResponse({'error':'提交編號已使用，請重新整理後再試。'},status=409)
+    context = workbench_context(record) | {'form': form}
+    from django.urls import reverse
+    return JsonResponse({'html':render_to_string('test_results.html',context,request=request),
+        'record':record.pk,'token':str(record.submission_id),'next_token':str(uuid.uuid4()),
+        'url':reverse('detail',args=[record.pk]),'code':record.code,
+        'custom_test':record.judge_result.get('custom_test'), 'status':record.judge_result.get('status')})
+
+@login_required
+@require_http_methods(['POST'])
+def clear_chat(request, pk):
+    problem = get_object_or_404(cpe_problems(),pk=pk)
+    with transaction.atomic():
+        Submission.objects.filter(owner=request.user,problem=problem).exclude(action='test').delete()
+        latest_test = Submission.objects.filter(owner=request.user,problem=problem,action='test').first()
+    from django.urls import reverse
+    return JsonResponse({'parent':latest_test.pk if latest_test else '', 'next_token':str(uuid.uuid4()),
+        'url':reverse('detail',args=[latest_test.pk]) if latest_test else reverse('practice',args=[problem.pk])})
 
 @login_required
 def index(request):
@@ -96,4 +132,4 @@ def detail(request, pk):
         else:
             next_record = submit(request.user, record.problem, form.cleaned_data, record)
             return redirect('detail', pk=next_record.pk)
-    return render(request, 'detail.html', {'problem': record.problem, 'problems': cpe_problems(), 'turns': thread_records(record), 'form': form} | completion_context(request.user, record.problem) | workbench_context(record))
+    return render(request, 'detail.html', {'problem': record.problem, 'problems': cpe_problems(), 'turns': [turn for turn in thread_records(record) if turn.action != 'test'], 'form': form} | completion_context(request.user, record.problem) | workbench_context(record))

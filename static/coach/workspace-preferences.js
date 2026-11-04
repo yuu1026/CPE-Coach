@@ -54,6 +54,8 @@
   form.addEventListener('input', schedule);
   form.addEventListener('change', schedule);
   form.addEventListener('draft-change', schedule);
+  form.addEventListener('chat-cleared', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
+  form.addEventListener('test-completed', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
   form.addEventListener('submit', event => {
     if (event.defaultPrevented) return;
     pending = {token: field('submission_id').value, action: field('action').value, question: field('question').value};
@@ -112,8 +114,9 @@
     handle.addEventListener('pointerup', event => { if (handle.hasPointerCapture(event.pointerId)) { handle.releasePointerCapture(event.pointerId); saveLayout(); } });
     handle.addEventListener('keydown', event => { if (['ArrowLeft','ArrowRight'].includes(event.key)) { event.preventDefault(); initial = [...widths]; adjust(event.key === 'ArrowLeft' ? -2 : 2); saveLayout(); } });
   });
-  document.querySelectorAll('[data-cases]').forEach(button => button.addEventListener('click', () => {
-    document.querySelectorAll('#test-area .test-case').forEach(item => { item.open = button.dataset.cases === 'expand'; });
-  }));
+  form.addEventListener('click', event => {
+    const button = event.target.closest('[data-cases]');
+    if (button) document.querySelectorAll('#test-area .test-case').forEach(item => { item.open = button.dataset.cases === 'expand'; });
+  });
   layout();
 })();

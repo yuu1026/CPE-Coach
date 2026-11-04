@@ -3,6 +3,7 @@ import json
 import re
 from functools import lru_cache
 from django.conf import settings
+from .code_format import format_cpp
 
 def requests_solution(question):
     text = re.sub(r'\s+', '', question)
@@ -37,6 +38,6 @@ def reference_for(problem):
 
 def reference_answer(item):
     return ('你已明確要求完整解答，以下是本專案題庫的 C++17 參考程式（不是模型臨時生成）。\n\n'
-        f"```cpp\n{item['code'].rstrip()}\n```\n\n"
+        f"```cpp\n{format_cpp(item['code'])}```\n\n"
         f"這份參考程式的既有驗證紀錄：通過 {len(item['tests'])} 筆專案自編測資；不代表已通過官方評測，也不代表你的程式已通過。\n\n"
         '你可以比較自己的寫法，或指出其中一段，讓助理繼續解釋。')

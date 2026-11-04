@@ -170,6 +170,9 @@ a.button-quiet{background:transparent;color:var(--text);border-color:var(--line)
 .workspace-picker [data-topics],.workspace-picker [data-track-filter]{grid-column:1/-1}
 .workspace-picker .problem-switcher button{grid-column:1}
 .workspace-picker .problem-switcher small{justify-self:end}
+#test-results{display:contents}
+#clear-chat{font-size:11px;padding:6px 8px;color:var(--muted);margin-left:auto}
+#clear-chat:hover{color:#ffb4ac}
 .test-drawer[open]{min-height:120px;max-height:min(55%,calc(100% - 280px))}
 .test-drawer summary:focus-visible,.topic-chips a:focus-visible,.pane-toggles button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(max-width:600px){.workspace-picker .problem-switcher{left:0;right:auto}.workspace-tools .workspace-picker{width:auto}}
