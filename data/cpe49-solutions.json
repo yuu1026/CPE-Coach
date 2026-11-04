@@ -1,0 +1,1076 @@
+{
+  "100": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long i,j;while(cin>>i>>j){int best=0;for(long long x=min(i,j);x<=max(i,j);x++){long long v=x;int n=1;while(v!=1){v=v%2?3*v+1:v/2;n++;}best=max(best,n);}cout<<i<<\" \"<<j<<\" \"<<best<<\"\\n\";}}",
+    "statement": "讀取多組正整數 i、j 到 EOF（皆小於 10000）。從 n 開始，奇數改為 3n+1，偶數除以 2，直到 1；週期長度包含起點及最後的 1。求 i 與 j 之間含端點的最大週期長度。每組輸出原始順序的 i j 及最大長度，以空格分隔。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1 5\n",
+        "expected": "1 5 8\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "5 1\n1 1\n",
+        "expected": "5 1 8\n1 1 1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "22 22\n2 3\n",
+        "expected": "22 22 16\n2 3 8\n"
+      }
+    ],
+    "audit_sha256": "e996e58369b72abba166f5a9d478dfa4a11961ee4a49cea92f1bcc30288e5c80"
+  },
+  "118": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int X,Y,x,y;cin>>X>>Y;char d;string cmd,dirs=\"NESW\";set<pair<int,int>> scent;int dx[]={0,1,0,-1},dy[]={1,0,-1,0};while(cin>>x>>y>>d>>cmd){int k=dirs.find(d);bool lost=false;for(char c:cmd){if(c=='L')k=(k+3)%4;else if(c=='R')k=(k+1)%4;else{int a=x+dx[k],b=y+dy[k];if(a<0||a>X||b<0||b>Y){if(!scent.count({x,y})){scent.insert({x,y});lost=true;break;}}else{x=a;y=b;}}}cout<<x<<\" \"<<y<<\" \"<<dirs[k]<<(lost?\" LOST\":\"\")<<\"\\n\";}}",
+    "statement": "首行給矩形右上角 X Y，左下角為 (0,0)，座標最大 50。之後每個機器人先給 x y 方向（N/E/S/W），再給少於 100 字元的指令串，讀到 EOF。L/R 原地左轉／右轉，F 前進一格，北方為 y 增加。越界即停止並在最後合法座標留下氣味；後續機器人在有氣味的位置遇到任何越界前進指令都忽略。每個機器人輸出最終 x y 方向，失蹤者另接 LOST。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2 2\n1 1 N\nFRF\n",
+        "expected": "2 2 E\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1 1\n0 1 N\nF\n0 1 N\nFRF\n",
+        "expected": "0 1 N LOST\n1 1 E\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1 1\n0 0 W\nF\n0 0 S\nFRRF\n",
+        "expected": "0 0 W LOST\n0 1 N\n"
+      }
+    ],
+    "audit_sha256": "64c9ea415cef0db25d5778e340367a4f6f72def87999966490c9e216969cce7a"
+  },
+  "272": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){char c;bool open=true;while(cin.get(c)){if(c=='\"'){cout<<(open?\"``\":\"''\");open=!open;}else cout<<c;}}",
+    "statement": "讀取全文到 EOF，將雙引號交替換為兩個反引號與兩個單引號；引號配對狀態跨行延續，其他字元與換行保持原樣。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "\"a\nb\"\n",
+        "expected": "``a\nb''\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "x y \"z\"\n",
+        "expected": "x y ``z''\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "\"\" \"q\"\n",
+        "expected": "``'' ``q''\n"
+      }
+    ],
+    "audit_sha256": "4eb8e16332f66873a742202202d8bf4bfbf4b9c4d324b972fc7eeb852131b762"
+  },
+  "299": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T,n;cin>>T;while(T--){cin>>n;vector<int>a(n);for(int&v:a)cin>>v;int s=0;for(int i=0;i<n;i++)for(int j=i+1;j<n;j++)s+=a[i]>a[j];cout<<\"Optimal train swapping takes \"<<s<<\" swaps.\\n\";}}",
+    "statement": "先讀案例數 T。每例給車廂數 L（0 到 50），再給 1 到 L 的排列。每次只能交換相鄰兩節，求排成遞增順序所需的最少交換次數。每例輸出 Optimal train swapping takes S swaps.，S 為答案。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n3\n3 1 2\n4\n1 2 3 4\n",
+        "expected": "Optimal train swapping takes 2 swaps.\nOptimal train swapping takes 0 swaps.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n0\n\n1\n1\n",
+        "expected": "Optimal train swapping takes 0 swaps.\nOptimal train swapping takes 0 swaps.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n5\n5 4 3 2 1\n",
+        "expected": "Optimal train swapping takes 10 swaps.\n"
+      }
+    ],
+    "audit_sha256": "d0f32d9da679d2d52df518e426caa182eb1ccbeefe9a0bb474cfa8bff804fd38"
+  },
+  "490": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){vector<string>a;string s;size_t w=0;while(getline(cin,s)){a.push_back(s);w=max(w,s.size());}for(size_t j=0;j<w;j++){for(int i=(int)a.size()-1;i>=0;i--)cout<<(j<a[i].size()?a[i][j]:' ');cout<<\"\\n\";}}",
+    "statement": "讀入文字行到 EOF，最多 100 行，每行最多 100 個字元，空格也是內容。將整塊文字順時針旋轉 90 度：最後一行成為最左欄，第一行成為最右欄。短行缺少的位置以空格補齊。輸出旋轉後各行；本站只對本題忽略每行結尾的補齊空白，行首及行中空白仍須相符。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "ab\ncd\n",
+        "expected": "ca\ndb\n",
+        "comparison": "line_rstrip"
+      },
+      {
+        "name": "自編測資2",
+        "input": "abc\nx\n",
+        "expected": "xa\n b\n c\n",
+        "comparison": "line_rstrip"
+      },
+      {
+        "name": "自編測資3",
+        "input": "A B\n12\nZ\n",
+        "expected": "Z1A\n 2 \n  B\n",
+        "comparison": "line_rstrip"
+      }
+    ],
+    "audit_sha256": "2776ec6e50d62617f4a83103a473f14e838b5ab689217ee2b1a04533628b4d71"
+  },
+  "948": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){vector<int>f={1,2};while(f.back()<100000000)f.push_back(f.back()+f[f.size()-2]);int T,n;cin>>T;while(T--){cin>>n;cout<<n<<\" = \";bool start=false;for(int i=f.size()-1;i>=0;i--){if(f[i]<=n){cout<<1;n-=f[i];start=true;}else if(start)cout<<0;}cout<<\" (fib)\\n\";}}",
+    "statement": "先讀數量 T（最多 500），接著每例一個小於 100000000 的正整數。使用位權由低到高為 1、2、3、5、8……的費氏表示，數位只能是 0 或 1，不可有相鄰的 1 或前導 0。每例輸出 n = bits (fib)。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n1\n2\n4\n",
+        "expected": "1 = 1 (fib)\n2 = 10 (fib)\n4 = 101 (fib)\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "3\n8\n10\n12\n",
+        "expected": "8 = 10000 (fib)\n10 = 10010 (fib)\n12 = 10101 (fib)\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n17\n20\n",
+        "expected": "17 = 100101 (fib)\n20 = 101010 (fib)\n"
+      }
+    ],
+    "audit_sha256": "cfa41c543fcfe0744527c764df1a8f5b9c2f54a49ae9877421b210951805db08"
+  },
+  "10008": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;cin>>n;string s;getline(cin,s);int a[26]={};while(n--&&getline(cin,s))for(unsigned char c:s){if(c>='a'&&c<='z')c-=32;if(c>='A'&&c<='Z')a[c-'A']++;}vector<int>v(26);iota(v.begin(),v.end(),0);sort(v.begin(),v.end(),[&](int x,int y){return a[x]!=a[y]?a[x]>a[y]:x<y;});for(int i:v)if(a[i])cout<<char('A'+i)<<\" \"<<a[i]<<\"\\n\";}",
+    "statement": "先讀文字行數 n，再讀恰好 n 行。統計英文字母出現次數，大小寫視為相同，忽略其他字元。只輸出有出現的字母，轉為大寫，每行格式為 字母 次數。先依次數遞減，同次數按字母遞增。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\nAa b!\ncB 123\n",
+        "expected": "A 2\nB 2\nC 1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\nzzzYYx\n",
+        "expected": "Z 3\nY 2\nX 1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n123!?\n\n",
+        "expected": ""
+      }
+    ],
+    "audit_sha256": "6826e18a6811cb91c1d484797a409c5c3f8febc970293e75895866fda8929be3"
+  },
+  "10019": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;string s;while(T--){cin>>s;cout<<__builtin_popcount(stoul(s,0,10))<<\" \"<<__builtin_popcount(stoul(s,0,16))<<\"\\n\";}}",
+    "statement": "先讀案例數 T，每例一個十進位正整數 M（不超過 9999）。分別把輸入數字解讀為十進位與十六進位，計算兩者二進位表示中 1 的個數 b1、b2。每例輸出 b1 b2；不需要輸出 XOR 加密結果。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n1\n10\n15\n",
+        "expected": "1 1\n2 1\n4 3\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n99\n100\n",
+        "expected": "4 4\n3 1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n9999\n",
+        "expected": "8 8\n"
+      }
+    ],
+    "audit_sha256": "42912449679db297162f6ffe2a5dfd206ebc130d2b738a68ba490a0588780624"
+  },
+  "10035": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long a,b;while(cin>>a>>b&&(a||b)){int carry=0,count=0;while(a||b){carry=(a%10+b%10+carry)>=10;count+=carry;a/=10;b/=10;}if(!count)cout<<\"No carry operation.\\n\";else if(count==1)cout<<\"1 carry operation.\\n\";else cout<<count<<\" carry operations.\\n\";}}",
+    "statement": "每組讀兩個不到十位的非負整數，計算直式加法的進位次數，遇 0 0 結束。輸出 No carry operation.、1 carry operation. 或 N carry operations.。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "99 1\n0 0\n",
+        "expected": "2 carry operations.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "5 5\n123 456\n0 0\n",
+        "expected": "1 carry operation.\nNo carry operation.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "0 7\n0 0\n",
+        "expected": "No carry operation.\n"
+      }
+    ],
+    "audit_sha256": "196b02ee8d79ae669e3827503a6bef4333a4d7aae7d92e254f309b67dc2188af"
+  },
+  "10038": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;while(cin>>n){vector<int>a(n),seen(n);for(int&i:a)cin>>i;bool ok=true;for(int i=1;i<n;i++){int d=abs(a[i]-a[i-1]);if(d<=0||d>=n||seen[d])ok=false;else seen[d]=1;}cout<<(ok?\"Jolly\":\"Not jolly\")<<\"\\n\";}}",
+    "statement": "每組先讀 n（1≤n≤3000）與 n 個整數，直到 EOF。相鄰差的絕對值須恰好涵蓋 1 到 n-1，成立輸出 Jolly，否則 Not jolly。單元素成立。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "4 1 4 2 3\n",
+        "expected": "Jolly\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4 1 2 3 4\n",
+        "expected": "Not jolly\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1 7\n2 8 8\n",
+        "expected": "Jolly\nNot jolly\n"
+      }
+    ],
+    "audit_sha256": "c0b6c43dab88f2215a4ab1644d0be684be893743f2e18ddb0e063dac06a6711e"
+  },
+  "10041": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;while(T--){int n;cin>>n;vector<int>a(n);for(int&x:a)cin>>x;sort(a.begin(),a.end());int p=a[n/2],s=0;for(int x:a)s+=abs(x-p);cout<<s<<\"\\n\";}}",
+    "statement": "先讀案例數，每組讀親戚數與地址（可重複），選居住位置使到所有地址的距離總和最小，逐行輸出該最小總和。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n3 1 2 100\n",
+        "expected": "99\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n3 10 100 1\n",
+        "expected": "99\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 7\n4 5 5 5 5\n",
+        "expected": "0\n0\n"
+      }
+    ],
+    "audit_sha256": "9ba88d98e0f673c6678ebe677866bea7aa0576142f1050a734902069d8c3ab4b"
+  },
+  "10050": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T,N,P,h;cin>>T;while(T--){cin>>N>>P;vector<bool>d(N+1);while(P--){cin>>h;for(int i=h;i<=N;i+=h)if(i%7!=6&&i%7!=0)d[i]=true;}cout<<count(d.begin(),d.end(),true)<<\"\\n\";}}",
+    "statement": "先讀案例數 T。每例給天數 N（7 到 3650）、政黨數 P，再給 P 個正整數罷工週期。第 1 天是星期日，各黨於其週期倍數的日期罷工，但星期五與星期六不計。若同一天多黨罷工只計一次。每例輸出損失的工作天數。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n14\n2\n3\n4\n",
+        "expected": "5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n7\n2\n1\n1\n7\n1\n8\n",
+        "expected": "5\n0\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n14\n2\n6\n13\n",
+        "expected": "1\n"
+      }
+    ],
+    "audit_sha256": "6d5109d2f784d5ea5964a6574192acbe672d2431460069762f113575d26dd347"
+  },
+  "10055": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long a,b;while(cin>>a>>b)cout<<llabs(a-b)<<\"\\n\";}",
+    "statement": "反覆讀取兩個非負整數到 EOF，逐行輸出兩者差的絕對值。輸入可達 2^32，順序不固定。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "8 3\n3 8\n",
+        "expected": "5\n5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4294967296 0\n",
+        "expected": "4294967296\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "9 9\n1 4\n",
+        "expected": "0\n3\n"
+      }
+    ],
+    "audit_sha256": "60447677954912900df923f7074d395c9aeaae7aea5bef00fd5b402022311e81"
+  },
+  "10056": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T,N,I;double p;cin>>T;cout<<fixed<<setprecision(4);while(T--){cin>>N>>p>>I;cout<<(p==0?0:p*pow(1-p,I-1)/(1-pow(1-p,N)))<<\"\\n\";}}",
+    "statement": "先讀案例數 T。每例為 N p I：N 位玩家由 1 開始依序輪流嘗試，每次獨立成功機率為 p，首次成功即結束，求第 I 位玩家最後獲勝的機率。N 最多 1000，1≤I≤N，0≤p≤1。每例輸出小數點後四位；p=0 時無人獲勝。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n2 0.5 1\n2 0.5 2\n",
+        "expected": "0.6667\n0.3333\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "3\n3 0 2\n3 1 1\n3 1 3\n",
+        "expected": "0.0000\n1.0000\n0.0000\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n1 0.25 1\n",
+        "expected": "1.0000\n"
+      }
+    ],
+    "audit_sha256": "76474d95d86d02e8c1120b1e164d5f022b263d86f0a4da83209d33c7694a4b5c"
+  },
+  "10057": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;while(cin>>n){vector<int>a(n);for(int&x:a)cin>>x;sort(a.begin(),a.end());int lo=a[(n-1)/2],hi=a[n/2];cout<<lo<<\" \"<<count_if(a.begin(),a.end(),[&](int x){return lo<=x&&x<=hi;})<<\" \"<<hi-lo+1<<\"\\n\";}}",
+    "statement": "每組先讀 n（1 到 1000000），再讀 n 個小於 65536 的非負整數，讀到 EOF。找出使所有 |Xi−A| 總和最小的整數 A。每組輸出三個數：最小可行 A、輸入資料中有多少筆的值也是可行 A、以及不同可行整數 A 的總數；重複輸入需逐筆計算。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "4\n1 3 7 9\n",
+        "expected": "3 2 5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "3\n2 2 8\n1\n0\n",
+        "expected": "2 2 1\n0 1 1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "4\n0 0 10 10\n",
+        "expected": "0 4 11\n"
+      }
+    ],
+    "audit_sha256": "ca69e67ef40175a66a6a7bf35cba7eec3f745b333791f7ac5b2e56569bfdecd4"
+  },
+  "10062": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){string s;bool first=true;while(getline(cin,s)){if(!first)cout<<\"\\n\";first=false;map<int,int>m;for(unsigned char c:s)if(c!='\\r')m[c]++;vector<pair<int,int>>v(m.begin(),m.end());sort(v.begin(),v.end(),[](auto a,auto b){return a.second!=b.second?a.second<b.second:a.first>b.first;});for(auto [c,n]:v)cout<<c<<\" \"<<n<<\"\\n\";}}",
+    "statement": "逐行讀取文字到 EOF，每行獨立統計 ASCII 字元（32 到 127）的頻率，不計換行符。每個出現的字元輸出 ASCII碼 次數。依次數遞增，同次數則 ASCII碼遞減排序。兩組輸出之間空一行。每行輸入最多 1000 字元，空格也要計算。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "ABA\nxy\n",
+        "expected": "66 1\n65 2\n\n121 1\n120 1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "a a\n",
+        "expected": "32 1\n97 2\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "!!!\n11\n",
+        "expected": "33 3\n\n49 2\n"
+      }
+    ],
+    "audit_sha256": "b147fdb44e5ba37b7379190b62d7ce9406a7800bc8f963c7a1a6fa7504f8f5ee"
+  },
+  "10071": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long v,t;while(cin>>v>>t)cout<<2*v*t<<\"\\n\";}",
+    "statement": "每組讀入 v 與 t，依題意的等加速度運動關係，輸出兩倍時間的位移；多組資料到 EOF。v 可為負，t 可為 0。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3 4\n",
+        "expected": "24\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "-5 3\n",
+        "expected": "-30\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "7 0\n2 5\n",
+        "expected": "0\n20\n"
+      }
+    ],
+    "audit_sha256": "2d9df88905a65f3bfca200a12e01a43f11927e2fd342ce026dd9b04d56d26995"
+  },
+  "10093": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){string s,d=\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\";while(cin>>s){int mx=0,sum=0;for(char c:s){auto k=d.find(c);if(k!=string::npos){sum+=k;mx=max(mx,(int)k);}}int ans=0;for(int b=max(2,mx+1);b<=62;b++)if(sum%(b-1)==0){ans=b;break;}if(ans)cout<<ans<<\"\\n\";else cout<<\"such number is impossible!\\n\";}}",
+    "statement": "每行是一個可能帶正負號的整數表示，讀到 EOF。數位依序為 0–9、A–Z、a–z，值為 0 到 61。求最小的進位 N（2 到 62），使表示合法且該數可被 N−1 整除。每組輸出最小 N，找不到則輸出 such number is impossible!。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "0\nA\n10\n",
+        "expected": "2\n11\n2\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "z\nzz\n",
+        "expected": "62\n62\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "-12\n+5\n1z\n",
+        "expected": "4\n6\nsuch number is impossible!\n"
+      }
+    ],
+    "audit_sha256": "1688367158c01164933e5f0346665e982d5087b7ec3495fa3be3e8471af5c2b7"
+  },
+  "10101": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nvoid say(long long n){if(n>=10000000){say(n/10000000);cout<<\" kuti\";n%=10000000;}for(auto [unit,name]:vector<pair<long long,string>>{{100000,\"lakh\"},{1000,\"hajar\"},{100,\"shata\"}})if(n>=unit){cout<<\" \"<<n/unit<<\" \"<<name;n%=unit;}if(n)cout<<\" \"<<n;}int main(){long long n;int k=0;while(cin>>n){cout<<setw(4)<<++k<<\".\";if(!n)cout<<\" 0\";else say(n);cout<<\"\\n\";}}",
+    "statement": "讀取不超過 999999999999999 的非負整數到 EOF，依 Bangla 單位展開：kuti=10000000、lakh=100000、hajar=1000、shata=100。零值單位不輸出，kuti 可重複分層使用；輸入 0 時輸出 0。每行先輸出靠右對齊寬度 4 的案例序號及句點，後接一個空格與展開文字，詞間以空格分隔。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "0\n105\n",
+        "expected": "   1. 0\n   2. 1 shata 5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "10000001\n100000000000000\n",
+        "expected": "   1. 1 kuti 1\n   2. 1 kuti kuti\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "12345678\n",
+        "expected": "   1. 1 kuti 23 lakh 45 hajar 6 shata 78\n"
+      }
+    ],
+    "audit_sha256": "0f9dab07088401c74384862f1d9d1f27f7c40e466cd8478605df9250b06ed48e"
+  },
+  "10170": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long s,d;while(cin>>s>>d){long long l=s,r=2000000000LL;while(l<r){long long m=(l+r)/2;__int128 total=(__int128)(s+m)*(m-s+1)/2;if(total>=d)r=m;else l=m+1;}cout<<l<<\"\\n\";}}",
+    "statement": "每組輸入 S D 到 EOF，1≤S≤10000、1≤D<10^15。第 1 天起 S 人團體住 S 天，接著 S+1 人住 S+1 天，依此類推，團體間沒有空檔。每組輸出第 D 天入住團體的人數；入住與退房當天都包含在住宿期間內。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3 3\n3 4\n3 7\n3 8\n",
+        "expected": "3\n4\n4\n5\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1 1\n1 6\n1 7\n",
+        "expected": "1\n3\n4\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "10000 10000\n10000 10001\n",
+        "expected": "10000\n10001\n"
+      }
+    ],
+    "audit_sha256": "69e4fd6ba7f8108a1430f89ed2664077766b2549ca4d04197bd8876eed3b40c5"
+  },
+  "10189": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n,m,k=0;while(cin>>n>>m&&(n||m)){vector<string>a(n);for(auto&s:a)cin>>s;if(k)cout<<\"\\n\";cout<<\"Field #\"<<++k<<\":\\n\";for(int i=0;i<n;i++){for(int j=0;j<m;j++){if(a[i][j]=='*'){cout<<'*';continue;}int z=0;for(int x=max(0,i-1);x<=min(n-1,i+1);x++)for(int y=max(0,j-1);y<=min(m-1,j+1);y++)z+=a[x][y]=='*';cout<<z;}cout<<\"\\n\";}}}",
+    "statement": "每組輸入列數 n 與欄數 m（1 到 100），再讀 n 行由 * 與 . 組成的地圖；0 0 結束。保留地雷 *，其餘格改成周圍八格的地雷數字。每組先輸出 Field #k:，再輸出結果地圖；組與組之間空一行，編號從 1 開始。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2 3\n*..\n..*\n0 0\n",
+        "expected": "Field #1:\n*21\n12*\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1 1\n.\n1 1\n*\n0 0\n",
+        "expected": "Field #1:\n0\n\nField #2:\n*\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "3 3\n***\n*.*\n***\n0 0\n",
+        "expected": "Field #1:\n***\n*8*\n***\n"
+      }
+    ],
+    "audit_sha256": "f5f532bd56c094d90a0d7bab58bd539160110e9b63604684f63a68eab5af24c8"
+  },
+  "10190": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long n,m;while(cin>>n>>m){vector<long long>a;bool ok=n>1&&m>1;while(ok&&n>1){a.push_back(n);if(n%m){ok=false;break;}n/=m;}if(!ok)cout<<\"Boring!\\n\";else{a.push_back(1);for(int i=0;i<(int)a.size();i++)cout<<(i?\" \":\"\")<<a[i];cout<<\"\\n\";}}}",
+    "statement": "反覆讀取非負整數 n、m 到 EOF（均小於 2000000000）。嘗試由 n 開始不斷整除 m，直到 1，且每一步數值必須嚴格遞減、不能有餘數。若可行，輸出含 n 與 1 的完整序列，以單一空格分隔；否則輸出 Boring!。需處理 0、1 與除數不合理的情況。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "16 2\n27 3\n",
+        "expected": "16 8 4 2 1\n27 9 3 1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "12 2\n8 1\n0 2\n",
+        "expected": "Boring!\nBoring!\nBoring!\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2 2\n81 9\n",
+        "expected": "2 1\n81 9 1\n"
+      }
+    ],
+    "audit_sha256": "fca41f60b421b8e5b3e3faaf19e5cdfa92ed84375baecaa9a97ecb2927f9a589"
+  },
+  "10193": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;string a,b;for(int k=1;k<=T;k++){cin>>a>>b;cout<<\"Pair #\"<<k<<\": \"<<(gcd(stoll(a,0,2),stoll(b,0,2))>1?\"All you need is love!\":\"Love is not all you need!\")<<\"\\n\";}}",
+    "statement": "先讀案例數 T。每例有兩個二進位字串，各長 2 到 30、沒有前導 0。判斷能否找到另一個同樣至少兩位的有效二進位數 L，使這兩個數都可以由若干個 L 相加得到。每例輸出 Pair #k: All you need is love! 或 Pair #k: Love is not all you need!。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n110\n1010\n11\n101\n",
+        "expected": "Pair #1: All you need is love!\nPair #2: Love is not all you need!\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n10\n10\n",
+        "expected": "Pair #1: All you need is love!\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n1001\n1111\n",
+        "expected": "Pair #1: All you need is love!\n"
+      }
+    ],
+    "audit_sha256": "93a95182b59556ef85dd7c027b17b89b0e52553cbb7c6969388921147ee28432"
+  },
+  "10221": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){double s,a;string u;cout<<fixed<<setprecision(6);while(cin>>s>>a>>u){if(u==\"min\")a/=60;a=fmod(a,360);a=min(a,360-a);double r=s+6440,t=a*acos(-1.0)/180;cout<<r*t<<\" \"<<2*r*sin(t/2)<<\"\\n\";}}",
+    "statement": "讀取多組 s a unit 到 EOF。地球半徑為 6440 公里，兩顆衛星離地面高度同為 s，中心夾角為 a；unit 為 deg（度）或 min（角分，60 角分=1 度）。求同一圓軌道上的較短弧長與弦長，單位公里，每行依序輸出兩者、小數點後六位。角度超過半圈時取較小夾角。本站以每個數值絕對誤差不超過 0.000001 比較。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "0 0 deg\n",
+        "expected": "0.000000 0.000000\n",
+        "comparison": "float_1e-6"
+      },
+      {
+        "name": "自編測資2",
+        "input": "560 180 deg\n",
+        "expected": "21991.148575 14000.000000\n",
+        "comparison": "float_1e-6"
+      },
+      {
+        "name": "自編測資3",
+        "input": "560 60 deg\n560 18000 min\n",
+        "expected": "7330.382858 7000.000000\n7330.382858 7000.000000\n",
+        "comparison": "float_1e-6"
+      }
+    ],
+    "audit_sha256": "aac110d465b1f9eb9015066afe13c1586cda7df429f456a7ec44dea0013ff1e8"
+  },
+  "10222": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){vector<string>rows={\"`1234567890-=\",\"qwertyuiop[]\\\\\",\"asdfghjkl;'\",\"zxcvbnm,./\"};string s;while(getline(cin,s)){for(unsigned char c:s){if(c==' '){cout<<' ';continue;}c=tolower(c);for(auto&r:rows){auto i=r.find(c);if(i!=string::npos&&i>=2){cout<<r[i-2];break;}}}cout<<\"\\n\";}}",
+    "statement": "讀入一段編碼文字，保留空格。每個英文字母先視為小寫，再換成標準 QWERTY 鍵盤同列左邊第二個按鍵；標點亦按相同位置規則還原。鍵盤由上至下為 `1234567890-=、qwertyuiop[]\\、asdfghjkl;'、zxcvbnm,./。輸出解碼後的一行文字，輸入會使用可向左移兩格的按鍵。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "kt''[\n",
+        "expected": "hello\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "K[R\n",
+        "expected": "how\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "dyt kt''[\n",
+        "expected": "are hello\n"
+      }
+    ],
+    "audit_sha256": "106d3e667e5decb669a2c46512377da3d9f3aae12f6c1b0bc8158e275bad8e25"
+  },
+  "10226": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;string s;getline(cin,s);cout<<fixed<<setprecision(4);for(int k=0;k<T;k++){map<string,int>m;int n=0;while(getline(cin,s)&&s.empty()){}if(cin||!s.empty()){if(!s.empty()){m[s]++;n++;}while(getline(cin,s)&&!s.empty()){m[s]++;n++;}}if(k)cout<<\"\\n\";for(auto [name,v]:m)cout<<name<<\" \"<<v*100.0/n<<\"\\n\";}}",
+    "statement": "首行為案例數 T，接一空行；每例為多行樹種名稱，一行一棵樹，名稱可能有空格且不超過 30 字元，案例以空行分隔。依名稱字典序輸出每種樹及其占該例總棵數的百分比，保留四位小數，不加百分號。案例輸出間空一行。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n\nOak\nPine\nOak\nOak\n",
+        "expected": "Oak 75.0000\nPine 25.0000\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n\nRed Oak\nAsh\n\nPine\n",
+        "expected": "Ash 50.0000\nRed Oak 50.0000\n\nPine 100.0000\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n\nC\nA\nB\n",
+        "expected": "A 33.3333\nB 33.3333\nC 33.3333\n"
+      }
+    ],
+    "audit_sha256": "9b5c42562b98e7a7c32f6852349af27b653175f2b76861e009d8b20bed36952f"
+  },
+  "10235": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nbool prime(int n){if(n<2)return false;for(int i=2;i<=n/i;i++)if(n%i==0)return false;return true;}int main(){int n;while(cin>>n){string s=to_string(n);reverse(s.begin(),s.end());int r=stoi(s);cout<<n<<\" is \"<<(!prime(n)?\"not prime.\":r!=n&&prime(r)?\"emirp.\":\"prime.\")<<\"\\n\";}}",
+    "statement": "逐行讀取整數 N（1<N<1000000）到 EOF。非質數輸出 N is not prime.；若 N 為質數，反轉十進位數字後是不同的質數，輸出 N is emirp.；其餘質數輸出 N is prime.。迴文質數不算 emirp。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "13\n23\n21\n",
+        "expected": "13 is emirp.\n23 is prime.\n21 is not prime.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "11\n2\n",
+        "expected": "11 is prime.\n2 is prime.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "107\n100\n",
+        "expected": "107 is emirp.\n100 is not prime.\n"
+      }
+    ],
+    "audit_sha256": "caf6dcf5163149d26d0a54f45e628b1728d957cd67f0c4340da5cf3452dc9993"
+  },
+  "10242": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){double a[8];cout<<fixed<<setprecision(3);while(cin>>a[0]){for(int i=1;i<8;i++)cin>>a[i];for(int i=0;i<2;i++)for(int j=2;j<4;j++)if(a[2*i]==a[2*j]&&a[2*i+1]==a[2*j+1]){double x=a[2*(1-i)]+a[2*(5-j)]-a[2*i],y=a[2*(1-i)+1]+a[2*(5-j)+1]-a[2*i+1];cout<<x<<\" \"<<y<<\"\\n\";}}}",
+    "statement": "每組輸入八個浮點數，表示平行四邊形兩條相鄰邊的四個端點，兩邊的共同端點會出現兩次；端點順序不固定。讀到 EOF。輸出尚未給出的第四點 x y，以公尺為單位、保留三位小數。座標介於 −10000 到 10000。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "0 0 2 0 0 0 0 3\n",
+        "expected": "2.000 3.000\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2 1 0 0 4 3 2 1\n",
+        "expected": "2.000 2.000\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "-1.5 2 0.5 2 -1.5 2 -1.5 4\n",
+        "expected": "0.500 4.000\n"
+      }
+    ],
+    "audit_sha256": "f8757a2d491bd725b50801ceed1c5fd9fae7746f5ca319737fdb25172e8e713d"
+  },
+  "10252": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){string a,b;while(getline(cin,a)&&getline(cin,b)){int x[26]={},y[26]={};for(char c:a)x[c-'a']++;for(char c:b)y[c-'a']++;for(int i=0;i<26;i++)cout<<string(min(x[i],y[i]),'a'+i);cout<<\"\\n\";}}",
+    "statement": "每兩行是一組小寫英文字串，各最多 1000 字元，讀到 EOF；空字串也須保留。找出兩字串共同擁有的字母及其可共同使用的重複次數，輸出能組成的最長字串，字母以遞增順序排列。每組輸出一行，沒有共同字母時輸出空行。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "banana\nananas\n",
+        "expected": "aaann\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "abc\nxyz\n\nabc\n",
+        "expected": "\n\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "aabbcc\nbbccdd\n",
+        "expected": "bbcc\n"
+      }
+    ],
+    "audit_sha256": "c45bc73e93ac74dd9cc3e17e9f492a35125e8644953ee93c711fe972351c8b0a"
+  },
+  "10268": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long x;string s;while(cin>>x){getline(cin,s);getline(cin,s);istringstream in(s);vector<long long>a;long long v;while(in>>v)a.push_back(v);long long ans=0;int n=a.size()-1;for(int i=0;i<n;i++)ans=ans*x+a[i]*(n-i);cout<<ans<<\"\\n\";}}",
+    "statement": "每組兩行：第一行是一個整數 x，第二行是由最高次到常數項的多項式整數係數，次數由該行係數個數決定。讀到 EOF。計算此多項式一階導數在 x 的值，每組輸出一個整數；常數多項式的導數為 0，輸入與輸出皆在 32 位元帶號整數範圍內。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n3 0 -4\n",
+        "expected": "12\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "0\n2 3 4\n-2\n1 0 0 0\n",
+        "expected": "3\n12\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "7\n9\n1\n-3 2\n",
+        "expected": "0\n-3\n"
+      }
+    ],
+    "audit_sha256": "1b0bcef66b6ae9f690b88f4c2b9b41f8e8a17e4a2c2d02b5e3a74ba0989f3355"
+  },
+  "10409": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;string s;while(cin>>n&&n){int t=1,b=6,N=2,S=5,W=3,E=4;while(n--){cin>>s;int v=t;if(s==\"north\"){t=S;S=b;b=N;N=v;}if(s==\"south\"){t=N;N=b;b=S;S=v;}if(s==\"east\"){t=W;W=b;b=E;E=v;}if(s==\"west\"){t=E;E=b;b=W;W=v;}}cout<<t<<\"\\n\";}}",
+    "statement": "每組先輸入指令數 n（1 到 1024），再輸入 n 個 north/east/south/west 滾動指令；n=0 結束。每組骰子重新初始化：上面 1、北面 2、西面 3，對面兩面之和為 7。往某方向滾動時原本上面轉到該方向側面。每組輸出最後朝上的數字。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\nnorth\n1\neast\n0\n",
+        "expected": "5\n3\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4\nnorth\nnorth\nnorth\nnorth\n2\neast\nwest\n0\n",
+        "expected": "1\n1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "3\nnorth\neast\nsouth\n0\n",
+        "expected": "1\n"
+      }
+    ],
+    "audit_sha256": "c9e79e0c68bc206314d814883138870d109e7dfa8d4c38f889102c169221c3bb"
+  },
+  "10415": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){map<char,vector<int>>m={{'c',{2,3,4,7,8,9,10}},{'d',{2,3,4,7,8,9}},{'e',{2,3,4,7,8}},{'f',{2,3,4,7}},{'g',{2,3,4}},{'a',{2,3}},{'b',{2}},{'C',{3}},{'D',{1,2,3,4,7,8,9}},{'E',{1,2,3,4,7,8}},{'F',{1,2,3,4,7}},{'G',{1,2,3,4}},{'A',{1,2,3}},{'B',{1,2}}};int T;cin>>T;string s;getline(cin,s);while(T--){getline(cin,s);vector<int>cnt(11),prev(11);for(char c:s){vector<int>now(11);for(int i:m[c]){now[i]=1;if(!prev[i])cnt[i]++;}prev=now;}for(int i=1;i<=10;i++)cout<<(i>1?\" \":\"\")<<cnt[i];cout<<\"\\n\";}}",
+    "statement": "首行為歌曲數 T，每首佔一行，可為空，最多 200 個音符。音符使用 cdefgabCDEFGAB。每個音符需按住的手指編號：c=23478910、d=234789、e=23478、f=2347、g=234、a=23、b=2、C=3、D=1234789、E=123478、F=12347、G=1234、A=123、B=12（其中 10 為第十指）。每首開始所有手指放開；只有上一音未按、本音需按時才計一次按下。每首輸出第 1 到 10 指的按下次數，以單一空格分隔。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\ncc\n\n",
+        "expected": "0 1 1 1 0 0 1 1 1 1\n0 0 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\nCbC\n",
+        "expected": "0 1 2 0 0 0 0 0 0 0\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\nBcB\n",
+        "expected": "2 1 1 1 0 0 1 1 1 1\n"
+      }
+    ],
+    "audit_sha256": "f4a26ff2adcde414178294e6f8fb5a2c9a68336bc844f5099f87c05837551520"
+  },
+  "10420": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;cin>>n;string s;getline(cin,s);map<string,int>m;while(n--){getline(cin,s);istringstream in(s);string c;in>>c;m[c]++;}for(auto[c,k]:m)cout<<c<<\" \"<<k<<\"\\n\";}",
+    "statement": "先讀紀錄數 n（最多 2000），接著 n 行各有國家及姓名。國家是第一個單字，姓名可能含空格。統計各國出現的紀錄數，依國家名稱字典序逐行輸出 國家 數量。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\nJapan A B\nTaiwan C\nJapan D\n",
+        "expected": "Japan 2\nTaiwan 1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\nFrance Same Name\n",
+        "expected": "France 1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "3\nZed X\nAlpha Y\nZed X\n",
+        "expected": "Alpha 1\nZed 2\n"
+      }
+    ],
+    "audit_sha256": "88f465f4235719e9bc1f04fe404f3cd8584db46217e2cc6c32fb2d445ac5b50f"
+  },
+  "10642": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nlong long indexof(long long x,long long y){return (x+y)*(x+y+1)/2+x;}int main(){int T;cin>>T;for(int k=1;k<=T;k++){long long a,b,c,d;cin>>a>>b>>c>>d;cout<<\"Case \"<<k<<\": \"<<indexof(c,d)-indexof(a,b)<<\"\\n\";}}",
+    "statement": "非負座標沿對角線單向前進，路徑依序為 (0,0)→(0,1)→(1,0)→(0,2)→(1,1)→(2,0)→……，即每條 x+y 相同的對角線由 x=0 走到 y=0，再進入下一條。首行案例數 T，每例給 x1 y1 x2 y2，各座標不超過 100000，保證終點可由起點到達。求移動步數，輸出 Case k: steps。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n0 3 3 0\n1 0 0 2\n",
+        "expected": "Case 1: 3\nCase 2: 1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n2 1 0 4\n",
+        "expected": "Case 1: 2\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\n0 0 100000 100000\n",
+        "expected": "Case 1: 20000200000\n"
+      }
+    ],
+    "audit_sha256": "4a5d74f3ee41dfccd6eabd49dbce67f1bf3b942a47c84469e1d3c98b33fba5e4"
+  },
+  "10783": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;for(int k=1;k<=T;k++){int a,b,sum=0;cin>>a>>b;for(int i=a;i<=b;i++)if(i%2==1)sum+=i;cout<<\"Case \"<<k<<\": \"<<sum<<\"\\n\";}}",
+    "statement": "先讀 T，每組讀 a、b（0≤a≤b≤100），計算閉區間內奇數總和。輸出 Case k: 總和，編號從 1 開始。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n3\n3\n0\n0\n",
+        "expected": "Case 1: 3\nCase 2: 0\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n2\n7\n1\n1\n",
+        "expected": "Case 1: 15\nCase 2: 1\n"
+      }
+    ],
+    "audit_sha256": "341fbcb2ca87a59026aaaae9ac8c260c8298bd5d7db1c4d4170d4064d4834aa0"
+  },
+  "10812": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;while(T--){long long s,d;cin>>s>>d;if(s<d||(s+d)%2)cout<<\"impossible\\n\";else cout<<(s+d)/2<<\" \"<<(s-d)/2<<\"\\n\";}}",
+    "statement": "先讀 T，每組給非負整數總分 s 與差 d。求兩個非負整數分數，大者先輸出；無解輸出 impossible。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n10 3\n2 8\n12 4\n",
+        "expected": "impossible\nimpossible\n8 4\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n0 0\n9 9\n",
+        "expected": "0 0\n9 0\n"
+      }
+    ],
+    "audit_sha256": "5016171629672be0eab29b71942e49eb6171aa26b0d756033e5109126caf95d3"
+  },
+  "10908": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;while(T--){int m,n,q;cin>>m>>n>>q;cout<<m<<\" \"<<n<<\" \"<<q<<\"\\n\";vector<string>a(m);for(auto&s:a)cin>>s;while(q--){int r,c;cin>>r>>c;int best=1;for(int d=1;r-d>=0&&r+d<m&&c-d>=0&&c+d<n;d++){bool ok=true;for(int i=r-d;i<=r+d;i++)for(int j=c-d;j<=c+d;j++)if(a[i][j]!=a[r][c])ok=false;if(!ok)break;best=2*d+1;}cout<<best<<\"\\n\";}}}",
+    "statement": "先讀案例數 T。每例先給 M N Q，再給 M 行、每行 N 個字元的矩形，以及 Q 組查詢 r c，座標從 0 起算，M、N 最多 100。每次求以 (r,c) 為中心、完全在矩形內且所有字元都相同的最大正方形邊長。每例先輸出 M N Q，再依序每行輸出一個查詢答案。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n3 3 2\naaa\naaa\naaa\n1 1\n0 0\n",
+        "expected": "3 3 2\n3\n1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n3 3 1\naaa\naba\naaa\n1 1\n",
+        "expected": "3 3 1\n1\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 1 1\nx\n0 0\n3 5 1\nzzzzz\nzzzzz\nzzzzz\n1 2\n",
+        "expected": "1 1 1\n1\n3 5 1\n3\n"
+      }
+    ],
+    "audit_sha256": "d1297b5d36f6616ed420043ab88ba2e300bc6980eb6782cb1873a49db1d081db"
+  },
+  "10922": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){string s;while(cin>>s&&s!=\"0\"){string v=s;int sum=0;for(char c:v)sum+=c-'0';if(sum%9){cout<<s<<\" is not a multiple of 9.\\n\";continue;}int d=1;while(sum>9){int x=0;while(sum){x+=sum%10;sum/=10;}sum=x;d++;}cout<<s<<\" is a multiple of 9 and has 9-degree \"<<d<<\".\\n\";}}",
+    "statement": "每行給最多 1000 位的正整數字串 N，單獨的 0 結束。判斷是否為 9 的倍數；若是，反覆將各位數相加直到得到 9，計算相加輪數（原值為 9 時程度為 1）。輸出 N is a multiple of 9 and has 9-degree d.；否則輸出 N is not a multiple of 9.。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "9\n18\n99\n0\n",
+        "expected": "9 is a multiple of 9 and has 9-degree 1.\n18 is a multiple of 9 and has 9-degree 1.\n99 is a multiple of 9 and has 9-degree 2.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "10\n999\n0\n",
+        "expected": "10 is not a multiple of 9.\n999 is a multiple of 9 and has 9-degree 2.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "9999999999\n0\n",
+        "expected": "9999999999 is a multiple of 9 and has 9-degree 2.\n"
+      }
+    ],
+    "audit_sha256": "3e761392da0fa5e8ce8d4dd11c62f021f85d87845ba001bc73a5af8bcae5abfc"
+  },
+  "10929": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){string s;while(cin>>s&&s!=\"0\"){int r=0;for(char c:s)r=(r*10+c-'0')%11;cout<<s<<(r?\" is not a multiple of 11.\":\" is a multiple of 11.\")<<\"\\n\";}}",
+    "statement": "逐行讀取最多 1000 位的正整數字串 N，單獨的 0 結束。判斷 N 是否為 11 的倍數，逐行輸出 N is a multiple of 11. 或 N is not a multiple of 11.；保留原輸入數字供輸出，不需要將整個大數存成一般整數。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "11\n121\n123\n0\n",
+        "expected": "11 is a multiple of 11.\n121 is a multiple of 11.\n123 is not a multiple of 11.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "22\n101\n0\n",
+        "expected": "22 is a multiple of 11.\n101 is not a multiple of 11.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "11111111111111111111\n0\n",
+        "expected": "11111111111111111111 is a multiple of 11.\n"
+      }
+    ],
+    "audit_sha256": "6d3f5481f5b9d7b3c0d19ffa3fe864cf56e6f5fb2cf587083f764920c7b55b15"
+  },
+  "10931": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){unsigned n;while(cin>>n&&n){string b;int c=0;while(n){b+=char('0'+n%2);c+=n%2;n/=2;}reverse(b.begin(),b.end());cout<<\"The parity of \"<<b<<\" is \"<<c<<\" (mod 2).\\n\";}}",
+    "statement": "逐行讀正整數到 0 結束。輸出二進位表示與其中 1 的個數，格式為 The parity of B is P (mod 2).；P 保留計數，不先取模。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "10\n0\n",
+        "expected": "The parity of 1010 is 2 (mod 2).\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "7\n1\n0\n",
+        "expected": "The parity of 111 is 3 (mod 2).\nThe parity of 1 is 1 (mod 2).\n"
+      }
+    ],
+    "audit_sha256": "d2bbed36e7f6b7344d0166b400ebf06f52f5d5eb4cde789b352571df7d6d2822"
+  },
+  "11005": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;for(int k=1;k<=T;k++){vector<int>cost(36);for(int&c:cost)cin>>c;int q;cin>>q;if(k>1)cout<<\"\\n\";cout<<\"Case \"<<k<<\":\\n\";while(q--){long long n;cin>>n;int best=INT_MAX;vector<int>bases;for(int b=2;b<=36;b++){long long x=n;int total=0;do{total+=cost[x%b];x/=b;}while(x);if(total<best){best=total;bases.clear();}if(total==best)bases.push_back(b);}cout<<\"Cheapest base(s) for number \"<<n<<\":\";for(int b:bases)cout<<\" \"<<b;cout<<\"\\n\";}}}",
+    "statement": "首行案例數 T。每例先讀 36 個整數成本（依序對應 0–9、A–Z，值為 1 到 128），再讀查詢數 Q 及 Q 個十進位非負整數（最多 2000000000）。在 2 到 36 進位、不補前導零的表示中，找出總字元成本最低的所有進位，0 本身仍需一個數位 0。每例先輸出 Case k:；每個查詢輸出 Cheapest base(s) for number n:，接所有最低成本進位，遞增且各前置一個空格。案例間空一行。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n2\n0\n1\n",
+        "expected": "Case 1:\nCheapest base(s) for number 0: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\nCheapest base(s) for number 1: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n2\n10\n36\n",
+        "expected": "Case 1:\nCheapest base(s) for number 10: 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\nCheapest base(s) for number 36: 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1\n35\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1\n2\n",
+        "expected": "Case 1:\nCheapest base(s) for number 35: 36\n\nCase 2:\nCheapest base(s) for number 2: 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\n"
+      },
+      {
+        "name": "自編測資4",
+        "input": "1\n1 1 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128\n2\n2\n3\n",
+        "expected": "Case 1:\nCheapest base(s) for number 2: 2\nCheapest base(s) for number 3: 2 3\n"
+      }
+    ],
+    "audit_sha256": "aacbdc4ac6222b42500bd016f6e1a60c90f2c83e3aafe0d205e855dfa5b260e9"
+  },
+  "11063": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n,k=0;while(cin>>n){vector<int>a(n);bool ok=true;for(int i=0;i<n;i++){cin>>a[i];if(a[i]<1||(i&&a[i]<=a[i-1]))ok=false;}set<int>s;for(int i=0;i<n;i++)for(int j=i;j<n;j++)if(!s.insert(a[i]+a[j]).second)ok=false;cout<<\"Case #\"<<++k<<\": It is \"<<(ok?\"\":\"not \")<<\"a B2-Sequence.\\n\\n\";}}",
+    "statement": "每組輸入 N（2 到 100）及 N 個整數，讀到 EOF。B2 序列要求所有元素為正且嚴格遞增，並且所有 bi+bj（i≤j）的和互不相同。每組輸出 Case #k: It is a B2-Sequence. 或 Case #k: It is not a B2-Sequence.，每組之後空一行。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n1 2 4\n3\n1 2 3\n",
+        "expected": "Case #1: It is a B2-Sequence.\n\nCase #2: It is not a B2-Sequence.\n\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n0 2\n2\n2 1\n",
+        "expected": "Case #1: It is not a B2-Sequence.\n\nCase #2: It is not a B2-Sequence.\n\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n3 3\n2\n3 8\n",
+        "expected": "Case #1: It is not a B2-Sequence.\n\nCase #2: It is a B2-Sequence.\n\n"
+      }
+    ],
+    "audit_sha256": "e25882044b849155508570a93a10f47b6172116fd337e60e0c777a7bc350b769"
+  },
+  "11150": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;while(cin>>n){int best=n;for(int loan=0;loan<=2;loan++){int empty=n+loan,drank=n;while(empty>=3){int more=empty/3;drank+=more;empty=empty%3+more;}if(empty>=loan)best=max(best,drank);}cout<<best<<\"\\n\";}}",
+    "statement": "每行給最初買到的可樂瓶數 N（1 到 200），讀到 EOF。喝完會留下空瓶，每 3 個空瓶可換 1 瓶可樂；可以借空瓶，但最後必須有足夠空瓶歸還。求最多總共能喝幾瓶，包含原先買的 N 瓶，每組輸出一個整數。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1\n2\n3\n",
+        "expected": "1\n3\n4\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "7\n8\n",
+        "expected": "10\n12\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "199\n200\n",
+        "expected": "298\n300\n"
+      }
+    ],
+    "audit_sha256": "e744d4d0b6444f2179b71dba23093c016b6a260b6e36b6e2cbe283e3fe9ecfb3"
+  },
+  "11321": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n,m;while(cin>>n>>m){cout<<n<<\" \"<<m<<\"\\n\";if(!n&&!m)break;vector<int>a(n);for(int&x:a)cin>>x;sort(a.begin(),a.end(),[&](int x,int y){if(x%m!=y%m)return x%m<y%m;bool a=x%2!=0,b=y%2!=0;if(a!=b)return a;return a?x>y:x<y;});for(int x:a)cout<<x<<\"\\n\";}}",
+    "statement": "每組給 N M（皆為正且最多 10000），接著 N 個 32 位元整數，0 0 結束。依數字除以 M 的餘數遞增排序；負數餘數採 C/C++ 規則，可為負。餘數相同時奇數先於偶數；兩奇數由大到小、兩偶數由小到大。每組先輸出 N M，再每行一個排序後數字，最後也須輸出結束標記 0 0。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "6 3\n1\n2\n3\n4\n5\n6\n0 0\n",
+        "expected": "6 3\n3\n6\n1\n4\n5\n2\n0 0\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "5 3\n-5\n-2\n-3\n0\n3\n0 0\n",
+        "expected": "5 3\n-5\n-2\n3\n-3\n0\n0 0\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "4 1\n2\n1\n-1\n-2\n0 0\n",
+        "expected": "4 1\n1\n-1\n-2\n2\n0 0\n"
+      }
+    ],
+    "audit_sha256": "317ef9d88e3a11b382b38bf6ab0580c3b370ce356cb4f96c9332f96576ac114f"
+  },
+  "11332": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){long long n;while(cin>>n&&n){while(n>=10){long long s=0;while(n){s+=n%10;n/=10;}n=s;}cout<<n<<\"\\n\";}}",
+    "statement": "讀取正整數 n（≤2000000000），反覆把十進位各位數加總直到一位數，逐行輸出。遇 0 結束且不輸出。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "99\n19\n0\n",
+        "expected": "9\n1\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "10\n7\n0\n",
+        "expected": "1\n7\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2000000000\n0\n",
+        "expected": "2\n"
+      }
+    ],
+    "audit_sha256": "85e0d2a4dc84afd192bf48f1e612309ee21b7dec25b99b20eed8b93c83c5e378"
+  },
+  "11349": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T;cin>>T;for(int k=1;k<=T;k++){string s,e;int n;cin>>s>>e>>n;vector<long long>a(n*n);bool ok=true;for(auto&x:a){cin>>x;if(x<0)ok=false;}for(int i=0;i<n*n;i++)if(a[i]!=a[n*n-1-i])ok=false;cout<<\"Test #\"<<k<<\": \"<<(ok?\"Symmetric.\":\"Non-symmetric.\")<<\"\\n\";}}",
+    "statement": "首行案例數 T。每例先讀 N = n，再讀 n×n 個整數，n 最多 100，元素可達 ±2^32。只有當所有元素非負，且每個位置都與矩陣中心旋轉 180 度後對應位置相等，才算對稱；不是沿主對角線對稱。輸出 Test #k: Symmetric. 或 Test #k: Non-symmetric.。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\nN = 2\n1 2\n2 1\nN = 2\n1 2\n2 3\n",
+        "expected": "Test #1: Symmetric.\nTest #2: Non-symmetric.\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\nN = 1\n-1\nN = 1\n0\n",
+        "expected": "Test #1: Non-symmetric.\nTest #2: Symmetric.\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1\nN = 2\n4294967296 0\n0 4294967296\n",
+        "expected": "Test #1: Symmetric.\n"
+      }
+    ],
+    "audit_sha256": "bf72c649269e806f7b8a80a46af6570487be691d2a34f68fb525fe2d9f90d8ca"
+  },
+  "11417": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int n;while(cin>>n&&n){long long s=0;for(int i=1;i<n;i++)for(int j=i+1;j<=n;j++)s+=gcd(i,j);cout<<s<<\"\\n\";}}",
+    "statement": "每行給整數 N（2 到 500），0 結束。對所有 1≤i<j≤N 的整數配對，計算 gcd(i,j) 並加總，每組輸出一個整數。配對不可包含 i=j，也不重複計算反向配對。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "2\n3\n0\n",
+        "expected": "1\n3\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4\n5\n0\n",
+        "expected": "7\n11\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "6\n0\n",
+        "expected": "20\n"
+      }
+    ],
+    "audit_sha256": "b68956f1695183c66d7b7150ab70e89d3d42d2d4dfa375d3767f8d470a3d92e6"
+  },
+  "11461": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int a,b;while(cin>>a>>b&&(a||b)){int ans=0;for(int i=1;i*i<=b;i++)ans+=i*i>=a;cout<<ans<<\"\\n\";}}",
+    "statement": "每組給 a b（1≤a≤b≤100000），0 0 結束。計算閉區間 [a,b] 內有多少個完全平方數，兩端點符合時也要計入，每組輸出一個整數。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "1 1\n2 3\n0 0\n",
+        "expected": "1\n0\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "4 9\n5 8\n0 0\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "1 100000\n0 0\n",
+        "expected": "316\n"
+      }
+    ],
+    "audit_sha256": "6fd6ee23365cef9882992c4b1bc0a5021759ed8aa9b00420442f8bdcecede6d6"
+  },
+  "12019": {
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main(){int T,m,d;cin>>T;int days[]={31,28,31,30,31,30,31,31,30,31,30,31};string names[]={\"Saturday\",\"Sunday\",\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\"};while(T--){cin>>m>>d;int n=d-1;for(int i=0;i<m-1;i++)n+=days[i];cout<<names[n%7]<<\"\\n\";}}",
+    "statement": "首行案例數 T，每例給月份 M 與日期 D，保證是西元 2011 年的合法日期。計算星期幾，每組輸出英文全名 Monday、Tuesday、Wednesday、Thursday、Friday、Saturday 或 Sunday。注意年份固定為 2011，並非今天所在年份。",
+    "tests": [
+      {
+        "name": "自編測資1",
+        "input": "3\n1 1\n1 2\n1 3\n",
+        "expected": "Saturday\nSunday\nMonday\n"
+      },
+      {
+        "name": "自編測資2",
+        "input": "2\n2 28\n3 1\n",
+        "expected": "Monday\nTuesday\n"
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n12 31\n4 4\n",
+        "expected": "Saturday\nMonday\n"
+      }
+    ],
+    "audit_sha256": "f176941e4518c860167c4664f6501ddccfdec77021343e1a5b63114e1286a915"
+  }
+}

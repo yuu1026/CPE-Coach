@@ -1,6 +1,7 @@
 """Compile project-authored reference programs inside the existing Docker judge.
 
-These are maintainer fixtures, never returned by the student UI or model payload.
+These are maintainer fixtures. Audited copies may be shown only when a student
+explicitly requests a complete solution (see coach.answer_policy).
 The fixed expected outputs in cpe49.json were written separately from these programs.
 Run: python tools/validate_cpe49.py (requires docker and cpe-judge:local).
 """

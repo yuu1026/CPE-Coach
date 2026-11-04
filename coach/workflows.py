@@ -73,6 +73,8 @@ def submit(owner, problem, data, parent=None):
         record.save(update_fields=['messages'])
         reply = services.generate_hint(record.messages, record.hint_level)
         record.answer = str(reply)
+        if getattr(reply, 'source', '') == 'reference':
+            record.mode, record.model = 'reference', '題庫參考解答（未呼叫模型）'
         record.status = 'partial' if getattr(reply, 'truncated', False) else 'done'
         omitted = getattr(reply, 'omitted_history_turns', 0)
         if omitted:
