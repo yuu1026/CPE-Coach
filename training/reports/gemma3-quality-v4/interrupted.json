@@ -1,0 +1,6 @@
+{
+  "complete": false,
+  "adapter_saved": false,
+  "decision": "not a deployable candidate",
+  "reason": "Full-layer experiment interrupted; resumed with last-eight-layer candidate v5 and periodic adapter snapshots. No complete v4 quality result exists."
+}

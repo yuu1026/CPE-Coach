@@ -1,0 +1,10 @@
+{
+  "decision": "rejected at dev; not enabled",
+  "rule_passed_base": 6,
+  "rule_passed_adapter": 5,
+  "total": 9,
+  "self_review_mean_base": 1.3333333333333333,
+  "self_review_mean_adapter": 0.8888888888888888,
+  "final_test_executed": false,
+  "reason": "critical factual and relevance errors; loss reduction did not improve semantic tutoring quality"
+}

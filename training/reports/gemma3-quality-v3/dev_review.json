@@ -1,0 +1,86 @@
+{
+  "review_kind": "GPT/Codex self-review of every dev output against audited mutations and expected behavior",
+  "independent_teacher_review": false,
+  "cases": [
+    {
+      "id": "quality-uva118-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 0,
+      "adapter_critical_errors": [
+        "原始回覆捏造 F 未處理與非法氣味座標；候選將 R 說成左轉，未定位缺少氣味檢查。"
+      ],
+      "rationale": "原始回覆捏造 F 未處理與非法氣味座標；候選將 R 說成左轉，未定位缺少氣味檢查。"
+    },
+    {
+      "id": "quality-uva490-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "兩者都未定位底線填補，且錯誤解釋 j<size 在空字串時的行為。"
+      ],
+      "rationale": "兩者都未定位底線填補，且錯誤解釋 j<size 在空字串時的行為。"
+    },
+    {
+      "id": "quality-uva10062-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "原始錯誤歸因頻率累加；候選改談排序且把同頻 ASCII 規則說反；實際是空格被排除。"
+      ],
+      "rationale": "原始錯誤歸因頻率累加；候選改談排序且把同頻 ASCII 規則說反；實際是空格被排除。"
+    },
+    {
+      "id": "quality-uva10221-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "都未指出 min 角分應除以60；候選歸因輸出精度，原始對半徑與弧度說法矛盾。"
+      ],
+      "rationale": "都未指出 min 角分應除以60；候選歸因輸出精度，原始對半徑與弧度說法矛盾。"
+    },
+    {
+      "id": "quality-uva10226-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "原始誤解 getline；候選歸因百分比，但實際數值一致，只缺案例間空行。"
+      ],
+      "rationale": "原始誤解 getline；候選歸因百分比，但實際數值一致，只缺案例間空行。"
+    },
+    {
+      "id": "quality-uva11321-heldout-bug",
+      "base_score": 2,
+      "adapter_score": 2,
+      "adapter_critical_errors": [],
+      "rationale": "都只提出籠統排序檢查；實際是同餘數奇數分支應遞減，未具體說明。"
+    },
+    {
+      "id": "quality-uva11349-heldout-bug",
+      "base_score": 3,
+      "adapter_score": 0,
+      "adapter_critical_errors": [
+        "原始有指出中心旋轉索引但未解釋轉置差異；候選把轉置當180度旋轉，且建議整數容差。"
+      ],
+      "rationale": "原始有指出中心旋轉索引但未解釋轉置差異；候選把轉置當180度旋轉，且建議整數容差。"
+    },
+    {
+      "id": "quality-uva0-dev-next-step",
+      "base_score": 0,
+      "adapter_score": 0,
+      "adapter_critical_errors": [
+        "原始給無關 upper_bound 條件；候選給完整 main 且仍用 int 乘法，未回答型別提升。"
+      ],
+      "rationale": "原始給無關 upper_bound 條件；候選給完整 main 且仍用 int 乘法，未回答型別提升。"
+    },
+    {
+      "id": "quality-uva0-dev-no-evidence",
+      "base_score": 2,
+      "adapter_score": 2,
+      "adapter_critical_errors": [],
+      "rationale": "沒有捏造測試通過，但未直接回答是否可保證 AC，仍反覆追問輸入輸出。"
+    }
+  ],
+  "mean_base": 1.3333333333333333,
+  "mean_adapter": 0.8888888888888888,
+  "limitations": "Some initial v3 keyword rubrics were broad or mismatched to mutation focus. They are not accuracy; corrected in v4. Semantic scores are self-assessment, not independent teacher validation."
+}

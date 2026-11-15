@@ -1,0 +1,296 @@
+{
+  "100": {
+    "statement_sha256": "fb9f80b9cf13e7c1e7b09e64c3a9c4ec610499cee66be8a089a7ac765e4a455c",
+    "notes": "週期長度包含起始數與最後的 1；走訪上下界可排序，但輸出保留原輸入端點的順序。",
+    "source": "https://onlinejudge.org/external/1/100.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "118": {
+    "statement_sha256": "b7ac7cfc61307a1b120d6863a57fa1cc07205f1f2546bf3bc83282e274a58b9a",
+    "notes": "F 是向目前朝向前進一格；R 是右轉 90 度；L 是左轉 90 度，轉向本身不移動。氣味記在最後一個合法座標，不包含朝向。已有氣味的位置再次收到會越界的 F 時，只忽略那一個 F，仍繼續後續指令；首次失蹤才停止該機器人剩餘指令。",
+    "source": "https://onlinejudge.org/external/1/118.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "272": {
+    "statement_sha256": "6182bbf23eab6437f3e80ed00493b5a93524ebf7b791ae0fd0c217152ccefc33",
+    "notes": "雙引號交替轉為兩個反引號與兩個單引號；交替狀態跨行保留，其他字元及換行原樣輸出。",
+    "source": "https://onlinejudge.org/external/2/272.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "299": {
+    "statement_sha256": "041558c8380a3479726148dda08814176c490166dbe1c0254f305146783e136b",
+    "notes": "相鄰交換的最少次數等於逆序對數；只計算前項嚴格大於後項的配對，相等不算。",
+    "source": "https://onlinejudge.org/external/2/299.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "490": {
+    "statement_sha256": "2b2b97a3a0e82fb432054051b7a65097c911ab34142806c7a42967e9360a99a5",
+    "notes": "順時針旋轉時，原始各行由最後一行到第一行取字元；短行沒有字元的位置補空格，不能補底線或直接跳過。",
+    "source": "https://onlinejudge.org/external/4/490.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "948": {
+    "statement_sha256": "75535b4e12ee3696fb8ee5b058cea5e6b1c23eb653d74dd5f5a75d50be19ad61",
+    "notes": "費氏進位的位權由 1、2 開始，每項是前兩項的和；剩餘值等於位權時可以選取該位。輸出依題目格式包含原十進位值與 fib 標記。",
+    "source": "https://onlinejudge.org/external/9/948.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10008": {
+    "statement_sha256": "b384444652f9e4f2692c3eda8717d62dc283c8ef6ae460beab14c4205e009572",
+    "notes": "大小寫字母合併統計；先依次數遞減，同次數依字母遞增；非英文字母不計入。",
+    "source": "https://onlinejudge.org/external/100/p10008.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10019": {
+    "statement_sha256": "47410a754550654c42ed0e61453e39a7b9a7197ce32e5df250ca697e2948ddeb",
+    "notes": "同一串數字分別按十進位與十六進位解讀，再各自計算二進位中的 1 個數。",
+    "source": "https://onlinejudge.org/external/100/10019.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10035": {
+    "statement_sha256": "4626ce1df85e070cbf3d793593856b7c06d992759a3405452d4467e7dba68b27",
+    "notes": "每個十進位位置最多算一次進位；上一位的進位會加入下一位。0 0 是終止標記，不產生結果。",
+    "source": "https://onlinejudge.org/external/100/10035.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10038": {
+    "statement_sha256": "8ed58637330eb2f4736cd88dfb3ef17521906b7c406ac2421debbf18a127e1a7",
+    "notes": "只看相鄰元素差的絕對值，必須恰好覆蓋 1 到 n-1；n=1 沒有差值也符合。",
+    "source": "https://onlinejudge.org/external/100/10038.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10041": {
+    "statement_sha256": "af2e6d5158a9f96b41e240714db1a952ddf933b18ab1c91865018c7468b468fa",
+    "notes": "目標是最小化距離總和，中位數可作聚會位置；輸出是距離總和，不是中位數地址。",
+    "source": "https://onlinejudge.org/external/100/10041.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10050": {
+    "statement_sha256": "9059ae7e0af55e577dadb455223862b54b68f61e56057958b6b32378fb601aa9",
+    "notes": "第 1 天是星期日，第 6 天與第 7 天休息；之後每週同樣排除。不同政黨重複標記的罷工日只計一次。",
+    "source": "https://onlinejudge.org/external/100/10050.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10055": {
+    "statement_sha256": "b4875864e31c6b7d1fbaee8cabe236ac39b40beb15ddb136fc2cdc82c2c2b986",
+    "notes": "輸入可達 2^32，32 位元有號 int 無法容納；輸出兩數差的絕對值，交換輸入順序不能改變距離。",
+    "source": "https://onlinejudge.org/external/100/10055.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10056": {
+    "statement_sha256": "6b0c112608734f2c7e6ef3d5a643763cfd9a9095ff580c94ec4c2e4c37405950",
+    "notes": "輪到第 I 位玩家前有 I-1 次失敗；一整輪有 N 次嘗試，不是 N+1；成功機率 p=0 時結果為 0。",
+    "source": "https://onlinejudge.org/external/100/10056.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10057": {
+    "statement_sha256": "e2feb6a5095a40c664c45d56d6ec799403c7820900d7944bf5f0b2c0856dd72a",
+    "notes": "偶數筆資料時，中間兩個值之間都可最小化距離。第一欄取下中位數，第二欄計原資料落在兩中位數閉區間的筆數，第三欄計該閉區間的整數個數。",
+    "source": "https://onlinejudge.org/external/100/10057.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10062": {
+    "statement_sha256": "422dd72790b7211f513120e71d8cc5f37668d886b792e784d2db8c1871597b3a",
+    "notes": "每一行獨立統計字元，依次數遞增；次數相同時 ASCII 較大的字元先輸出。不同輸入行的結果之間有空行。",
+    "source": "https://onlinejudge.org/external/100/10062.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10071": {
+    "statement_sha256": "e90646f8e164648e73dd784fc8ccc99b24e72491195c2b00e1bacb0525f3175c",
+    "notes": "題目在等加速度且從靜止開始的條件下，已知 t 時的速度 v，要求 2t 時的位移；時間範圍不能誤看成只有 t。",
+    "source": "https://onlinejudge.org/external/100/10071.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10093": {
+    "statement_sha256": "413639314dc06b1b041b057179ac0c7af2cb0c553285a826ad7318bf9081d855",
+    "notes": "候選進位介於 2 到 62，必須大於所有數位的值；判斷可用數位和是否能被進位減一整除，符號不是數位。",
+    "source": "https://onlinejudge.org/external/100/10093.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10101": {
+    "statement_sha256": "4e096f5eedaac955b0dfeb1e89c0901234dd481fd6dd40f211ea8cb1ad20b6eb",
+    "notes": "單位依序包含 shata、hajar、lakh、kuti，大數可能再次出現 kuti；案例編號與空白格式須保留，零不能輸出空字串。",
+    "source": "https://onlinejudge.org/external/101/10101.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10170": {
+    "statement_sha256": "263b67392aa185e8e4895469f1edc71f8cc90540fb1e4bfee54d69afdac4474d",
+    "notes": "第一團人數 S 也住 S 天；後面每團人數與入住天數都增加一。D 是自第一天起算，累計天數剛好等於 D 仍屬於該團。",
+    "source": "https://onlinejudge.org/external/101/10170.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10189": {
+    "statement_sha256": "5430e340aa134e7ac9ed0bac8ddd34290eb6c695269c8279b22d5cb02a2b02ee",
+    "notes": "非地雷格計算周圍八個位置，不計自己；必須先檢查列欄邊界。0 0 結束，多張地圖的標題與空行依規定輸出。",
+    "source": "https://onlinejudge.org/external/101/10189.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10190": {
+    "statement_sha256": "b0ddcb910adda328ded45f97b69c79a508817fdcc3efaab8b224d415b99e744d",
+    "notes": "除數必須大於 1；每一步都要能整除，最後到 1；不能只看第一次整除就認定整個序列有效。",
+    "source": "https://onlinejudge.org/external/101/10190.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10193": {
+    "statement_sha256": "c1b318603d089e101f7a2075be2e9bb2688de7f78089cff0a56adc4cd190c08e",
+    "notes": "兩個輸入字串代表二進位數；判斷最大公因數是否大於 1，不能按十進位解析字串。",
+    "source": "https://onlinejudge.org/external/101/10193.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10221": {
+    "statement_sha256": "d768457c25e597e91a244c8ebe9ebd3f5898738f5cd5dd74621d535aef509241",
+    "notes": "地球半徑採題目指定 6440，再加高度；min 表示角分，需除以 60 變角度；超過 180 度取較小夾角，計算三角函數前轉弧度。",
+    "source": "https://onlinejudge.org/external/102/10221.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10222": {
+    "statement_sha256": "1a944b377f25ec56d381c4593a80319b67d8e61a65dff75fbe94725d8967996d",
+    "notes": "依鍵盤排列將字元對應到左方兩格；空白及換行是資料，不能用空白分隔讀取而遺失。",
+    "source": "https://onlinejudge.org/external/102/10222.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10226": {
+    "statement_sha256": "0a6d49fd8d76567de8c4ceeaf885c4a424bd21534ac769c8f9b921f48bc2930b",
+    "notes": "每一整行是一個完整樹名，名稱中可能有空格；空行分隔案例。依名稱排序，百分比以該案例總棵數為分母並輸出四位小數。",
+    "source": "https://onlinejudge.org/external/102/10226.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10235": {
+    "statement_sha256": "fc9f2630fa28944358aea100133b97c68cf89f9adee768db0ae8249a3df62d5e",
+    "notes": "emirp 必須原數與反轉數都是質數，且反轉後不是原數；回文質數只算一般質數。",
+    "source": "https://onlinejudge.org/external/102/10235.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10242": {
+    "statement_sha256": "7f0234c089968a9d1c6a6a65affe68acff050bfd83b5b0b18837ea72340d63d8",
+    "notes": "輸入四個端點中有一個共同端點重複；缺少的點等於另外兩個不重複端點相加，再減去共同端點。",
+    "source": "https://onlinejudge.org/external/102/10242.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10252": {
+    "statement_sha256": "5a28a313e3e91436bb5bacc0b6dd554b691c52c2cba5a951fb50f86005841baa",
+    "notes": "共同字元的每種數量取兩字串出現次數的較小者，不能只作集合交集；最後依字母順序輸出。",
+    "source": "https://onlinejudge.org/external/102/10252.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10268": {
+    "statement_sha256": "dd23a7190ea336d11b690dfdd1c65ef247c8dbe6b10383a8ffe4d5093c1b98a4",
+    "notes": "係數依次方遞減輸入；求的是導數在 x 的值，不是原多項式；常數項的導數為零。",
+    "source": "https://onlinejudge.org/external/102/10268.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10409": {
+    "statement_sha256": "de9a2596e9f7634d387821f6fc5bb7cc1a0d01e7cbf334f454c23408a5146d91",
+    "notes": "每組初始上面 1、北面 2、西面 3；向一個方向滾動是四個相關面的輪換，不改變各面數字。",
+    "source": "https://onlinejudge.org/external/104/10409.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10415": {
+    "statement_sha256": "4c9d09d1853ec0d96cb2a01f113b12d9a86a77a084ba25dd39177b81f14b7961",
+    "notes": "只計從未按住變成按住的手指；連續相同音符不重複新增按下次數。大寫 B 的指法包含第 1、2 指；每首歌重設狀態。",
+    "source": "https://onlinejudge.org/external/104/10415.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10420": {
+    "statement_sha256": "24bebc9da8059e9783f451cbf166193af214a6550798412c21c53a40408733d7",
+    "notes": "每行第一個單字才是國家，後面是姓名；同國家紀錄要累加，結果按國家名稱排序。",
+    "source": "https://onlinejudge.org/external/104/10420.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10642": {
+    "statement_sha256": "253bab41be4a46268a42ebc5dcc629e35026731215c2a06753952bdc6840f63f",
+    "notes": "路徑是單向的；同一條對角線的座標順序不能顛倒，終點步序減起點步序才是所求距離。",
+    "source": "https://onlinejudge.org/external/106/10642.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10783": {
+    "statement_sha256": "f8fd0b9855768b3bdb5d0176624f30742ca768c50e503f1f23723b6d92345ccd",
+    "notes": "計算閉區間兩端之間所有奇數的總和，輸出帶案例編號。",
+    "source": "https://onlinejudge.org/external/107/10783.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10812": {
+    "statement_sha256": "7737168b6b9a91103bff7d4f6293a1d80857924a6bc05468bc33a1939afa7bf4",
+    "notes": "總分不小於分差，且兩者同奇偶時，才能對應兩個非負整數分數；不合法時按題目輸出 impossible。",
+    "source": "https://onlinejudge.org/external/108/10812.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10908": {
+    "statement_sha256": "1cc0271dc67ff1adb2fb0c3b3d408e680099cc3dbdfa4e20af4d971f8054e6c0",
+    "notes": "查詢座標是正方形中心，搜尋的正方形邊長是奇數；所有格子都要與中心相同，且整個範圍不可越界。",
+    "source": "https://onlinejudge.org/external/109/10908.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10922": {
+    "statement_sha256": "71724efe237b134e09657c38aaa72693fb469b34d90789fbcbabe24cc74e884e",
+    "notes": "先作各位數加總，能被 9 整除才是倍數；9-degree 計算反覆加總直到 9 的次數，0 為結束標記。",
+    "source": "https://onlinejudge.org/external/109/10922.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10929": {
+    "statement_sha256": "402b3cc0eb078e52af048905a24abbebffeb369c7f4d3837dd2ab75d5b5c15af",
+    "notes": "輸入可能超過一般整數範圍，可逐字處理並保留原字串供輸出；判斷 11 的倍數，不應直接轉為 int。",
+    "source": "https://onlinejudge.org/external/109/10929.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "10931": {
+    "statement_sha256": "b6085c85727f6bae10586cd4b20652babc8740caeffc7be3eb8e7e056d77e565",
+    "notes": "輸出不帶前導零的二進位表示，並計算其中 1 的數量；輸入 0 結束。",
+    "source": "https://onlinejudge.org/external/109/10931.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11005": {
+    "statement_sha256": "4f42d279739fbea0d7af726986b263a2f3ee2c0f8a31b7e8d9ead25c51d90c8c",
+    "notes": "每個進位的成本是該表示中所有數位成本的總和；零也使用數位 0，需要計入其成本；列出所有並列最低成本的進位。",
+    "source": "https://onlinejudge.org/external/110/11005.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11063": {
+    "statement_sha256": "bdd6c25f0e50525b74d7167a63d1cac6cee4dab755d724b221df51a75aef9589",
+    "notes": "數列必須為正且嚴格遞增；檢查所有 i<=j 的配對和都不同，包含同一元素與自己相加。",
+    "source": "https://onlinejudge.org/external/110/11063.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11150": {
+    "statement_sha256": "b784dbc6d8a79f31d58dc88705dbddca7f4551da7709e9943384c6f7feb9d23d",
+    "notes": "原本喝掉的與兌換的可樂都算總量；借空瓶的策略只有在最後能還清時才有效。",
+    "source": "https://onlinejudge.org/external/111/11150.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11321": {
+    "statement_sha256": "a568b0bdf49259c8c7066fe75091031b11740f9b88bfef086d2e8a25cf14e121",
+    "notes": "先比較 C++ 的有號餘數，負數餘數不能自行改成正值；同餘數時奇數在前，奇數遞減、偶數遞增；最後的 0 0 也須輸出。",
+    "source": "https://onlinejudge.org/external/113/11321.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11332": {
+    "statement_sha256": "a7ae1db5e6e2bd10d6012811414c93cff15ec6b1651b632fd14132ef9658d10d",
+    "notes": "一次數位和可能仍有兩位以上，需繼續加總直到一位數；輸入 0 結束。",
+    "source": "https://onlinejudge.org/external/113/11332.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11349": {
+    "statement_sha256": "6b0e7016061dc631494087625cf266a57a517d23bbbbe323b130bf93c6555e81",
+    "notes": "必須同時滿足所有元素非負及中心對稱。中心對稱是 a[i][j] 對 a[n-1-i][n-1-j]，不是對 a[j][i]；一維索引 k 對 n*n-1-k。",
+    "source": "https://onlinejudge.org/external/113/11349.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11417": {
+    "statement_sha256": "281e383c8e12c00bd9a26eed0d8a0caeea6ecc9a716a6195e23ee112d45e82fd",
+    "notes": "每對 1<=i<j<=N 的不同整數只計算一次 gcd；不包含 i=j，也不重複計算順序互換的配對。",
+    "source": "https://onlinejudge.org/external/114/11417.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "11461": {
+    "statement_sha256": "06f57fdd8ac67491f7c18c78c01657a71c8cce19e7b3233edd27ded1607bdd8f",
+    "notes": "完全平方數必須落在包含兩端的區間內；0 0 結束。",
+    "source": "https://onlinejudge.org/external/114/11461.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  },
+  "12019": {
+    "statement_sha256": "8d0ed72220cdeb366b0a2a05c63858c0e51b3c7aa3e1a9c918a8f4f17e2130bc",
+    "notes": "年份固定為 2011，該年不是閏年；2011 年 1 月 1 日是星期六，不使用目前年份或目前日期計算。",
+    "source": "https://onlinejudge.org/external/120/12019.pdf",
+    "provenance": "project-curated problem facts; not an execution verdict or independent teacher review"
+  }
+}

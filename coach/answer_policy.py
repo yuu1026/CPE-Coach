@@ -19,6 +19,18 @@ def references():
     path = settings.BASE_DIR / 'data' / 'cpe49-solutions.json'
     return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
 
+@lru_cache(maxsize=1)
+def topic_notes():
+    path=settings.BASE_DIR/'data/cpe-learning-notes.json'
+    return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+
+def learning_notes_for(problem):
+    match=re.match(r'UVa\s+(\d+)\b',getattr(problem,'title',''),re.I)
+    item=topic_notes().get(match.group(1)) if match else None
+    if item and item['statement_sha256']==hashlib.sha256(problem.statement.encode()).hexdigest():
+        return item['notes']
+    return None
+
 def reference_for(problem):
     match = re.match(r'UVa\s+(\d+)\b', getattr(problem, 'title', ''), re.I)
     if not match:
