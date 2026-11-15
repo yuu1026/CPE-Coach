@@ -11,6 +11,19 @@ from .services import build_messages, generate_hint, HintError
 
 
 class ReplyQualityTests(TestCase):
+    @override_settings(HINT_MODE='live')
+    def test_hint_and_solution_have_separate_generation_budgets(self):
+        calls=[]
+        def handler(request):
+            calls.append(json.loads(request.content))
+            return httpx.Response(200,json={'done':True,'message':{'content':'請先理解目前的運算方式。'}})
+        original=httpx.Client
+        with patch('coach.services.httpx.Client',side_effect=lambda **kw:original(transport=httpx.MockTransport(handler),**kw)):
+            for mode in ['tutor','solution']:
+                messages=[{'role':'system','content':'規則'},{'role':'user','content':json.dumps({'response_mode':mode,'code':'','question':'解釋這一步'})}]
+                generate_hint(messages,1)
+        self.assertEqual([c['options']['num_predict'] for c in calls],[384,1024])
+
     def test_code_language_guard_accepts_cpp_and_literal_test_output(self):
         self.assertFalse(non_cpp_code('局部修正：\n```cpp\nstd::cout << sum << "\\n";\n```'))
         self.assertFalse(non_cpp_code('預期輸出：\n```text\nprint(example)\n```'))
@@ -43,9 +56,9 @@ class ReplyQualityTests(TestCase):
         return json.loads((Path(settings.BASE_DIR) / 'data/cpe49.json').read_text(encoding='utf-8'))
 
     def test_explicit_answers_and_negations_are_distinct(self):
-        for question in ['給我正確答案', '請提供完整程式碼', '正確答案是什麼？', '不要繞圈，直接給我答案', 'Show me the complete solution']:
+        for question in ['給我正確答案', '請提供完整程式碼', '正確答案是什麼？', '不要繞圈，直接給我答案', '直接給我修正過的程式', '請提供修改後的程式碼', 'Show me the complete solution']:
             self.assertTrue(requests_solution(question), question)
-        for question in ['不要直接給我答案', '不需要完整解答', '我的答案為什麼不對？', '請幫我找錯誤', "Do not give me the complete solution"]:
+        for question in ['不要直接給我答案', '不需要完整解答', '不要給我修正過的程式', '我的答案為什麼不對？', '請幫我找錯誤', "Do not give me the complete solution"]:
             self.assertFalse(requests_solution(question), question)
 
     def test_traditional_prose_does_not_change_code_or_literal_outputs(self):

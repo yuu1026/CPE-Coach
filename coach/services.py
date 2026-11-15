@@ -8,7 +8,7 @@ from .code_format import format_cpp_blocks
 from .diagnostics import lookup as lookup_diagnostic, direct_hint
 from .model_prompt import readable_messages
 
-PROMPT_VERSION = 'cpe-tutor-v11'
+PROMPT_VERSION = 'cpe-tutor-v12'
 
 class HintError(Exception):
     pass
@@ -114,8 +114,12 @@ def _generate_once(messages, level):
         raise HintError('HINT_MODE 必須為 demo 或 live。')
     headers = {'X-API-Key': settings.OLLAMA_GATEWAY_API_KEY} if settings.OLLAMA_GATEWAY_API_KEY else {}
     try:
+        full_solution=json.loads(messages[-1]['content']).get('response_mode')=='solution'
+    except (ValueError,KeyError,TypeError,IndexError,AttributeError):
+        full_solution=False
+    try:
         with httpx.Client(trust_env=False, follow_redirects=False, timeout=120) as client:
-            with client.stream('POST', settings.MODEL_URL + '/api/chat', headers=headers, json={'model': settings.MODEL_NAME, 'messages': readable_messages(messages), 'stream': False, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': 1024}}) as response:
+            with client.stream('POST', settings.MODEL_URL + '/api/chat', headers=headers, json={'model': settings.MODEL_NAME, 'messages': readable_messages(messages), 'stream': False, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': 1024 if full_solution else 384}}) as response:
                 body = bytearray()
                 for chunk in response.iter_bytes():
                     body.extend(chunk)

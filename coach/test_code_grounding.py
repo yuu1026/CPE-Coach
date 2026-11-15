@@ -25,7 +25,7 @@ class CodeGroundingTests(SimpleTestCase):
 
     def test_full_solution_with_existing_code_does_not_shortcut_to_reference(self):
         with patch('coach.services.reference_for') as reference:
-            messages=self.messages('請給我完整程式碼，保留我的 total 與 k 寫法')
+            messages=self.messages('直接給我修正過的程式')
         reference.assert_not_called()
         payload=json.loads(messages[-1]['content'])
         self.assertEqual(payload['response_mode'],'solution')

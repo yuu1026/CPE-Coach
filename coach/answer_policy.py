@@ -7,10 +7,13 @@ from .code_format import format_cpp
 
 def requests_solution(question):
     text = re.sub(r'\s+', '', question)
+    if re.search(r'(不要|不想|不用|別|先不|不需要)(直接)?(給我|给我|提供|貼出|贴出|顯示|显示)?(修正|修改|改好|修好|修復|修复|更正)(過|过|好|後|后)?的?(程式碼?|代码|代碼)',text):
+        return False
     # A student may discuss wrong answers without requesting a solution.
     if re.search(r'(不要|不想|不用|別|先不|不需要)(直接|再|先)?(給我|给我|提供|顯示|显示|告訴我|告诉我|給|给|看)?(完整|正確|正确)?(答案|解答|解法|程式|代码|代碼)', text) or re.search(r"\b(don't|do not)\s+(give|show|provide)\b", question, re.I):
         return False
     return bool(re.search(r'(給我|提供|顯示|显示|告訴我|告诉我|我要|想看|想要|直接給|直接给|請給|请给).{0,12}(答案|解答|完整解法|完整程式|完整代码|完整代碼|完整代码)', text)
+        or re.search(r'(給我|给我|提供|貼出|贴出|顯示|显示|我要|想要|請給|请给).{0,6}(修正|修改|改好|修好|修復|修复|更正)(過|过|好|後|后)?的?(程式碼?|代码|代碼)',text)
         or re.search(r'(正確答案|正确答案|完整解答|完整解法|完整程式碼)(是什麼|是什么|怎麼寫|怎么写|如何寫|如何写|[？?]|$)', text)
         or re.search(r'\b(show|give|provide)\s+(me\s+)?(the\s+)?(full|complete|correct)\s+(answer|solution|code)\b', question, re.I))
 
