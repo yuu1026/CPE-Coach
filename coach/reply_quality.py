@@ -1,4 +1,5 @@
 """Language and repetition checks on prose, preserving code and output literals."""
+import json
 import re
 from difflib import SequenceMatcher
 from functools import lru_cache
@@ -41,7 +42,7 @@ def prose_only(text):
     map_prose(text, lambda part: collected.append(part) or '')
     return ''.join(collected)
 
-def quality_issue(answer, messages):
+def quality_issue(answer, messages, *, check_grounding=True):
     if non_cpp_code(answer):
         return 'code_language'
     prose = prose_only(answer)
@@ -57,7 +58,35 @@ def quality_issue(answer, messages):
     sentences = [s.strip() for s in re.split(r'[。！？\n]', prose) if len(s.strip()) >= 12]
     if len(sentences) >= 3 and len(set(sentences)) <= len(sentences) // 2:
         return 'repetition'
+    if check_grounding and missing_code_anchor(answer,messages):
+        return 'code_grounding'
     return None
+
+
+def missing_code_anchor(answer,messages):
+    """Enforce a source quotation, NOT a semantic correctness verdict.
+
+    Whitespace may differ after clang-format. An anchor must contain at least
+    four non-space characters and occur in the *current* code, never history.
+    This intentionally does not claim that the diagnosis or patch is correct.
+    """
+    try:
+        payload=json.loads(messages[-1]['content'])
+    except (ValueError,KeyError,TypeError,IndexError):
+        return False
+    code=payload.get('code','') if isinstance(payload,dict) else ''
+    if not isinstance(code,str) or not code.strip():return False
+    compact=lambda text: re.sub(r'\s+','',text)
+    current=compact(code)
+    # Require an original expression/statement; standard boilerplate alone
+    # should not let a completely unrelated solution satisfy the contract.
+    boilerplate={'intmain(){','return0;','usingnamespacestd;','#include<iostream>','std::','main()','cout','cin','int','long','return'}
+    candidates=re.findall(r'(?<!`)`([^`\n]+)`(?!`)',answer)
+    for block in re.findall(r'```(?:cpp|c\+\+|cxx|cc)?\s*\n(.*?)```',answer,re.S|re.I):
+        candidates.extend(block.splitlines())
+    return not any(len(fragment)>=4 and fragment not in boilerplate and
+                   re.search(r'[A-Za-z_]',fragment) and fragment in current
+                   for fragment in map(compact,candidates))
 
 
 def non_cpp_code(answer):

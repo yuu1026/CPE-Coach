@@ -1,0 +1,55 @@
+{
+  "prompt_version": "cpe-tutor-v11",
+  "model": "Gemma 3 4B IT base, NF4",
+  "scope": "Three authored smoke cases, no independent grading, no student code execution, no quality-rate claim. App pipeline with direct model inference instead of HTTP.",
+  "results": [
+    {
+      "id": "loop-bound",
+      "code": "#include <vector>\nint sum(const std::vector<int>& nums) { int total=0; for(int pos=0;pos<=nums.size();++pos) total+=nums[pos]; return total; }",
+      "question": "我的 total 累加有時會當掉，請針對我的程式找出原因，局部怎麼改？",
+      "attempts": [
+        {
+          "answer": "你的 `total` 累加器可能因為迴圈條件錯誤而導致當掉。\n觀察你的 `for` 迴圈，`pos` 的更新條件是 `pos <= nums.size()`。\n這表示迴圈會一直執行直到 `pos` 大於 `nums.size()`，也就是迴圈會嘗試訪問超出陣列範圍的索引，造成程式崩潰。\n你需要將迴圈條件改成 `pos < nums.size()`，這樣迴圈才能正確地迭代陣列中的所有元素。\n請修改迴圈條件，並確認程式是否能正常執行。\n",
+          "finish_reason": "stop"
+        }
+      ],
+      "result": {
+        "status": "returned",
+        "answer": "你的 `total` 累加器可能因為迴圈條件錯誤而導致當掉。\n觀察你的 `for` 迴圈，`pos` 的更新條件是 `pos <= nums.size()`。\n這表示迴圈會一直執行直到 `pos` 大於 `nums.size()`，也就是迴圈會嘗試訪問超出陣列範圍的索引，造成程式崩潰。\n你需要將迴圈條件改成 `pos < nums.size()`，這樣迴圈才能正確地迭代陣列中的所有元素。\n請修改迴圈條件，並確認程式是否能正常執行。\n",
+        "truncated": false
+      }
+    },
+    {
+      "id": "integer-average",
+      "code": "double average(int a,int b,int c) { double result=(a+b+c)/3; return result; }",
+      "question": "為什麼我的 result 沒有小數？請沿用原本的變數與函式，只指出最小修正。",
+      "attempts": [
+        {
+          "answer": "你的 `result` 的計算方式是將 `a + b + c` 的結果除以 3，這會自動向下取整，導致結果沒有小數。要得到小數表示，你需要將 `a + b + c` 的結果四捨五入到小數部分。\n\n```cpp\ndouble average(int a, int b, int c) {\n    double result = (double)(a + b + c) / 3;\n    return result;\n}\n```\n",
+          "finish_reason": "stop"
+        }
+      ],
+      "result": {
+        "status": "returned",
+        "answer": "你的 `result` 的計算方式是將 `a + b + c` 的結果除以 3，這會自動向下取整，導致結果沒有小數。要得到小數表示，你需要將 `a + b + c` 的結果四捨五入到小數部分。\n\n```cpp\ndouble average(int a, int b, int c) {\n    double result = (double)(a + b + c) / 3;\n    return result;\n}\n```",
+        "truncated": false
+      }
+    },
+    {
+      "id": "multiplication-promotion",
+      "code": "long long multiply(int left,int right) { long long product=left*right; return product; }",
+      "question": "product 已經是 long long，為什麼 left=50000、right=50000 還是不對？請在我的寫法上改。",
+      "attempts": [
+        {
+          "answer": "`product` 已經是 `long long` 型別，但如果 `left` 和 `right` 的值過大，即使 `product` 是 `long long` 也可能溢出。對於 `left = 50000` 和 `right = 50000` 這樣的輸入，計算 `left * right` 的結果可能會超出 `long long` 能表示的範圍，導致結果不正確。\n\n為了避免溢出，可以使用更寬的型別來儲存乘積，例如 `unsigned long long` 或 `long double`。或者，在計算之前檢查是否會發生溢出。\n\n以下是在你的程式碼上的修改建議：\n\n```cpp\n#include <iostream>\n\nlong long multiply(int left, int right) {\n    long long product = static_cast<long long>(left) * static_cast<long long>(right);\n    return product;\n}\n```\n\n我將 `left` 和 `right` 都轉換為 `long long` 類型，然後進行乘法操作。這樣可以確保乘法操作在更大的範圍內進行，從而減少溢出的可能性。\n",
+          "finish_reason": "stop"
+        }
+      ],
+      "result": {
+        "status": "returned",
+        "answer": "`product` 已經是 `long long` 型別，但如果 `left` 和 `right` 的值過大，即使 `product` 是 `long long` 也可能溢位。對於 `left = 50000` 和 `right = 50000` 這樣的輸入，計算 `left * right` 的結果可能會超出 `long long` 能表示的範圍，導致結果不正確。\n\n為了避免溢位，可以使用更寬的型別來儲存乘積，例如 `unsigned long long` 或 `long double`。或者，在計算之前檢查是否會發生溢位。\n\n以下是在你的程式碼上的修改建議：\n\n```cpp\n#include <iostream>\n\nlong long multiply(int left, int right) {\n    long long product = static_cast<long long>(left) * static_cast<long long>(right);\n    return product;\n}\n```\n我將 `left` 和 `right` 都轉換為 `long long` 型別，然後進行乘法操作。這樣可以確保乘法操作在更大的範圍內進行，從而減少溢位的可能性。\n",
+        "truncated": false
+      }
+    }
+  ]
+}

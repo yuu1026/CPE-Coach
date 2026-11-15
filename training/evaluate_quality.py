@@ -27,7 +27,9 @@ from model_backend import model_path, load_text_model, validate_adapter
 def score(row,answer,reason):
     rubric=row['rubric']
     flags={'traditional_prose':map_prose(answer,OpenCC('s2t').convert)==answer,
-        'language_and_repetition':quality_issue(answer,row['messages'][:-1]) is None,
+        # Preserve the historical rubric; source quotation is a separate app
+        # contract, not evidence of semantic correctness.
+        'language_and_repetition':quality_issue(answer,row['messages'][:-1],check_grounding=False) is None,
         'complete':reason=='stop',
         'requested_concept':not rubric['concept_any'] or any(word.lower() in answer.lower() for word in rubric['concept_any']),
         'no_unrequested_full_code':rubric['full_solution'] or not re.search(r'\bint\s+main\s*\(',answer)}

@@ -8,7 +8,7 @@ from .code_format import format_cpp_blocks
 from .diagnostics import lookup as lookup_diagnostic, direct_hint
 from .model_prompt import readable_messages
 
-PROMPT_VERSION = 'cpe-tutor-v10'
+PROMPT_VERSION = 'cpe-tutor-v11'
 
 class HintError(Exception):
     pass
@@ -46,7 +46,9 @@ def build_messages(problem, code, question, level, history, evidence=None, *, in
     diagnosis=lookup_diagnostic(problem,code) if include_diagnostics else None
     if diagnosis:
         payload['verified_diagnostic']=diagnosis
-    if solution and include_reference:
+    # A reference solution does not repair the student's own implementation.
+    # Reserve the deterministic full-answer shortcut for a blank editor.
+    if solution and include_reference and not code.strip():
         reference = reference_for(problem)
         if reference:
             payload['reference_solution'] = reference
@@ -159,6 +161,7 @@ def generate_hint(messages, level):
             'language': '上一個候選回覆未符合要求。本次請全程使用繁體中文，直接回答最後一則問題。',
             'code_language': '上一個候選回覆使用了非 C++ 程式碼。請重新以 C++17 撰寫所有程式片段，使用 cpp 區塊；不能只替其他語言的程式改標籤。文字說明使用繁體中文。',
             'repetition': '上一個候選回覆與先前提示過度相似。本次請先回答學生最新的具體問題，換用新的例子或推進一步；不要再問學生已回答的問題。',
+            'code_grounding': '上一個候選回覆沒有引用目前程式。請重新閱讀本輪完整程式，引用其中與最新問題有關的原始運算式或敘述（以反引號標示），沿用學生的變數與寫法，解釋這段的行為。需要修改時給最小局部修正及理由；不要另寫不同解法，也不要要求學生重貼已提供的程式。不能確認錯誤時明說，不要為了修改而捏造錯誤。',
         }[issue]
         if retry and retry[0]['role'] == 'system':
             retry[0]['content'] += '\n' + instruction
@@ -167,5 +170,5 @@ def generate_hint(messages, level):
         reply = _generate_once(retry, level)
         answer = traditional_reply(str(reply))
         if quality_issue(answer, messages):
-            raise HintError('模型這次仍未產生符合繁體中文、C++ 程式語言或連貫性要求的回覆，已停止重複回答。請指出需要解釋的步驟，或明確要求完整解答。')
+            raise HintError('模型這次仍未產生符合繁體中文、C++、目前程式引用或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。')
     return HintText(format_cpp_blocks(answer), truncated=getattr(reply, 'truncated', False), omitted_history_turns=getattr(reply, 'omitted_history_turns', 0))

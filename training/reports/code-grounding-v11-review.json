@@ -1,0 +1,25 @@
+{
+  "review_kind": "GPT/Codex self-review; not independent grading",
+  "report": "code-grounding-v11.json",
+  "scope": "Three authored direct-inference smoke cases. No baseline comparison, no submitted C++ execution, no general accuracy estimate.",
+  "findings": [
+    {
+      "id": "loop-bound",
+      "uses_current_code_and_names": true,
+      "review": "Identifies pos <= nums.size() and proposes < while preserving total/pos. The first invalid index is pos == size; wording about larger than size is imprecise."
+    },
+    {
+      "id": "integer-average",
+      "uses_current_code_and_names": true,
+      "critical_factual_error": true,
+      "review": "Preserves average/result and casts before division, but prose incorrectly describes integer division as floor and the fix as rounding. C++ integer division truncates toward zero; conversion before division enables floating-point division. Casting the sum does not prevent int addition overflow."
+    },
+    {
+      "id": "multiplication-promotion",
+      "uses_current_code_and_names": true,
+      "critical_factual_error": true,
+      "review": "Preserves multiply/left/right/product and proposes correct operand promotion, but falsely claims 50000*50000 can exceed long long. The original multiplication occurs as int before assignment; 2500000000 fits long long."
+    }
+  ],
+  "conclusion": "The quotation contract helps source grounding, but does not establish diagnostic or explanation correctness. Do not describe three returned answers as three correct answers. No adapter was enabled."
+}

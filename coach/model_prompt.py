@@ -27,6 +27,9 @@ def readable_messages(messages):
         instructions+='\n學生表示沒有想法，從理解這題的一小步引導。'
     else:
         instructions+='\n學生已提出具體問題，先直接回答；不要把概念問題轉成新手起步問答。'
+    has_code=bool(payload.get('code','').strip())
+    if has_code:
+        instructions+='\n本輪已有學生的完整程式，必須以它為分析對象。先引用與問題相關的原始運算式或敘述（用反引號或 cpp 區塊），再說明目前行為及問題；保留變數、函式和解題思路。若需修改，只展示必要的局部修改及原因；完整解答模式則在原程式上修正並解釋差異，不另換一份題庫解法。不要要求重貼已有程式，不猜行號，不硬找錯。'
     result=[{'role':'system','content':instructions}]
     for message in messages[1:-1]:
         if message['role']!='user':
@@ -35,15 +38,16 @@ def readable_messages(messages):
         except (ValueError,TypeError): old=None
         if isinstance(old,dict) and 'question' in old:
             text='學生先前的問題：'+str(old['question'])
-            if old.get('previous_code_excerpt'):text+='\n當時程式片段（不是目前版本）：\n'+old['previous_code_excerpt']
+            if old.get('previous_code_excerpt') and not has_code:text+='\n當時程式片段（不是目前版本）：\n'+old['previous_code_excerpt']
             result.append({'role':'user','content':text})
         else:result.append(dict(message))
     sections=[]
     if payload.get('problem'):sections.append('【題目背景】\n'+str(payload.get('problem_title',''))+'\n'+payload['problem'])
-    if payload.get('code','').strip():
+    current_code_section=None
+    if has_code:
         try:code=format_cpp(payload['code'])
         except (OSError,subprocess.SubprocessError):code=payload['code']  # Invalid syntax must remain available.
-        sections.append('【目前 C++ 程式，僅整理排版】\n```cpp\n'+code+'\n```')
+        current_code_section='【本輪學生的完整 C++ 程式：分析與修改以此版本為準，僅整理排版】\n```cpp\n'+code+'\n```'
     else:sections.append('【目前程式】未提供程式碼。這不代表學生沒有理解問題。')
     if payload.get('verified_topic_notes'):
         sections.append('【本專案整理的題意重點，不是執行結果】\n'+payload['verified_topic_notes'])
@@ -58,6 +62,7 @@ def readable_messages(messages):
             text+='\n案例：'+case['name']+'\n輸入：\n'+case['input_excerpt']+'\n預期輸出：\n'+case['expected_excerpt']+'\n實際輸出：\n'+case['actual_excerpt']
         sections.append(text)
     else:sections.append('【執行證據】沒有可用執行紀錄，不能聲稱已通過。')
+    if current_code_section:sections.append(current_code_section)
     sections.append('【現在請直接回答這個學生問題】\n'+str(payload['question']))
     result.append({'role':'user','content':'\n\n'.join(sections)})
     return result
