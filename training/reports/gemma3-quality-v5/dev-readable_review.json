@@ -1,0 +1,81 @@
+{
+  "review_kind": "GPT/Codex self-review of every dev output",
+  "independent_teacher_review": false,
+  "score_range": [
+    0,
+    5
+  ],
+  "cases": [
+    {
+      "id": "quality-v4-uva118-heldout-bug",
+      "base_score": 0,
+      "adapter_score": 2,
+      "adapter_critical_errors": [],
+      "rationale": "基準錯誤要求更新到非法座標；候選只泛問氣味座標，未定位漏檢。"
+    },
+    {
+      "id": "quality-v4-uva490-heldout-bug",
+      "base_score": 3,
+      "adapter_score": 3,
+      "adapter_critical_errors": [],
+      "rationale": "兩者能談缺字補空格，但仍未明確指出底線輸出的局部變體。"
+    },
+    {
+      "id": "quality-v4-uva10062-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "把缺少空格計數誤解成排序位置錯誤。"
+      ],
+      "rationale": "兩者錯改排序，沒有定位 ASCII 32 被排除。"
+    },
+    {
+      "id": "quality-v4-uva10221-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 0,
+      "adapter_critical_errors": [
+        "未要求卻提供整題程式，且保留角分乘以 60 的錯誤。"
+      ],
+      "rationale": "基準也錯誤指責正確的弦長公式。"
+    },
+    {
+      "id": "quality-v4-uva10226-heldout-bug",
+      "base_score": 1,
+      "adapter_score": 0,
+      "adapter_critical_errors": [
+        "未要求卻提供整題程式，保留缺少案例間空行的錯誤。"
+      ],
+      "rationale": "兩者錯誤歸因輸入迴圈。"
+    },
+    {
+      "id": "quality-v4-uva11321-heldout-bug",
+      "base_score": 4,
+      "adapter_score": 1,
+      "adapter_critical_errors": [
+        "把奇數排序錯誤歸因於負數餘數。"
+      ],
+      "rationale": "基準正確指出奇數遞減、偶數遞增；候選未改善。"
+    },
+    {
+      "id": "quality-v4-uva11349-heldout-bug",
+      "base_score": 0,
+      "adapter_score": 3,
+      "adapter_critical_errors": [],
+      "rationale": "基準捏造奇數階矩陣沒有中心；候選定位轉置索引，但修正說明仍不完整。"
+    },
+    {
+      "id": "quality-v4-uva0-dev-next-step",
+      "base_score": 2,
+      "adapter_score": 2,
+      "adapter_critical_errors": [],
+      "rationale": "都要求再貼程式，未承接前文提供最小轉型片段；沒有足夠變數資訊時詢問並非重大錯誤。"
+    },
+    {
+      "id": "quality-v4-uva0-dev-no-evidence",
+      "base_score": 2,
+      "adapter_score": 2,
+      "adapter_critical_errors": [],
+      "rationale": "都只要求提供程式，未明確說明沒有執行紀錄不能判定 AC。"
+    }
+  ]
+}

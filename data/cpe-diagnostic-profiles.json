@@ -1,0 +1,1080 @@
+{
+  "b0519ba723e77d7a5c312a432fe92999afbcfb180c32318a5b14c7af3b43048c": {
+    "problem_id": 100,
+    "statement_sha256": "fb9f80b9cf13e7c1e7b09e64c3a9c4ec610499cee66be8a089a7ac765e4a455c",
+    "audit_sha256": "1c463c0057d988d6f29b992452330876a1482a649fde58841115565ef4ce5019",
+    "hints": [
+      "週期長度是否包含最初的數字？",
+      "單獨追蹤輸入 1 1，確認計數器在第一次判斷之前的值。",
+      "只調整週期計數的起點，讓起始值與最後的 1 都符合定義。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "ba045eca2e678d32cf48d8b7703e59db48ae9df7eb0c34073874363454597c84": {
+    "problem_id": 100,
+    "statement_sha256": "fb9f80b9cf13e7c1e7b09e64c3a9c4ec610499cee66be8a089a7ac765e4a455c",
+    "audit_sha256": "6668f0eba7ec932f1fea139a7a015ab197d7e8304ac59e339cd33c28d23f5503",
+    "hints": [
+      "輸入的兩個端點一定由小到大排列嗎？",
+      "交換同一組端點的順序，檢查迴圈是否仍會走訪區間。",
+      "區間走訪使用整理過的上下界，輸出仍保留原始端點次序。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "3dba601ebd70133625dbfe04c1611d3f55e02aaae57a3cd5be4614eb782295b4": {
+    "problem_id": 118,
+    "statement_sha256": "b7ac7cfc61307a1b120d6863a57fa1cc07205f1f2546bf3bc83282e274a58b9a",
+    "audit_sha256": "0952677b7ef0a455008b0630d45bfd1320c87ff6e1c5e5de0c1df958b86e09fe",
+    "hints": [
+      "右轉後方位的變化是否符合地圖？",
+      "先不移動，從朝北開始只追蹤一次 R 的方向索引。",
+      "局部修正右轉的方位更新，左轉與位置更新先保持原樣。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "634e172076411d5e43198eb730c0fa5650b0012e2ccf745955873a042c2dc21e": {
+    "problem_id": 118,
+    "statement_sha256": "b7ac7cfc61307a1b120d6863a57fa1cc07205f1f2546bf3bc83282e274a58b9a",
+    "audit_sha256": "524e1c2083f9fb578186d1d76093e1b62c6750c6d6c9e9fbbf08bc0d2f8c4a85",
+    "hints": [
+      "前一個機器人留下的資訊會影響下一個嗎？",
+      "觀察第二個機器人在同一個危險座標前進時，是否會再次失蹤。",
+      "越界時先檢查該座標的氣味；已留下氣味的越界指令應被忽略。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "efafe6cab5bca49f35e941fd44de840515b17688c3f146a6913269fe8e843cd5": {
+    "problem_id": 272,
+    "statement_sha256": "6182bbf23eab6437f3e80ed00493b5a93524ebf7b791ae0fd0c217152ccefc33",
+    "audit_sha256": "5389fc85b2c99e0484dc75b25a8681a46e94249a91f7856aa6115825ff540b27",
+    "hints": [
+      "換行不一定表示一段引文結束。",
+      "檢查遇到換行時是否重設 open；用跨兩行的一對引號追蹤。",
+      "讓引號狀態只在真正遇到雙引號時切換，不因換行重新開始。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "c5cfee137b8ef836c9cdf2cb640777f30e838ad99ee10bcb89e6926311e873da": {
+    "problem_id": 272,
+    "statement_sha256": "6182bbf23eab6437f3e80ed00493b5a93524ebf7b791ae0fd0c217152ccefc33",
+    "audit_sha256": "8f3d5455fa3dee130e12bcafb1d369706ab8c48b89f5e95472586342ee51b8ee",
+    "hints": [
+      "除了雙引號，其他字元都要保留。",
+      "檢查目前讀字元的方法是否跳過空白與換行。",
+      "改用能保留所有字元的讀取方式，維持既有引號切換邏輯。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "886fd68a9be088fdc8ed4eb3491e8eb64314024aaac8009aa69159de0c413283": {
+    "problem_id": 299,
+    "statement_sha256": "041558c8380a3479726148dda08814176c490166dbe1c0254f305146783e136b",
+    "audit_sha256": "ff533bd401f074692bdb0b47bb91c046ae29b45eed0f0475ad43c5fe9750e583",
+    "hints": [
+      "已經排好的車廂應該還需要交換嗎？",
+      "以完全遞增的排列追蹤目前計數條件。",
+      "只調整判斷順序顛倒的比較方向，保留計數架構。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "571156af8066af03c03c32b96bc54cf668371a926e69c230b0ca1c85b893ab55": {
+    "problem_id": 299,
+    "statement_sha256": "041558c8380a3479726148dda08814176c490166dbe1c0254f305146783e136b",
+    "audit_sha256": "70bb5e90b50f194fb7678d4c72afab6d2a37bf71ecff84f569298dbc89ad0a37",
+    "hints": [
+      "相鄰兩節的順序顛倒有被檢查到嗎？",
+      "用只有兩節且順序相反的排列，追蹤內層迴圈的起點。",
+      "內層走訪應包含緊接在目前位置之後的車廂。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "5b0a5f4396af54ccc47b5275cddb3d8a5db6094fb247348a158f442c30621096": {
+    "problem_id": 490,
+    "statement_sha256": "2b2b97a3a0e82fb432054051b7a65097c911ab34142806c7a42967e9360a99a5",
+    "audit_sha256": "97c124a0a29ad21c55a654dcdd0c9f036416cf617d21cab272800bfd2165f1ca",
+    "hints": [
+      "順時針旋轉後，哪一行應該成為最左欄？",
+      "拿兩行等長文字畫成方格，比對每個輸出欄位來自原本哪一行。",
+      "調整原始各行的取用方向，欄位走訪先保持原樣。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "b22277918e95c2ac2ea94fa046c5530550cb483491a01f14ef88b7a698d3af54": {
+    "problem_id": 490,
+    "statement_sha256": "2b2b97a3a0e82fb432054051b7a65097c911ab34142806c7a42967e9360a99a5",
+    "audit_sha256": "387a091822bee74ba2c4be5093c01c729e1d211e5deff974e8eef068b58196f8",
+    "hints": [
+      "短句缺少的格子應用什麼內容補齊？",
+      "用一長一短的兩行輸入，只觀察缺字位置的輸出。",
+      "缺字位置應補空格，不能用其他可見字元代替。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "46d385b4ccd8ef50faebe949ecb0c2028b5efb009f9b074040d58bc9b522129b": {
+    "problem_id": 948,
+    "statement_sha256": "75535b4e12ee3696fb8ee5b058cea5e6b1c23eb653d74dd5f5a75d50be19ad61",
+    "audit_sha256": "0d323e8337a2443a582abb8c21142669aa8f508bee5410eee346e1f8eb63633c",
+    "hints": [
+      "本題最低兩個位權是否可以重複？",
+      "對照最小正整數的表示，檢查費氏位權陣列的起始兩項。",
+      "修正位權序列的初值，避免把重複的 1 當作兩個位元。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "e193a2c6651f0f0f08ccee99934b3ef8747bae1a5ca9ece0f0fb52a7c2e1e5f7": {
+    "problem_id": 948,
+    "statement_sha256": "75535b4e12ee3696fb8ee5b058cea5e6b1c23eb653d74dd5f5a75d50be19ad61",
+    "audit_sha256": "09c8c71a36419d1d843ff029b2309b8f242acf66b6a41596cc76e12e332cd2e8",
+    "hints": [
+      "剩餘數值恰好等於一個位權時，能使用該位嗎？",
+      "選一個本身就是費氏數的輸入，追蹤比較相等的分支。",
+      "修正位權可使用的比較條件，讓相等情況能被處理。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "5a4c3104d3f392f2ab13a9e16de3d73b800e380dab648845e942c38ce7c0f06f": {
+    "problem_id": 10008,
+    "statement_sha256": "b384444652f9e4f2692c3eda8717d62dc283c8ef6ae460beab14c4205e009572",
+    "audit_sha256": "b9512037439e12d781ba80343207346bf165ceb27d7342b690d45511ed2f1d27",
+    "hints": [
+      "同一個字母的大小寫要合併統計嗎？",
+      "只輸入同一字母的大小寫，追蹤字元轉換後是否仍落在 A 到 Z。",
+      "局部修正大小寫轉換的方向，不要改動其他字元的忽略規則。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "bd2bc5f549aa8748a75d55f287d0a3c88c262e53105a28ba39f61242768c456c": {
+    "problem_id": 10008,
+    "statement_sha256": "b384444652f9e4f2692c3eda8717d62dc283c8ef6ae460beab14c4205e009572",
+    "audit_sha256": "94e400f796a765ffee22d3f397c50a385473418cfe00334cda2d74ae72d451e4",
+    "hints": [
+      "出現次數相同時，題目要求哪個字母在前？",
+      "找兩個次數相同的字母，單獨檢查排序的第二個比較條件。",
+      "只修正同次數的字母排序方向，次數遞減規則不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "96aa282537871dc513f5bdc2079d0f013ef4e091a0079171366da97f433817e2": {
+    "problem_id": 10019,
+    "statement_sha256": "47410a754550654c42ed0e61453e39a7b9a7197ce32e5df250ca697e2948ddeb",
+    "audit_sha256": "daa5a0bc90ca8d7d38c29c2ad1ca41b67b53134e83c1d7db5ab2e5cda8c886b1",
+    "hints": [
+      "兩欄結果是否來自不同的進位解讀？",
+      "用含有兩位以上數字的輸入，比較第二次轉換時指定的基底。",
+      "第二欄應以題目指定的十六進位解讀，再進行位元計數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "a7d808af544c8dddca22ee5e7ee51601255c387860c2c37f12be08b244588fc1": {
+    "problem_id": 10019,
+    "statement_sha256": "47410a754550654c42ed0e61453e39a7b9a7197ce32e5df250ca697e2948ddeb",
+    "audit_sha256": "67b86b7ecde9fbb395046fdae9787b93f9b50dab6e6c7182a69f164d61f59be8",
+    "hints": [
+      "題目要計算二進位中的 1 還是 0？",
+      "以最小正整數檢查第一欄的位元數量是否合理。",
+      "保留 1 的計數，不要再拿固定的機器字長扣除它。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "b0aaf7be326e11ba5fbf34bc0db2a1a8a3deb438d05c23a2680773fda65eb081": {
+    "problem_id": 10035,
+    "statement_sha256": "4626ce1df85e070cbf3d793593856b7c06d992759a3405452d4467e7dba68b27",
+    "audit_sha256": "de6b28d8316efcc0e470993188a0c2be635611a2da86c4c7c994d212b2b7671b",
+    "hints": [
+      "上一位的進位會影響下一位加法。",
+      "用 99 加 1 逐位追蹤，檢查十位是否納入個位產生的進位。",
+      "在每位相加時保留傳入進位，之後再更新下一位所需狀態。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dd54fdd71fae2a6f8044bb532998813bc051c7b10e5eb0a1679917273f32617f": {
+    "problem_id": 10035,
+    "statement_sha256": "4626ce1df85e070cbf3d793593856b7c06d992759a3405452d4467e7dba68b27",
+    "audit_sha256": "c8774566fe06b7c11c97f9e71acccfa9ce0b7fd1d088112f37d2fb85cf80a202",
+    "hints": [
+      "兩數位數不同時，剩下的高位仍可能受到進位影響。",
+      "用 99 加 1，檢查其中一個數先除到 0 時迴圈是否太早結束。",
+      "調整逐位迴圈的繼續條件，讓仍有位數的一側能被處理。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "9b5fad14bbf709bcd29bb38588e15858c0b03b201d2f1b628b76fa2b65c2fb90": {
+    "problem_id": 10038,
+    "statement_sha256": "8ed58637330eb2f4736cd88dfb3ef17521906b7c406ac2421debbf18a127e1a7",
+    "audit_sha256": "ea3ad6f9f4d572ebb5c5295d50df91930e821259a73a817a8e572dd8b043ff6c",
+    "hints": [
+      "每個差值需要出現幾次？範圍合法不一定代表涵蓋完整。",
+      "用 1、2、3、4 追蹤三個相鄰差，檢查是否有重複卻遺漏其他值。",
+      "保留差值範圍檢查，補回已出現差值的判斷，避免重複被接受。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "c9c111791bc4144e82ec636bea0f2d85585c4b843cbe1d0e035befd5030a90cd": {
+    "problem_id": 10038,
+    "statement_sha256": "8ed58637330eb2f4736cd88dfb3ef17521906b7c406ac2421debbf18a127e1a7",
+    "audit_sha256": "714ecc520443bcfab4f41a2acc00ddafafd6a38995e458c06700c331c7e2b04f",
+    "hints": [
+      "題目比較的是相鄰差的絕對值。",
+      "對合法序列 1、4、2、3，檢查下降的一步會得到什麼符號。",
+      "局部修正差值計算，使上升與下降都以非負差的大小比較。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "df96e8a703101d8a5d5be11a753fa73141aaf9f598c2ca5f4e2c63bb02d7cc13": {
+    "problem_id": 10041,
+    "statement_sha256": "af2e6d5158a9f96b41e240714db1a952ddf933b18ab1c91865018c7468b468fa",
+    "audit_sha256": "4579b51ed1f41f32b1209c456eefd10b7590cc6905eaf4702a4cf05f626543df",
+    "hints": [
+      "最小化距離總和與最小化平方距離不相同。",
+      "用地址 1、2、100 比較目前選點與較靠近多數人的位置。",
+      "先用小例子檢驗選點依據，不要直接假定平均地址最適合；只修正選點部分。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "9f6fada534c54a9a4b5ab614ecd000e466a47e8499facb71e5a9dd01550f8163": {
+    "problem_id": 10041,
+    "statement_sha256": "af2e6d5158a9f96b41e240714db1a952ddf933b18ab1c91865018c7468b468fa",
+    "audit_sha256": "9533b54bec8ae5e287aac9bb3785f6eb120bce8691ff0d67ab2897ff2e3f791e",
+    "hints": [
+      "用陣列中間索引前，需要先確認元素具有什麼順序。",
+      "將同一組地址換順序輸入，檢查選到的 p 是否會改變結果。",
+      "讓索引對應到有序位置後再選點，保留後面的距離累加。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "763c2311a93197db365efe15ca3230bc0ff9489cef548e1803f9559ed8729008": {
+    "problem_id": 10050,
+    "statement_sha256": "9059ae7e0af55e577dadb455223862b54b68f61e56057958b6b32378fb601aa9",
+    "audit_sha256": "4342f8696cf0db83ee99977dc8af8dea3e3fb3f5851342bf3a105edc15d0cab5",
+    "hints": [
+      "每週休息日有幾天需要排除？",
+      "第 1 天是星期日，請列出第 6、7 天的星期與目前判斷。",
+      "補回另一個休息日的排除條件，重複罷工日仍只算一次。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "b7535bc7b8e987ccd647cd97b1c82ffde3edac244ee651ac2055b764f0f5581e": {
+    "problem_id": 10050,
+    "statement_sha256": "9059ae7e0af55e577dadb455223862b54b68f61e56057958b6b32378fb601aa9",
+    "audit_sha256": "dc426de0110db35ff6b579e515409d0a0133334beea25832ee4669b2e294139f",
+    "hints": [
+      "第一個罷工日會發生在第 1 天還是週期的倍數？",
+      "選一個大於總天數的週期，檢查是否仍標記了不應出現的罷工日。",
+      "修正標記迴圈的起始日期，讓標記位置符合週期倍數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "2c262d667d0940732145b50d09d855ce5a5bf80907a50eab047fcee9ce918255": {
+    "problem_id": 10055,
+    "statement_sha256": "b4875864e31c6b7d1fbaee8cabe236ac39b40beb15ddb136fc2cdc82c2c2b986",
+    "audit_sha256": "958fdd7a4e04c7a6316cd9ba7c155e1dc33a6f494da4e8a5048b5c28cfbfd3d8",
+    "hints": [
+      "輸入兩數的先後順序不代表大小。",
+      "檢查輸出差值的運算式；交換 8 與 3 的順序，距離應相同。",
+      "保留讀入迴圈，局部調整差值的正負處理，使兩種順序都輸出非負距離。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "80fa4b7ebb3d958d18de00b4a2ee81e0c9308291f83e1598554ae25603fe1323": {
+    "problem_id": 10055,
+    "statement_sha256": "b4875864e31c6b7d1fbaee8cabe236ac39b40beb15ddb136fc2cdc82c2c2b986",
+    "audit_sha256": "d197e169fc1ee62b4cd9b88adfe0e9eff57a41799cceb963f2a6398af0f7ef70",
+    "hints": [
+      "請比較題目的最大輸入與變數能表示的範圍。",
+      "檢查讀入變數的型別；試輸入 4294967296 與 0。",
+      "只調整承接輸入與差值的整數型別，讓它能容納題目上界，再重新測試。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dc2eda81eb9138af98f0d3a2eba336f4b9c75df097be31f24dbc7aa56771e5ea": {
+    "problem_id": 10056,
+    "statement_sha256": "6b0c112608734f2c7e6ef3d5a643763cfd9a9095ff580c94ec4c2e4c37405950",
+    "audit_sha256": "83965b6a3a2dc165b5a41751fb72472bc3364ea87d1fb77631596f226d0c236d",
+    "hints": [
+      "輪到指定玩家之前，已經有幾位玩家嘗試過？",
+      "先看 I=1 的情況，追蹤第一次出手機率中多出的失敗因子。",
+      "只修正首輪到達指定玩家之前的次數，不改動整輪重複的部分。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "bac166e1b3807e16eff6a03f4f2e9ee83d186edbf656e598b56a39f62a28d8e5": {
+    "problem_id": 10056,
+    "statement_sha256": "6b0c112608734f2c7e6ef3d5a643763cfd9a9095ff580c94ec4c2e4c37405950",
+    "audit_sha256": "0c0d4e121bdd3f0aae27cea84a8c7fe5f4619ef3bb90760ae153b0e9a227af90",
+    "hints": [
+      "一整輪遊戲究竟包含幾次嘗試？",
+      "N=1 時獲勝機率應如何；檢查分母中整輪失敗的指數。",
+      "整輪機率的指數應對應實際玩家數，避免多算一次嘗試。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "8f0396a37099f1945881b3de10f24eef217e0a37e1ccb3f97620e2d51c368076": {
+    "problem_id": 10057,
+    "statement_sha256": "e2feb6a5095a40c664c45d56d6ec799403c7820900d7944bf5f0b2c0856dd72a",
+    "audit_sha256": "8111eb3ff0be15420f5b4c33a227e2e118b8b2fb7ca143a75ec31edc265d4559",
+    "hints": [
+      "有多個可行整數時，第一欄要求其中哪一個？",
+      "以四個相異且中間有間隔的數值檢查下中位數的位置。",
+      "修正最小可行值所用的索引，保留另一個中間值作為範圍上界。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dced7fb934a04d25f6b446fe1b550390f9bc9a538661b1361c7fc9341a10702a": {
+    "problem_id": 10057,
+    "statement_sha256": "e2feb6a5095a40c664c45d56d6ec799403c7820900d7944bf5f0b2c0856dd72a",
+    "audit_sha256": "18f63aa725de643164b9e0449ef785d61df9655b5db6d1950c8a653dbb01edce",
+    "hints": [
+      "含上下界的整數範圍有幾個不同值？",
+      "只給一個數字，檢查第三欄是否錯誤變成零。",
+      "修正閉區間的數量計算，兩個邊界相同時也應有一個可行值。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "b856ca45fc4fedf0b5bc2fe589bd66b0adcabef6bc6a274e9a3861a829117c3a": {
+    "problem_id": 10062,
+    "statement_sha256": "422dd72790b7211f513120e71d8cc5f37668d886b792e784d2db8c1871597b3a",
+    "audit_sha256": "d66ba2b719970759b2be6e3beca923ca6e2f34d7fe7d435a7c6f5dbfd26e4c5e",
+    "hints": [
+      "同頻率字元的 ASCII 碼應如何排序？",
+      "只放兩個各出現一次的不同字元，比較它們的輸出順序。",
+      "只調整同頻率時的碼值比較方向。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dd924e2ab58eed60e77b94c329ca0855109a1017c4ce3ba6612f6cf0fdf9e2cc": {
+    "problem_id": 10062,
+    "statement_sha256": "422dd72790b7211f513120e71d8cc5f37668d886b792e784d2db8c1871597b3a",
+    "audit_sha256": "6a2579934873987bc630bb37f7b0fe40f9af7eab9f9f71c3d456db4fed0a69e3",
+    "hints": [
+      "空格是不是本題需要統計的字元？",
+      "使用包含空格的一行文字，檢查碼值 32 是否出現在統計中。",
+      "保留一般空格的統計，只排除換行控制字元。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "0ac3505f78cbb7bb6f8825d3db6db60b7c38a75d542d7f313702f9f55e0cd796": {
+    "problem_id": 10071,
+    "statement_sha256": "e90646f8e164648e73dd784fc8ccc99b24e72491195c2b00e1bacb0525f3175c",
+    "audit_sha256": "d0487d15b7ad9724406b3ff6b2320f35a5a683d55e6bf0626929660f900ed61b",
+    "hints": [
+      "請重新對照題目要求的是哪一段時間。",
+      "檢查位移算式是否對應兩倍時間，先用 v=3、t=4 驗證。",
+      "針對目前的算式補上時間尺度所需的倍率，不必改寫讀入流程。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "2321abe100bcfa0e009517b21bcb6e3728e5ecca79b9aca3cb8999501bff35dd": {
+    "problem_id": 10071,
+    "statement_sha256": "e90646f8e164648e73dd784fc8ccc99b24e72491195c2b00e1bacb0525f3175c",
+    "audit_sha256": "223f7d5cbb8b4898b4082423a86a9f8a247149088cf69d91773ecb25218e61b4",
+    "hints": [
+      "位移與距離的符號意義不同。",
+      "題目允許負速度；檢查是否有運算強制把結果變成非負。",
+      "移除不符合位移定義的符號處理，保留方向資訊並測試負速度。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "482dd2181c9d44ebfd42fa4a6713cc5f82915d9d2026d2c65f1a3a0c40ea822b": {
+    "problem_id": 10093,
+    "statement_sha256": "413639314dc06b1b041b057179ac0c7af2cb0c553285a826ad7318bf9081d855",
+    "audit_sha256": "fec2eeb60610080c528403af7be514e46005798d314ac1bf03ff18e28db65291",
+    "hints": [
+      "一個數位的值可以等於其進位基底嗎？",
+      "只輸入一個較大的字母數位，檢查候選基底的最小值。",
+      "候選基底必須能合法容納所有數位，修正搜尋起點。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "0cf0bcf097ec7f018e1f6592a42646a86ca87b2cbb792edb3a316f558d8c1bd8": {
+    "problem_id": 10093,
+    "statement_sha256": "413639314dc06b1b041b057179ac0c7af2cb0c553285a826ad7318bf9081d855",
+    "audit_sha256": "a8461a7559e19e89472d63bd59cb98cf4e946e92f4075971e9e0b4184d297743",
+    "hints": [
+      "檢查整除性時需要字元個數還是數位值？",
+      "比較位數相同但數位不同的兩個輸入，觀察加總是否跟著改變。",
+      "加總各個符號代表的數位值，不是每看到一個符號就加一。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dc68fce2c0ee5802dbc96a0974441bf72659cb5777e983cceac065973f5c37b8": {
+    "problem_id": 10101,
+    "statement_sha256": "4e096f5eedaac955b0dfeb1e89c0901234dd481fd6dd40f211ea8cb1ad20b6eb",
+    "audit_sha256": "10bacbf26ade1538b9c4719fde3aecf91e1660d3e438cd4d8180c189154d88ab",
+    "hints": [
+      "單位名稱對應的倍率是否正確？",
+      "將含 lakh 的輸出文字還原成十進位，檢查這個單位的大小。",
+      "局部修正該單位的倍率，其他分層輸出先保持原樣。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "866d8b9a271397f250aa770e9c326f32df76a336b2832553be755a734bfb35ec": {
+    "problem_id": 10101,
+    "statement_sha256": "4e096f5eedaac955b0dfeb1e89c0901234dd481fd6dd40f211ea8cb1ad20b6eb",
+    "audit_sha256": "99cb77ce0d968004bf6aea15005512282529f7e307254cefe10865081ae1bff5",
+    "hints": [
+      "案例編號前的空白是否也是輸出格式的一部分？",
+      "檢查單位數案例序號與句點前，是否有題目要求的對齊寬度。",
+      "只修正案例序號的欄位寬度，不改動數字展開邏輯。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "0a17637bd177d7600dd4ed60a18b29259f495036bc1ebed2e0b50d8c5732a371": {
+    "problem_id": 10170,
+    "statement_sha256": "263b67392aa185e8e4895469f1edc71f8cc90540fb1e4bfee54d69afdac4474d",
+    "audit_sha256": "8f3d8a838c8101146cdb77b53bad5f334b12f5cc1ae991a1e7d0f318a30cdc7c",
+    "hints": [
+      "某團最後一天是否仍由該團入住？",
+      "令查詢日恰好等於累積住宿天數，追蹤二分判斷的相等分支。",
+      "修正搜尋條件對住宿區間最後一天的歸屬。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7ff3cf819d0c52da57675e26e87f467ba5316d04c94114bb3221ab188c0bc02d": {
+    "problem_id": 10170,
+    "statement_sha256": "263b67392aa185e8e4895469f1edc71f8cc90540fb1e4bfee54d69afdac4474d",
+    "audit_sha256": "161f75db63892417f2f32becf8f7a0b3c7a6e0f496cd07af598d37191beac8d5",
+    "hints": [
+      "從第一團到目前團，總共包含幾團？",
+      "查詢第一團住宿的最後一天，檢查累積天數算式是否漏掉一團。",
+      "局部修正團體數量的閉區間計算，避免少算第一或最後一團。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "0efd4fcf76af8b0c4d49d6e950f95a46ea3479ec8f30a3e0ee9108b6b7d1d125": {
+    "problem_id": 10189,
+    "statement_sha256": "5430e340aa134e7ac9ed0bac8ddd34290eb6c695269c8279b22d5cb02a2b02ee",
+    "audit_sha256": "4cf8b50eaa76cbccb935e2d3b8f5abf0da9c70efc583ce8cd863a1b9a81b53bf",
+    "hints": [
+      "周圍鄰格有沒有包含斜對角？",
+      "挑一個只在斜對角有地雷的安全格，追蹤目前加總條件。",
+      "讓合法的八方向鄰格都能貢獻數量，不要只檢查同行或同欄。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7d623e9ae793c52a869b227f325e7a686744d1fc81286dac90705cab44aae6dd": {
+    "problem_id": 10189,
+    "statement_sha256": "5430e340aa134e7ac9ed0bac8ddd34290eb6c695269c8279b22d5cb02a2b02ee",
+    "audit_sha256": "6f379ad51eb6c90dba294e4a220e89c95ad9fd8ca18f84b692d682f9d17cf2c4",
+    "hints": [
+      "不同地圖的輸出之間需要空行嗎？",
+      "使用兩張最小地圖，直接比對第二個 Field 標題之前的內容。",
+      "恢復案例之間的空行分隔，第一組之前不需空行。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "8fa36d248167fd96f13c7eab4e3fd2bf9c0a57ec9f2d7ca7bff76cbb76dae91c": {
+    "problem_id": 10190,
+    "statement_sha256": "b0ddcb910adda328ded45f97b69c79a508817fdcc3efaab8b224d415b99e744d",
+    "audit_sha256": "9d76fb1d1de405eb2f3934a0c5326d1d42820ba931817180d4f3a9b12ecbe431",
+    "hints": [
+      "每一步除法都一定可以整除嗎？",
+      "追蹤不能完全整除但整數除法仍會縮小數值的輸入。",
+      "在更新商之前保留餘數檢查，不能把截斷結果當成合法的一步。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dbf36c3f791cf654bdb7d3e57fc4b4cb9decc54def45c200bdd493bad0392e9b": {
+    "problem_id": 10190,
+    "statement_sha256": "b0ddcb910adda328ded45f97b69c79a508817fdcc3efaab8b224d415b99e744d",
+    "audit_sha256": "ae9cd954d39f59974c4addba6cc7a05b031d08f2e345705bad4902c1434871a3",
+    "hints": [
+      "除數為 2 是否也是合法案例？",
+      "以能連續除以 2 到 1 的數字，檢查一開始的合法性判斷。",
+      "修正除數範圍，避免排除題意允許的最小有效除數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "ea2f730fc19968cc688121a5c52a02958714937919c2f56093e0f679f48c44ae": {
+    "problem_id": 10193,
+    "statement_sha256": "c1b318603d089e101f7a2075be2e9bb2688de7f78089cff0a56adc4cd190c08e",
+    "audit_sha256": "4878b53881a24c0d71306d802504dbca7653b8e5a71992f490b8d6593dd9afd9",
+    "hints": [
+      "有效的共同數是否可以是二進位 10？",
+      "使用兩個二進位 10，檢查目前門檻是否排除了合法共同數。",
+      "局部修正有效共同因子的最小門檻。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "1d80bc730bd14556bb4721afafaee141278a96fbed1154ae6b9d0e3f396ef73f": {
+    "problem_id": 10193,
+    "statement_sha256": "c1b318603d089e101f7a2075be2e9bb2688de7f78089cff0a56adc4cd190c08e",
+    "audit_sha256": "ff7eb17690347eb5b9119138eed22ba2d746c507aae3afd4c9ce7f1c4b92f933",
+    "hints": [
+      "第一組的 Pair 編號應該從哪裡開始？",
+      "將第一行輸出與題目格式逐字比對，先只看案例序號。",
+      "只修正輸出序號，不改動二進位轉換或判斷條件。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "4e19efefec4715f6e2c59584432a7493adf24ce710f9401fedc695591021ec3c": {
+    "problem_id": 10221,
+    "statement_sha256": "d768457c25e597e91a244c8ebe9ebd3f5898738f5cd5dd74621d535aef509241",
+    "audit_sha256": "5e49812f1d5fcc194f6959cef85814585c4c54d48839f748fa57e72c850d0b47",
+    "hints": [
+      "輸入高度是到地心還是到地表的距離？",
+      "檢查計算圓周時採用的半徑，有沒有包含地球本身。",
+      "將軌道半徑與地表高度區分，局部修正半徑的組成。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "c291890fc382d82d0d0bf5fa330a3a9914c0aa323a9176a750d3d761811c39ef": {
+    "problem_id": 10221,
+    "statement_sha256": "d768457c25e597e91a244c8ebe9ebd3f5898738f5cd5dd74621d535aef509241",
+    "audit_sha256": "fe764bd54e70d20068ee8479c496396e2acde2b63ce9bfe2feefdfacc573f435",
+    "hints": [
+      "角分換成度數時，數值應變大還是變小？",
+      "對照同一角度用 deg 與 min 輸入時，結果是否相同。",
+      "修正角分轉角度的換算方向，其餘角度處理保持不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "cd725d955db3c6ab2d2defab508306d21bd8f82e25efb9d27247ac2bdd69e83c": {
+    "problem_id": 10222,
+    "statement_sha256": "1a944b377f25ec56d381c4593a80319b67d8e61a65dff75fbe94725d8967996d",
+    "audit_sha256": "00010f20ce837aa2f4b10c290d9a6bec27946f4d3ec435bdc44eaee966e67904",
+    "hints": [
+      "還原時應向左移動幾個按鍵？",
+      "拿一個已知編碼字元在鍵盤上數格子，檢查索引差。",
+      "只修正按鍵位置的位移量，空格仍原樣保留。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "3944003ec505f7ad5192d144254f20261b850cec4b4f07968fd9ac0660965c55": {
+    "problem_id": 10222,
+    "statement_sha256": "1a944b377f25ec56d381c4593a80319b67d8e61a65dff75fbe94725d8967996d",
+    "audit_sha256": "c9c6835d51c586a8dd888002a3872d5e198e514c4e94fceb40f6e5b8fb13bfec",
+    "hints": [
+      "鍵盤對照表與輸入字母的大小寫一致嗎？",
+      "先比較同一編碼字母的大寫與小寫版本，觀察查找是否成功。",
+      "在查表前統一成對照表使用的大小寫。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "c40a4bb5dfa32468f8eb6ae75abf97ff0431fba85b8f3f4fa4749c56b0e25c7d": {
+    "problem_id": 10226,
+    "statement_sha256": "0a6d49fd8d76567de8c4ceeaf885c4a424bd21534ac769c8f9b921f48bc2930b",
+    "audit_sha256": "458c7ba2c384be6bfbeb5e133b0f1e5af8a873bbaa2c6959f34b1011fad74447",
+    "hints": [
+      "除法會不會在轉成浮點數之前就被截斷？",
+      "使用比例不是整數的樹種，追蹤 v/n 的型別與結果。",
+      "讓比例運算從除法開始就保留小數，而不是截斷後才乘百分比。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "91060ef38a602bc4f22376b0914ece8ba5527a2ed3f900d16ac6b5f3a551b76d": {
+    "problem_id": 10226,
+    "statement_sha256": "0a6d49fd8d76567de8c4ceeaf885c4a424bd21534ac769c8f9b921f48bc2930b",
+    "audit_sha256": "e076b1bd4178ea7e796e6690dd3d6837b84a981a2679b89efda067e33086bb32",
+    "hints": [
+      "多組森林統計之間要怎樣分隔？",
+      "以兩個案例比對第二組第一個樹種之前的空行。",
+      "只補回案例間的空行，不改動名稱排序與百分比。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "e7a2347f4c1bcc4b373af40a325380a387dbed7a51826242e8df686bd39c7331": {
+    "problem_id": 10235,
+    "statement_sha256": "fc9f2630fa28944358aea100133b97c68cf89f9adee768db0ae8249a3df62d5e",
+    "audit_sha256": "3012349c9239adc1b3ddec3a99e178cc690ef8fabbad3946b7ff4a6ef62cc072",
+    "hints": [
+      "反轉後相同的質數也能叫 emirp 嗎？",
+      "用迴文質數追蹤分類條件，確認是否真的得到不同的數。",
+      "保留反轉後必須不同的限制，再檢查反轉值是否為質數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "43fa9f1ae988467bc9041ca04e621d4ab5671d7e43b92d9a00206b5753e18baf": {
+    "problem_id": 10235,
+    "statement_sha256": "fc9f2630fa28944358aea100133b97c68cf89f9adee768db0ae8249a3df62d5e",
+    "audit_sha256": "f63b51dd440b2d7d4ef3e3afe2f511b95690b293f8cfc505996c297fd363bfa0",
+    "hints": [
+      "最小的質數是哪一個？",
+      "以 N=2 檢查質數函式最前面的返回條件。",
+      "修正最小值的分類，避免把合法的最小質數直接排除。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "937a3ca1022eea0a85b5be43900d2a07dd44304d9b6e01695cb752d0bd921335": {
+    "problem_id": 10242,
+    "statement_sha256": "7f0234c089968a9d1c6a6a65affe68acff050bfd83b5b0b18837ea72340d63d8",
+    "audit_sha256": "0e3302ade3afe157f14d54a8d5e95450a51a42277b68a1c1aaf7198773c70a14",
+    "hints": [
+      "共同端點在兩條邊的資料中被計算了幾次？",
+      "以共同端點不在原點的案例，追蹤 x 座標的重複貢獻。",
+      "局部修正共同端點在座標計算中的符號。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "dadecfad47e218edb2482624300a4f6785fa611d279ed5c1fd6cce3833aeba1d": {
+    "problem_id": 10242,
+    "statement_sha256": "7f0234c089968a9d1c6a6a65affe68acff050bfd83b5b0b18837ea72340d63d8",
+    "audit_sha256": "7b59ee84ef7cab3c577e1c8741f851ccbf913ca0ca78dc92cfed558b8b4572e9",
+    "hints": [
+      "輸出需要精確到公尺的第幾位小數？",
+      "數值接近時也要比對小數位數，檢查輸出格式設定。",
+      "修正固定小數位數，保留目前座標運算。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7c2a8d80288be4c548709aeb48081914b3a460a774665f6efa1dc94c3446b44e": {
+    "problem_id": 10252,
+    "statement_sha256": "5a28a313e3e91436bb5bacc0b6dd554b691c52c2cba5a951fb50f86005841baa",
+    "audit_sha256": "0b78f52c2a9aa5f408c546a096a5ea8147d88dce6805946705ee200338e612e0",
+    "hints": [
+      "共同字串能使用超過任一原字串所擁有的字母嗎？",
+      "選一個只出現在其中一字串的字母，追蹤輸出次數。",
+      "每個字母可使用的數量不能超過任一來源能提供的數量。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "5e26106a5b0df1e3c0df97133e4c085938aa8977c57ae8ef055d5a3d91a7927f": {
+    "problem_id": 10252,
+    "statement_sha256": "5a28a313e3e91436bb5bacc0b6dd554b691c52c2cba5a951fb50f86005841baa",
+    "audit_sha256": "8e1d19a3b635c9b7ef06addb2fb97f16891992121534e5c4786c96bb220d2d54",
+    "hints": [
+      "有多個共同字母時，輸出的字典順序應如何？",
+      "只看兩種不同共同字母的先後，不先修改它們的頻率。",
+      "修正輸出字母的走訪方向，保留各字母可使用的次數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7aa134c468d59c730fe4dbac15e3207c019d9b831171cdb7ebeca0a599ab3776": {
+    "problem_id": 10268,
+    "statement_sha256": "dd23a7190ea336d11b690dfdd1c65ef247c8dbe6b10383a8ffe4d5093c1b98a4",
+    "audit_sha256": "a2621ea04b82c5aec9ea2fc299fb16f753d94aa1cdb665edb91b78f4634a9535",
+    "hints": [
+      "微分時每個係數應乘上哪個次方數？",
+      "從二次項開始手算導數，檢查目前係數乘數是否少了一。",
+      "局部修正原項次方的計算，常數項仍不應貢獻導數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "79c8994f7fee629f3236d2f0a54bddd2a762cf8e851684f53417b0139eb361bf": {
+    "problem_id": 10268,
+    "statement_sha256": "dd23a7190ea336d11b690dfdd1c65ef247c8dbe6b10383a8ffe4d5093c1b98a4",
+    "audit_sha256": "b65fc8931548de799b6cd254ef1db79bb2a7a73a146693e1972367728b813a91",
+    "hints": [
+      "導數的值是否真的隨 x 改變？",
+      "固定係數、改變 x，追蹤累積式中有沒有使用新的代入值。",
+      "恢復累積式中與 x 有關的乘法，不重寫整個讀入流程。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "82829bc6e6ff081d35aa33e442836aa714ed1eb276be4614366850d3499befef": {
+    "problem_id": 10409,
+    "statement_sha256": "de9a2596e9f7634d387821f6fc5bb7cc1a0d01e7cbf334f454c23408a5146d91",
+    "audit_sha256": "0d06ac3073bf711a3469e1350cbdaf70e63b0599f3423b8835dbff24c232ce9f",
+    "hints": [
+      "向北滾動時，原本哪一個側面會轉到上面？",
+      "只執行一次 north，畫出上、北、下、南四面的移動。",
+      "局部修正 north 分支的四面輪換方向。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "8931668177a0c098c00aa88a30943cb2e529973574511cd7f53d3a2e3c2c9242": {
+    "problem_id": 10409,
+    "statement_sha256": "de9a2596e9f7634d387821f6fc5bb7cc1a0d01e7cbf334f454c23408a5146d91",
+    "audit_sha256": "0097398538a2df0afb9f9c61cb7f8e5e83a0e8ea7249f4e479a0923a73746abe",
+    "hints": [
+      "每組開始時西面的初始數字是否符合題目？",
+      "只執行一次 east，對照初始上、北、西三面的指定值。",
+      "修正左右側面的初始配置，對面之和仍須為 7。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "1a35964fd766f3b4b529d86e7824d011c2f92d720fe416e43424cdf43c302689": {
+    "problem_id": 10415,
+    "statement_sha256": "4c9d09d1853ec0d96cb2a01f113b12d9a86a77a084ba25dd39177b81f14b7961",
+    "audit_sha256": "55b23e9ae0d54e0f90cd5babb19bc5aba1ef7d0b91faf801e472f0ccd0809532",
+    "hints": [
+      "連續相同音符需要重新按下所有手指嗎？",
+      "輸入同一音符兩次，檢查上一音的按住狀態是否被保留。",
+      "每個音符結束後保存本音的狀態，供下一音判斷新增按下的手指。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "e41928fc35b0257ee3fdd47e972b31443367067472d49648626bcd4ed1f50f8f": {
+    "problem_id": 10415,
+    "statement_sha256": "4c9d09d1853ec0d96cb2a01f113b12d9a86a77a084ba25dd39177b81f14b7961",
+    "audit_sha256": "e96facea446f36b5b90028572e71adc3c7c7a02b3810459dee9ed6bd2e7ccad7",
+    "hints": [
+      "高音 B 的指法表與題目一致嗎？",
+      "只追蹤歌曲中 B 出現時第 1 指的需求。",
+      "局部修正該音符的手指集合，按下次數的累積方式先不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "afea599ffd795a25f9f06ef2866790f8aefac3176428dd21b62582317072bb84": {
+    "problem_id": 10420,
+    "statement_sha256": "24bebc9da8059e9783f451cbf166193af214a6550798412c21c53a40408733d7",
+    "audit_sha256": "a0aa8422f269a266dc453a579380fd91a92d0bdf55f26ecb15fdd3efcbe579fb",
+    "hints": [
+      "同一國家出現多筆紀錄時，數量有累加嗎？",
+      "讓同一國家連續出現兩次，檢查原本計數是否被覆寫。",
+      "對既有國家累加紀錄，不要每次重新指定成一。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "1de9e3eb63381c252652b2c61f036e65dea2cd36841e4279e812d3cb8c87e63d": {
+    "problem_id": 10420,
+    "statement_sha256": "24bebc9da8059e9783f451cbf166193af214a6550798412c21c53a40408733d7",
+    "audit_sha256": "4eb910d40feef23857122da7193055a8204d3c282d403041e691331b8ea08145",
+    "hints": [
+      "國家是每行的第一個單字還是最後一個？",
+      "使用姓名包含多個單字的一行，觀察拿來統計的鍵值。",
+      "只取第一個單字作國家，後面的姓名不應覆蓋它。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "ed31f891bfe31698cc326a6f927430378af2ea6288d8d838c60608489f4d197a": {
+    "problem_id": 10642,
+    "statement_sha256": "253bab41be4a46268a42ebc5dcc629e35026731215c2a06753952bdc6840f63f",
+    "audit_sha256": "f4a41bebbafcb1934efadc8290ca46a45cdea9027edb788b2f8dfac959c61b1f",
+    "hints": [
+      "同一條對角線上的前進方向為何？",
+      "從同一對角線的兩個端點追蹤序號，確認使用哪個座標作偏移。",
+      "修正對角線內的位置偏移，跨對角線的累積部分先不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "e50029aadb8c9c741bc0a1cf1a8981865a1a19d507234bd26dab1cd2d2e6fab5": {
+    "problem_id": 10642,
+    "statement_sha256": "253bab41be4a46268a42ebc5dcc629e35026731215c2a06753952bdc6840f63f",
+    "audit_sha256": "448b40f4eba5a5f0285f438215aea39ae00e17d230fb185b48a41c3f28733904",
+    "hints": [
+      "座標合法時，步數一定能放進 32 位元整數嗎？",
+      "使用題庫中的大座標案例，檢查函式返回值的型別。",
+      "讓序號函式的返回值保留足夠範圍，避免在返回時截斷。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "3d1e31b65b4e1c72ff712d06feef8d86576a48490a4f8e10c97d091d8837c817": {
+    "problem_id": 10783,
+    "statement_sha256": "f8fd0b9855768b3bdb5d0176624f30742ca768c50e503f1f23723b6d92345ccd",
+    "audit_sha256": "f6181e1ea9ad31fc41acd00651831cf7b0dfa180ba9c88ecea31ffb8b557b55d",
+    "hints": [
+      "閉區間是否包含兩端？",
+      "當 a=b 且為奇數時，檢查內層迴圈會執行幾次。",
+      "只調整內層迴圈上界，使合法的右端點能被處理。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "8acc8fb757b64847d31b8e1a4673a4e817114bf26a97fcfc3bf846f69835194c": {
+    "problem_id": 10783,
+    "statement_sha256": "f8fd0b9855768b3bdb5d0176624f30742ca768c50e503f1f23723b6d92345ccd",
+    "audit_sha256": "189a6eb2c92117f424cdaf04a5c93fbd3ac4eb545c2fee2e863b46e2e0976e2e",
+    "hints": [
+      "題目要累加哪一類整數？",
+      "檢查篩選條件，先追蹤區間 2 到 3 會加入哪個數。",
+      "局部調整奇偶判斷，讓被加入的是奇數，保留目前累加架構。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "9072a6805b1da87a22541e4f05e813525c4289e53bea2d0c503f6e720071e5bc": {
+    "problem_id": 10812,
+    "statement_sha256": "7737168b6b9a91103bff7d4f6293a1d80857924a6bc05468bc33a1939afa7bf4",
+    "audit_sha256": "eba4aaae6f398e1a035bdb9af3780f1e73e2aca712121fd6405146e03ac883d6",
+    "hints": [
+      "分數必須是整數，整數除法會隱藏什麼資訊？",
+      "用總分 10、差 3 代回檢查，截斷後兩分數能同時滿足條件嗎？",
+      "在除法前補上整數可解性的檢查，不要依靠截斷結果當作合法分數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7e20c0dedd8f4c094f3b8f96f8134671e5003cd31e0401ecb56425404f3a807d": {
+    "problem_id": 10812,
+    "statement_sha256": "7737168b6b9a91103bff7d4f6293a1d80857924a6bc05468bc33a1939afa7bf4",
+    "audit_sha256": "25ec883fd75f10211c970783348c44d76b4f01f3d58f30d44a760f771a2f3395",
+    "hints": [
+      "解除了是整數，還需要滿足什麼符號限制？",
+      "用總分 2、差 8，檢查較小分數是否變成負數。",
+      "在可解判斷中保留非負分數所需條件，再進行分數計算。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "952bbbb619d50e98ab3dc3d3543f6d986924f78f375734f665812998331c30df": {
+    "problem_id": 10908,
+    "statement_sha256": "1cc0271dc67ff1adb2fb0c3b3d408e680099cc3dbdfa4e20af4d971f8054e6c0",
+    "audit_sha256": "75541829eb26cfe49586a9f022a274d09759d65297642e523baa602cf3dec1b7",
+    "hints": [
+      "中心格本身是否已構成一個正方形？",
+      "只給一格的矩形，追蹤未進入擴張迴圈時的答案。",
+      "將初始合法邊長設為中心格可形成的大小。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "285bdad9e9333c448e224522e3f188b66113bf459ede5014a64a49ddde640b7c": {
+    "problem_id": 10908,
+    "statement_sha256": "1cc0271dc67ff1adb2fb0c3b3d408e680099cc3dbdfa4e20af4d971f8054e6c0",
+    "audit_sha256": "4116229d3fdf6c8c3e7a414d05c776e0bc450a86a15a84a0a2d69ad0a22a788b",
+    "hints": [
+      "每組答案之前需要先輸出哪些資訊？",
+      "把第一行實際輸出與預期輸出的 M N Q 比較。",
+      "補回案例開頭的尺寸與查詢數，不改動每筆邊長計算。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "9fd11f871d5a36fcb2f9a8890b87eeb64bae05477b7df3c2ed05fab83c1ea681": {
+    "problem_id": 10922,
+    "statement_sha256": "71724efe237b134e09657c38aaa72693fb469b34d90789fbcbabe24cc74e884e",
+    "audit_sha256": "9d7b5961a56e586060668bc17196931e22d1b8213b7b2584aeb508955877c6ac",
+    "hints": [
+      "輸入本身為 9 時，題目定義的程度是多少？",
+      "以單一 9 檢查程度計數的初始值。",
+      "修正程度計數起點，讓最基本案例符合定義。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "b77f9da1f5407148b4957dcd9bfd0f920ac13350b8a2ae9072992839d162839a": {
+    "problem_id": 10922,
+    "statement_sha256": "71724efe237b134e09657c38aaa72693fb469b34d90789fbcbabe24cc74e884e",
+    "audit_sha256": "908cde6b147a6a7153079d4686988cabf39c3dec08d4712ead19ba37daadbfc5",
+    "hints": [
+      "要判斷的是哪一個數的倍數？",
+      "拿一個各位數總和為奇數的 9 倍數，檢查餘數判斷。",
+      "整除判斷應使用題目指定的基準，不是奇偶性。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "7a693281c0f5e43a67fb64e18ff9f8ad9aed52a25b279d45b3be69bb10d962ed": {
+    "problem_id": 10929,
+    "statement_sha256": "402b3cc0eb078e52af048905a24abbebffeb369c7f4d3837dd2ab75d5b5c15af",
+    "audit_sha256": "25b820d86d7fd616bf52d94ec4418e70008003ae597adf5b44637a15107ad709",
+    "hints": [
+      "累積餘數時，除數是否符合要檢查的倍數？",
+      "用 11 追蹤逐位累積後的餘數。",
+      "局部修正取餘數的除數，不必將整串數字轉成一般整數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "deaf75ad1d0cfe4c37b6aab3672b627f9cac802f63b5c9b75e5e242e4176d2e9": {
+    "problem_id": 10929,
+    "statement_sha256": "402b3cc0eb078e52af048905a24abbebffeb369c7f4d3837dd2ab75d5b5c15af",
+    "audit_sha256": "2bc3545701568d83e77092784a5afb9a8e27ad1d479ba753e852242d3f790da3",
+    "hints": [
+      "哪個輸入才是停止標記？",
+      "用合法數字 11 作第一筆，觀察是否還沒處理就停止。",
+      "修正終止標記，合法資料應正常判斷與輸出。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "28138a5c1a4952c7feac0a933416fb3df0b65059a64539f19f2a976d00d081dc": {
+    "problem_id": 10931,
+    "statement_sha256": "b6085c85727f6bae10586cd4b20652babc8740caeffc7be3eb8e7e056d77e565",
+    "audit_sha256": "ccea3dbc226cdbdad29340d5a10e72f7d1dc507cb953b5370f7f79ea69486e0a",
+    "hints": [
+      "連續取餘數時，先取得高位還是低位？",
+      "以 10 追蹤每次附加到 b 的字元，與正常二進位閱讀方向比較。",
+      "在輸出前局部整理累積的位元順序，不要改動 1 的計數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "77a17c5709c47f5803489a8f2332cfc1e3b8bc288d7bb722e521e6d022bb237d": {
+    "problem_id": 10931,
+    "statement_sha256": "b6085c85727f6bae10586cd4b20652babc8740caeffc7be3eb8e7e056d77e565",
+    "audit_sha256": "49bb9012e27bee5cd24f5a908133154bd4d275340d1276365efc20a1662d077c",
+    "hints": [
+      "請對照輸出中的 P 要呈現計數還是取模結果。",
+      "用 7 測試，二進位有三個 1；檢查輸出前是否把計數縮成 0 或 1。",
+      "保留計數器的完整值，讓固定文字 (mod 2) 與實際計數分開處理。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "87ea2e8503d2560bfe2fb8d73395027aff754c5f8182e7178f1bbb4f891afcc3": {
+    "problem_id": 11005,
+    "statement_sha256": "4f42d279739fbea0d7af726986b263a2f3ee2c0f8a31b7e8d9ead25c51d90c8c",
+    "audit_sha256": "e9d6543d6458a4c52c2d20d403cdb258b93f1c7cd3fcb8e8d278fb194ac62430",
+    "hints": [
+      "每個數字符號的列印成本都一樣嗎？",
+      "使用不等成本的測資，檢查計算中是否真的讀取了成本表。",
+      "將每個實際使用數位的指定成本加入總和，不只計算位數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "401be30011c048704162b089faf2a42d0950c892f97f7b086efa26f180ba0a1b": {
+    "problem_id": 11005,
+    "statement_sha256": "4f42d279739fbea0d7af726986b263a2f3ee2c0f8a31b7e8d9ead25c51d90c8c",
+    "audit_sha256": "62280d36d8a098f2b4d26a60fae72bdc004219110840d0dd6fa8594cbb7b727e",
+    "hints": [
+      "最低成本同時出現在多個進位時，都需要列出嗎？",
+      "使用所有數位成本相同的案例，檢查並列最小值是否被漏掉。",
+      "保留全部同成本的最佳進位，而不是只保留第一個。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "2d3b7165dfaad298b4de23c521f8feab0fdc7d02b5fce3c6e0fae66e5d6560e2": {
+    "problem_id": 11063,
+    "statement_sha256": "bdd6c25f0e50525b74d7167a63d1cac6cee4dab755d724b221df51a75aef9589",
+    "audit_sha256": "83b9313f044fbe5a7af87f0bc8c24d3fd761903624029235cb66fca590bc452f",
+    "hints": [
+      "序列元素除了遞增，還需要滿足什麼範圍？",
+      "先給包含 0 的遞增序列，檢查是否在配對之前就排除非法元素。",
+      "恢復正整數限制，再進行配對和的重複檢查。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "331f58a41e704d75b98c9ea7ecb6fbe41a8e7bdc6855dcb90e4176a3ab7a1b74": {
+    "problem_id": 11063,
+    "statement_sha256": "bdd6c25f0e50525b74d7167a63d1cac6cee4dab755d724b221df51a75aef9589",
+    "audit_sha256": "e137fd08bcdeff002842d012a44b087b82c784ee0e434bd03e2c6812113adee6",
+    "hints": [
+      "題目允許一個元素與自己配對嗎？",
+      "用 1、2、3 追蹤 1+3 與 2+2，觀察是否都被列入。",
+      "修正配對範圍，包含題意允許的相同索引組合。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "a44b9b74ac2456e7e1cf5870a79d01688c5a9c5a944c48f87df09a62efb73f5b": {
+    "problem_id": 11150,
+    "statement_sha256": "b784dbc6d8a79f31d58dc88705dbddca7f4551da7709e9943384c6f7feb9d23d",
+    "audit_sha256": "62eb96bb4f0107880178cf98f7811e07e1778759c1442765e1f3b9541a049a96",
+    "hints": [
+      "最後能歸還的空瓶是否可以先借來使用？",
+      "以原有兩瓶的情況手算，對照目前是否完全沒考慮借瓶。",
+      "補回可歸還的借瓶情況，但結束時仍須檢查足夠歸還。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "a142e26e8c820438b8bf758d8fe59b2e78781cda037317b0972467f738b7c55d": {
+    "problem_id": 11150,
+    "statement_sha256": "b784dbc6d8a79f31d58dc88705dbddca7f4551da7709e9943384c6f7feb9d23d",
+    "audit_sha256": "a5b9a5021858dc6a125a4840ceb956ec868bb80e4c315b6d0e004fbff6b309e1",
+    "hints": [
+      "總共喝掉的數量包含原先買的嗎？",
+      "從只有一瓶開始追蹤，檢查初始喝掉數量。",
+      "總數應包含最初的可樂，不只統計後來兌換的部分。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "d8b847793225baf5b1ff212afee8c81ff12000374a0ad07485d9f0f90f4c9d4d": {
+    "problem_id": 11321,
+    "statement_sha256": "a568b0bdf49259c8c7066fe75091031b11740f9b88bfef086d2e8a25cf14e121",
+    "audit_sha256": "dfa5ee27f45c9d656aa7e523a7d719e2afd925673c0787670a625dbdbce27787",
+    "hints": [
+      "負數的餘數是否應保留負號？",
+      "用負數與零混合的測資，比對 C/C++ 的餘數規則。",
+      "比較原本帶符號的餘數，不要先取絕對值。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "8555e9bee1b32a3628f2d0acbd757a7a742d93df7d4ded98c1fc7b181a678561": {
+    "problem_id": 11321,
+    "statement_sha256": "a568b0bdf49259c8c7066fe75091031b11740f9b88bfef086d2e8a25cf14e121",
+    "audit_sha256": "bcc85f744c689acd484daefad2dba7d0ebbd4c59c350b1dcbf23da556174e4b0",
+    "hints": [
+      "同餘數的兩個奇數，哪個應排在前面？",
+      "選兩個餘數相同的奇數，單獨追蹤最後的比較分支。",
+      "只修正兩奇數的排序方向，兩偶數的規則先不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "009b376354489c3c13a41f1539f386c1e1eb62cfed34e4bd6d12bd7f665d4e7c": {
+    "problem_id": 11332,
+    "statement_sha256": "a7ae1db5e6e2bd10d6012811414c93cff15ec6b1651b632fd14132ef9658d10d",
+    "audit_sha256": "643f2503da422c6218f6ad3e927e1a71cb35e23bb3452503af91d4ac34435aef",
+    "hints": [
+      "一次各位數加總後，結果一定是一位數嗎？",
+      "以 99 追蹤：第一次加總後還需要再處理嗎？檢查外層控制。",
+      "讓各位數加總可以重複進行，直到真正只剩一位數，不只執行一次。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "d0e41a03a21eb6ad9711420ef78998e66520a1100f6e0abe47355087c5098628": {
+    "problem_id": 11332,
+    "statement_sha256": "a7ae1db5e6e2bd10d6012811414c93cff15ec6b1651b632fd14132ef9658d10d",
+    "audit_sha256": "b9392a527f288608b3b586bd0cc27fd87a58df95d05a77c0ca0ec699330baa2b",
+    "hints": [
+      "停止條件應涵蓋所有兩位數。",
+      "請單獨追蹤 n=10，觀察目前條件是否會進入加總。",
+      "調整外層條件對 10 的處理，保留一位數直接輸出的行為。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "6867dcb6736bc6df9b97b2e2ed9d636c171e119644533e1531f76420324173b6": {
+    "problem_id": 11349,
+    "statement_sha256": "6b0e7016061dc631494087625cf266a57a517d23bbbbe323b130bf93c6555e81",
+    "audit_sha256": "5fb987a1e97374184c186c41fea900dc77d1726021f66a02e8cdf2a51ee3b184",
+    "hints": [
+      "只要位置對稱就足夠，還是數值也有範圍限制？",
+      "以只含負數的一格矩陣檢查分類。",
+      "恢復所有元素非負的檢查，不能只比較位置。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "1f6e73b84648a5793aa9e0fef11686fe5ae6a6b7d4989a272cf6913097d60adb": {
+    "problem_id": 11349,
+    "statement_sha256": "6b0e7016061dc631494087625cf266a57a517d23bbbbe323b130bf93c6555e81",
+    "audit_sha256": "27e3d4265927bb1c33dd2168e4f4374efb254f3144de839b00850f83218e25a4",
+    "hints": [
+      "本題是中心對稱，還是沿主對角線對稱？",
+      "挑一個沿對角線相同但中心對稱不成立的二階矩陣追蹤。",
+      "修正對應位置的索引，讓它代表繞中心旋轉後的位置。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "fac7c1e45f4b12f9c0e1f3a54f7b8eb1d2b805a2b1984de34dd89c92bb1c30fc": {
+    "problem_id": 11417,
+    "statement_sha256": "281e383c8e12c00bd9a26eed0d8a0caeea6ecc9a716a6195e23ee112d45e82fd",
+    "audit_sha256": "99be2f9d76bef15d65a2d60332581350bada0bc9aeef3abb81576c536c944e96",
+    "hints": [
+      "配對能包含同一個數與自己嗎？",
+      "以 N=2 列出題意允許的全部配對，與內層起點比較。",
+      "只修正配對起點，避免多算相同索引的情況。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "f8ed560a977803df8875252b7c743a817c465bb353a282ec6ae45ca3e78bf1f6": {
+    "problem_id": 11417,
+    "statement_sha256": "281e383c8e12c00bd9a26eed0d8a0caeea6ecc9a716a6195e23ee112d45e82fd",
+    "audit_sha256": "8025b5478efd33512e4f6c7db95357990412719085e5c6c4dbf75d24067e4ad9",
+    "hints": [
+      "最後兩個不同整數的配對有被列入嗎？",
+      "用 N=2 檢查外層迴圈是否會執行。",
+      "修正外層的有效上界，使最後一個合法配對也被處理。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "f62bbd098e83142518b12520b41c12ce799557ec20509f5f5fe2606e8782f49f": {
+    "problem_id": 11461,
+    "statement_sha256": "06f57fdd8ac67491f7c18c78c01657a71c8cce19e7b3233edd27ded1607bdd8f",
+    "audit_sha256": "c9c0c00cc0b062674545f0f592d0c9df786a2096323f120018156f08cb05e90c",
+    "hints": [
+      "下界本身為完全平方數時要計入嗎？",
+      "讓上下界都是同一個平方數，檢查下界比較。",
+      "修正閉區間下界的相等情況。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "11cd640ef8a9e904027ecd2176d65a57f38af13ea06dae88dcb15bafa3e24640": {
+    "problem_id": 11461,
+    "statement_sha256": "06f57fdd8ac67491f7c18c78c01657a71c8cce19e7b3233edd27ded1607bdd8f",
+    "audit_sha256": "9b047ff6783fd146e521a9b449094dc55a82bd1eca7881fe30d79012b1814a95",
+    "hints": [
+      "上界本身為完全平方數時要計入嗎？",
+      "用上界恰好為平方數的區間，追蹤走訪停止條件。",
+      "修正閉區間上界的相等情況，不要漏掉最後一個合法平方數。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "1aa5794dd1cde5a38bde643be569dc8cba4033b9355763ad476fb677063f2465": {
+    "problem_id": 12019,
+    "statement_sha256": "8d0ed72220cdeb366b0a2a05c63858c0e51b3c7aa3e1a9c918a8f4f17e2130bc",
+    "audit_sha256": "9dc06d0ed8a36821c554422a419e199238c61ebe8ef9a5dc76690e01e8675c60",
+    "hints": [
+      "從已知起始日期算經過天數時，當天算零天還是一天？",
+      "直接查 2011 年 1 月 1 日，檢查日期偏移初值。",
+      "修正當月日期到偏移天數的換算起點。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  },
+  "5a4165917f2fb4b04a7e145f862aa54bdd0722922d91ccdadf52d9fda64ca294": {
+    "problem_id": 12019,
+    "statement_sha256": "8d0ed72220cdeb366b0a2a05c63858c0e51b3c7aa3e1a9c918a8f4f17e2130bc",
+    "audit_sha256": "e4e56ceba3baa7d45652a028479189f49e94e255b0396a4e0d3e81bd7d0a1a2c",
+    "hints": [
+      "2011 年是否為閏年？",
+      "比較二月底與三月初的結果，觀察二月天數是否多算一天。",
+      "修正固定年份的二月天數，其他月份先不變。"
+    ],
+    "source": "project-authored isolated mutation with existing Docker audit"
+  }
+}

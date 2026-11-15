@@ -1,0 +1,669 @@
+{
+  "base_model": "google/gemma-3-4b-it",
+  "dataset_sha256": "af2946db242eece33993c89d84ab9cda95f2814c5f02a8ea356d9bc05c00cb3d",
+  "eval_dataset_sha256": "2b308003239bddb0518efbf784019caa4e31f45d542cff0161bec1e8c80a3b4f",
+  "topics": 36,
+  "gpu": "NVIDIA GeForce RTX 5060",
+  "training_examples": 353,
+  "evaluation_examples": 9,
+  "epochs": 1,
+  "optimizer_steps": 89,
+  "expected_steps": 89,
+  "smoke_only": false,
+  "method": "NF4 QLoRA; rank8 q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj; assistant-only selected-position loss; frozen embeddings BF16",
+  "max_length": 2560,
+  "gradient_accumulation": 4,
+  "learning_rate": 3e-05,
+  "validation_loss_before": 4.876758151584202,
+  "validation_loss_after": 3.2011941274007163,
+  "peak_allocated_vram_gb": 5.295530796051025,
+  "elapsed_seconds": 1018.5629999998491,
+  "scope": "Dev-informed curriculum and grounding. UVa topic IDs remain disjoint; concepts overlap. Only the untouched test situations are final evaluation.",
+  "logs": [
+    {
+      "epoch": 1,
+      "step": 1,
+      "loss": 4.25009,
+      "elapsed_seconds": 12.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 2,
+      "loss": 4.45142,
+      "elapsed_seconds": 23.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 3,
+      "loss": 4.4812,
+      "elapsed_seconds": 33.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 4,
+      "loss": 4.08243,
+      "elapsed_seconds": 41.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 5,
+      "loss": 3.55812,
+      "elapsed_seconds": 52.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 6,
+      "loss": 5.28896,
+      "elapsed_seconds": 61.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 7,
+      "loss": 4.97566,
+      "elapsed_seconds": 74.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 8,
+      "loss": 5.35298,
+      "elapsed_seconds": 83.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 9,
+      "loss": 5.53891,
+      "elapsed_seconds": 96.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 10,
+      "loss": 3.91256,
+      "elapsed_seconds": 104.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 11,
+      "loss": 4.48526,
+      "elapsed_seconds": 119.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 12,
+      "loss": 3.8898,
+      "elapsed_seconds": 127.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 13,
+      "loss": 4.08492,
+      "elapsed_seconds": 137.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 14,
+      "loss": 4.73307,
+      "elapsed_seconds": 147.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 15,
+      "loss": 4.79908,
+      "elapsed_seconds": 155.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 16,
+      "loss": 4.33529,
+      "elapsed_seconds": 166.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 17,
+      "loss": 5.172,
+      "elapsed_seconds": 178.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 18,
+      "loss": 3.64719,
+      "elapsed_seconds": 189.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 19,
+      "loss": 3.55494,
+      "elapsed_seconds": 203.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 20,
+      "loss": 4.88168,
+      "elapsed_seconds": 216.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 21,
+      "loss": 4.01125,
+      "elapsed_seconds": 231.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 22,
+      "loss": 4.00299,
+      "elapsed_seconds": 243.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 23,
+      "loss": 4.03358,
+      "elapsed_seconds": 254.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 24,
+      "loss": 3.76291,
+      "elapsed_seconds": 265.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 25,
+      "loss": 3.34607,
+      "elapsed_seconds": 277.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 26,
+      "loss": 3.80616,
+      "elapsed_seconds": 291.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 27,
+      "loss": 4.01064,
+      "elapsed_seconds": 300.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 28,
+      "loss": 2.78211,
+      "elapsed_seconds": 313.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 29,
+      "loss": 4.39166,
+      "elapsed_seconds": 324.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 30,
+      "loss": 4.03052,
+      "elapsed_seconds": 338.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 31,
+      "loss": 3.60823,
+      "elapsed_seconds": 350.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 32,
+      "loss": 4.2705,
+      "elapsed_seconds": 361.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 33,
+      "loss": 3.88399,
+      "elapsed_seconds": 373.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 34,
+      "loss": 3.62389,
+      "elapsed_seconds": 386.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 35,
+      "loss": 3.51687,
+      "elapsed_seconds": 397.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 36,
+      "loss": 3.3171,
+      "elapsed_seconds": 409.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 37,
+      "loss": 3.30624,
+      "elapsed_seconds": 418.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 38,
+      "loss": 3.78052,
+      "elapsed_seconds": 430.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 39,
+      "loss": 3.6367,
+      "elapsed_seconds": 441.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 40,
+      "loss": 3.86823,
+      "elapsed_seconds": 452.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 41,
+      "loss": 4.04084,
+      "elapsed_seconds": 463.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 42,
+      "loss": 3.77381,
+      "elapsed_seconds": 473.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 43,
+      "loss": 3.01043,
+      "elapsed_seconds": 486.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 44,
+      "loss": 3.11628,
+      "elapsed_seconds": 498.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 45,
+      "loss": 3.07359,
+      "elapsed_seconds": 510.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 46,
+      "loss": 2.51641,
+      "elapsed_seconds": 521.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 47,
+      "loss": 3.21799,
+      "elapsed_seconds": 530.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 48,
+      "loss": 3.22513,
+      "elapsed_seconds": 541.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 49,
+      "loss": 2.65825,
+      "elapsed_seconds": 551.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 50,
+      "loss": 3.67541,
+      "elapsed_seconds": 564.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 51,
+      "loss": 2.73874,
+      "elapsed_seconds": 577.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 52,
+      "loss": 3.54403,
+      "elapsed_seconds": 586.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 53,
+      "loss": 3.21762,
+      "elapsed_seconds": 600.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 54,
+      "loss": 3.12749,
+      "elapsed_seconds": 612.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 55,
+      "loss": 3.15402,
+      "elapsed_seconds": 622.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 56,
+      "loss": 3.30811,
+      "elapsed_seconds": 633.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 57,
+      "loss": 2.72782,
+      "elapsed_seconds": 646.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 58,
+      "loss": 1.91746,
+      "elapsed_seconds": 658.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 59,
+      "loss": 2.90757,
+      "elapsed_seconds": 669.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 60,
+      "loss": 2.46002,
+      "elapsed_seconds": 679.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 61,
+      "loss": 2.64093,
+      "elapsed_seconds": 694.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 62,
+      "loss": 3.81057,
+      "elapsed_seconds": 705.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 63,
+      "loss": 3.01575,
+      "elapsed_seconds": 717.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 64,
+      "loss": 2.5501,
+      "elapsed_seconds": 731.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 65,
+      "loss": 2.86682,
+      "elapsed_seconds": 741.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 66,
+      "loss": 3.25126,
+      "elapsed_seconds": 756.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 67,
+      "loss": 2.84738,
+      "elapsed_seconds": 770.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 68,
+      "loss": 2.46096,
+      "elapsed_seconds": 781.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 69,
+      "loss": 3.0882,
+      "elapsed_seconds": 791.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 70,
+      "loss": 3.30959,
+      "elapsed_seconds": 802.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 71,
+      "loss": 2.38734,
+      "elapsed_seconds": 818.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 72,
+      "loss": 3.16985,
+      "elapsed_seconds": 831.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 73,
+      "loss": 2.56641,
+      "elapsed_seconds": 842.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 74,
+      "loss": 2.91635,
+      "elapsed_seconds": 853.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 75,
+      "loss": 2.29689,
+      "elapsed_seconds": 864.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 76,
+      "loss": 3.30211,
+      "elapsed_seconds": 876.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 77,
+      "loss": 2.62919,
+      "elapsed_seconds": 890.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 78,
+      "loss": 3.00983,
+      "elapsed_seconds": 900.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 79,
+      "loss": 3.03815,
+      "elapsed_seconds": 910.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 80,
+      "loss": 3.06003,
+      "elapsed_seconds": 921.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 81,
+      "loss": 3.41929,
+      "elapsed_seconds": 930.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 82,
+      "loss": 2.97446,
+      "elapsed_seconds": 941.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 83,
+      "loss": 3.31764,
+      "elapsed_seconds": 953.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 84,
+      "loss": 2.83469,
+      "elapsed_seconds": 964.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 85,
+      "loss": 3.66865,
+      "elapsed_seconds": 977.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 86,
+      "loss": 2.18816,
+      "elapsed_seconds": 988.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 87,
+      "loss": 2.51099,
+      "elapsed_seconds": 1001.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 88,
+      "loss": 3.01486,
+      "elapsed_seconds": 1012.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 89,
+      "loss": 2.38701,
+      "elapsed_seconds": 1013.5,
+      "peak_vram_gb": 5.296
+    }
+  ],
+  "warmup_ratio": 0.1,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "adapted_decoder_layers": [
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33
+  ],
+  "uva_topic_count": 35,
+  "eval_all_levels": true
+}

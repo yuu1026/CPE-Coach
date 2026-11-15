@@ -44,11 +44,11 @@ def main():
             evidence=payload.get('execution_evidence')
             if evidence:
                 # Preserve existing bounded evidence exactly, rather than inventing runs.
-                messages=build_messages(problem,payload['code'],payload['question'],old['hint_level'],history,include_reference=False)
+                messages=build_messages(problem,payload['code'],payload['question'],old['hint_level'],history,include_reference=False,include_diagnostics=False)
                 revised=json.loads(messages[-1]['content']); revised['execution_evidence']=evidence
                 messages[-1]['content']=json.dumps(revised,ensure_ascii=False)
             else:
-                messages=build_messages(problem,payload['code'],payload['question'],old['hint_level'],history,include_reference=False)
+                messages=build_messages(problem,payload['code'],payload['question'],old['hint_level'],history,include_reference=False,include_diagnostics=False)
             target=old['messages'][-1]['content']
             if old['problem_id']==10226:
                 target=target.replace('先檢查 `` 這一段。','先檢查案例之間應輸出空行的位置。')
@@ -67,7 +67,7 @@ def main():
     ]
     generic=SimpleNamespace(title='C++17 對照教學',statement='回答當前 C++17 學習問題，不存在可用的程式執行紀錄。',sample_input='',sample_output='')
     for i,(question,target) in enumerate(additions):
-        messages=build_messages(generic,'',question,2,[],include_reference=False)
+        messages=build_messages(generic,'',question,2,[],include_reference=False,include_diagnostics=False)
         sets['train'].append({'id':f'quality-v4-contrast-{i}','problem_id':0,'variant':'contrast','hint_level':2,
             'provenance':'GPT/Codex-authored validation-driven contrast; not independent teacher review',
             'messages':messages+[{'role':'assistant','content':target}],
@@ -83,7 +83,7 @@ def main():
         evidence=audits[number]['judge'] if variant=='accepted-final' else {'status':'not_run','label':'修改後尚未重新執行','cases':[]}
         history=[] if variant=='accepted-final' else [{'question':'舊版通過了嗎？','hint':'之前的版本通過當時提供的測資。','code':code}]
         if history:code+='\n// updated version\n'
-        messages=build_messages(problem,code,question,1,history,evidence,include_reference=False)
+        messages=build_messages(problem,code,question,1,history,evidence,include_reference=False,include_diagnostics=False)
         sets['test'].append({'id':f'quality-v4-uva{number}-{variant}','problem_id':number,'variant':variant,'hint_level':1,
             'provenance':'GPT/Codex-authored held-out evidence consistency case; no test outputs used for tuning',
             'messages':messages+[{'role':'assistant','content':target}],

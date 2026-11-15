@@ -1,0 +1,74 @@
+{
+  "decision": "rejected at dev; not enabled",
+  "final_test_executed": false,
+  "untouched_final_cases": 14,
+  "independent_teacher_review": false,
+  "experiments": [
+    {
+      "transport": "dev",
+      "rule_summary": {
+        "base": {
+          "rule_passed": 3,
+          "total": 9,
+          "by_check": {
+            "complete": 9,
+            "language_and_repetition": 9,
+            "no_unrequested_full_code": 9,
+            "no_unsupported_execution": 9,
+            "requested_concept": 4,
+            "traditional_prose": 7
+          }
+        },
+        "adapter": {
+          "rule_passed": 3,
+          "total": 9,
+          "by_check": {
+            "complete": 9,
+            "language_and_repetition": 9,
+            "no_unrequested_full_code": 9,
+            "no_unsupported_execution": 9,
+            "requested_concept": 4,
+            "traditional_prose": 7
+          }
+        }
+      },
+      "self_review_mean_base": 1.0,
+      "self_review_mean_adapter": 1.1111111111111112,
+      "cases_with_adapter_critical_errors": 6
+    },
+    {
+      "transport": "dev-readable",
+      "rule_summary": {
+        "base": {
+          "rule_passed": 4,
+          "total": 9,
+          "by_check": {
+            "complete": 9,
+            "language_and_repetition": 9,
+            "no_unrequested_full_code": 9,
+            "no_unsupported_execution": 9,
+            "requested_concept": 4,
+            "traditional_prose": 9
+          }
+        },
+        "adapter": {
+          "rule_passed": 3,
+          "total": 9,
+          "by_check": {
+            "complete": 9,
+            "language_and_repetition": 9,
+            "no_unrequested_full_code": 7,
+            "no_unsupported_execution": 9,
+            "requested_concept": 4,
+            "traditional_prose": 9
+          }
+        }
+      },
+      "self_review_mean_base": 1.5555555555555556,
+      "self_review_mean_adapter": 1.5555555555555556,
+      "cases_with_adapter_critical_errors": 4
+    }
+  ],
+  "reason": "Loss reduction did not produce reliable diagnosis. Readable transport still fails semantic checks. Do not promote or claim high quality.",
+  "runtime_retrieval": "Audited fixture hints are separate authored retrieval, not model accuracy."
+}

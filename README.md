@@ -175,6 +175,17 @@ docker build -t cpe-judge:local ./judge
 
 [v1 訓練報告](training/reports/gemma3-cpe49-v1/training_report.json) · [v2 訓練報告](training/reports/gemma3-cpe49-v2/training_report.json) · [回覆比較與判讀](training/reports/cpe49-selection.json)
 
+後續回答品質實驗另以題號分開訓練／開發／最終測試，使用合成對話與已驗證錯誤程式：
+
+| 候選 | 訓練對話 | 更新次數 | 驗證 Loss 前／後 | 開發集規則通過（基準／候選） | 結果 |
+|---|---:|---:|---|---|---|
+| quality-v3 | 347 | 87 | 4.9454／4.3048 | 6/9／5/9 | 有重大診斷錯誤，未啟用 |
+| quality-v5 | 353 | 89 | 4.8768／3.2012 | 3/9／3/9 | 有重大診斷錯誤，未啟用 |
+
+兩版資料與開發集規則有調整，不能直接比較通過數；規則通過不是語意正確率。v5 改用可讀提示後為 4/9／3/9，GPT/Codex 逐筆自評均為 1.56/5，尚未經獨立教師複核。v4 中斷，沒有完整成果；最新 14 筆最終測試尚未執行。以上結果不支持模型已達高品質，因此一般啟動仍使用基礎模型。資料由 GPT/Codex 合成與專案案例組成，本輪沒有呼叫 GPT API。
+
+[品質實驗方法與重現指令](training/QUALITY.md) · [v5 原始報告與拒絕啟用決策](training/reports/gemma3-quality-v5/decision.json)
+
 ### 重現微調實驗
 
 在 `cpe-ai` 環境、專案根目錄執行，訓練前先停止模型服務以釋放 GPU：

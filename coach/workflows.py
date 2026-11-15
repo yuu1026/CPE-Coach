@@ -75,6 +75,8 @@ def submit(owner, problem, data, parent=None):
         record.answer = str(reply)
         if getattr(reply, 'source', '') == 'reference':
             record.mode, record.model = 'reference', '題庫參考解答（未呼叫模型）'
+        elif getattr(reply,'source','')=='verified_hint':
+            record.mode,record.model='verified_hint','題庫診斷提示（未呼叫模型）'
         record.status = 'partial' if getattr(reply, 'truncated', False) else 'done'
         omitted = getattr(reply, 'omitted_history_turns', 0)
         if omitted:

@@ -50,7 +50,7 @@ python training/quality_gate.py --dev training/reports/gemma3-quality-v3/dev.jso
 
 ## 第一候選的實際結果
 
-quality-v3 已完成 87 次更新，驗證 loss 由 4.9454 降至 4.3048，但逐筆回覆出現轉向、字串索引、排序與型別提升的錯誤。9 筆驗證的啟發式檢查，原始模型通過 6 筆、候選通過 5 筆；這不是語意正確率。逐筆 GPT/Codex 自評平均為 1.56/5 與 0.89/5，尚未經獨立教師複核。因此拒絕啟用，也沒有使用最終測試集為這個失敗候選補分。
+quality-v3 已完成 87 次更新，驗證 loss 由 4.9454 降至 4.3048，但逐筆回覆出現轉向、字串索引、排序與型別提升的錯誤。9 筆驗證的啟發式檢查，原始模型通過 6 筆、候選通過 5 筆；這不是語意正確率。逐筆 GPT/Codex 自評平均為 1.33/5 與 0.89/5，尚未經獨立教師複核。因此拒絕啟用，也沒有使用最終測試集為這個失敗候選補分。
 
 [實際訓練報告](reports/gemma3-quality-v3/training_report.json) · [原始回覆](reports/gemma3-quality-v3/dev.json) · [逐例自評](reports/gemma3-quality-v3/dev_review.json) · [決策](reports/gemma3-quality-v3/decision.json)
 
@@ -83,3 +83,32 @@ python training/evaluate_quality.py --adapter training/runs/gemma3-quality-v5 --
 ```
 
 這些是實驗入口；一般啟動入口仍遵循既有部署選擇，不因新檢查點存在就自動啟用。
+
+## 第二個完整候選與提示格式實驗
+
+v5 完成 353 筆訓練、89 次更新，驗證 loss 由 4.8768 降至 3.2012，PyTorch 配置顯存峰值約 5.30 GiB。這項改善沒有轉化成可靠的找錯能力，因此同樣拒絕設為預設。v4 中斷不算完整訓練成果。
+
+| 9 筆開發集，基準／v5 | 自動規則通過 | GPT/Codex 自評平均（0–5） |
+|---|---|---|
+| 原 JSON 提示 | 3/9、3/9 | 1.00、1.11 |
+| 可讀分段提示 | 4/9、3/9 | 1.56、1.56 |
+
+逐筆自評不是獨立教師評分，規則通過也不是語意正確率。可讀提示讓兩者的繁體文字檢查均達 9/9，但仍出現錯改排序、誤判輸出空行與未要求就給整題程式。此結果不支持「已達高品質」的結論。開發集已用於調整，不可冒充盲測；14 筆最終測試尚未執行，避免對已失敗候選反覆挑選成績。
+
+[訓練報告](reports/gemma3-quality-v5/training_report.json) · [JSON 提示原始回覆](reports/gemma3-quality-v5/dev.json) · [可讀提示原始回覆](reports/gemma3-quality-v5/dev-readable.json) · [逐例自評](reports/gemma3-quality-v5/dev-readable_review.json) · [拒絕啟用決策](reports/gemma3-quality-v5/decision.json)
+
+可讀提示的比較指令：
+
+```powershell
+python training/evaluate_quality.py --adapter training/runs/gemma3-quality-v5 --data-dir training/data/quality-v4 --split eval --plain-prompts --output training/reports/gemma3-quality-v5/dev-readable.json
+```
+
+網站傳給模型的內容改為分段題意、目前程式、執行證據，最後才放最新問題；資料庫仍保留結構化內容供追溯。這是提示傳輸調整，沒有讓失敗的 Adapter 自動上線。
+
+## 可追溯的局部診斷提示
+
+98 個已有 Docker 實測紀錄的單一錯誤變體，可依題目摘要與 C++ token 簽章取得專案撰寫的三級提示。僅容許一般程式空白與註解差異；前處理指令、字串與運算子保持區別。未知程式仍交由模型回答，後續追問也回到連續對話。
+
+畫面明確標示「題庫診斷提示（未呼叫模型）」，並說明未重新執行。這是窄範圍查表，不是模型學會 98 種錯誤，更不能宣稱任意程式的診斷正確率。訓練及模型評估資料均關閉這項查表，以免把答案放進輸入造成虛高成績。
+
+目前資料由 GPT/Codex 編寫的合成種子、模板及專案審核案例組成；本輪沒有呼叫付費 GPT API，也沒有獨立教師複核。擴大資料前應先提供本機 API 金鑰、可用模型 ID 與費用上限，依教師資料規格產生、編譯驗證、交叉評閱及去重；不能只靠增加 epoch 或降低 loss 宣稱品質提升。

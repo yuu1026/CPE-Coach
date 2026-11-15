@@ -34,7 +34,7 @@ def dump(path, rows):
 def row(item, variant, question, answer, code='', evidence=None, history=None, level=1, keywords=None):
     problem = SimpleNamespace(statement=item['statement'],title=f"UVa {item['uva']} · {item['title']}",
         sample_input=item['tests'][0]['input'],sample_output=item['tests'][0]['expected'])
-    messages = build_messages(problem,code,question,level,history or [],evidence,include_reference=False,include_topic_notes=False)
+    messages = build_messages(problem,code,question,level,history or [],evidence,include_reference=False,include_topic_notes=False,include_diagnostics=False)
     return {'id':f"quality-uva{item['uva']}-{variant}", 'problem_id':item['uva'], 'variant':variant,
         'hint_level':level,'provenance':PROVENANCE,'messages':messages+[{'role':'assistant','content':answer}],
         'rubric':{'concept_any':keywords or [], 'evidence_status':(evidence or {}).get('status','not_submitted'),

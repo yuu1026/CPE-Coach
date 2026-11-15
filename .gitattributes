@@ -1,4 +1,4 @@
 * text=auto eol=lf
 # Preserve exact artifact bytes: manifests/reports refer to their SHA-256.
-training/data/quality-*/** -text
-training/reports/gemma3-quality-*/** -text
+training/data/quality-*/** -text whitespace=cr-at-eol
+training/reports/gemma3-quality-*/** -text whitespace=cr-at-eol

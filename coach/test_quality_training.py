@@ -8,6 +8,17 @@ from types import SimpleNamespace
 from training.quality_gate import decide
 
 class QualityTrainingTests(SimpleTestCase):
+    def test_readable_transport_keeps_question_last_and_repair_instruction(self):
+        from coach.model_prompt import readable_messages
+        from coach.services import build_messages
+        problem=SimpleNamespace(statement='C++17 concepts')
+        messages=build_messages(problem,'','為什麼乘法前要轉型？',1,[])
+        messages[0]['content']+='\n上一個候選回覆使用了非 C++ 程式碼，請改用 C++17。'
+        readable=readable_messages(messages)
+        self.assertTrue(readable[-1]['content'].endswith('為什麼乘法前要轉型？'))
+        self.assertIn('上一個候選回覆',readable[0]['content'])
+        self.assertEqual(json.loads(messages[-1]['content'])['question'],'為什麼乘法前要轉型？')
+
     def test_blank_code_concept_question_is_not_beginner_mode(self):
         from coach.services import build_messages
         problem=SimpleNamespace(statement='C++17 concepts')
@@ -43,6 +54,7 @@ class QualityTrainingTests(SimpleTestCase):
             groups.append({r['problem_id'] for r in rows if r['problem_id']>0})
             for row in rows:
                 self.assertNotIn('reference_solution',row['messages'][-2]['content'])
+                self.assertNotIn('verified_diagnostic',json.loads(row['messages'][-2]['content']))
                 if row['problem_id']>0:
                     self.assertIn('verified_topic_notes',json.loads(row['messages'][-2]['content']))
         self.assertFalse(groups[0]&groups[1]);self.assertFalse(groups[0]&groups[2]);self.assertFalse(groups[1]&groups[2])

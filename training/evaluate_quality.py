@@ -20,6 +20,7 @@ django.setup()
 from opencc import OpenCC
 from coach.reply_quality import quality_issue, map_prose
 from coach.judging import judge
+from coach.model_prompt import readable_messages
 from local_model_server import fit_history, finish_reason
 from model_backend import model_path, load_text_model, validate_adapter
 
@@ -49,6 +50,7 @@ def main():
     parser.add_argument('--data-dir',type=Path,default=ROOT/'training/data/quality-v3')
     parser.add_argument('--split',choices=['eval','test'],default='eval')
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--plain-prompts',action='store_true',help='Evaluate the readable app transport, keeping retrieval/repair disabled')
     args=parser.parse_args()
     if args.output.exists(): raise RuntimeError('Output exists; choose a new report path.')
     import torch
@@ -66,7 +68,8 @@ def main():
         result={'id':row['id'],'problem_id':row['problem_id'],'question':json.loads(row['messages'][-2]['content'])['question'],
             'reference_target':row['messages'][-1]['content'],'rubric':row['rubric']}
         maximum=1024 if row['rubric']['full_solution'] else 384
-        messages,omitted=fit_history(tokenizer,row['messages'][:-1],maximum,4096)
+        prompt=readable_messages(row['messages'][:-1]) if args.plain_prompts else row['messages'][:-1]
+        messages,omitted=fit_history(tokenizer,prompt,maximum,4096)
         inputs=tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=True,return_dict=True,return_tensors='pt').to('cuda')
         for label in ('base','adapter'):
             started=time.monotonic()
@@ -94,7 +97,7 @@ def main():
     summary={label:{'rule_passed':sum(r[label]['rule_pass'] for r in results),'total':len(results),
         'by_check':{key:sum(r[label]['checks'].get(key,True) for r in results) for key in sorted({k for r in results for k in r[label]['checks']})}} for label in ('base','adapter')}
     report={'split':args.split,'adapter':args.adapter.name,'dataset_sha256':hashlib.sha256((args.data_dir/f'{args.split}.jsonl').read_bytes()).hexdigest(),
-        'summary':summary,'unscored_plain_language_sanity_probe':sanity,'scope':'Raw paired outputs. Rule pass is a heuristic compliance score, NOT independent semantic accuracy. Explicit full-answer code is judged on authored cases only. Read every output before deployment.', 'results':results}
+        'summary':summary,'prompt_transport':'readable app transport' if args.plain_prompts else 'structured JSON baseline','unscored_plain_language_sanity_probe':sanity,'scope':'Raw paired outputs. Rule pass is a heuristic compliance score, NOT independent semantic accuracy. Explicit full-answer code is judged on authored cases only. Retrieval answers, audited hints and repair retries are disabled. Read every output before deployment.', 'results':results}
     args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(summary),flush=True)
 
