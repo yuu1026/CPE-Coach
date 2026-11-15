@@ -18,7 +18,7 @@ class ReplyQualityTests(TestCase):
             calls.append(json.loads(request.content))
             return httpx.Response(200,json={'done':True,'message':{'content':'請先理解目前的運算方式。'}})
         original=httpx.Client
-        with patch('coach.services.httpx.Client',side_effect=lambda **kw:original(transport=httpx.MockTransport(handler),**kw)):
+        with patch('coach.services.httpx.Client',side_effect=lambda **kw:original(transport=httpx.MockTransport(handler),**kw)), patch('coach.services.compile_full_reply',return_value=None):
             for mode in ['tutor','solution']:
                 messages=[{'role':'system','content':'規則'},{'role':'user','content':json.dumps({'response_mode':mode,'code':'','question':'解釋這一步'})}]
                 generate_hint(messages,1)

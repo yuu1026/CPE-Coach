@@ -1,0 +1,545 @@
+{
+  "6bdbfd2ca965c16c67420f9944ffe54d1183d0f65cdf024db9c06edeed807dc8": {
+    "id": "v7-vito-mean-home-full",
+    "split": "train",
+    "code_sha256": "2ee345d68da8ba17ac97c9c19594ac63ad179946c4f53cd2ea912a0532264d61",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.005
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "664d5f6bca2eb62e9fa158331720cbb064fbc8bb328b9ae1f99d1e98074ea8d2": {
+    "id": "v7-vito-mean-location-full",
+    "split": "train",
+    "code_sha256": "66728e576164d4205383a64a801f66321df395c786eae6ad16286a547b47e6fe",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "e3bdf2f1ed20f0e1226ae74ba92c23f88d04d04aea688faf67c9473cf5e470e3": {
+    "id": "v7-vito-mean-chosen-full",
+    "split": "train",
+    "code_sha256": "2224c8aa2a4e4dbfd8f1274e6dd8c265447d58cfaf8889649cda1f8f567b93d8",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "6d52898aa00c9d8cfb8cc01eee275c88f9afff0ed3ab84b91e22435fe8a97b9d": {
+    "id": "v7-vito-mean-result-full",
+    "split": "train",
+    "code_sha256": "2d4ce1602f25b5e5f0b006e0b91e7b8a2f3ef06c84c5bf979213ffd32f31831c",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "c50ed50311ee878703282935c81912dab044736fc2db20b62faa240f03223fe3": {
+    "id": "v7-scope-home-full",
+    "split": "train",
+    "code_sha256": "29d803227eb1e9a871647c9b83dd1b3da128f1618cc3365605661def7be852a1",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.004
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "7dab2509c7b4bb8fb58cd74123731bcbd0b73f7bac5da74f30f2d2170bcbd9f5": {
+    "id": "v7-scope-location-full",
+    "split": "train",
+    "code_sha256": "cc437c7b24ba65584c03c351d9725b20c1fc6fa8fb361855641abe69509053eb",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "97b24a8d7964fca21cb06d7c920c8437301e807cc643171a5a64b5f205377951": {
+    "id": "v7-scope-chosen-full",
+    "split": "train",
+    "code_sha256": "353f98deb61cf72a8a261f568c9098cd8eed589556896f7af25b795838bb85cf",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "7917c2b8506e8871e411aa6f22b347a9007fd83a2d34414be91d554575999a76": {
+    "id": "v7-scope-result-full",
+    "split": "train",
+    "code_sha256": "632adf5803955db4fee3aaa18e87192a2b0bef1b51032bbf02eae8ca3222ce4a",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "63a3068a06d7ec666588f092e0f02d1dbbf040625372d9e5f8505523090dc2ea": {
+    "id": "v7-division-home-full",
+    "split": "train",
+    "code_sha256": "e7d96fc1df16f1158ac8f49bf21f2e972de2320201f68ef2c2172b99f2df1dd8",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "413cd88b1f04aeda1b8b8f54d76971ad5d9e04f0dd5d33c76ac9aa770158f79d": {
+    "id": "v7-division-location-full",
+    "split": "train",
+    "code_sha256": "204e62bf385733915a50ec5d59edc07fb5a494fc868edf6b79c8c475ca3f9f13",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "d6b69c53f162b4822855748bbb025969c811380479374d744b86cb37c2a1d32c": {
+    "id": "v7-division-chosen-full",
+    "split": "train",
+    "code_sha256": "adc0374fcbb1efdab7152264f537333441b304403e1b370c5cc0c88fdf6b52eb",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "5adb4c0860947cbb92305feabdbeba9b9943c029214ea97100596adaf9f1cef4": {
+    "id": "v7-division-result-full",
+    "split": "train",
+    "code_sha256": "366857298e81e106f490424add0efda2e05f669841f30588cacf53e795ee99b2",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "03a75bf1b88685e39acc5e228c7ce58d26e1d8db29afd00a912aa8c59abb084a": {
+    "id": "v7-multiply-home-full",
+    "split": "train",
+    "code_sha256": "f6175762f485b8f34742243692345154bd538475f460fc179596a03a715ae53d",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "4d453b017a9420101afead90ae3c345632b110c1797b510f3ce273605baf6ada": {
+    "id": "v7-multiply-location-full",
+    "split": "train",
+    "code_sha256": "5d4f2fc3b2fccd5513b55072364f92e643761f53741199955266148d952a6c99",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "ac541a73b1faac569194f5e54d39cd3000add89e6c49b95ab18f64a4d0585519": {
+    "id": "v7-multiply-chosen-full",
+    "split": "train",
+    "code_sha256": "e23b51259382772e3fb5abdec114d98c850c78b07dcd50da0cb8f61f5b9d6526",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "ddb336665d0aa80034d6e59c3402b43b72f328c0f61b2de1b7d694d94bfc0e8a": {
+    "id": "v7-multiply-result-full",
+    "split": "train",
+    "code_sha256": "f8354728b30955ca25a8809202ba9a96e25db208e913524e83715f12073d1ce6",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.004
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "4cdac707c931be7c13d4b78d7ac437179526ce1b4468d6aaa0faf3c3e8e75400": {
+    "id": "v7-eval-vito-scope-full",
+    "split": "eval",
+    "code_sha256": "007b4536eaafbacfd19cff04ddbd77c3d32592143922aaf3f766e9e3956ff6bd",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "1cea8de09968f63ac9ea2715698e3b1a02822d3335aaf4918c681e29b213e968": {
+    "id": "v7-eval-division-full",
+    "split": "eval",
+    "code_sha256": "aede3541770f0949afa08210eedfb442ef875c35e44271f821d2c998a325fdfe",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "c3110074ee7a3432a31a2155f2b20aebdb0bb501fbca9115e348897ef184f85d": {
+    "id": "v7-eval-multiply-full",
+    "split": "eval",
+    "code_sha256": "ecf93081bd97e1289d22d19c55ce2234ef135a5fadbd6388119689cfdd4ec8bd",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "856cf360bfafd88638cc29f561a5e9cc155c079845a7b1ea02a3ac292442eb39": {
+    "id": "v7-test-vito-mean-full",
+    "split": "test",
+    "code_sha256": "fa7ecf5bed08cbda4c55f5869003b1915c5ec033020c65b4d47a007830869822",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  "795f0e2f4f3abc7d1d4b52f69a8ee1e0bc7effcc0f7b58bdbd00a7b19241df7c": {
+    "id": "v7-test-scope-full",
+    "split": "test",
+    "code_sha256": "a8154038c72d8ccfd858e3e2809f6cb50b0107bb82b5fcc462a92a9186d06382",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  }
+}

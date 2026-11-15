@@ -1,0 +1,9 @@
+{
+  "scope": "Recorded bad response plus deterministic audited correction; real Docker compile only, no fresh model inference, no runtime tests.",
+  "recovery_calls": 2,
+  "recovered_compile_label": true,
+  "repeated_failure_calls": 2,
+  "repeated_failure_blocked": true,
+  "error": "模型產生的修正版仍未通過編譯檢查，未將它當作有效解答。你的原程式已保留。\nmain.cpp: In function ‘int main()’:\nmain.cpp:28:13: error: ‘home’ was not declared in this scope\n   28 |             home = addresses[mid];\n      |             ^~~~\nmain.cpp:33:42: error: ‘home’ was not declared in this scope\n   33 |             distanceSum += abs(address - home);\n      |                                          ^~~~\n",
+  "original_student_code_preserved": true
+}

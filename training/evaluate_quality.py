@@ -18,7 +18,7 @@ sys.path.insert(0,str(ROOT)); os.environ.setdefault('DJANGO_SETTINGS_MODULE','co
 import django
 django.setup()
 from opencc import OpenCC
-from coach.reply_quality import quality_issue, map_prose
+from coach.reply_quality import quality_issue, map_prose, missing_code_anchor
 from coach.judging import judge
 from coach.model_prompt import readable_messages
 from local_model_server import fit_history, finish_reason
@@ -29,10 +29,12 @@ def score(row,answer,reason):
     flags={'traditional_prose':map_prose(answer,OpenCC('s2t').convert)==answer,
         # Preserve the historical rubric; source quotation is a separate app
         # contract, not evidence of semantic correctness.
-        'language_and_repetition':quality_issue(answer,row['messages'][:-1],check_grounding=False) is None,
+        'language_and_repetition':quality_issue(answer,row['messages'][:-1],check_grounding=False,check_tutoring=False) is None,
         'complete':reason=='stop',
         'requested_concept':not rubric['concept_any'] or any(word.lower() in answer.lower() for word in rubric['concept_any']),
         'no_unrequested_full_code':rubric['full_solution'] or not re.search(r'\bint\s+main\s*\(',answer)}
+    if row.get('prompt_transport')=='readable':
+        flags['current_code_quoted']=not missing_code_anchor(answer,[{'role':'user','content':json.dumps({'code':row.get('code','')})}])
     if rubric['evidence_status'] in ('not_run','not_submitted'):
         claims=[]
         for sentence in re.split(r'[。！？\n]',answer):
@@ -45,6 +47,11 @@ def score(row,answer,reason):
         flags['generated_code_passes_tests']=result['status']=='accepted'
         return flags,result
     return flags,None
+
+def summarize(results):
+    return {label:{'rule_passed':sum(r[label]['rule_pass'] for r in results),'total':len(results),
+        'by_check':{key:sum(r[label]['checks'].get(key,False) for r in results) for key in sorted({k for r in results for k in r[label]['checks']})},
+        'by_check_totals':{key:sum(key in r[label]['checks'] for r in results) for key in sorted({k for r in results for k in r[label]['checks']})}} for label in ('base','adapter')}
 
 def main():
     parser=argparse.ArgumentParser()
@@ -67,7 +74,8 @@ def main():
     model.eval(); results=[]
     args.output.parent.mkdir(parents=True,exist_ok=True)
     for row in rows:
-        result={'id':row['id'],'problem_id':row['problem_id'],'question':json.loads(row['messages'][-2]['content'])['question'],
+        question=row['question'] if 'question' in row else json.loads(row['messages'][-2]['content'])['question']
+        result={'id':row['id'],'problem_id':row['problem_id'],'question':question,
             'reference_target':row['messages'][-1]['content'],'rubric':row['rubric']}
         maximum=1024 if row['rubric']['full_solution'] else 384
         prompt=readable_messages(row['messages'][:-1]) if args.plain_prompts else row['messages'][:-1]
@@ -96,8 +104,7 @@ def main():
         with (model.disable_adapter() if label=='base' else nullcontext()),torch.inference_mode():
             output=model.generate(**probe_inputs,max_new_tokens=160,do_sample=False,repetition_penalty=1.1,pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
         sanity[label]=tokenizer.decode(output[0][probe_inputs['input_ids'].shape[-1]:],skip_special_tokens=True)
-    summary={label:{'rule_passed':sum(r[label]['rule_pass'] for r in results),'total':len(results),
-        'by_check':{key:sum(r[label]['checks'].get(key,True) for r in results) for key in sorted({k for r in results for k in r[label]['checks']})}} for label in ('base','adapter')}
+    summary=summarize(results)
     report={'split':args.split,'adapter':args.adapter.name,'dataset_sha256':hashlib.sha256((args.data_dir/f'{args.split}.jsonl').read_bytes()).hexdigest(),
         'summary':summary,'prompt_transport':'readable app transport' if args.plain_prompts else 'structured JSON baseline','unscored_plain_language_sanity_probe':sanity,'scope':'Raw paired outputs. Rule pass is a heuristic compliance score, NOT independent semantic accuracy. Explicit full-answer code is judged on authored cases only. Retrieval answers, audited hints and repair retries are disabled. Read every output before deployment.', 'results':results}
     args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

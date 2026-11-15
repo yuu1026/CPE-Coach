@@ -73,6 +73,7 @@ def submit(owner, problem, data, parent=None):
         record.save(update_fields=['messages'])
         reply = services.generate_hint(record.messages, record.hint_level)
         record.answer = str(reply)
+        if getattr(reply,'tutoring_projection',False):record.messages[-1]['tutoring_projection']=True
         if getattr(reply, 'source', '') == 'reference':
             record.mode, record.model = 'reference', '題庫參考解答（未呼叫模型）'
         elif getattr(reply,'source','')=='verified_hint':

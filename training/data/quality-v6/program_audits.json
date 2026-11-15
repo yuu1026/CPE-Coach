@@ -1,0 +1,1168 @@
+[
+  {
+    "family": "vito-mean",
+    "name": "home",
+    "sha256": "e354eefbbc489bf4b323cee4a4c5a12b0ff7d81d7baf1b095db6cab2662916b5",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.005
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "131\n2\n0\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n30\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "vito-mean",
+    "name": "location",
+    "sha256": "420235eeca070c0147bad5cd0466c0f6179ca8cbbe596872026f7b7fe3713a2e",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.005
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "131\n2\n0\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n30\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "vito-mean",
+    "name": "chosen",
+    "sha256": "711e00b675fee9753bcab1d4434a0ca51451ab8dc7522a6cb47c9b5ce3b41906",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "131\n2\n0\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n30\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "vito-mean",
+    "name": "result",
+    "sha256": "6a8aee2862fbd517a0aec7c27e273a18eaa6f28a69b03210733f34b245e5e9a9",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "131\n2\n0\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.006
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n30\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "vito-scope",
+    "name": "home",
+    "sha256": "bd37d8891e4ecc5d1fb56727ca4ad79f67440aa96cdfd5f7419e664d7013b8b1",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:69: error: ‘home’ was not declared in this scope\n   14 |         if(relatives%2) { int home=addresses[relatives/2]; } else { home=addresses[relatives/2-1]; }\n      |                                                                     ^~~~\nmain.cpp:16:61: error: ‘home’ was not declared in this scope\n   16 |         for(int address:addresses) distanceSum+=abs(address-home);\n      |                                                             ^~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "vito-scope",
+    "name": "location",
+    "sha256": "192a9c41cff4e232addabc4c00ec027ed2e3e0ec4889f90b5101a55680fd80c8",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:73: error: ‘location’ was not declared in this scope; did you mean ‘localtime’?\n   14 |         if(relatives%2) { int location=addresses[relatives/2]; } else { location=addresses[relatives/2-1]; }\n      |                                                                         ^~~~~~~~\n      |                                                                         localtime\nmain.cpp:16:61: error: ‘location’ was not declared in this scope; did you mean ‘localtime’?\n   16 |         for(int address:addresses) distanceSum+=abs(address-location);\n      |                                                             ^~~~~~~~\n      |                                                             localtime\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "vito-scope",
+    "name": "chosen",
+    "sha256": "1cbda78ee157c453a86417ba553b76e8f6e0753ad2dbe994fd04fdfa82e4aa6b",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:71: error: ‘chosen’ was not declared in this scope\n   14 |         if(relatives%2) { int chosen=addresses[relatives/2]; } else { chosen=addresses[relatives/2-1]; }\n      |                                                                       ^~~~~~\nmain.cpp:16:61: error: ‘chosen’ was not declared in this scope\n   16 |         for(int address:addresses) distanceSum+=abs(address-chosen);\n      |                                                             ^~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "vito-scope",
+    "name": "result",
+    "sha256": "c15368012fe15538f4e9970a028665e603d6d1e38cdb38ec07182a8879ae53f4",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:71: error: ‘result’ was not declared in this scope\n   14 |         if(relatives%2) { int result=addresses[relatives/2]; } else { result=addresses[relatives/2-1]; }\n      |                                                                       ^~~~~~\nmain.cpp:16:61: error: ‘result’ was not declared in this scope\n   16 |         for(int address:addresses) distanceSum+=abs(address-result);\n      |                                                             ^~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "scope",
+    "name": "home",
+    "sha256": "1f5f2dc4bf6fa69a1fbe631592152f4dd3c968e0e4b6c8fb26121c4424d14ae3",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:98: error: ‘home’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int home=left; } else { home=right; } cout<<home<<\"\\n\"; } }\n      |                                                                                                  ^~~~\nmain.cpp:3:118: error: ‘home’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int home=left; } else { home=right; } cout<<home<<\"\\n\"; } }\n      |                                                                                                                      ^~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "scope",
+    "name": "location",
+    "sha256": "3c3377f5b632e06cea743e96190f621738c21fafa3172d029dfb5bd46e3e976a",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:102: error: ‘location’ was not declared in this scope; did you mean ‘localtime’?\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int location=left; } else { location=right; } cout<<location<<\"\\n\"; } }\n      |                                                                                                      ^~~~~~~~\n      |                                                                                                      localtime\nmain.cpp:3:126: error: ‘location’ was not declared in this scope; did you mean ‘localtime’?\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int location=left; } else { location=right; } cout<<location<<\"\\n\"; } }\n      |                                                                                                                              ^~~~~~~~\n      |                                                                                                                              localtime\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "scope",
+    "name": "chosen",
+    "sha256": "0691cafeddcdd8465f89a11a5bad372d1c042726fda00eda9b97db90b9a20112",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.004
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:100: error: ‘chosen’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int chosen=left; } else { chosen=right; } cout<<chosen<<\"\\n\"; } }\n      |                                                                                                    ^~~~~~\nmain.cpp:3:122: error: ‘chosen’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int chosen=left; } else { chosen=right; } cout<<chosen<<\"\\n\"; } }\n      |                                                                                                                          ^~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "scope",
+    "name": "result",
+    "sha256": "5a874e9801a5ddd869aaa84e6f4cc43eac9061622edad0ffe4291a5f6fe59a93",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:100: error: ‘result’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int result=left; } else { result=right; } cout<<result<<\"\\n\"; } }\n      |                                                                                                    ^~~~~~\nmain.cpp:3:122: error: ‘result’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int result=left; } else { result=right; } cout<<result<<\"\\n\"; } }\n      |                                                                                                                          ^~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "division",
+    "name": "home",
+    "sha256": "bfe47b1fec4558b266b229c176d9415abd6170fb17fa36bc9997309b0cc2456f",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "division",
+    "name": "location",
+    "sha256": "124af161f84fe62266854f5e26498bc720f1d0a0ee9724a4bdde1dd01c522d09",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "division",
+    "name": "chosen",
+    "sha256": "ad2b76d6b883b5f7579596885018f262fcd01efd1e05be6d08f546cf59364a0e",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.007
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "division",
+    "name": "result",
+    "sha256": "6300ffe07dd0af532e6f10fb5be08715e81488ab840efa87295d1491846b308d",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "home",
+    "sha256": "da85738036c8febc01ab4226a43e23ae36dd200ebc819c26f1fa5640b8f1cfd6",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "location",
+    "sha256": "67b74414552423647b861426bf9a7622d94fa15969a2332cdf930162491aaf64",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "chosen",
+    "sha256": "1fd206ccb0a1bdb467cdff87d9c3761deebb287f41133006125fa873edcf330e",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "result",
+    "sha256": "3356a9871edd535fe1faeb2d641cc9f3679fe2d7113bd93dc2664048a438d339",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "vito-scope",
+    "name": "meetingPoint",
+    "sha256": "962911f2a22463198f3bb33d2b4ad2044478bdd5a15a2044fa9b57ab61b46b97",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:77: error: ‘meetingPoint’ was not declared in this scope\n   14 |         if(relatives%2) { int meetingPoint=addresses[relatives/2]; } else { meetingPoint=addresses[relatives/2-1]; }\n      |                                                                             ^~~~~~~~~~~~\nmain.cpp:16:61: error: ‘meetingPoint’ was not declared in this scope\n   16 |         for(int address:addresses) distanceSum+=abs(address-meetingPoint);\n      |                                                             ^~~~~~~~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "division",
+    "name": "meanValue",
+    "sha256": "c9e36f00032e500ae85bd11c0ebc45ce11ad82b041dd2181110dffb7a496ff2d",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "wideProduct",
+    "sha256": "d11542d3294bf7f68e1b5e779f1f99b50dce97391d7000c3003e81d9e7c05872",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "scope",
+    "name": "maximumValue",
+    "sha256": "1f9d1cd341cef37a647134ba9541cba88b7b5dc51158c3134e2a444e4be46864",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:106: error: ‘maximumValue’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int maximumValue=left; } else { maximumValue=right; } cout<<maximumValue<<\"\\n\"; } }\n      |                                                                                                          ^~~~~~~~~~~~\nmain.cpp:3:134: error: ‘maximumValue’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int maximumValue=left; } else { maximumValue=right; } cout<<maximumValue<<\"\\n\"; } }\n      |                                                                                                                                      ^~~~~~~~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "vito-mean",
+    "name": "residence",
+    "sha256": "70bb1c5204df76f5a8d90d9cc2e694b2236d3c09ff93922501d86fd26cabe5de",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 2 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "99\n2\n0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n20\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 2",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+          "expected": "99\n2\n0\n0\n",
+          "actual": "131\n2\n0\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        },
+        {
+          "name": "authored-check",
+          "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+          "expected": "198\n20\n",
+          "actual": "198\n30\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "scope",
+    "name": "largerValue",
+    "sha256": "e2711702ae37810b693ae203db45c6a6c253d3dde5c4d276f0841c765e85cfc4",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "5 2\n-2 -5\n9 9\n0 1\n",
+          "expected": "5\n-2\n9\n1\n",
+          "actual": "5\n-2\n9\n1\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:3:105: error: ‘largerValue’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int largerValue=left; } else { largerValue=right; } cout<<largerValue<<\"\\n\"; } }\n      |                                                                                                         ^~~~~~~~~~~\nmain.cpp:3:132: error: ‘largerValue’ was not declared in this scope\n    3 | int main() { int left,right; while(cin>>left>>right) { if(left>=right) { int largerValue=left; } else { largerValue=right; } cout<<largerValue<<\"\\n\"; } }\n      |                                                                                                                                    ^~~~~~~~~~~\n",
+      "cases": []
+    }
+  },
+  {
+    "family": "division",
+    "name": "floatingMean",
+    "sha256": "622caabd0cde5de3b4f49694a2fbd26af53a0a7224403be871b8de47b39edae5",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+          "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+          "actual": "1.000000\n-1.000000\n715827881.000000\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  },
+  {
+    "family": "multiply",
+    "name": "safeProduct",
+    "sha256": "a25bd099442d76526aeacd8aadf61165e1f3ff6b65a8335181363724faf2ba57",
+    "good": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "bad": {
+      "status": "failed",
+      "label": "測資通過 0 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "authored-check",
+          "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+          "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+          "actual": "-1794967296\n1794967296\n1\n0\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    }
+  }
+]

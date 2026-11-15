@@ -1,0 +1,22 @@
+{
+  "decision": "rejected at dev; not enabled",
+  "final_test_executed": false,
+  "untouched_final_generation_cases": 4,
+  "dev_rule_passed": {
+    "base": 1,
+    "adapter": 2
+  },
+  "dev_total": 4,
+  "generated_programs_passed": {
+    "base": 1,
+    "adapter": 2
+  },
+  "generated_programs_total": 3,
+  "self_review_mean": {
+    "base": 1.25,
+    "adapter": 2.75
+  },
+  "independent_teacher_review": false,
+  "reason": "Scope repair improved, but multiplication regression and integer-division explanation error remain. Very low loss is not sufficient for promotion.",
+  "scope": "Named instances of seen concepts, synthetic small curriculum. No independent accuracy or broad CPE-generalization claim. Original quality-v4 final generation tests remain untouched."
+}

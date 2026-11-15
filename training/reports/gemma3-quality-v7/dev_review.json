@@ -1,0 +1,38 @@
+{
+  "review_kind": "GPT/Codex self-review; not independent teacher assessment",
+  "independent_teacher_review": false,
+  "cases": [
+    {
+      "id": "v7-eval-vito-scope-full",
+      "base_score": 0,
+      "adapter_score": 4,
+      "rationale": "候選正確將 meetingPoint 宣告移到分支外，移除不必要分支，通過兩組測資；基準仍編譯失敗。",
+      "adapter_critical_errors": []
+    },
+    {
+      "id": "v7-eval-division-full",
+      "base_score": 2,
+      "adapter_score": 2,
+      "rationale": "候選修正後程式通過測資，但把整數除法結果說成餘數，說明仍有重大概念錯誤。基準漏 std 命名空間而編譯失敗。",
+      "adapter_critical_errors": [
+        "候選修正後程式通過測資，但把整數除法結果說成餘數，說明仍有重大概念錯誤。基準漏 std 命名空間而編譯失敗。"
+      ]
+    },
+    {
+      "id": "v7-eval-multiply-full",
+      "base_score": 3,
+      "adapter_score": 0,
+      "rationale": "基準程式通過測資；候選插入 std::max(left,right)，將負數乘積改成正數，並捏造 cout 會取代值。此例明確退步。",
+      "adapter_critical_errors": [
+        "基準程式通過測資；候選插入 std::max(left,right)，將負數乘積改成正數，並捏造 cout 會取代值。此例明確退步。"
+      ]
+    },
+    {
+      "id": "v7-eval-scope-tutor",
+      "base_score": 0,
+      "adapter_score": 5,
+      "rationale": "候選用局部引用正確解釋作用域與分支外宣告，不洩漏整題程式；基準貼出的程式仍然無法編譯。",
+      "adapter_critical_errors": []
+    }
+  ]
+}

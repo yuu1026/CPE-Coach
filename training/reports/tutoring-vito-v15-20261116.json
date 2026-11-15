@@ -1,0 +1,383 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "stages": [
+    {
+      "id": "start",
+      "expected_behavior": "用具體小例子說明距離總和，一次一小步，不是多項輸入問卷。"
+    },
+    {
+      "id": "confirmed-goal",
+      "expected_behavior": "承接已知目標，提出可做的小步驟，不重問輸入輸出。"
+    },
+    {
+      "id": "wrong-mean",
+      "expected_behavior": "指出平均數不保證最小，以選2得99作反例或引導比對，不硬說131計算錯。"
+    },
+    {
+      "id": "even-median",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。"
+    },
+    {
+      "id": "read-code",
+      "expected_behavior": "引用目前讀入片段，局部提示排序/選中位數，保留變數，不把尚未完成硬當成編譯錯誤。"
+    },
+    {
+      "id": "missing-sort",
+      "expected_behavior": "發現未排序就取 addresses[relatives/2]，用失敗案例說明，不歸因於平均數或未宣告home。"
+    },
+    {
+      "id": "signed-distance",
+      "expected_behavior": "發現直接累加有正負的差值，應用abs，不能繼續指責已補上的sort。"
+    },
+    {
+      "id": "accepted-code",
+      "expected_behavior": "依目前實際通過結果確認提供測資通過，保留程式，不宣稱官方AC或捏造錯誤。"
+    },
+    {
+      "id": "transfer",
+      "expected_behavior": "手算1+0+998=999，承接相同中位數原理，不假稱新輸入已實測。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "start",
+      "question": "我完全沒有想法，請用一個小例子帶我理解題目，一次只問我一個問題，不要直接給完整解答。",
+      "code": "",
+      "expected_behavior": "用具體小例子說明距離總和，一次一小步，不是多項輸入問卷。",
+      "answer": "好的，讓我們來用一個簡單的例子來理解這個問題。\n\n假設我們有 3 個親戚，他們的地址分別是 A, B, 和 C。\n- A 的地址是 (1, 2)\n- B 的地址是 (3, 4)\n- C 的地址是 (5, 6)\n\n我們的目標是找到一個位置，使得到所有親戚的距離之和最小。  由於沒有指定明確的位置，我們可以假設一個位置 (x, y)，然後計算到每個親戚的距離，並將它們加起來。\n\n首先，請告訴我，你認為如何計算兩個點之間的距離？\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 13.03,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 2,
+      "unrequested_main": false
+    },
+    {
+      "id": "confirmed-goal",
+      "question": "我了解輸入是親戚地址、輸出是最小距離總和。我想先手算，下一步做什麼？",
+      "code": "",
+      "expected_behavior": "承接已知目標，提出可做的小步驟，不重問輸入輸出。",
+      "answer": "好的，你已經理解了輸入和輸出的基本要求。\n\n為了更有效地處理這個問題，我們可以先考慮一下如何計算兩個地址之間的距離。\n\n請告訴我，在你的計算中，兩個地址之間的距離是如何定義的？例如，是否是兩點之間的歐氏距離？\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 5.83,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 4,
+      "unrequested_main": false
+    },
+    {
+      "id": "wrong-mean",
+      "question": "我先猜住在平均數。地址 1、2、100，我算 home 是 34、距離總和 131，這個猜法有問題嗎？先給提示。",
+      "code": "",
+      "expected_behavior": "指出平均數不保證最小，以選2得99作反例或引導比對，不硬說131計算錯。",
+      "answer": "你的猜測是有一定道理的，但它並不總是能產生最小的距離總和。\n\n請仔細思考一下，為什麼你選擇平均值作為居住位置的原因？以及，是否有其他可能導致更小的距離總和的策略？\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 5.0,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 6,
+      "unrequested_main": false
+    },
+    {
+      "id": "even-median",
+      "question": "我比較後選 2 只要 99，所以想排序取中間。若有 4 個地址 1、2、100、101，中間有兩個，要怎麼選？",
+      "code": "",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。",
+      "answer": "你的想法是利用中位數的概念來尋找最佳位置，這是個不錯的思路。對於四個地址，你可以嘗試找出中位數，並以此為基礎進行調整。\n\n然而，你需要注意的是，中位數本身並不能保證最小化距離總和。它只是提供了一個可能的起始點。\n\n請告訴我，你打算如何計算四個地址的中位數？",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 7.86,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 8,
+      "unrequested_main": false
+    },
+    {
+      "id": "read-code",
+      "question": "我已讀好資料放在 addresses。下一步想選 home 再算總距離，請沿用我的程式給一個小步驟，不要貼整題程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while(cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for(int &address:addresses) cin >> address;\n        // 我還沒選 home 或計算總距離\n    }\n}\n",
+      "expected_behavior": "引用目前讀入片段，局部提示排序/選中位數，保留變數，不把尚未完成硬當成編譯錯誤。",
+      "answer": "你的程式碼已經成功讀入所有親戚的地址了。\n\n現在，請新增一行程式碼，計算從 `addresses` 向量中，所有地址到某個位置的距離總和。這個位置暫時設定為 0，以便計算。\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 25.12,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_run",
+      "message_count": 10,
+      "unrequested_main": false
+    },
+    {
+      "id": "missing-sort",
+      "question": "我自己補上取中間及 abs，但測資有錯。請引用我的程式，只定位最主要問題，先不要貼完整解答。",
+      "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        \n        int home = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "expected_behavior": "發現未排序就取 addresses[relatives/2]，用失敗案例說明，不歸因於平均數或未宣告home。",
+      "answer": "你的程式碼中，`home` 的設定方式存在問題。\n\n請指出，`home` 的值是如何計算的？以及，這是否導致了距離總和計算中的錯誤？\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 3.94,
+      "editor_code_unchanged": true,
+      "evidence_status": "failed",
+      "message_count": 12,
+      "unrequested_main": false
+    },
+    {
+      "id": "signed-distance",
+      "question": "我已加上排序，但自己算 distanceSum 還是不對。請只指出目前這一版該改哪個局部，保留我的變數。",
+      "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        sort(addresses.begin(), addresses.end());\n        int home = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += (address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "expected_behavior": "發現直接累加有正負的差值，應用abs，不能繼續指責已補上的sort。",
+      "answer": "你的程式碼中，`distanceSum` 的計算方式存在一個關鍵錯誤。\n\n請檢查 `distanceSum` 計算公式，看看是否使用了錯誤的減法運算子。尤其注意 `address - home` 這部分。\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 4.67,
+      "editor_code_unchanged": true,
+      "evidence_status": "failed",
+      "message_count": 14,
+      "unrequested_main": false
+    },
+    {
+      "id": "accepted-code",
+      "question": "我已補上 sort 和 abs，也重新測試了。現在有已確認的錯誤嗎？請依目前版本回答，不要為修改而修改。",
+      "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        sort(addresses.begin(), addresses.end());\n        int home = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "expected_behavior": "依目前實際通過結果確認提供測資通過，保留程式，不宣稱官方AC或捏造錯誤。",
+      "answer": "目前程式碼中，`home` 的設定方式存在問題。\n\n請說明，`home` 的值是如何計算的？以及，這是否導致了距離總和計算中的錯誤？\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 3.91,
+      "editor_code_unchanged": true,
+      "evidence_status": "accepted",
+      "message_count": 14,
+      "unrequested_main": false
+    },
+    {
+      "id": "transfer",
+      "question": "我想確認自己懂了。若地址改成 1、2、1000，仍選 home=2，總距離應是多少？這組我沒有實際執行，請手算說明，不要貼完整程式。",
+      "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        sort(addresses.begin(), addresses.end());\n        int home = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "expected_behavior": "手算1+0+998=999，承接相同中位數原理，不假稱新輸入已實測。",
+      "answer": "如果地址是 1, 2, 1000，且 `home` 仍然是 2，那麼距離總和應該是 `abs(1-2) + abs(2-2) + abs(1000-2)`。\n\n計算如下：\n*   `abs(1-2) = 1`\n*   `abs(2-2) = 0`\n*   `abs(1000-2) = 998`\n\n因此，距離總和應該是 `1 + 0 + 998 = 999`。",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v15",
+      "seconds": 19.7,
+      "editor_code_unchanged": true,
+      "evidence_status": "accepted",
+      "message_count": 14,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [
+    {
+      "stage": "missing-sort",
+      "expected": "failed",
+      "actual": "failed",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 2 / 4",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.005
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "189\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自訂測資",
+            "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+            "expected": "2\n4\n99\n99\n0\n0\n",
+            "actual": "2\n4\n99\n189\n0\n0\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "bc15d35eef69c922dd6a924f68a0f49d3ab46f9d43afd4b471ec7f3239f434c7",
+        "custom_test": {
+          "enabled": true,
+          "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+          "expected": "2\n4\n99\n99\n0\n0\n"
+        }
+      }
+    },
+    {
+      "stage": "signed-distance",
+      "expected": "failed",
+      "actual": "failed",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 1 / 4",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "97\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "81\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          },
+          {
+            "name": "自訂測資",
+            "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+            "expected": "2\n4\n99\n99\n0\n0\n",
+            "actual": "-2\n0\n97\n81\n0\n0\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "b44f2f22c9ca82af366b9225d10c9734ac04b4e60ce7b2981fbd67b11eebe567",
+        "custom_test": {
+          "enabled": true,
+          "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+          "expected": "2\n4\n99\n99\n0\n0\n"
+        }
+      }
+    },
+    {
+      "stage": "accepted-code",
+      "expected": "accepted",
+      "actual": "accepted",
+      "judge": {
+        "status": "accepted",
+        "label": "測資通過 4 / 4",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          },
+          {
+            "name": "自訂測資",
+            "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+            "expected": "2\n4\n99\n99\n0\n0\n",
+            "actual": "2\n4\n99\n99\n0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "5cd837002d16c6b1f3b3fd9bb4e5204b1f94388bcd1d3271a333a9bc6a9c947a",
+        "custom_test": {
+          "enabled": true,
+          "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+          "expected": "2\n4\n99\n99\n0\n0\n"
+        }
+      }
+    }
+  ],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}

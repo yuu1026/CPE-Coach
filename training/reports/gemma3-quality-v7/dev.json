@@ -1,0 +1,343 @@
+{
+  "split": "eval",
+  "adapter": "gemma3-quality-v7",
+  "dataset_sha256": "4ab1891be737cde5bcff32235a15bfaebe02f2c5be8ce6156de028f75a590325",
+  "summary": {
+    "base": {
+      "rule_passed": 1,
+      "total": 4,
+      "by_check": {
+        "complete": 4,
+        "current_code_quoted": 4,
+        "generated_code_passes_tests": 1,
+        "language_and_repetition": 4,
+        "no_unrequested_full_code": 3,
+        "requested_concept": 3,
+        "traditional_prose": 3
+      },
+      "by_check_totals": {
+        "complete": 4,
+        "current_code_quoted": 4,
+        "generated_code_passes_tests": 3,
+        "language_and_repetition": 4,
+        "no_unrequested_full_code": 4,
+        "requested_concept": 4,
+        "traditional_prose": 4
+      }
+    },
+    "adapter": {
+      "rule_passed": 2,
+      "total": 4,
+      "by_check": {
+        "complete": 4,
+        "current_code_quoted": 4,
+        "generated_code_passes_tests": 2,
+        "language_and_repetition": 4,
+        "no_unrequested_full_code": 4,
+        "requested_concept": 3,
+        "traditional_prose": 4
+      },
+      "by_check_totals": {
+        "complete": 4,
+        "current_code_quoted": 4,
+        "generated_code_passes_tests": 3,
+        "language_and_repetition": 4,
+        "no_unrequested_full_code": 4,
+        "requested_concept": 4,
+        "traditional_prose": 4
+      }
+    }
+  },
+  "prompt_transport": "structured JSON baseline",
+  "unscored_plain_language_sanity_probe": {
+    "base": "因為 `int` 的儲存空間有限，當 `a` 和 `b` 的值過大時，相乘後的結果可能超過 `int` 可以表示的範圍，導致溢位。即使使用 `long long` 來儲存結果，如果 `a * b` 超出 `long long` 的可表示範圍，也會發生溢位。\n\n以下是一行 C++17 修正（假設需要處理更大的數字）：\n\n```c++\nlong long ans = static_cast<long long>(a) * b;\n```\n\n這個修正將 `a` 強制轉換為 `long long` 類型後再與 `b` 相乘，確保計算過程在 `long long` 的範圍內進行，避免了 `int` ",
+    "adapter": "因為 `int` 的儲存空間有限，乘法結果超過這個範圍就無法完整保留所有位元，導致資訊失真。即使 `ans` 是 `long long`，它也只是把原本的乘法結果先暫存在 `long long`，之後的加法或賦值仍然有可能在被提升之前就已經溢位。"
+  },
+  "scope": "Raw paired outputs. Rule pass is a heuristic compliance score, NOT independent semantic accuracy. Explicit full-answer code is judged on authored cases only. Retrieval answers, audited hints and repair retries are disabled. Read every output before deployment.",
+  "results": [
+    {
+      "id": "v7-eval-vito-scope-full",
+      "problem_id": 10041,
+      "question": "直接給我修正過的完整程式，保留我的變數與寫法，並說明必要差異。",
+      "reference_target": "`int meetingPoint=addresses[relatives/2];` 把 meetingPoint 限制在 if 區塊內，else 與後面的累加無法使用它。先排序，直接在分支外宣告 `meetingPoint=addresses[relatives/2]`；偶數筆取上中位數也能最小化距離，不必另外分支。\n\n```cpp\n#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int &address : addresses) {\n            cin >> address;\n            addressSum += address;\n        }\n        sort(addresses.begin(), addresses.end());\n        int meetingPoint = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses)\n            distanceSum += abs(address - meetingPoint);\n        cout << distanceSum << '\\n';\n    }\n}\n```\n這是修正建議；不能把教師程式的驗證當作你的編輯器版本已經執行。",
+      "rubric": {
+        "concept_any": [
+          "中位數",
+          "作用域",
+          "區塊"
+        ],
+        "evidence_status": "compile_error",
+        "full_solution": true
+      },
+      "base": {
+        "answer": "```cpp\n#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int &address : addresses) {\n            cin >> address;\n            addressSum += address;\n        }\n        sort(addresses.begin(), addresses.end());\n        if (relatives % 2) {\n            int meetingPoint = addresses[relatives / 2];\n        } else {\n            int meetingPoint = addresses[relatives / 2 - 1];\n        }\n        int distanceSum = 0;\n        for (int address : addresses)\n            distanceSum += abs(address - meetingPoint);\n        cout << distanceSum << endl;\n    }\n}\n```\n\n編譯錯誤的原因是 `meetingPoint` 這個變數沒有被宣告。這是因為在 `if` 和 `else` 分支中，`meetingPoint` 的值並沒有被賦予，導致編譯器認為它是一個未知的變數。\n\n我將 `meetingPoint` 的宣告移到 `if` 和 `else` 分支中，並賦予了正確的值。此外，我將 `cout` 中的 `'\\n'` 改為 `endl` 以避免額外的換行符。這將解決編譯錯誤，並使程式能夠正常運行。\n",
+        "finish_reason": "stop",
+        "tokens": 344,
+        "seconds": 33.62,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": false,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": false
+        },
+        "rule_pass": false,
+        "code_judge": {
+          "status": "compile_error",
+          "label": "編譯錯誤",
+          "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:26:42: error: ‘meetingPoint’ was not declared in this scope\n   26 |             distanceSum += abs(address - meetingPoint);\n      |                                          ^~~~~~~~~~~~\n",
+          "cases": []
+        }
+      },
+      "adapter": {
+        "answer": "`int meetingPoint=addresses[relatives/2];` 的作用域只有 if 的大括號，else 與後面的累加器無法使用。先把 meetingPoint 移到分支外，讓兩個分支都使用它：\n\n```cpp\n#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int &address : addresses) {\n            cin >> address;\n            addressSum += address;\n        }\n        sort(addresses.begin(), addresses.end());\n        int meetingPoint = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses)\n            distanceSum += abs(address - meetingPoint);\n        cout << distanceSum << '\\n';\n    }\n}\n```\n這是修正建議；不能把教師程式的驗證當作你的編輯器版本已經執行。",
+        "finish_reason": "stop",
+        "tokens": 257,
+        "seconds": 40.52,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": true
+        },
+        "rule_pass": true,
+        "code_judge": {
+          "status": "accepted",
+          "label": "測資通過 2 / 2",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "authored-check",
+              "input": "4\n3 100 1 2\n2 2 4\n1 7\n4 5 5 5 5\n",
+              "expected": "99\n2\n0\n0\n",
+              "actual": "99\n2\n0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            },
+            {
+              "name": "authored-check",
+              "input": "2\n4 1 2 100 101\n5 20 1 1 1 2\n",
+              "expected": "198\n20\n",
+              "actual": "198\n20\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        }
+      }
+    },
+    {
+      "id": "v7-eval-division-full",
+      "problem_id": 0,
+      "question": "直接給我修正過的完整程式，保留我的變數與寫法，並說明必要差異。",
+      "reference_target": "`double meanValue=(a+b+c)/3;` 的運算元都是 int，先做整數加法與除法，之後存入 double 也無法恢復小數。整數除法向零截斷，不是四捨五入，負數也不是向下取整。把第一個加數先轉為 double，既讓加法與除法以浮點進行，也避免先以 int 相加溢位：`double meanValue=(static_cast<double>(a)+b+c)/3;`。\n\n```cpp\n#include <iomanip>\n#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, c;\n    while (cin >> a >> b >> c) {\n        double meanValue = (static_cast<double>(a) + b + c) / 3;\n        cout << fixed << setprecision(6) << meanValue << \"\\n\";\n    }\n}\n```\n這是修正建議；不能把教師程式的驗證當作你的編輯器版本已經執行。",
+      "rubric": {
+        "concept_any": [
+          "向零",
+          "截斷",
+          "整數除法",
+          "轉"
+        ],
+        "evidence_status": "failed",
+        "full_solution": true
+      },
+      "base": {
+        "answer": "程式碼計算平均值的過程中，由於 `a + b + c` 可能超出 `int` 的最大值範圍，導致結果溢出，產生不正確的平均值。此外，`cout` 輸出的格式設定 `fixed` 和 `setprecision(6)` 適用於 `meanValue` 這個變數，但實際輸出的是溢出後的結果，因此顯示的精度和数值都可能不准确。\n\n以下是修正後的程式碼：\n\n```cpp\n#include <iostream>\n#include <iomanip>\n\nint main() {\n    int a, b, c;\n    while (cin >> a >> b >> c) {\n        double sum = static_cast<double>(a) + static_cast<double>(b) + static_cast<double>(c);\n        double meanValue = sum / 3.0;\n        cout << fixed << setprecision(6) << meanValue << \"\\n\";\n    }\n}\n```\n\n**修改說明:**\n\n1.  將所有 `int` 類型變數轉換為 `double` 類型，確保加法不會發生溢出。\n2.  除法操作中使用 `3.0` 代替 `3`，強制進行浮點數除法，得到更精確的平均值。\n3.  保持了 `fixed` 和 `setprecision(6)` 的格式化輸出，以確保結果有六位小數位。\n",
+        "finish_reason": "stop",
+        "tokens": 308,
+        "seconds": 29.05,
+        "checks": {
+          "traditional_prose": false,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": false
+        },
+        "rule_pass": false,
+        "code_judge": {
+          "status": "compile_error",
+          "label": "編譯錯誤",
+          "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:6:12: error: ‘cin’ was not declared in this scope; did you mean ‘std::cin’?\n    6 |     while (cin >> a >> b >> c) {\n      |            ^~~\n      |            std::cin\nIn file included from main.cpp:1:\n/usr/local/include/c++/14.3.0/iostream:62:18: note: ‘std::cin’ declared here\n   62 |   extern istream cin;           ///< Linked to standard input\n      |                  ^~~\nmain.cpp:9:9: error: ‘cout’ was not declared in this scope; did you mean ‘std::cout’?\n    9 |         cout << fixed << setprecision(6) << meanValue << \"\\n\";\n      |         ^~~~\n      |         std::cout\n/usr/local/include/c++/14.3.0/iostream:63:18: note: ‘std::cout’ declared here\n   63 |   extern ostream cout;          ///< Linked to standard output\n      |                  ^~~~\nmain.cpp:9:17: error: ‘fixed’ was not declared in this scope; did you mean ‘std::fixed’?\n    9 |         cout << fixed << setprecision(6) << meanValue << \"\\n\";\n      |                 ^~~~~\n      |                 std::fixed\nIn file included from /usr/local/include/c++/14.3.0/ios:44,\n                 from /usr/local/include/c++/14.3.0/ostream:40,\n                 from /usr/local/include/c++/14.3.0/iostream:41:\n/usr/local/include/c++/14.3.0/bits/ios_base.h:1104:3: note: ‘std::fixed’ declared here\n 1104 |   fixed(ios_base& __base)\n      |   ^~~~~\nmain.cpp:9:26: error: ‘setprecision’ was not declared in this scope; did you mean ‘std::setprecision’?\n    9 |         cout << fixed << setprecision(6) << meanValue << \"\\n\";\n      |                          ^~~~~~~~~~~~\n      |                          std::setprecision\nIn file included from main.cpp:2:\n/usr/local/include/c++/14.3.0/iomanip:202:3: note: ‘std::setprecision’ declared here\n  202 |   setprecision(int __n)\n      |   ^~~~~~~~~~~~\n",
+          "cases": []
+        }
+      },
+      "adapter": {
+        "answer": "`double meanValue = (a+b+c)/3;` 的運算元都是 int，先做整數加法與除法，之後才進行浮點運算，結果仍是餘數，不是四捨五入。先讓 3 個加數都以浮點數形式計算，例如 `(static_cast<double>(a)+b+c)/3`，就能得到期望的平均值。\n\n```cpp\n#include <iomanip>\n#include <iostream>\nusing namespace std;\nint main() {\n    int a, b, c;\n    while (cin >> a >> b >> c) {\n        double meanValue = (static_cast<double>(a)+b+c)/3;\n        cout << fixed << setprecision(6) << meanValue << \"\\n\";\n    }\n}\n```\n這是修正建議；不能把教師程式的驗證當作你的編輯器版本已經執行。",
+        "finish_reason": "stop",
+        "tokens": 207,
+        "seconds": 33.41,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": false,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": true
+        },
+        "rule_pass": false,
+        "code_judge": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "authored-check",
+              "input": "1 2 2\n-1 -2 -2\n2147483647 2147483647 2147483647\n",
+              "expected": "1.666667\n-1.666667\n2147483647.000000\n",
+              "actual": "1.666667\n-1.666667\n2147483647.000000\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.004
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        }
+      }
+    },
+    {
+      "id": "v7-eval-multiply-full",
+      "problem_id": 0,
+      "question": "直接給我修正過的完整程式，保留我的變數與寫法，並說明必要差異。",
+      "reference_target": "`long long wideProduct=static_cast<long long>(left*right);` 在轉型前就以 int 計算乘法，可能先溢位。50000×50000 是 2500000000，超過 32-bit int，仍在 long long 範圍內；問題不是 long long 不夠大。應先提升一個運算元，再乘：`long long wideProduct=static_cast<long long>(left)*right;`。\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int left, right;\n    while (cin >> left >> right) {\n        long long wideProduct = static_cast<long long>(left) * right;\n        cout << wideProduct << \"\\n\";\n    }\n}\n```\n這是修正建議；不能把教師程式的驗證當作你的編輯器版本已經執行。",
+      "rubric": {
+        "concept_any": [
+          "運算元",
+          "轉型",
+          "int",
+          "2500000000"
+        ],
+        "evidence_status": "failed",
+        "full_solution": true
+      },
+      "base": {
+        "answer": "程式碼中 `static_cast<long long>(left * right)` 的 `left` 和 `right` 均為 `int` 型態，因此計算結果 `wideProduct` 仍是 `int` 型態，可能導致溢出。將 `left` 和 `right` 都轉換為 `long long` 型態後再相乘，才能得到正確的 `long long` 結果。此外，由於輸入結束條件是 `EOF`，而 `cin >> left >> right` 在遇到 `EOF` 時會跳過該操作，因此迴圈會提前結束。\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int left, right;\n    while (cin >> left >> right) {\n        long long wideProduct = static_cast<long long>(left) * static_cast<long long>(right);\n        cout << wideProduct << \"\\n\";\n    }\n}\n```",
+        "finish_reason": "stop",
+        "tokens": 204,
+        "seconds": 20.09,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": true
+        },
+        "rule_pass": true,
+        "code_judge": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "authored-check",
+              "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+              "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+              "actual": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        }
+      },
+      "adapter": {
+        "answer": "`long long wideProduct = static_cast<long long>(left * right);` 的作用域是整個 while 迴圈。第一次乘法可能溢位，結果也可能被後面的 cout 取代。先把一個數字先轉型，再乘，確保第一個乘數已經是 long long：`long long wideProduct = static_cast<long long>(std::max(left,right)) * right;`。這不影響原本的合法輸出，也能避免負數先乘偶發溢位的可能性。\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int left, right;\n    while (cin >> left >> right) {\n        long long wideProduct = static_cast<long long>(std::max(left,right)) * right;\n        cout << wideProduct << \"\\n\";\n    }\n}\n```\n這是修正建議，不是重新執行的官方解法。",
+        "finish_reason": "stop",
+        "tokens": 203,
+        "seconds": 32.08,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true,
+          "generated_code_passes_tests": false
+        },
+        "rule_pass": false,
+        "code_judge": {
+          "status": "failed",
+          "label": "測資通過 0 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "authored-check",
+              "input": "50000 50000\n-50000 50000\n2147483647 2147483647\n-2147483648 -2147483648\n",
+              "expected": "2500000000\n-2500000000\n4611686014132420609\n4611686018427387904\n",
+              "actual": "2500000000\n2500000000\n4611686014132420609\n4611686018427387904\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        }
+      }
+    },
+    {
+      "id": "v7-eval-scope-tutor",
+      "problem_id": 0,
+      "question": "請引用我目前的程式，定位問題並說明最小修正，不要另換完整解法。",
+      "reference_target": "`int maximumValue=left;` 的作用域只有 if 的大括號，else 與 cout 都不能使用 maximumValue。在 if 前先宣告 `int maximumValue;`，兩個分支只做賦值；保留原本的比較方式。",
+      "rubric": {
+        "concept_any": [
+          "作用域",
+          "區塊",
+          "宣告"
+        ],
+        "evidence_status": "compile_error",
+        "full_solution": false
+      },
+      "base": {
+        "answer": "程式碼中出現了 `maximumValue` 這個變數沒有宣告的錯誤。這是因為 `maximumValue` 在 `if` 和 `else` 分支中被賦值，但沒有在使用前聲明。\n\n以下是修正方法：在 `if` 和 `else` 分支之前，添加 `int` 關鍵字來宣告 `maximumValue` 變數。\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int left, right;\n    while (cin >> left >> right) {\n        if (left >= right) {\n            int maximumValue = left;\n        } else {\n            maximumValue = right;\n        }\n        cout << maximumValue << \"\\n\";\n    }\n}\n```\n",
+        "finish_reason": "stop",
+        "tokens": 168,
+        "seconds": 16.16,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": false,
+          "current_code_quoted": true
+        },
+        "rule_pass": false,
+        "code_judge": null
+      },
+      "adapter": {
+        "answer": "`int maximumValue=left;` 的作用域只有 if 的大括號，else 與 cout 都無法使用 maximumValue。在 if 前先宣告 `int maximumValue;`，兩個分支都賦值；這不影響原本的比較方式。",
+        "finish_reason": "stop",
+        "tokens": 54,
+        "seconds": 8.52,
+        "checks": {
+          "traditional_prose": true,
+          "language_and_repetition": true,
+          "complete": true,
+          "requested_concept": true,
+          "no_unrequested_full_code": true,
+          "current_code_quoted": true
+        },
+        "rule_pass": true,
+        "code_judge": null
+      }
+    }
+  ]
+}

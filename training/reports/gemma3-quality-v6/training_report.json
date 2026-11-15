@@ -1,0 +1,384 @@
+{
+  "base_model": "google/gemma-3-4b-it",
+  "dataset_sha256": "7e335629af8af8fbd91ee9bc078563a96300ae677ebe390a29c1700d603c354b",
+  "eval_dataset_sha256": "14a5082d17646569140c5a9d73a028cb58994985f47d18edab0de5c7c988f70d",
+  "topics": 4,
+  "gpu": "NVIDIA GeForce RTX 5060",
+  "training_examples": 96,
+  "evaluation_examples": 4,
+  "epochs": 2,
+  "optimizer_steps": 48,
+  "expected_steps": 48,
+  "smoke_only": false,
+  "method": "NF4 QLoRA; rank8 q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj; assistant-only selected-position loss; frozen embeddings BF16",
+  "max_length": 2560,
+  "gradient_accumulation": 4,
+  "learning_rate": 8e-05,
+  "validation_loss_before": 3.2871001958847046,
+  "validation_loss_after": 1.9646417200565338,
+  "peak_allocated_vram_gb": 5.295530796051025,
+  "elapsed_seconds": 229.13999999989755,
+  "scope": "Failure-driven repair curriculum. Concepts and Vito topic seen in training. Dev/test hold out named program instances, not independent students or unseen topics. Small benchmark; no external teacher review.",
+  "logs": [
+    {
+      "epoch": 1,
+      "step": 1,
+      "loss": 4.13229,
+      "elapsed_seconds": 4.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 2,
+      "loss": 3.22308,
+      "elapsed_seconds": 10.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 3,
+      "loss": 3.82322,
+      "elapsed_seconds": 15.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 4,
+      "loss": 3.67251,
+      "elapsed_seconds": 19.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 5,
+      "loss": 3.40801,
+      "elapsed_seconds": 25.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 6,
+      "loss": 4.3085,
+      "elapsed_seconds": 29.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 7,
+      "loss": 4.08874,
+      "elapsed_seconds": 33.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 8,
+      "loss": 3.94131,
+      "elapsed_seconds": 36.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 9,
+      "loss": 3.70948,
+      "elapsed_seconds": 41.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 10,
+      "loss": 4.07862,
+      "elapsed_seconds": 44.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 11,
+      "loss": 3.22846,
+      "elapsed_seconds": 50.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 12,
+      "loss": 2.93836,
+      "elapsed_seconds": 54.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 13,
+      "loss": 2.66726,
+      "elapsed_seconds": 60.4,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 14,
+      "loss": 2.26204,
+      "elapsed_seconds": 66.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 15,
+      "loss": 2.6685,
+      "elapsed_seconds": 74.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 16,
+      "loss": 2.83882,
+      "elapsed_seconds": 78.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 17,
+      "loss": 3.33915,
+      "elapsed_seconds": 82.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 18,
+      "loss": 3.35048,
+      "elapsed_seconds": 86.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 19,
+      "loss": 2.6122,
+      "elapsed_seconds": 90.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 20,
+      "loss": 2.67384,
+      "elapsed_seconds": 96.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 21,
+      "loss": 3.07952,
+      "elapsed_seconds": 99.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 22,
+      "loss": 2.80998,
+      "elapsed_seconds": 103.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 23,
+      "loss": 2.73012,
+      "elapsed_seconds": 108.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 1,
+      "step": 24,
+      "loss": 2.61706,
+      "elapsed_seconds": 113.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 25,
+      "loss": 2.1643,
+      "elapsed_seconds": 119.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 26,
+      "loss": 1.87642,
+      "elapsed_seconds": 125.1,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 27,
+      "loss": 2.38731,
+      "elapsed_seconds": 131.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 28,
+      "loss": 2.31685,
+      "elapsed_seconds": 137.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 29,
+      "loss": 2.7072,
+      "elapsed_seconds": 141.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 30,
+      "loss": 2.76369,
+      "elapsed_seconds": 144.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 31,
+      "loss": 2.21871,
+      "elapsed_seconds": 148.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 32,
+      "loss": 2.63013,
+      "elapsed_seconds": 153.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 33,
+      "loss": 2.45319,
+      "elapsed_seconds": 157.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 34,
+      "loss": 2.21609,
+      "elapsed_seconds": 161.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 35,
+      "loss": 2.62395,
+      "elapsed_seconds": 166.2,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 36,
+      "loss": 2.82662,
+      "elapsed_seconds": 171.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 37,
+      "loss": 2.1912,
+      "elapsed_seconds": 175.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 38,
+      "loss": 2.34645,
+      "elapsed_seconds": 179.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 39,
+      "loss": 2.53677,
+      "elapsed_seconds": 183.0,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 40,
+      "loss": 2.40608,
+      "elapsed_seconds": 187.3,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 41,
+      "loss": 2.19029,
+      "elapsed_seconds": 193.7,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 42,
+      "loss": 2.06448,
+      "elapsed_seconds": 199.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 43,
+      "loss": 2.67265,
+      "elapsed_seconds": 203.5,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 44,
+      "loss": 2.25049,
+      "elapsed_seconds": 207.8,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 45,
+      "loss": 2.18941,
+      "elapsed_seconds": 211.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 46,
+      "loss": 2.40714,
+      "elapsed_seconds": 217.9,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 47,
+      "loss": 2.51339,
+      "elapsed_seconds": 223.6,
+      "peak_vram_gb": 5.296
+    },
+    {
+      "epoch": 2,
+      "step": 48,
+      "loss": 2.63374,
+      "elapsed_seconds": 227.2,
+      "peak_vram_gb": 5.296
+    }
+  ],
+  "warmup_ratio": 0.1,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "adapted_decoder_layers": [
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33
+  ],
+  "warm_start_adapter": null,
+  "warm_start_scope": null,
+  "uva_topic_count": 3,
+  "eval_all_levels": true
+}

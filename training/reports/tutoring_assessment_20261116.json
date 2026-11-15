@@ -1,0 +1,127 @@
+{
+  "decision": "not achieved: reliable autonomous tutoring",
+  "review_kind": "GPT/Codex self-assessment of every latest complete scripted turn; not independent teacher grading",
+  "independent_teacher_review": false,
+  "scope": "Repeated seen-topic regression scripts, revised after failures. Predetermined learner progress is not proof of actual student learning. No global 49-topic accuracy claim.",
+  "acceptance": "Every turn >=4/5, no critical semantic error, and actionable progress from incomplete code.",
+  "phases": [
+    {
+      "version": 15,
+      "turns": 9,
+      "completed": 9,
+      "all_real_local_model": true,
+      "temporary_account_deleted": true
+    },
+    {
+      "version": 16,
+      "turns": 9,
+      "completed": 7,
+      "all_real_local_model": true,
+      "temporary_account_deleted": true
+    },
+    {
+      "version": 17,
+      "turns": 9,
+      "completed": 7,
+      "all_real_local_model": true,
+      "temporary_account_deleted": true
+    },
+    {
+      "version": 18,
+      "turns": 9,
+      "completed": 8,
+      "all_real_local_model": true,
+      "temporary_account_deleted": true
+    }
+  ],
+  "latest_complete_script": "tutoring-vito-v18-20261116.json",
+  "cases": [
+    {
+      "id": "start",
+      "status": "done",
+      "score": 4,
+      "critical": false,
+      "reason": "一維小例子與距離計算正確，但已算完後再問答案，互動深度有限。"
+    },
+    {
+      "id": "confirmed-goal",
+      "status": "done",
+      "score": 4,
+      "critical": false,
+      "reason": "承接已理解的目標，轉向一個距離計算問題，不再要求重述輸入。"
+    },
+    {
+      "id": "wrong-mean",
+      "status": "done",
+      "score": 2,
+      "critical": false,
+      "reason": "沒有再指責131算錯，但只問抽象原因，沒有具體可操作的比較提示。"
+    },
+    {
+      "id": "even-median",
+      "status": "done",
+      "score": 0,
+      "critical": true,
+      "reason": "把到同一home的距離錯寫成相鄰地址距離，宣稱選2得100、選100得200；兩者實際均為198。"
+    },
+    {
+      "id": "read-code",
+      "status": "failed",
+      "score": 0,
+      "critical": false,
+      "reason": "未回傳可用提示，學習者無法依此推進。後續調查發現引用與完整程式檢查的誤擋，以及模型重貼草稿。"
+    },
+    {
+      "id": "missing-sort",
+      "status": "done",
+      "score": 0,
+      "critical": true,
+      "reason": "誤稱偶數的int除法會變浮點索引，未定位缺少排序。"
+    },
+    {
+      "id": "signed-distance",
+      "status": "done",
+      "score": 3,
+      "critical": false,
+      "reason": "局部abs修正正確，但把本題地址與home說成可能負數，與輸入限制不符；應解釋差值可正可負。"
+    },
+    {
+      "id": "accepted-code",
+      "status": "done",
+      "score": 4,
+      "critical": false,
+      "reason": "依4/4實際結果確認無已知錯誤，但可更明確補充這不是所有輸入或官方AC保證。"
+    },
+    {
+      "id": "transfer",
+      "status": "done",
+      "score": 5,
+      "critical": false,
+      "reason": "在計算工具輔助下正確說明999，沒有假稱新輸入已執行；不能計作模型獨立算術能力。"
+    }
+  ],
+  "mean_self_score": 2.4444444444444446,
+  "turns_at_least_4": 4,
+  "total_turns": 9,
+  "adaptive_following": {
+    "report": "adaptive-tutoring-vito-20261116.json",
+    "completed_program": false,
+    "observed": [
+      "One valid sorting addition delivered after curriculum selection and local-diff projection.",
+      "Next reply used home before declaring it.",
+      "Actual Docker compilation failed; tester did not silently repair it.",
+      "Clarification produced fixed home=0 and repeated main; the guard rejected it."
+    ],
+    "current_mitigation": "Latest code blocks the observed use-before-declaration lesson skip, but blocking is not successful teaching."
+  },
+  "deployed_weights": "Gemma 3 4B IT base; rejected v6/v7 adapters remain local experiments",
+  "assistance": "Curated topic facts, deterministic calculation, narrow recognizable-draft curriculum, and verified local projection are app support, not proof of bare model ability.",
+  "latest_targeted_integration": {
+    "report": "tutoring-step-integration-v22-20261116.json",
+    "status": "done",
+    "prompt_version": "cpe-tutor-v22",
+    "projection": true,
+    "semantic_pass": false,
+    "reason": "Correct sorting snippet displayed, but trailing explanation asks for the location nearest an as-yet-unselected home; circular and not a valid next algorithmic step. A single-stage integration success is not a complete teaching pass."
+  }
+}

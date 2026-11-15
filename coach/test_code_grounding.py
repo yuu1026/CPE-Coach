@@ -30,7 +30,7 @@ class CodeGroundingTests(SimpleTestCase):
         payload=json.loads(messages[-1]['content'])
         self.assertEqual(payload['response_mode'],'solution')
         self.assertNotIn('reference_solution',payload)
-        with patch('coach.services._generate_once',return_value='你原本的 `k<=count` 會多走一次；保留寫法並改成 `k<count`。') as model:
+        with patch('coach.services._generate_once',return_value='你原本的 `k<=count` 會多走一次；保留寫法並改成 `k<count`。') as model, patch('coach.services.compile_full_reply',return_value=None):
             answer=generate_hint(messages,3)
         model.assert_called_once()
         self.assertEqual(answer.source,'model')

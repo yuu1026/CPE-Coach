@@ -1,0 +1,40 @@
+{
+  "review_kind": "GPT/Codex self-review; not independent teacher assessment",
+  "independent_teacher_review": false,
+  "cases": [
+    {
+      "id": "v6-eval-vito-scope-full",
+      "base_score": 0,
+      "adapter_score": 0,
+      "rationale": "兩者都保留區塊內宣告，外部使用仍編譯失敗；候選說只增加空白就能解決作用域，屬重大錯誤。",
+      "adapter_critical_errors": [
+        "兩者都保留區塊內宣告，外部使用仍編譯失敗；候選說只增加空白就能解決作用域，屬重大錯誤。"
+      ]
+    },
+    {
+      "id": "v6-eval-division-full",
+      "base_score": 2,
+      "adapter_score": 3,
+      "rationale": "基準漏掉 std 命名空間而無法編譯；候選程式通過測資，但後段說明的轉型順序與實際程式不一致，且捏造浮點精度問題。",
+      "adapter_critical_errors": [
+        "基準漏掉 std 命名空間而無法編譯；候選程式通過測資，但後段說明的轉型順序與實際程式不一致，且捏造浮點精度問題。"
+      ]
+    },
+    {
+      "id": "v6-eval-multiply-full",
+      "base_score": 3,
+      "adapter_score": 3,
+      "rationale": "兩者程式通過測資；基準誤稱 long long 變數仍為 int，候選增加無關比較大小的建議，文字混簡體。",
+      "adapter_critical_errors": []
+    },
+    {
+      "id": "v6-eval-scope-tutor",
+      "base_score": 0,
+      "adapter_score": 2,
+      "rationale": "基準未修正作用域；候選程式的宣告位置已正確，但解釋仍說放在分支內，且未要求就提供整題程式。",
+      "adapter_critical_errors": [
+        "基準未修正作用域；候選程式的宣告位置已正確，但解釋仍說放在分支內，且未要求就提供整題程式。"
+      ]
+    }
+  ]
+}

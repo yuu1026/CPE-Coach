@@ -1,0 +1,25 @@
+{
+  "decision": "rejected at dev; not enabled",
+  "final_test_executed": false,
+  "raw_rule_passed": {
+    "base": 1,
+    "adapter": 0
+  },
+  "dev_cases": 4,
+  "generated_programs_passed": {
+    "base": 1,
+    "adapter": 2
+  },
+  "generated_programs_total": 3,
+  "self_review_mean": {
+    "base": 1.25,
+    "adapter": 2.0
+  },
+  "independent_teacher_review": false,
+  "limitations": [
+    "Small named-instance curriculum; concepts and Vito already seen.",
+    "v6 training targets had some inline closing fences; v7 corrects this without overwriting v6.",
+    "Historical dev.json by_check counts treated non-applicable checks as passing; generated-program totals here are recomputed from actual code_judge entries. Future evaluator reports include per-check applicable counts."
+  ],
+  "reason": "Critical scope and explanation failures; raw Traditional Chinese and tutoring format not reliable."
+}

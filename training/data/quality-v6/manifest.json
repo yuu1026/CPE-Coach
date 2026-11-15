@@ -1,0 +1,23 @@
+{
+  "version": "quality-v6",
+  "prompt_version": "cpe-tutor-v12",
+  "counts": {
+    "train": 96,
+    "eval": 4,
+    "test": 4
+  },
+  "sha256": {
+    "train": "7e335629af8af8fbd91ee9bc078563a96300ae677ebe390a29c1700d603c354b",
+    "eval": "14a5082d17646569140c5a9d73a028cb58994985f47d18edab0de5c7c988f70d",
+    "test": "a0ca6958f363b5fd60443fd3671417e0d9bd039a896fd783f23c85bd2e26a0f0"
+  },
+  "provenance": "GPT/Codex-authored synthetic correction curriculum; no external GPT API or independent teacher review",
+  "unique_audited_program_pairs": 28,
+  "evaluation_scope": "Failure-driven repair curriculum. Concepts and Vito topic seen in training. Dev/test hold out named program instances, not independent students or unseen topics. Small benchmark; no external teacher review.",
+  "notes": [
+    "All full targets passed authored Docker tests; buggy variants fail or do not compile.",
+    "Full-repair target code is not injected into prompts; accepted-program inputs intentionally already contain correct code.",
+    "Readable transport matches current runtime; no reference or diagnostic retrieval.",
+    "Original quality-v4 final test remains untouched."
+  ]
+}

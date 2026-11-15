@@ -1,0 +1,27 @@
+{
+  "version": "quality-v7",
+  "source_manifest_sha256": "3c769f35e02df48fd3c00731c6b858917578d15d5701a422e511ab3a7f11d97c",
+  "counts": {
+    "train": 136,
+    "eval": 4,
+    "test": 4
+  },
+  "distinct_examples": {
+    "train": 96,
+    "eval": 4,
+    "test": 4
+  },
+  "sha256": {
+    "train": "5c02b0daa86d5ffd59a3aa9204ca1c01dc8bade3aac1a672021b16d0a19aeab9",
+    "eval": "4ab1891be737cde5bcff32235a15bfaebe02f2c5be8ce6156de028f75a590325",
+    "test": "c05cae28962c42e1f36e167981e9da84a932f576f37b251059e54f79d311b56d"
+  },
+  "provenance": "GPT/Codex-authored v6 revision; no API or independent teacher review",
+  "evaluation_scope": "Dev-informed v6 revision. Same concepts and named dev/test instances; only assistant targets reformatted. Full training repairs sampled three times; counts are not independent data. No general accuracy claim.",
+  "changes": [
+    "All complete assistant C++ targets formatted and closing fences on separate lines.",
+    "Full-program training targets sampled three times; prompt and label duplicates are intentional.",
+    "No dev/test output added to training.",
+    "Original v6 files and reports retained."
+  ]
+}

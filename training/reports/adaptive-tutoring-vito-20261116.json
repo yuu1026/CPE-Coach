@@ -1,0 +1,150 @@
+{
+  "scope": "Adaptive scripted learner, direct app service -> real local model HTTP and Docker. Not live browser or actual student learning. No private student data.",
+  "learner_prior_skills": "Can write cin/cout, for loops and vector input; core algorithm and unfamiliar APIs must come from recorded teacher replies.",
+  "rule": "Record justification for each code edit; do not insert algorithmic steps the teacher has not supplied.",
+  "steps": [
+    {
+      "action": "ask",
+      "question": "我會 cin、for、vector，已照題目讀入地址，但不知道下一步怎麼寫。請一步步引導，這次只教一個步驟，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "起始草稿只使用預先聲明會的輸入與容器語法；尚未插入任何排序、選址或距離演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v19",
+      "answer": "",
+      "status": "failed",
+      "error": "模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。",
+      "seconds": 31.33,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27"
+    },
+    {
+      "action": "ask",
+      "question": "我會 cin、for、vector，已照題目讀入地址，但不知道下一步怎麼寫。請一步步引導，這次只教一個步驟，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "起始草稿只使用預先聲明會的輸入與容器語法；尚未插入任何排序、選址或距離演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v19",
+      "answer": "",
+      "status": "failed",
+      "error": "模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。",
+      "attempts": [
+        {
+          "answer": "現在你需要計算所有地址的距離總和。請先寫一個迴圈，計算從第一個地址到第二個地址的距離，並將這個距離儲存起來。\n```cpp\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        long long totalDistance = 0;\n        for (int i = 0; i < relatives - 1; ++i) {\n            totalDistance += abs(addresses[i] - addresses[i + 1]);\n        }\n        cout << totalDistance << endl;\n    }\n}\n```",
+          "issue": "unrequested_solution"
+        },
+        {
+          "answer": "你已經成功讀入了所有地址，現在需要計算所有地址的距離總和，並找到使得總和最小的位置。\n\n請嘗試計算第一個地址與其他所有地址的距離之和，並將結果儲存起來。\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n```",
+          "issue": "unrequested_solution"
+        }
+      ],
+      "seconds": 30.8,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27"
+    },
+    {
+      "action": "ask",
+      "question": "我會 cin、for、vector，已照題目讀入地址，但不知道下一步怎麼寫。請一步步引導，這次只教一個步驟，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "起始草稿只使用預先聲明會的輸入與容器語法；尚未插入任何排序、選址或距離演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v20",
+      "answer": "",
+      "status": "failed",
+      "error": "模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。",
+      "attempts": [
+        {
+          "answer": "現在你需要完成排序，以便找到最小的總和。請使用 `<algorithm>` 中的 `std::sort` 函數來對 `addresses` 這個向量進行排序。\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        // 下一步放這裡\n    }\n}\n```\n請將 `std::sort(addresses.begin(), addresses.end());` 這行程式碼放在 `for` 迴圈結束後的下一行。\n",
+          "issue": "unrequested_solution"
+        },
+        {
+          "answer": "你已經完成了讀取地址的部分，現在需要開始處理這些地址，以便找到最佳位置。\n\n你的程式碼目前有一個 `while` 迴圈，用於處理每一組案例。在迴圈內部，你需要計算所有地址的距離總和，並找出最小值。\n\n以下是一個可以排序地址的 C++ 片段：\n\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        // 下一步放這裡\n    }\n}\n```\n\n這個片段使用了 `<algorithm>` 標頭檔中的 `std::sort()` 函數來對 `addresses` 向量進行排序。  `addresses.begin()` 和 `addresses.end()` 分別表示向量的起始和結束迭代器，`std::sort()` 函數會按照升序排列這些元素。\n",
+          "issue": "unrequested_solution"
+        }
+      ],
+      "seconds": 39.78,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27"
+    },
+    {
+      "action": "ask",
+      "question": "我會 cin、for、vector，已照題目讀入地址，但不知道下一步怎麼寫。請一步步引導，這次只教一個步驟，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "起始草稿只使用預先聲明會的輸入與容器語法；尚未插入任何排序、選址或距離演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v21",
+      "answer": "現在你需要完成排序，以便找到最小的總和。請使用 `<algorithm>` 中的 `std::sort` 函式來對 `addresses` 這個向量進行排序。\n以下只顯示本輪允許的局部新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <algorithm>\n```\n放置位置：每組地址全部讀完之後、選位置之前。\n```cpp\nstd::sort(addresses.begin(), addresses.end());\n```\n請將 `std::sort(addresses.begin(), addresses.end());` 這行程式碼放在 `for` 迴圈結束後的下一行。\n",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": true,
+      "scaffold_step": "sort",
+      "attempts": [
+        {
+          "answer": "現在你需要完成排序，以便找到最小的總和。請使用 `<algorithm>` 中的 `std::sort` 函數來對 `addresses` 這個向量進行排序。\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        // 下一步放這裡\n    }\n}\n```\n請將 `std::sort(addresses.begin(), addresses.end());` 這行程式碼放在 `for` 迴圈結束後的下一行。\n",
+          "issue": "unrequested_solution"
+        }
+      ],
+      "seconds": 17.66,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27"
+    },
+    {
+      "action": "ask",
+      "question": "我照你說的加入 algorithm 和排序了，下一步要怎麼寫？請仍只教一小步，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "只採用上一則已實際回傳的標頭 algorithm 與 std::sort(addresses.begin(), addresses.end())，沒有自行加入選址或距離計算。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v21",
+      "answer": "現在你需要計算並輸出最小距離總和。請計算從 `home` 出發到所有地址的距離之和，然後將結果輸出。\n以下只顯示本輪允許的區域性新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric> // for accumulate\n```\n放置位置：排序之後，計算總和之前。\n```cpp\nint totalDistance = 0;\nfor (int address : addresses) {\n    totalDistance += abs(address - home);\n}\n```\n請將以上程式碼放在 `std::sort(addresses.begin(), addresses.end());` 之後，`totalDistance` 為零的變數宣告。\n",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": false,
+      "scaffold_step": "median",
+      "attempts": [
+        {
+          "answer": "現在你需要計算並輸出最小距離總和。請計算從 `home` 出發到所有地址的距離總和，然後將結果輸出。\n以下只顯示本輪允許的局部新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric> // for accumulate\n#include <cmath>  // for abs\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int home = addresses[relatives / 2];\n        // 下一步放這裡\n    }\n}\n```\n請將以下程式碼放在 `std::sort` 之後，在計算距離總和之前：\n\n```cpp\n        long long totalDistance = 0;\n        for (int address : addresses) {\n            totalDistance += abs(address - home);\n        }\n        cout << totalDistance << endl;\n    }\n}\n```\n請注意 `accumulate` 的使用，以及 `abs` 的應用。\n",
+          "issue": "unrequested_solution"
+        },
+        {
+          "answer": "現在你需要計算並輸出最小距離總和。請計算從 `home` 出發到所有地址的距離之和，然後將結果輸出。\n以下只顯示本輪允許的局部新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric> // for accumulate\n```\n放置位置：排序之後，計算總和之前。\n```cpp\nint totalDistance = 0;\nfor (int address : addresses) {\n    totalDistance += abs(address - home);\n}\n```\n請將以上程式碼放在 `std::sort(addresses.begin(), addresses.end());` 之後，`totalDistance` 為零的變數宣告。\n",
+          "issue": null
+        }
+      ],
+      "seconds": 42.16,
+      "code_sha256": "c7d5b4100c7ddd1cd0b171e274221ccf27e9e7c56dbb18a3e5131b5c71fcb2f1"
+    },
+    {
+      "action": "test",
+      "question": "依上一則實際提示加入片段後執行測試。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance = 0;\n        for (int address : addresses) {\n            totalDistance += abs(address - home);\n        }\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "照模型上一則真正送達的片段加入 numeric、totalDistance 與 abs 迴圈。模型尚未教 home 宣告，沒有替模型補上，讓編譯測試判斷提示是否可直接使用。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v21",
+      "judge": {
+        "status": "compile_error",
+        "label": "編譯錯誤",
+        "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:15:44: error: ‘home’ was not declared in this scope\n   15 |             totalDistance += abs(address - home);\n      |                                            ^~~~\n",
+        "cases": []
+      },
+      "code_sha256": "76a17a7e410b3078fd35ae105aa70c06aa927f6a52201664e28f26c25c69bdeb"
+    },
+    {
+      "action": "ask",
+      "question": "我照你給的片段加入了，但編譯說 home 沒有宣告，你還沒教我如何選它。下一步請只教 home 宣告的那一行，以及放哪裡，其他不要重貼。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance = 0;\n        for (int address : addresses) {\n            totalDistance += abs(address - home);\n        }\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "沒有自行修正，將 Docker 真實回報的 home 未宣告問題交回模型，要求它補救漏掉的步驟。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v21",
+      "answer": "",
+      "status": "failed",
+      "error": "模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。",
+      "attempts": [
+        {
+          "answer": "`home` 是固定值，代表你的居住地。它應該在 `main` 函數的最開始宣告，並且賦予一個固定的整數值。\n以下只顯示本輪允許的區域性新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\nusing namespace std;\nconst int home = 0; // 你的居住地是 0\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance = 0;\n        for (int address : addresses) {\n            totalDistance += abs(address - home);\n        }\n        // 下一步放這裡\n    }\n}\n```\n請將 `const int home = 0;` 這行程式碼放在 `main` 函數的最開始。\n",
+          "issue": "unrequested_solution"
+        },
+        {
+          "answer": "`home` 是固定值，代表你的家。它應該是一個整數變數，並且在程式開始時設定好。\n以下只顯示本輪允許的區域性新增，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\nusing namespace std;\nconst int home = 0; // 你的家地址是 0\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i = 0; i < relatives; ++i)\n            cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance = 0;\n        for (int address : addresses) {\n            totalDistance += abs(address - home);\n        }\n        // 下一步放這裡\n    }\n}\n```\n請將 `const int home = 0;` 這行程式碼放在 `main()` 函數的第一行，在 `int cases;` 之後。\n",
+          "issue": "unrequested_solution"
+        }
+      ],
+      "seconds": 47.0,
+      "code_sha256": "76a17a7e410b3078fd35ae105aa70c06aa927f6a52201664e28f26c25c69bdeb"
+    }
+  ]
+}

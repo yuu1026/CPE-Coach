@@ -10,7 +10,7 @@ from django.conf import settings
 
 TOKENS=re.compile(r'^[ \t]*\#[^\r\n]*(?:\r?\n|$)|//[^\n]*(?:\n|$)|/\*.*?\*/|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[A-Za-z_]\w*|(?:0[xX][0-9a-fA-F]+|\d+(?:\.\d*)?|\.\d+)(?:[eEpP][+-]?\d+)?[uUlLfF]*|>>=|<<=|->\*|\.\.\.|::|->|\+\+|--|&&|\|\||==|!=|<=|>=|<<|>>|\+=|-=|\*=|/=|%=|&=|\|=|\^=|[^\s]',re.S|re.M)
 
-def code_signature(code):
+def code_tokens(code):
     if 'R"' in code or re.search(r'\\\r?\n',code): return None
     tokens=[]
     for match in TOKENS.finditer(code):
@@ -19,7 +19,11 @@ def code_signature(code):
         # Preprocessor whitespace can change string literals and function-like
         # macro definitions. Preserve it rather than guessing equivalence.
         tokens.append('#pp:'+token.strip() if token.lstrip().startswith('#') else token)
-    return hashlib.sha256(json.dumps(tokens,ensure_ascii=False).encode()).hexdigest()
+    return tokens
+
+def code_signature(code):
+    tokens=code_tokens(code)
+    return hashlib.sha256(json.dumps(tokens,ensure_ascii=False).encode()).hexdigest() if tokens is not None else None
 
 @lru_cache(maxsize=1)
 def profiles():

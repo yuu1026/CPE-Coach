@@ -1,0 +1,41 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "read-code",
+  "stages": [
+    {
+      "id": "read-code",
+      "expected_behavior": "引用目前讀入片段，局部提示排序/選中位數，保留變數，不把尚未完成硬當成編譯錯誤。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "read-code",
+      "question": "我已讀好資料放在 addresses。下一步想選 home 再算總距離，請沿用我的程式給一個小步驟，不要貼整題程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while(cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for(int &address:addresses) cin >> address;\n        // 我還沒選 home 或計算總距離\n    }\n}\n",
+      "expected_behavior": "引用目前讀入片段，局部提示排序/選中位數，保留變數，不把尚未完成硬當成編譯錯誤。",
+      "answer": "這次只新增以下片段，省略原本已寫好的程式。\n\n檔案開頭新增標頭：\n```cpp\n#include <algorithm>\n```\n放置位置：每組地址全部讀完之後、選位置之前。\n```cpp\nstd::sort(addresses.begin(), addresses.end());\n```\n已經完成了對 `addresses` 的排序。現在可以開始尋找最佳的 `home` 位置了。下一步，你需要找到 `addresses` 中最接近 `home` 的位置，並將其作為 `home` 的候選者。\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v22",
+      "seconds": 15.86,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_run",
+      "message_count": 2,
+      "scaffold_step": "sort",
+      "calculation_tool_used": false,
+      "tutoring_projection": true,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}

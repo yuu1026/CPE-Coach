@@ -1,0 +1,19 @@
+{
+  "scope": "Recorded wrong-answer replay uses fixed candidate responses and real Docker. Live section uses base model, Django view client and real Docker; not v7 model accuracy.",
+  "wrong_answer_replay": {
+    "calls": 2,
+    "corrected_candidate_passed": true,
+    "repeated_failure_blocked": true
+  },
+  "live_base_model": {
+    "http_status": 302,
+    "status": "done",
+    "answer": "程式碼中，`home = addressSum / relatives;` 這行計算的中位數位置 `home` 的值可能不正確，因為它沒有考慮 `addressSum` 可能等於 `relatives` 的情況。如果 `addressSum` 整除 `relatives`，那麼 `addressSum / relatives` 會得到一個整數，但這可能不是實際的中位數。此外，由於題目要求的是最小化總距離，因此應該計算所有地址與中位數位置的絕對差之和，而不是簡單地取平均值作為中位數。\n\n以下是修正後的程式碼：\n\n```cpp\n#include <cstdlib>\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\nusing namespace std;\n\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n\n        // Calculate the median\n        sort(addresses.begin(), addresses.end());\n        int median;\n        if (relatives % 2 == 0) {\n            median = (addresses[relatives / 2 - 1] + addresses[relatives / 2]) / 2;\n        } else {\n            median = addresses[relatives / 2];\n        }\n\n        int distanceSum = 0;\n        for (int address : addresses)\n            distanceSum += abs(address - median);\n\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n```\n系統檢查：模型產生的程式通過 3 組題庫測資；不代表所有輸入或官方評測皆正確。你的編輯器程式未被修改，也不因此視為已通過測試。",
+    "error": "",
+    "prompt_version": "cpe-tutor-v14",
+    "model": "gemma-3-4b-it",
+    "student_code_preserved": true,
+    "safety_outcome": "returned program after actual problem tests passed"
+  },
+  "temporary_account_deleted": true
+}

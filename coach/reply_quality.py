@@ -42,7 +42,7 @@ def prose_only(text):
     map_prose(text, lambda part: collected.append(part) or '')
     return ''.join(collected)
 
-def quality_issue(answer, messages, *, check_grounding=True):
+def quality_issue(answer, messages, *, check_grounding=True, check_tutoring=True):
     if non_cpp_code(answer):
         return 'code_language'
     prose = prose_only(answer)
@@ -58,16 +58,57 @@ def quality_issue(answer, messages, *, check_grounding=True):
     sentences = [s.strip() for s in re.split(r'[。！？\n]', prose) if len(s.strip()) >= 12]
     if len(sentences) >= 3 and len(set(sentences)) <= len(sentences) // 2:
         return 'repetition'
+    if check_tutoring:
+        try:payload=json.loads(messages[-1]['content'])
+        except (ValueError,KeyError,TypeError,IndexError):payload={}
+        if isinstance(payload,dict):
+            conflict=grounded_conflict(payload,prose)
+            if conflict:return conflict
+            if payload.get('verified_next_step',{}).get('step')=='median':
+                snippets='\n'.join(re.findall(r'```(?:cpp|c\+\+|cxx|cc)?\s*\n(.*?)```',answer,re.S|re.I))
+                if re.search(r'\bhome\b',snippets) and not re.search(r'\b(?:int|auto|long\s+long)\s+home\b',snippets):return 'lesson_order'
+        if isinstance(payload,dict) and payload.get('response_mode')=='tutor':
+            code_blocks=re.findall(r'^ {0,3}(?:`{3,}|~{3,})[^\n]*\n(.*?)(?:^ {0,3}(?:`{3,}|~{3,})|\Z)',answer,re.M|re.S)
+            if any(re.search(r'\b(?:int|auto|signed)\s+main\s*\(',block) for block in code_blocks):return 'unrequested_solution'
+            if payload.get('learning_mode')=='getting_started' and len(re.findall(r'[?？]',prose))>1:return 'too_many_questions'
     if check_grounding and missing_code_anchor(answer,messages):
         return 'code_grounding'
+    return None
+
+
+def grounded_conflict(payload,prose):
+    """Narrow regression guards, not a general semantic correctness checker."""
+    if payload.get('verified_calculation'):
+        for expression,value in re.findall(r'(\(?\s*\d+(?:\s*\+\s*\d+)+\s*\)?\s*/\s*\d+)\s*=\s*(\d+\.\d+)',prose):
+            if len(expression)>80:continue
+            numbers=list(map(int,re.findall(r'\d+',expression)))
+            if not numbers[-1] or abs(sum(numbers[:-1])/numbers[-1]-float(value))>10**(-len(value.split('.')[1])):
+                return 'calculation_conflict'
+    if payload.get('verified_calculation',{}).get('claimed_sum_correct') is True:
+        for sentence in re.split(r'[。！？\n]',prose):
+            if re.search(r'沒錯|沒有錯|不是.{0,5}錯|並非.{0,5}錯',sentence):continue
+            if re.search(r'(?:計算|距離總和).{0,12}(?:錯誤|算錯|不對|有誤)',sentence):return 'calculation_conflict'
+    if (payload.get('execution_evidence',{}).get('status')=='accepted' and
+        re.search(r'已確認|現在有.{0,5}錯|還有.{0,5}錯|一定要.{0,5}改|通過.{0,6}改',payload.get('question',''))):
+        for sentence in re.split(r'[。！？\n]',prose):
+            if re.search(r'沒有|未發現|不能確認|無法確認|不代表|不保證|可能|尚未',sentence):continue
+            if re.search(r'存在.{0,8}(?:問題|錯誤)|有.{0,4}(?:關鍵|明顯|嚴重)錯誤|需要修正|問題所在',sentence):return 'verdict_conflict'
+    if not re.match(r'UVa\s+10041\b',payload.get('problem_title',''),re.I) or not payload.get('verified_topic_notes'):
+        return None
+    for sentence in re.split(r'[。！？\n]',prose):
+        if re.search(r'不是|不能當|不應|不要|並非|錯誤說法',sentence):continue
+        if re.search(r'二維|三維|\(\s*x\s*[,，]\s*y\s*\)',sentence):return 'topic_conflict'
+        if '歐氏距離' in sentence and not re.search(r'一維|絕對',sentence):return 'topic_conflict'
+        if re.search(r'中位數.{0,12}(?:不能|無法|不保證|不一定).{0,12}(?:最小|保證最小)',sentence):return 'topic_conflict'
     return None
 
 
 def missing_code_anchor(answer,messages):
     """Enforce a source quotation, NOT a semantic correctness verdict.
 
-    Whitespace may differ after clang-format. An anchor must contain at least
-    four non-space characters and occur in the *current* code, never history.
+    Repair quotations must occur in current code (whitespace may differ).
+    Pure hand calculations do not need code quotations; new-step snippets may
+    instead reuse a student identifier because the new statement is not written.
     This intentionally does not claim that the diagnosis or patch is correct.
     """
     try:
@@ -76,6 +117,11 @@ def missing_code_anchor(answer,messages):
         return False
     code=payload.get('code','') if isinstance(payload,dict) else ''
     if not isinstance(code,str) or not code.strip():return False
+    # Conceptual next-step coaching is not a diagnosis of an existing statement.
+    # Relevance here is assessed by the lesson evaluation, not a quote gate.
+    if payload.get('learning_mode') in ('result_review','next_step'):return False
+    question=payload.get('question','')
+    if '手算' in question and not re.search(r'追蹤|引用|程式中的|我的程式|哪一行|修正|修改',question):return False
     compact=lambda text: re.sub(r'\s+','',text)
     current=compact(code)
     # Require an original expression/statement; standard boilerplate alone
@@ -84,9 +130,16 @@ def missing_code_anchor(answer,messages):
     candidates=re.findall(r'(?<!`)`([^`\n]+)`(?!`)',answer)
     for block in re.findall(r'```(?:cpp|c\+\+|cxx|cc)?\s*\n(.*?)```',answer,re.S|re.I):
         candidates.extend(block.splitlines())
-    return not any(len(fragment)>=4 and fragment not in boilerplate and
-                   re.search(r'[A-Za-z_]',fragment) and fragment in current
-                   for fragment in map(compact,candidates))
+    if any(len(fragment)>=4 and fragment not in boilerplate and re.search(r'[A-Za-z_]',fragment) and fragment in current for fragment in map(compact,candidates)):
+        return False
+    # A next-step snippet cannot necessarily quote code that does not exist yet.
+    # Require reuse of a student-owned identifier, not only C++ boilerplate.
+    if re.search(r'下一步|接下來|還沒|尚未|我已.{0,3}讀',question):
+        reserved={'int','long','double','float','char','bool','auto','const','return','std','main','using','namespace','include','iostream','vector','algorithm','cstdlib','iomanip','string','cin','cout','for','while','if','else','size','begin','end','sort','abs'}
+        names=set(re.findall(r'\b[A-Za-z_]\w*\b',code))-reserved
+        snippets='\n'.join(re.findall(r'```(?:cpp|c\+\+|cxx|cc)?\s*\n(.*?)```',answer,re.S|re.I))
+        if names & set(re.findall(r'\b[A-Za-z_]\w*\b',snippets)):return False
+    return True
 
 
 def non_cpp_code(answer):
