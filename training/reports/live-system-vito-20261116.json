@@ -1,0 +1,200 @@
+{
+  "started_at": "2026-11-16T01:51:00.607098+08:00",
+  "scope": "Live HTTP with CSRF, actual Docker judge and local model. Authored UVa 10041 fixtures. No visual browser QA or general model accuracy claim.",
+  "checks": [
+    {
+      "name": "model_health",
+      "passed": true,
+      "health": {
+        "status": "ready",
+        "model": "gemma-3-4b-it",
+        "context": 4096,
+        "quantization": "nf4"
+      }
+    },
+    {
+      "name": "anonymous_redirects_to_login",
+      "passed": true
+    },
+    {
+      "name": "login_with_csrf",
+      "passed": true
+    },
+    {
+      "name": "dashboard_and_cpe_topic",
+      "passed": true,
+      "topic_count": 49
+    },
+    {
+      "name": "choose_vito",
+      "passed": true
+    },
+    {
+      "name": "workbench_and_assets",
+      "passed": true
+    },
+    {
+      "name": "compile_error_request",
+      "passed": true,
+      "seconds": 1.05,
+      "judge": {
+        "status": "compile_error",
+        "label": "編譯錯誤",
+        "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:2:26: error: expected ‘;’ before ‘return’\n    2 | int main(){std::cout << 1 return 0;}\n      |                          ^~~~~~~\n      |                          ;\n",
+        "cases": [],
+        "fingerprint": "df983e2edb571103a4b4e6bbb1ba0b23626fcdf1f77859bcdb8e8017c81ffeda",
+        "custom_test": {
+          "enabled": true,
+          "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+          "expected": "2\n4\n99\n99\n0\n0\n"
+        }
+      }
+    },
+    {
+      "name": "compile_error_detected",
+      "passed": true
+    },
+    {
+      "name": "blank_code_guidance",
+      "passed": true,
+      "status": "done",
+      "seconds": 14.56
+    },
+    {
+      "name": "blank_code_guidance_result_page",
+      "passed": true
+    },
+    {
+      "name": "wrong_answer_request",
+      "passed": true,
+      "seconds": 0.88,
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 1 / 4",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "131\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.005
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "126\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.004
+          },
+          {
+            "name": "自訂測資",
+            "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+            "expected": "2\n4\n99\n99\n0\n0\n",
+            "actual": "2\n4\n131\n126\n0\n0\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "6fc5d75b54d464abb9f454705f129636f3cdcb8bab84553bbc2d2c2f640048d0",
+        "custom_test": {
+          "enabled": true,
+          "input": "6\n2 2 4\n3 2 4 6\n3 1 2 100\n3 10 100 1\n1 7\n4 5 5 5 5\n",
+          "expected": "2\n4\n99\n99\n0\n0\n"
+        }
+      }
+    },
+    {
+      "name": "wrong_answer_detected",
+      "passed": true
+    },
+    {
+      "name": "diagnose_existing_code",
+      "passed": true,
+      "status": "done",
+      "seconds": 9.34
+    },
+    {
+      "name": "diagnose_existing_code_result_page",
+      "passed": true
+    },
+    {
+      "name": "connected_followup",
+      "passed": true,
+      "status": "done",
+      "seconds": 30.19
+    },
+    {
+      "name": "connected_followup_result_page",
+      "passed": true
+    }
+  ],
+  "model_turns": [
+    {
+      "name": "blank_code_guidance",
+      "question": "我完全沒有想法，請先引導理解這題，不要直接給完整解答。",
+      "code": "",
+      "status": "done",
+      "mode": "live",
+      "prompt_version": "cpe-tutor-v12",
+      "model": "gemma-3-4b-it",
+      "seconds": 14.56,
+      "response_mode": "tutor",
+      "evidence_status": "not_submitted",
+      "answer": "好的，讓我們從理解問題的一小步開始。\n\n首先，請仔細閱讀題目描述，並確認你是否清楚以下幾點：\n\n*   **輸入格式：** 輸入包含幾個部分？每個部分代表什麼？例如，親戚數量和地址是什麼形式？\n*   **目標：**  題目要求的是什麼？是找到一個特定的地址，還是計算一個數字？\n*   **距離計算：** “距離”指的是什麼？如何計算兩個地址之間的距離？是否有任何限制或特殊情況需要考慮？\n\n請嘗試用自己的話解釋一下你對這些問題的理解，即使你覺得你的理解可能不夠完善。這樣能幫助我們更好地瞭解你的起點，並從這裡開始引導你。",
+      "error": ""
+    },
+    {
+      "name": "diagnose_existing_code",
+      "question": "我的輸出不符預期。請檢查 home 的選擇方式，引用我的原程式，保留 addresses、home、distanceSum，不要另換解法。",
+      "code": "#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        int home = addressSum / relatives;\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "status": "done",
+      "mode": "live",
+      "prompt_version": "cpe-tutor-v12",
+      "model": "gemma-3-4b-it",
+      "seconds": 9.34,
+      "response_mode": "tutor",
+      "evidence_status": "failed",
+      "answer": "你的輸出不符預期，這是因為 `home` 的選擇方式存在問題。\n\n觀察你的程式碼，有如下表示式：`int home = addressSum / relatives;`。\n\n此處將所有地址之總和除以親戚數量，作為家人的居所位置。然而，題目要求的是使距離總和最小的位置，而不是平均位置。\n\n請思考，如果所有地址都相同，那麼家人的居所位置應該是什麼？\n",
+      "error": ""
+    },
+    {
+      "name": "connected_followup",
+      "question": "請沿用我的 home 計算來解釋：地址 1、2、100，為什麼選 2 比選 34 好？",
+      "code": "#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        int home = addressSum / relatives;\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "status": "done",
+      "mode": "live",
+      "prompt_version": "cpe-tutor-v12",
+      "model": "gemma-3-4b-it",
+      "seconds": 30.19,
+      "response_mode": "tutor",
+      "evidence_status": "failed",
+      "answer": "你的 `home` 計算方式是將所有地址之總和除以親戚數量，也就是平均值。\n\n對於提供的例子，`addresses` 為 `[1, 2, 100]`，`relatives` 為 `3`。\n\n`addressSum` 是 `1 + 2 + 100 = 103`。\n\n`home` 的計算結果是 `103 / 3 = 34.333...`。由於 `home` 必須是一個整數，所以 `home` 被取整後為 `34`。\n\n題目要求的是使距離總和最小的位置，因此我們需要尋找一個 `home` 值，使得所有地址與 `home` 的絕對差值的總和最小。\n\n在這個例子中，如果 `home` 選取為 `2`，則：\n\n*   `abs(1 - 2)` = 1\n*   `abs(2 - 2)` = 0\n*   `abs(100 - 2)` = 98\n\n距離總和為 `1 + 0 + 98 = 99`。\n\n如果 `home` 選取為 `34`，則：\n\n*   `abs(1 - 34)` = 33\n*   `abs(2 - 34)` = 32\n*   `abs(100 - 34)` = 66\n\n距離總和為 `33 + 32 + 66 = 131`。\n\n因此，選擇 `home` 為 `2` 能使距離總和最小。\n",
+      "error": ""
+    }
+  ],
+  "cleanup": true,
+  "fatal_error": "ReadError: [WinError 10054] 遠端主機已強制關閉一個現存的連線。",
+  "finished_at": "2026-11-16T01:52:06.448494+08:00",
+  "functional_passes": 16,
+  "functional_total": 16
+}
