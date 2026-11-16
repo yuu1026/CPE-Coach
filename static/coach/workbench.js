@@ -128,7 +128,7 @@
     form.querySelector('input[name="action"]').value = action;
     form.setAttribute('aria-busy', 'true');
     const testData = action === 'test' ? new FormData(form) : null;
-    if (testData) { testData.delete('question'); testData.delete('hint_level'); }
+    if (testData) testData.delete('question');
     testButton.disabled = askButton.disabled = clearButton.disabled = true;
     wait.textContent = action === 'test' ? '正在編譯與執行測資…' : '本地模型正在分析程式；必要時會自動重試一次，可能需要一至數分鐘，請勿重複送出。';
     wait.hidden = action === 'test';

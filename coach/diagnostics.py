@@ -37,7 +37,7 @@ def lookup(problem,code):
         return item
     return None
 
-def direct_hint(payload,messages,level):
+def direct_hint(payload,messages,level=None):
     profile=payload.get('verified_diagnostic')
     if not profile or payload.get('response_mode')=='solution': return None
     if payload.get('execution_evidence',{}).get('status')=='accepted': return None
@@ -46,6 +46,6 @@ def direct_hint(payload,messages,level):
     # At most one retrieved diagnosis in a branch. Later questions need a direct,
     # contextual model explanation with the verified diagnosis available as evidence.
     if any(m['role']=='assistant' and m['content'].startswith('題庫診斷提示') and any(h in m['content'] for h in profile['hints']) for m in messages[:-1]): return None
-    hint=profile['hints'][max(0,min(2,level-1))]
+    hint='\n'.join(dict.fromkeys(profile['hints']))  # A single diagnosis, not graded levels.
     return ('題庫診斷提示（未呼叫模型）：目前程式與本專案已驗證的錯誤變體相符。\n\n'+hint+
         '\n\n這是既有自編測資與程式差異的比對，不表示這次已重新執行。修改後請再測試；若有其他疑問，可以繼續問具體步驟。')

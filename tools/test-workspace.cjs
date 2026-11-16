@@ -11,8 +11,8 @@ class Element {
 }
 const source = fs.readFileSync('static/coach/workspace-preferences.js', 'utf8');
 function workspace({stored, dataset = {}, error = false} = {}) {
-  const fields = Object.fromEntries(['code','question','hint_level','run_custom','custom_input','custom_expected','submission_id','action'].map(name => [name, new Element()]));
-  fields.hint_level.value = '1'; fields.submission_id.value = 'new-token'; fields.action.value = 'ask';
+  const fields = Object.fromEntries(['code','question','run_custom','custom_input','custom_expected','submission_id','action'].map(name => [name, new Element()]));
+  fields.submission_id.value = 'new-token'; fields.action.value = 'ask';
   const form = new Element(); form.dataset = {user:'7', problem:'100', record:'', token:'', ...dataset}; form.elements = {namedItem:name => fields[name]};
   const nodes = Object.fromEntries(['draft-status','restore-draft','clear-draft','reading-size','editor-size','reset-layout'].map(id => [id, new Element('15')]));
   nodes['reading-size'].options = nodes['editor-size'].options = ['14','15','16','18'].map(value => ({value}));
@@ -27,6 +27,7 @@ function workspace({stored, dataset = {}, error = false} = {}) {
 }
 const draft = {code:'int main(){}', question:'hint?', hint_level:'2', run_custom:true, custom_input:'1', custom_expected:'2', record:''};
 let page = workspace({stored:draft});
+assert.equal(page.saved().hint_level,undefined,'legacy level must be ignored without losing the draft');
 page.toggles[0].dispatchEvent({type:'click'}); page.toggles[1].dispatchEvent({type:'click'});
 assert.ok(page.form.classes.has('is-problem-collapsed')); assert.ok(page.form.classes.has('is-chat-collapsed'));
 assert.match(page.form.style.gridTemplateColumns,/^0px 0px/);

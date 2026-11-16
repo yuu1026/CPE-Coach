@@ -5,6 +5,7 @@ from difflib import SequenceMatcher
 from functools import lru_cache
 from opencc import OpenCC
 from .diagnostics import code_tokens
+from .conversation_policy import explanation_only
 
 PROTECTED = re.compile(r'(`+)[^\n]*?\1|https?://[^\s)]+')
 
@@ -149,9 +150,9 @@ def missing_code_anchor(answer,messages):
     if not isinstance(code,str) or not code.strip():return False
     # Conceptual next-step coaching is not a diagnosis of an existing statement.
     # Relevance here is assessed by the lesson evaluation, not a quote gate.
-    if payload.get('learning_mode') in ('result_review','next_step'):return False
+    if payload.get('learning_mode') in ('result_review','next_step','scaffold','explanation'):return False
     question=payload.get('question','')
-    if '手算' in question and not re.search(r'追蹤|引用|程式中的|我的程式|哪一行|修正|修改',question):return False
+    if explanation_only(question):return False
     compact=lambda text: re.sub(r'\s+','',text)
     current=compact(code)
     # Require an original expression/statement; standard boilerplate alone

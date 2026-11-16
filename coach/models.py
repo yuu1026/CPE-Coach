@@ -28,7 +28,8 @@ class Submission(models.Model):
     submission_id = models.UUIDField(default=uuid.uuid4)
     code = models.TextField()
     question = models.TextField(blank=True)
-    hint_level = models.PositiveSmallIntegerField()
+    # Historical compatibility only; no longer selected or sent to the model.
+    hint_level = models.PositiveSmallIntegerField(default=1)
     status = models.CharField(max_length=20, default='running')
     mode = models.CharField(max_length=20)
     model = models.CharField(max_length=160)

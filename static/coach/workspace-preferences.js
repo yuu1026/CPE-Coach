@@ -11,7 +11,7 @@
   function read(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
   function snapshot() {
     return {code: editor ? editor.getValue() : field('code').value, question: field('question').value,
-      hint_level: field('hint_level').value, run_custom: field('run_custom').checked,
+      run_custom: field('run_custom').checked,
       custom_input: field('custom_input').value, custom_expected: field('custom_expected').value,
       record: form.dataset.record, pending, time: Date.now()};
   }
@@ -26,7 +26,6 @@
     saving = true;
     if (editor) editor.setValue(String(draft.code || '')); else field('code').value = String(draft.code || '');
     for (const name of ['question', 'custom_input', 'custom_expected']) field(name).value = String(draft[name] || '');
-    if (['1','2','3'].includes(draft.hint_level)) field('hint_level').value = draft.hint_level;
     field('run_custom').checked = draft.run_custom === true;
     field('code').dispatchEvent(new Event('input', {bubbles:true}));
     saving = false; blocked = false; restore.hidden = true; save();

@@ -3,7 +3,7 @@
 <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 Z" fill="#60758a"/></marker></defs>
 <style>text{font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif} .head{font-size:34px;font-weight:700;fill:#183047}.sub{font-size:18px;fill:#60758a}.node{font-size:22px;font-weight:600;fill:#20384b}.note{font-size:17px;fill:#556d81}.label{font-size:17px;fill:#4e657a}.edge{fill:none;stroke:#60758a;stroke-width:2.5;marker-end:url(#arrow);stroke-linejoin:round}</style>
 <rect width="1440" height="1480" fill="#f5f8fc"/><rect x="90" y="20" width="1260" height="1420" rx="28" fill="white" stroke="#dbe5ed"/>
-<text x="720" y="65" text-anchor="middle" class="head">CPE Coach｜學習流程</text><text x="720" y="94" text-anchor="middle" class="sub">從理解題意開始，以測試證據與分級提示完成自己的解法</text>
+<text x="720" y="65" text-anchor="middle" class="head">CPE Coach｜學習流程</text><text x="720" y="94" text-anchor="middle" class="sub">從理解題意開始，以測試證據與自然對話完成自己的解法</text>
 <rect x="520" y="125" width="400" height="62" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
 <text x="720.0" y="163.0" text-anchor="middle" class="node">登入個人帳號</text>
 <rect x="520" y="225" width="400" height="62" rx="13" fill="#edf3fa" stroke="#cbd9e7" stroke-width="1.6"/>
@@ -38,8 +38,8 @@
 <text x="380.0" y="861" text-anchor="middle" class="node">比對預期輸出與實際輸出</text>
 <text x="380.0" y="889" text-anchor="middle" class="note">通過／答案不符／編譯錯誤／超時</text>
 <rect x="840" y="828" width="440" height="88" rx="13" fill="#e5f5ee" stroke="#badccf" stroke-width="1.6"/>
-<text x="1060.0" y="861" text-anchor="middle" class="node">本地模型產生分級提示</text>
-<text x="1060.0" y="889" text-anchor="middle" class="note">題意理解 → 定位問題 → 局部提示</text>
+<text x="1060.0" y="861" text-anchor="middle" class="node">依需求生成自然回覆</text>
+<text x="1060.0" y="889" text-anchor="middle" class="note">觀念／骨架／修錯／完整解答</text>
 <path class="edge" d="M380 778 V828"/>
 <path class="edge" d="M1060 778 V828"/>
 <rect x="160" y="966" width="440" height="80" rx="13" fill="#eaf1ff" stroke="#c4d4ef" stroke-width="1.6"/>

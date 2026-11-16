@@ -1,0 +1,27 @@
+{
+  "prompt_version": "cpe-coach-v30-adaptive",
+  "cases": [
+    {
+      "case": "scaffold",
+      "question": "可以給我程式碼的雛型嗎？核心邏輯留給我自己完成。",
+      "code": "",
+      "response_mode": "scaffold",
+      "learning_mode": "scaffold",
+      "status": "rejected",
+      "error": "模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。",
+      "audit": null,
+      "seconds": 21.17
+    },
+    {
+      "case": "arithmetic",
+      "question": "我照你的修改測試通過了。2、9與9、2的距離都應該是7，這樣對嗎？請手算確認，不要改程式。",
+      "code": "int main(){int a=2,b=9;return 0;}",
+      "response_mode": "tutor",
+      "learning_mode": "explanation",
+      "status": "rejected",
+      "error": "模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。",
+      "audit": null,
+      "seconds": 21.08
+    }
+  ]
+}

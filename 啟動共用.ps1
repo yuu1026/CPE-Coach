@@ -38,6 +38,12 @@
     throw "找不到具備 $modules 的 Python。請在已安裝套件的環境執行，或設定 CPE_PYTHON 指向該 python.exe。"
 }
 
+function Update-CpeDatabase {
+    param([string]$PythonExecutable)
+    & $PythonExecutable manage.py migrate --noinput
+    if ($LASTEXITCODE -ne 0) { throw '資料庫更新失敗，未啟動網站。請保留錯誤訊息並檢查。' }
+}
+
 function Assert-CpePortAvailable {
     param([int]$Port)
     $client = New-Object System.Net.Sockets.TcpClient

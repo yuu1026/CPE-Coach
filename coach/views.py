@@ -108,7 +108,7 @@ def choose_problem(request):
 @require_http_methods(['GET', 'POST'])
 def practice(request, pk):
     problem = get_object_or_404(cpe_problems(), pk=pk)
-    form = SubmissionForm(request.POST if request.method == 'POST' else None, initial={'submission_id': uuid.uuid4(), 'hint_level': 1, 'code': ''})
+    form = SubmissionForm(request.POST if request.method == 'POST' else None, initial={'submission_id': uuid.uuid4(), 'code': ''})
     if request.method == 'POST' and form.is_valid():
         data = form.cleaned_data
         parent_id = data.get('parent_submission')
@@ -126,7 +126,7 @@ def detail(request, pk):
         custom = next((c for c in record.judge_result.get('cases', []) if c.get('name') == '自訂測資'), None)
     if custom and not custom.get('enabled', True):
         custom = None
-    form = SubmissionForm(request.POST if request.method == 'POST' else None, initial={'submission_id': uuid.uuid4(), 'parent_submission': record.pk, 'hint_level': record.hint_level, 'code': record.code, 'run_custom': bool(custom), 'custom_input': custom['input'] if custom else '', 'custom_expected': custom['expected'] if custom else ''})
+    form = SubmissionForm(request.POST if request.method == 'POST' else None, initial={'submission_id': uuid.uuid4(), 'parent_submission': record.pk, 'code': record.code, 'run_custom': bool(custom), 'custom_input': custom['input'] if custom else '', 'custom_expected': custom['expected'] if custom else ''})
     if request.method == 'POST' and form.is_valid():
         if form.cleaned_data.get('parent_submission') not in (None, record.pk):
             form.add_error(None, '回覆對話不符，請重新整理後再試。')

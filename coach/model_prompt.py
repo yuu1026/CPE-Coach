@@ -35,8 +35,11 @@ def readable_messages(messages):
               '上個候選的檢查失敗':payload.get('revision_feedback','')}
         return [{'role':'system','content':instruction},{'role':'user','content':json.dumps(data,ensure_ascii=False)}]
     solution=payload.get('response_mode')=='solution'
+    scaffold=payload.get('response_mode')=='scaffold'
     instructions=CORE+('\n本輪允許完整解答，請直接提供解法及完整 C++17。' if solution else
-        '\n本輪為逐步提示；程度 '+str(payload.get('hint_level',1))+'：1 給觀念，2 定位局部，3 說明局部修正。不要給整題程式。')
+        '\n依本輪需求與學習進度，自行決定解釋深度與形式，不使用固定提示等級。不要在未要求時主動交出整題答案。')
+    if scaffold:
+        instructions+='\n學生要的是程式雛型／骨架。直接給一個可編譯的C++17程式區塊，允許必要標頭與main，輸入／流程可先搭好，核心解題邏輯留TODO註解；不提供整題演算法或宣稱通過測資。不要因為有main就拒絕，也不要再反問已說清楚的需求。'
     original_system=messages[0]['content'] if messages and messages[0]['role']=='system' else ''
     repair_start=original_system.find('上一個候選回覆')
     if repair_start>=0:instructions+='\n'+original_system[repair_start:]
@@ -46,8 +49,8 @@ def readable_messages(messages):
         instructions+='\n學生已提出具體問題，先直接回答；不要把概念問題轉成新手起步問答。'
     if re.search(r'手算',payload.get('question','')):
         instructions+='\n本輪學生要求手算，先以具體數值核對距離，不要改問資料結構或要求先寫程式。工具核對是手算資料，不是 C++ 執行證據。'
-    if not solution:
-        instructions+='\n每輪只推進一個可操作的小步驟：先接住學生本輪已理解的內容，再補一個原因、反例或必要片段。學生已說清楚輸入或目標，就不要重問。程式裡已看得到的變數計算方式，不要再叫學生重新描述，請直接指出本輪相關片段。必要的 C++ 片段以五行內為主，不包含 main 或整題流程；請讓學生自己把片段放回原程式。'
+    if not solution and not scaffold:
+        instructions+='\n先接住學生本輪已理解的內容，再提供足夠的原因、反例或必要片段。學生要一步就推進一步，要解釋就說清楚，不硬套固定篇幅。已說清楚輸入或目標就不要重問；沒有發現錯誤時保留程式。'
     has_code=bool(payload.get('code','').strip())
     mode=payload.get('learning_mode')
     if mode=='next_step':
@@ -56,7 +59,9 @@ def readable_messages(messages):
             instructions+='\n本輪已有本專案整理的一個教學步驟。只解釋這一步、放置位置和必要標頭，可引用所附局部片段；不新增其他步驟、不貼 main，也不讓學生重新猜已給出的動作。'
     elif mode=='result_review':
         instructions+='\n本輪只確認目前測試結果，不做找錯或回放舊版診斷。只回答已通過提供測資、沒有新的已確認錯誤則保留，以及這不保證官方 AC。'
-    elif has_code:
+    elif mode=='scaffold':
+        instructions+='\n骨架需與本題及目前學習進度相符，不自動覆寫已有程式；最後指出一個可以自行完成的TODO。'
+    elif has_code and mode!='explanation':
         instructions+='\n本輪已有學生目前版本（可能尚未完成解題），必須以它為分析對象。先引用與問題相關的原始運算式或敘述（用反引號或 cpp 區塊），再說明目前行為及問題；保留變數、函式和解題思路。若需修改，只展示必要的局部修改及原因；完整解答模式則在原程式上修正並解釋差異，不另換一份題庫解法。不要要求重貼已有程式，不猜行號，不硬找錯。'
     result=[{'role':'system','content':instructions}]
     for message in ([] if mode=='result_review' else messages[1:-1]):

@@ -47,7 +47,7 @@ def thread_records(record):
 
 def submit(owner, problem, data, parent=None):
     action = data.get('action') or 'ask'
-    record, created = Submission.objects.get_or_create(owner=owner, submission_id=data['submission_id'], defaults={'problem': problem, 'parent': parent, 'action': action, 'code': data['code'], 'question': '' if action == 'test' else data['question'], 'hint_level': data['hint_level'], 'mode': 'judge' if action == 'test' else settings.HINT_MODE, 'model': '未呼叫模型' if action == 'test' else 'demo' if settings.HINT_MODE == 'demo' else settings.MODEL_NAME, 'prompt_version': services.PROMPT_VERSION})
+    record, created = Submission.objects.get_or_create(owner=owner, submission_id=data['submission_id'], defaults={'problem': problem, 'parent': parent, 'action': action, 'code': data['code'], 'question': '' if action == 'test' else data['question'], 'hint_level': 1, 'mode': 'judge' if action == 'test' else settings.HINT_MODE, 'model': '未呼叫模型' if action == 'test' else 'demo' if settings.HINT_MODE == 'demo' else settings.MODEL_NAME, 'prompt_version': services.PROMPT_VERSION})
     if not created:
         return record
     tests = test_inputs(problem, data)
@@ -68,10 +68,12 @@ def submit(owner, problem, data, parent=None):
         return record
     try:
         prior = thread_records(parent) if parent else []
-        history = [{'question': s.question, 'hint': s.answer, 'code': s.code} for s in prior if s.status in ('done', 'partial') and s.answer]
-        record.messages = services.build_messages(problem, record.code, record.question, record.hint_level, history, evidence=record.judge_result,validation_tests=tests)
+        history = [{'question':s.question,'hint':s.answer if s.status in ('done','partial') else '上一輪未交付可用回覆；不要沿用未驗證的候選。',
+                    'code':s.code,'delivered':s.status in ('done','partial') and bool(s.answer)}
+                   for s in prior if s.action!='test' and (s.answer or s.question)]
+        record.messages = services.build_messages(problem, record.code, record.question, history=history, evidence=record.judge_result,validation_tests=tests)
         record.save(update_fields=['messages'])
-        reply = services.generate_hint(record.messages, record.hint_level)
+        reply = services.generate_hint(record.messages)
         record.answer = str(reply)
         if getattr(reply,'revision_check',None):record.messages[-1]['verified_revision']=reply.revision_check
         if getattr(reply,'tutoring_projection',False):record.messages[-1]['tutoring_projection']=True
@@ -91,6 +93,8 @@ def submit(owner, problem, data, parent=None):
         record.error, record.status = str(exc), 'failed'
         if getattr(exc,'revision_audit',None) and record.messages:
             record.messages[-1]['revision_failure']=exc.revision_audit
+        if getattr(exc,'reply_audit',None) and record.messages:
+            record.messages[-1]['reply_failure']=exc.reply_audit
     record.finished_at = timezone.now()
     # A reply finishing in another tab must not recreate chat deleted meanwhile.
     Submission.objects.filter(pk=record.pk, owner=owner).update(answer=record.answer,

@@ -8,4 +8,6 @@ $env:HINT_MODE = 'live'
 $env:Model_URL = 'http://127.0.0.1:11436'
 $env:Model_Name = $selection.name
 $env:CONTEXT_TOKENS = '4096'
-& (Get-CpePython -Purpose Website) manage.py runserver 127.0.0.1:8000
+$python = Get-CpePython -Purpose Website
+Update-CpeDatabase -PythonExecutable $python
+& $python manage.py runserver 127.0.0.1:8000

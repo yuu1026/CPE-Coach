@@ -78,7 +78,7 @@ class TutoringPolicyTests(SimpleTestCase):
     def test_beginner_prompt_teaches_one_step_instead_of_a_questionnaire(self):
         system=readable_messages(self.messages())[0]['content']
         self.assertIn('最多問一個具體問題',system)
-        self.assertIn('學生自己把片段放回原程式',system)
+        self.assertIn('學生要一步就推進一步',system)
 
     def test_full_program_leak_is_retried_as_small_hint(self):
         with patch('coach.services._generate_once',side_effect=['```cpp\nint main(){return 0;}\n```','先比較地址 1、2、100：若住在 2，到三個地址的距離總和是多少？']) as model:

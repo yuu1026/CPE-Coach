@@ -48,7 +48,7 @@ class WorkflowTests(TestCase):
 
     def test_invalid_inputs(self):
         self.client.force_login(self.owner)
-        for change in [{'hint_level': 4}, {'submission_id': 'invalid'}]:
+        for change in [{'submission_id': 'invalid'}]:
             self.assertEqual(self.client.post(self.url, self.payload | change).status_code, 200)
         self.assertEqual(Submission.objects.count(), 0)
 

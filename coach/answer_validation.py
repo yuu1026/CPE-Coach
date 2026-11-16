@@ -3,24 +3,35 @@ import re
 from .judging import judge
 
 
-def compile_full_reply(answer,payload):
-    if payload.get('response_mode')!='solution':return None
-    programs=[];fence=None;body=[];language=''
+def cpp_blocks(answer):
+    blocks=[];fence=None;body=[];language=''
     for line in answer.splitlines(keepends=True):
         marker=re.match(r'^ {0,3}(`{3,}|~{3,})(.*)$',line.rstrip('\r\n'))
         if fence is None and marker:
             fence=marker[1];language=marker[2].strip().lower();body=[]
         elif fence and marker and marker[1][0]==fence[0] and len(marker[1])>=len(fence) and not marker[2].strip():
             code=''.join(body)
-            if language in {'','cpp','c++','cxx','cc','cpp17','c++17'} and re.search(r'\bmain\s*\(',code):programs.append(code)
+            if language in {'','cpp','c++','cxx','cc','cpp17','c++17'}:blocks.append(code)
             fence=None
         elif fence:body.append(line)
-    if not programs:return {'status':'missing_program','compiler':'本輪要求完整程式，但回覆沒有封閉且含 main 的 C++ 程式區塊。'}
+    return blocks
+
+
+def compile_full_reply(answer,payload):
+    mode=payload.get('response_mode')
+    if mode not in ('solution','scaffold'):return None
+    blocks=cpp_blocks(answer)
+    programs=blocks if mode=='scaffold' else [code for code in blocks if re.search(r'\bmain\s*\(',code)]
+    if not programs:return {'status':'missing_program','compiler':'本輪需要一份封閉的C++程式區塊。'}
     if len(programs)>1:
         return {'status':'multiple_programs','compiler':'請只提供一份完整修正版，避免多個版本混淆。'}
-    tests=payload.get('generated_program_tests',[])
+    if mode=='scaffold' and not re.search(r'TODO|待完成|待實作|自行.{0,5}(?:完成|補上)|在此.{0,5}(?:實作|填入)',programs[0],re.I):
+        return {'status':'missing_program','compiler':'骨架應將核心邏輯保留TODO，不要交出整題答案。','candidate':programs[0]}
+    tests=[] if mode=='scaffold' else payload.get('generated_program_tests',[])
+    candidate=programs[0]
+    if mode=='scaffold' and not re.search(r'\bmain\s*\(',candidate):candidate+='\nint main(){return 0;}\n'
     # Without a real problem test suite, compile/link only; no invented inputs.
-    result=judge(programs[0],tests)
+    result=judge(candidate,tests)
     if result['status']=='accepted':return {'status':'tested','passed':len(tests)} if tests else {'status':'compiled'}
     if result['status']=='compile_error':
         return {'status':'compile_error','compiler':result.get('compiler','')[:800],'candidate':programs[0]}
