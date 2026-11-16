@@ -1,12 +1,13 @@
 """Small, explicit learning context derived from student messages, not model prose."""
 import re
 from .teaching_tools import vito_calculation
+from .conversation_policy import wants_edit
 
 
 def cpp_concept(question, response_mode):
     if response_mode != 'tutor':
         return False
-    if re.search(r'(?:請|幫我|替我).{0,4}(?:修正|修改|改寫|新增)|下一步|接下來', question):
+    if wants_edit(question):
         return False
     return bool(re.search(
         r'作用域|生命週期|懸空|大括號|區塊.{0,5}(?:內|外)|整數除法|浮點|'

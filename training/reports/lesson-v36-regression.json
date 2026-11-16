@@ -1,0 +1,35 @@
+[
+  {
+    "request": "hashmat-ask2.json",
+    "intent": "conversation",
+    "explanation_only": false,
+    "cpp_concept": false,
+    "passed": true
+  },
+  {
+    "request": "hashmat-ask3.json",
+    "intent": "conversation",
+    "explanation_only": false,
+    "cpp_concept": false,
+    "passed": true
+  },
+  {
+    "old_turn": 4,
+    "scaffold_rejections": [
+      "不要將可直接啟用的完整解法藏在註解中；骨架只保留簡短TODO說明。"
+    ],
+    "passed": true
+  },
+  {
+    "old_turn": 6,
+    "scaffold_rejections": [
+      "本輪骨架只搭輸入與流程，核心計算及輸出保留TODO；不要先完成排序、距離計算或印出答案。"
+    ],
+    "passed": true
+  },
+  {
+    "request": "old final next-step mention of scaffold",
+    "intent": "conversation",
+    "passed": true
+  }
+]

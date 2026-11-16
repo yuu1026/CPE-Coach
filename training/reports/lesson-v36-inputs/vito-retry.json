@@ -1,0 +1,4 @@
+{
+  "action": "ask",
+  "question": "網站顯示你的sort(houses)候選中，houses與sort都未宣告，修改沒有套用。我的原碼明明已宣告houses。請不要刪掉容器宣告，使用正確的排序函式參數與必要標頭，把處理放在讀完地址之後。保留place、houses、total，給可套用的局部修正。"
+}

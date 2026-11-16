@@ -14,8 +14,9 @@ from .local_revision import generate_revision,RevisionError
 from .conversation_policy import response_intent,explanation_only
 from .learning_context import cpp_concept,vito_context
 from .cpp_knowledge import retrieve as cpp_cards, fallback as cpp_fallback
+from .lesson_progress import progress
 
-PROMPT_VERSION = 'cpe-coach-v34-grounded'
+PROMPT_VERSION = 'cpe-coach-v41-lessons'
 
 class HintError(Exception):
     pass
@@ -51,6 +52,7 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
     scaffold = intent=='scaffold'
     payload['response_mode'] = 'solution' if solution else 'scaffold' if scaffold else 'tutor'
     payload['response_policy']='adaptive'
+    payload['lesson_progress']=progress(code,question,history,evidence)
     payload['explanation_only']=explanation_only(question)
     concept=cpp_concept(question,payload['response_mode'])
     payload['question_kind']='cpp_concept' if concept else 'problem'
@@ -93,12 +95,16 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
     if code.strip() and not solution and not scaffold:
         if (evidence or {}).get('status')=='accepted' and re.search(r'已確認|現在有.{0,5}錯|還有.{0,5}錯|一定要.{0,5}改|通過.{0,6}改',question) and not re.search(r'回顧|之前|曾經|比較',question):
             payload['learning_mode']='result_review'
-        elif re.search(r'下一步|接下來|還沒|尚未|我已.{0,3}讀',question) and not re.search(r'定位|錯誤|不對|修正|修改',question):
+        elif re.search(r'下一步|接下來|下一個.{0,10}(?:步驟|修改)|還沒|尚未|我已.{0,3}讀|(?:先|只).{0,6}(?:教|新增|加入).{0,10}標頭',question):
             payload['learning_mode']='next_step'
         else:payload['learning_mode']='code_review'
     if payload.get('learning_mode')=='next_step' and notes and re.match(r'UVa\s+10041\b',payload['problem_title'],re.I):
         next_step=vito_next_step(code)
         if next_step:payload['verified_next_step']=next_step
+    if code.strip() and not solution and not scaffold and re.search(r'(?:先只|只).{0,16}(?:標頭|include)|(?:標頭|include).{0,12}(?:其他|其餘).{0,8}(?:先不改|不改)',question,re.I):
+        payload['edit_scope']='dependency_only'
+        if payload.get('verified_next_step'):
+            payload['verified_next_step']=dict(payload['verified_next_step'],step='dependency',snippet='',placement='函式外',reason='本輪只新增必要標頭，不加入排序或其他運算。')
     if evidence:
         # Passing cases need only verdicts. Include bounded excerpts for failures.
         cases = evidence.get('cases', [])
@@ -113,8 +119,7 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
                     re.search(r'修正|修改|更正|替換|新增|加上|加入|放置|放哪|搬到|局部|檢查|定位|哪.{0,5}(?:錯|問題)|sort|怎麼(?:改|排序|呼叫)|如何(?:改|排序)',question,re.I) or
                     (evidence or {}).get('status') in ('failed','compile_error'))
     if (wants_revision and code.strip() and not solution and not scaffold and not payload['explanation_only'] and payload.get('generated_program_tests')
-            and payload.get('learning_mode')!='result_review'
-            and not re.search(r'手算|觀念|解釋.{0,8}(?:語法|意思)|不要.{0,8}(?:改寫|修改|修正)',question)):
+            and payload.get('learning_mode')!='result_review'):
         payload['revision_request']=True
         payload['revision_tests']=payload['generated_program_tests']
     instruction = SYSTEM + '\n這是連續教學對話：先理解並回應使用者對上一輪問題的回答，再推進一個小步驟。若回答不正確，以一個小問題協助釐清，不要機械式重複起始提示。以本輪完整程式及測試結果為準，不沿用舊版程式的錯誤結論。若 execution_evidence.status 為 not_run 或 not_submitted，本輪沒有可用執行證據，只能靜態分析或引導，不可沿用對話中舊版程式的通過或失敗結論。'
@@ -206,7 +211,7 @@ def generate_hint(messages, level=None):
         except RevisionError as exc:
             error=HintError(str(exc));error.revision_audit=getattr(exc,'audit',None)
             raise error from None
-        return HintText(text,revision_check=check,source='model' if check else 'verified_test')
+        return HintText(text,revision_check=check,source='model_projection' if check and check.get('scope_projection') else 'model' if check else 'verified_test')
     known_hint=direct_hint(payload,messages,None) if payload.get('response_mode')!='scaffold' else None
     if known_hint:
         return HintText(known_hint,source='verified_hint')

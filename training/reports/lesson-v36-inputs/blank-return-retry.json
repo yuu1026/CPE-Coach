@@ -1,0 +1,4 @@
+{
+  "action": "ask",
+  "question": "網站說骨架在案例迴圈內提早return。請只保留main最後的一個return 0，案例迴圈只讀輸入、留TODO，不要return，不要印東西，也不要寫核心計算。請給這個骨架。"
+}

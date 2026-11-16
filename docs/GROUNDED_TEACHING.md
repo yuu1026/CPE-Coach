@@ -41,3 +41,5 @@
 v30 的 `adaptive-v30-quality-student-corrected.json` 名稱雖含 corrected，回頭檢查發現仍受相同跳脫問題影響；其原始回答可供觀察，但不可宣稱該筆是已成功校正的單一邏輯錯誤實驗。
 
 最終逐題判讀另見 [真實模型複驗](../training/reports/grounded-v34-review.md)。其中仍有錯誤說明未被攔下，不代表已達到獨立教學標準。這些測試由助理自評，尚非獨立教師或真實初學者研究。
+
+後續 v35–v41 的局部修改與對話流程改進，另見 [教學流程](LESSON_FLOW.md) 及 [實測報告](../training/reports/lesson-flow-review.md)。

@@ -1,6 +1,7 @@
 """Check generated full programs in Docker; never automatically run editor code."""
 import re
 from .judging import judge
+from .scaffold_policy import scaffold_issue
 
 
 def cpp_blocks(answer):
@@ -25,8 +26,9 @@ def compile_full_reply(answer,payload):
     if not programs:return {'status':'missing_program','compiler':'本輪需要一份封閉的C++程式區塊。'}
     if len(programs)>1:
         return {'status':'multiple_programs','compiler':'請只提供一份完整修正版，避免多個版本混淆。'}
-    if mode=='scaffold' and not re.search(r'TODO|待完成|待實作|自行.{0,5}(?:完成|補上)|在此.{0,5}(?:實作|填入)',programs[0],re.I):
-        return {'status':'missing_program','compiler':'骨架應將核心邏輯保留TODO，不要交出整題答案。','candidate':programs[0]}
+    if mode=='scaffold':
+        issue=scaffold_issue(programs[0])
+        if issue:return {'status':'missing_program','compiler':issue,'candidate':programs[0]}
     tests=[] if mode=='scaffold' else payload.get('generated_program_tests',[])
     candidate=programs[0]
     if mode=='scaffold' and not re.search(r'\bmain\s*\(',candidate):candidate+='\nint main(){return 0;}\n'
