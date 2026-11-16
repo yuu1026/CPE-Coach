@@ -24,7 +24,7 @@ class QualityTrainingTests(SimpleTestCase):
         problem=SimpleNamespace(statement='C++17 concepts')
         for question in ['請給一行型別提升再相乘的程式','EOF 是什麼意思？','我已了解輸入格式，接下來呢？']:
             messages=build_messages(problem,'',question,1,[])
-            self.assertEqual(json.loads(messages[-1]['content'])['learning_mode'],'explanation' if '意思' in question else 'discussion')
+            self.assertEqual(json.loads(messages[-1]['content'])['learning_mode'],'discussion' if '接下來' in question else 'explanation')
             self.assertNotIn('進入起步引導模式',messages[0]['content'])
         messages=build_messages(problem,'','我完全沒有想法，怎麼開始？',1,[])
         self.assertEqual(json.loads(messages[-1]['content'])['learning_mode'],'getting_started')

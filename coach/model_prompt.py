@@ -20,6 +20,18 @@ def readable_messages(messages):
         return messages
     if not isinstance(payload,dict) or 'question' not in payload or 'code' not in payload:
         return messages
+    if payload.get('question_kind')=='cpp_concept':
+        instruction='你是繁體中文C++17教學助理。用3至5句、約180個中文字直接回答最新概念問題，不重述問題、不列長清單。保留程式原有變數的意義，不把它解釋成其他題目的角色。需要範例時最多一個短cpp區塊，不貼整份main。依知識卡核對語意，不確定則明說；未執行不可聲稱通過。示範不會自動修改學生程式。'
+        system=messages[0]['content'] if messages else ''
+        repair_start=system.find('上一個候選回覆')
+        if repair_start>=0:instruction+='\n'+system[repair_start:]
+        sections=[]
+        for card in payload.get('cpp_knowledge',[]):
+            sections.append('【專案C++知識卡：'+card['id']+'】\n'+card['rule'])
+        if payload.get('code','').strip():
+            sections.append('【本輪學生程式；解釋以此為準】\n```cpp\n'+payload['code']+'\n```')
+        sections.append('【最新問題】\n'+payload['question'])
+        return [{'role':'system','content':instruction},{'role':'user','content':'\n\n'.join(sections)}]
     if payload.get('revision_request'):
         instruction='''你是繁體中文C++17教學助理。本輪只提出一個局部修改計畫，不提供完整程式。
 只回傳JSON物件：{"explanation":"簡短繁體中文理由","edits":[{"line_id":"L實際編號","after":"替換這一行的C++"}]}。

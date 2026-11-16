@@ -6,6 +6,7 @@ from functools import lru_cache
 from opencc import OpenCC
 from .diagnostics import code_tokens
 from .conversation_policy import explanation_only
+from .cpp_knowledge import conflict as cpp_conflict
 
 PROTECTED = re.compile(r'(`+)[^\n]*?\1|https?://[^\s)]+')
 
@@ -64,6 +65,8 @@ def quality_issue(answer, messages, *, check_grounding=True, check_tutoring=True
         try:payload=json.loads(messages[-1]['content'])
         except (ValueError,KeyError,TypeError,IndexError):payload={}
         if isinstance(payload,dict):
+            if cpp_conflict(answer,payload.get('cpp_knowledge',[])):
+                return 'cpp_fact_conflict'
             if payload.get('guard_local_edits') and not payload.get('revision_request'):
                 original=code_tokens(payload.get('code',''))
                 snippets=re.findall(r'^ {0,3}(?:`{3,}|~{3,})(?:cpp17|c\+\+17|cpp|c\+\+|cxx|cc)?\s*\n(.*?)(?:^ {0,3}(?:`{3,}|~{3,})|\Z)',answer,re.M|re.S|re.I)
@@ -90,7 +93,7 @@ def grounded_conflict(payload,prose):
     if payload.get('verified_calculation'):
         calculation=payload['verified_calculation']
         required=calculation['distance_sum'] if calculation.get('home') is not None else calculation['minimum_sum']
-        asks_numeric=re.search(r'總距離.{0,12}(?:多少|是)|距離總和.{0,8}多少|怎麼選|如何選',payload.get('question',''))
+        asks_numeric=re.search(r'(?:總距離|距離總和|總和).{0,12}(?:多少|是)|怎麼選|如何選',payload.get('question',''))
         if asks_numeric and not re.search(r'(?<![\d.])'+str(required)+r'(?![\d.])',prose):
             # Replacing a numeric question with another task or code is not
             # a successful answer, even when no false number is asserted.

@@ -41,7 +41,7 @@ int main() {
         int place = sum / count;
         int total = 0;
         for (int i = 0; i < count; ++i) total += abs(houses[i] - place);
-        cout << total << '\n';
+        cout << total << endl;
     }
     return 0;
 }
@@ -56,6 +56,8 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--case',help='Run one named case; preserve earlier evidence files')
+    parser.add_argument('--transfer',action='store_true',help='Use different numbers and identifiers')
+    parser.add_argument('--skip-case',action='append',default=[],help='Skip an already recorded case')
     args=parser.parse_args()
     if args.output.exists():raise SystemExit('Refuse to overwrite evidence')
     with httpx.Client(trust_env=False,timeout=10) as client:
@@ -77,8 +79,18 @@ def main():
         ('continuation','','我懂為什麼34的總和是131了。那住在2的總和是多少？為什麼比較好？不要重新解釋輸入格式。'),
         ('student-repair',STUDENT,'請在我的原程式上給我完整修正後的 C++。保留 houses、place、total 和原本迴圈，請說明更改原因。'),
     ]
+    if args.transfer:
+        cases=[
+            ('scope-copy','int saved=0; if(true){int local=7;saved=local;}',
+             'local 的生命週期結束後，複製到外部的 saved 也會失效嗎？請解釋，不改程式。'),
+            ('negative-division','int left=-7,right=2;double result=left/right;',
+             '整數除法下 result 是 -3 還是 -3.5？為什麼？請解釋，不用修改程式。'),
+            ('arithmetic','','地址是4、9、30，住在14的總和是多少？請手算，不要給程式。'),
+            ('continuation','','那住在9的總和是多少？為什麼比14好？'),
+        ]
     for name,code,question in cases:
         if args.case and args.case!=name:continue
+        if name in args.skip_case:continue
         row={'case':name,'code':code,'question':question,'raw_generations':[]}
         started=time.monotonic()
         evidence=None
@@ -90,12 +102,15 @@ def main():
         payload=json.loads(messages[-1]['content'])
         row['response_mode']=payload['response_mode']
         row['learning_mode']=payload.get('learning_mode')
+        row['question_kind']=payload.get('question_kind')
+        row['learning_state']=payload.get('learning_state')
+        row['knowledge_cards']=[c['id'] for c in payload.get('cpp_knowledge',[])]
         original=services._generate_once
         def observe(*a,**kw):
             begin=time.monotonic()
             try:
                 reply=original(*a,**kw)
-                row['raw_generations'].append({'text':str(reply),'truncated':getattr(reply,'truncated',False),'seconds':round(time.monotonic()-begin,2)})
+                row['raw_generations'].append({'text':str(reply),'request':services.readable_messages(a[0]),'truncated':getattr(reply,'truncated',False),'seconds':round(time.monotonic()-begin,2)})
                 return reply
             except Exception as exc:
                 row['raw_generations'].append({'error':str(exc),'seconds':round(time.monotonic()-begin,2)})
@@ -104,6 +119,7 @@ def main():
             with patch.object(services,'_generate_once',side_effect=observe):
                 reply=services.generate_hint(messages)
             row.update(status='delivered',answer=str(reply),source=getattr(reply,'source','model'))
+            row['quality_audit']=getattr(reply,'quality_audit',None)
             if name=='arithmetic':history=[{'question':question,'hint':str(reply),'code':'','delivered':True}]
             if name=='student-repair':
                 programs=[c for c in cpp_blocks(str(reply)) if 'main' in c]

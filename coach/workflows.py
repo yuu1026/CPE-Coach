@@ -75,6 +75,7 @@ def submit(owner, problem, data, parent=None):
         record.save(update_fields=['messages'])
         reply = services.generate_hint(record.messages)
         record.answer = str(reply)
+        if getattr(reply,'quality_audit',None):record.messages[-1]['quality_fallback']=reply.quality_audit
         if getattr(reply,'revision_check',None):record.messages[-1]['verified_revision']=reply.revision_check
         if getattr(reply,'tutoring_projection',False):record.messages[-1]['tutoring_projection']=True
         if getattr(reply, 'source', '') == 'reference':
@@ -85,6 +86,8 @@ def submit(owner, problem, data, parent=None):
             record.mode,record.model='verified_hint','系統教學步驟（模型候選經題庫規則替代）'
         elif getattr(reply,'source','')=='verified_test':
             record.mode,record.model='verified_hint','系統測試確認（未呼叫模型）'
+        elif getattr(reply,'source','')=='knowledge':
+            record.mode,record.model='knowledge','系統C++知識核對（模型候選未通過規則檢查）'
         record.status = 'partial' if getattr(reply, 'truncated', False) else 'done'
         omitted = getattr(reply, 'omitted_history_turns', 0)
         if omitted:

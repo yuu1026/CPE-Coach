@@ -1,0 +1,67 @@
+{
+  "prompt_version": "cpe-coach-v33-grounded",
+  "health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  },
+  "method": "Real generation observed; system safeguards active; manual review required; no learner records changed.",
+  "cases": [
+    {
+      "case": "scope",
+      "code": "",
+      "question": "if 大括號內宣告的 int home，可以在大括號外使用嗎？如果保留它的參考，離開區塊後還能安全使用嗎？請解釋原因。",
+      "raw_generations": [
+        {
+          "text": "在 C++ 中，`if` 區塊內宣告的 `int home` 變數，原則上只能在其宣告的 scope（範圍）內使用，也就是大括號所定義的 scope。即使在大括號外也能使用，但這並非因為保留了 `home` 的參考而得以實現，而是因為 `home` 在 `if` 區塊內被宣告為一個局部變數，其生命週期僅限於該區塊。\n\n如果你保留了 `home` 的參考，並將其傳遞給外部函數，那麼這個參考仍然指向的是原本的物件，因此是安全的。然而，如果在 `if` 區塊之外直接嘗試使用這個參考，卻沒有先確保目標物件仍然存在，就可能導致 dangling pointer (懸空指標) 的問題，進而造成程式錯誤。\n\n重要的是要理解 scope 和 lifetime 的區別：scope 指的是變數可以被使用的位置，而 lifetime 指的是變數實際存在的期間。  `home` 的 lifetime 終止於 `if` 區塊結束，即使參考它，也無法改變這個事實。\n",
+          "request": [
+            {
+              "role": "system",
+              "content": "你是繁體中文C++17教學助理。用3至5句、約180個中文字直接回答最新概念問題，不重述問題、不列長清單。保留程式原有變數的意義，不把它解釋成其他題目的角色。需要範例時最多一個短cpp區塊，不貼整份main。依知識卡核對語意，不確定則明說；未執行不可聲稱通過。示範不會自動修改學生程式。"
+            },
+            {
+              "role": "user",
+              "content": "【專案C++知識卡：scope_lifetime】\n一般if區塊內的自動區域int變數只能在其作用域中以該名稱使用，離開區塊生命週期結束。指向已結束生命週期物件的指標或參考會懸空，不能用它存取原物件；保留參考不會延長這個一般區域int的生命週期。把值複製到外部仍存活的另一個int物件則可以安全使用該副本；宣告在外層也可讓分支之後繼續使用。作用域與生命週期不同，不可混為一談。\n\n【最新問題】\nif 大括號內宣告的 int home，可以在大括號外使用嗎？如果保留它的參考，離開區塊後還能安全使用嗎？請解釋原因。"
+            }
+          ],
+          "truncated": false,
+          "seconds": 19.64
+        },
+        {
+          "text": "在 C++ 中，大括號 ( `if` 區塊) 內宣告的 `int home` 變數，僅限於大括號內的範圍內可以使用，這遵循了變數的作用域規則。即使在大括號外使用，指向該變數的指標或參考將會是懸空的（dangling），因為 `home` 的生命週期已經結束，無法再訪問原始物件。然而，將 `home` 的值複製一份到外部仍然有效的 `int` 物件中，就可以安全地使用這個副本，因為副本擁有自己的獨立記憶體空間和生命週期。重要的是要理解作用域和生命週期的區別：作用域決定了變數可見的範圍，而生命週期決定了變數存在的時間。\n```cpp\n#include <iostream>\n\nint main() {\n  int home = 10; // 在 if 區塊內宣告\n  if (true) {\n    std::cout << \"inside if: home = \" << home << std::endl;\n  }\n  // std::cout << home << std::endl; // 錯誤：home 在 if 區塊之外不可用\n  return 0;\n}\n```\n",
+          "request": [
+            {
+              "role": "system",
+              "content": "你是繁體中文C++17教學助理。用3至5句、約180個中文字直接回答最新概念問題，不重述問題、不列長清單。保留程式原有變數的意義，不把它解釋成其他題目的角色。需要範例時最多一個短cpp區塊，不貼整份main。依知識卡核對語意，不確定則明說；未執行不可聲稱通過。示範不會自動修改學生程式。\n上一個候選回覆與本輪C++知識卡不符或漏掉關鍵條件。請直接依所附規則回答，不沿用先前錯誤。整數除法在賦值前完成，乘法要在運算前提升型別，區域物件的參考與獨立副本不同。只說與本輪相關的規則及一個必要示範。"
+            },
+            {
+              "role": "user",
+              "content": "【專案C++知識卡：scope_lifetime】\n一般if區塊內的自動區域int變數只能在其作用域中以該名稱使用，離開區塊生命週期結束。指向已結束生命週期物件的指標或參考會懸空，不能用它存取原物件；保留參考不會延長這個一般區域int的生命週期。把值複製到外部仍存活的另一個int物件則可以安全使用該副本；宣告在外層也可讓分支之後繼續使用。作用域與生命週期不同，不可混為一談。\n\n【最新問題】\nif 大括號內宣告的 int home，可以在大括號外使用嗎？如果保留它的參考，離開區塊後還能安全使用嗎？請解釋原因。"
+            }
+          ],
+          "truncated": false,
+          "seconds": 22.3
+        }
+      ],
+      "response_mode": "tutor",
+      "learning_mode": "explanation",
+      "question_kind": "cpp_concept",
+      "learning_state": null,
+      "knowledge_cards": [
+        "scope_lifetime"
+      ],
+      "status": "delivered",
+      "answer": "系統 C++ 知識核對：模型候選未通過已知規則檢查，以下改用專案知識卡說明。\n\n一般if區塊內的自動區域int變數只能在其作用域中以該名稱使用，離開區塊生命週期結束。指向已結束生命週期物件的指標或參考會懸空，不能用它存取原物件；保留參考不會延長這個一般區域int的生命週期。把值複製到外部仍存活的另一個int物件則可以安全使用該副本；宣告在外層也可讓分支之後繼續使用。作用域與生命週期不同，不可混為一談。\n\n通用示範（未套用至你的程式）：\n```cpp\nint saved = 0;\nif (true) { int home = 7; saved = home; }\n// 區塊結束後可使用 saved；不能以 home 名稱使用原變數。\n```",
+      "source": "knowledge",
+      "quality_audit": {
+        "issue": "unrequested_solution",
+        "candidates": [
+          "在 C++ 中，`if` 區塊內宣告的 `int home` 變數，原則上只能在其宣告的 scope（範圍）內使用，也就是大括號所定義的 scope。即使在大括號外也能使用，但這並非因為保留了 `home` 的參考而得以實現，而是因為 `home` 在 `if` 區塊內被宣告為一個區域性變數，其生命週期僅限於該區塊。\n\n如果你保留了 `home` 的參考，並將其傳遞給外部函式，那麼這個參考仍然指向的是原本的物件，因此是安全的。然而，如果在 `if` 區塊之外直接嘗試使用這個參考，卻沒有先確保目標物件仍然存在，就可能導致 dangling pointer (懸空指標) 的問題，進而造成程式錯誤。\n\n重要的是要理解 scope 和 lifetime 的區別：scope 指的是變數可以被使用的位置，而 lifetime 指的是變數實際存在的期間。  `home` 的 lifetime 終止於 `if` 區塊結束，即使參考它，也無法改變這個事實。\n",
+          "在 C++ 中，大括號 ( `if` 區塊) 內宣告的 `int home` 變數，僅限於大括號內的範圍內可以使用，這遵循了變數的作用域規則。即使在大括號外使用，指向該變數的指標或參考將會是懸空的（dangling），因為 `home` 的生命週期已經結束，無法再訪問原始物件。然而，將 `home` 的值複製一份到外部仍然有效的 `int` 物件中，就可以安全地使用這個副本，因為副本擁有自己的獨立記憶體空間和生命週期。重要的是要理解作用域和生命週期的區別：作用域決定了變數可見的範圍，而生命週期決定了變數存在的時間。\n```cpp\n#include <iostream>\n\nint main() {\n  int home = 10; // 在 if 區塊內宣告\n  if (true) {\n    std::cout << \"inside if: home = \" << home << std::endl;\n  }\n  // std::cout << home << std::endl; // 錯誤：home 在 if 區塊之外不可用\n  return 0;\n}\n```\n"
+        ]
+      },
+      "seconds": 41.97
+    }
+  ]
+}

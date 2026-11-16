@@ -12,20 +12,23 @@ from .teaching_tools import vito_calculation,vito_next_step,calculation_text
 from .tutoring_projection import project_next_step,verified_step_text
 from .local_revision import generate_revision,RevisionError
 from .conversation_policy import response_intent,explanation_only
+from .learning_context import cpp_concept,vito_context
+from .cpp_knowledge import retrieve as cpp_cards, fallback as cpp_fallback
 
-PROMPT_VERSION = 'cpe-coach-v30-adaptive'
+PROMPT_VERSION = 'cpe-coach-v34-grounded'
 
 class HintError(Exception):
     pass
 
 class HintText(str):
-    def __new__(cls, text, *, truncated=False, omitted_history_turns=0, source='model', tutoring_projection=False,revision_check=None):
+    def __new__(cls, text, *, truncated=False, omitted_history_turns=0, source='model', tutoring_projection=False,revision_check=None,quality_audit=None):
         value = super().__new__(cls, text)
         value.truncated = truncated
         value.omitted_history_turns = omitted_history_turns
         value.source = source
         value.tutoring_projection = tutoring_projection
         value.revision_check=revision_check
+        value.quality_audit=quality_audit
         return value
 
 SYSTEM = '''你是 CPE 程式教學助理。所有解釋、標題及提問一律使用臺灣繁體中文；程式碼、識別字與題目要求的輸出字串維持原文。
@@ -49,6 +52,11 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
     payload['response_mode'] = 'solution' if solution else 'scaffold' if scaffold else 'tutor'
     payload['response_policy']='adaptive'
     payload['explanation_only']=explanation_only(question)
+    concept=cpp_concept(question,payload['response_mode'])
+    payload['question_kind']='cpp_concept' if concept else 'problem'
+    if concept:
+        payload['explanation_only']=True
+        payload['cpp_knowledge']=cpp_cards(question,code)
     payload['programming_language'] = 'C++17'
     payload['problem_title'] = getattr(problem, 'title', '')
     payload['sample_input'] = getattr(problem, 'sample_input', '')
@@ -59,13 +67,14 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
         payload['generated_program_tests']=[{'name':'題庫範例','input':problem.sample_input,'expected':problem.sample_output}]+[dict(c) for c in getattr(problem,'test_cases',[])[:8]]
         for case in payload['generated_program_tests']:
             case.setdefault('comparison',getattr(problem,'output_comparison','exact'))
-    notes=learning_notes_for(problem) if include_topic_notes else None
+    notes=learning_notes_for(problem) if include_topic_notes and not concept else None
+    if re.match(r'UVa\s+10041\b',payload['problem_title'],re.I):
+        state,calculation=vito_context(question,history)
+        if state:payload['learning_state']=state
+        if calculation and include_topic_notes and not concept:payload['verified_calculation']=calculation
     if notes:
         payload['verified_topic_notes']=notes
-        if re.match(r'UVa\s+10041\b',payload['problem_title'],re.I):
-            calculation=vito_calculation(question)
-            if calculation:payload['verified_calculation']=calculation
-    diagnosis=lookup_diagnostic(problem,code) if include_diagnostics else None
+    diagnosis=lookup_diagnostic(problem,code) if include_diagnostics and not concept else None
     if diagnosis:
         payload['verified_diagnostic']=diagnosis
     # A reference solution does not repair the student's own implementation.
@@ -99,7 +108,7 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
         payload['generated_program_tests']=[dict(c) for c in validation_tests]
     if scaffold:payload['learning_mode']='scaffold'
     elif payload['explanation_only']:payload['learning_mode']='explanation'
-    payload['guard_local_edits']=bool(code.strip() and not solution and not scaffold and payload.get('generated_program_tests'))
+    payload['guard_local_edits']=bool(code.strip() and not solution and not scaffold and not concept and payload.get('generated_program_tests'))
     wants_revision=(payload.get('learning_mode')=='next_step' or
                     re.search(r'修正|修改|更正|替換|新增|加上|加入|放置|放哪|搬到|局部|檢查|定位|哪.{0,5}(?:錯|問題)|sort|怎麼(?:改|排序|呼叫)|如何(?:改|排序)',question,re.I) or
                     (evidence or {}).get('status') in ('failed','compile_error'))
@@ -208,6 +217,7 @@ def generate_hint(messages, level=None):
     first_answer=answer
     answer,projected=project_next_step(answer,payload)
     issue = quality_issue(answer, messages)
+    if payload.get('cpp_knowledge') and getattr(reply,'truncated',False):issue='cpp_fact_conflict'
     if payload.get('verified_next_step',{}).get('snippet') and not projected:
         issue='lesson_order'
     validation=compile_full_reply(answer,payload) if not issue and not getattr(reply,'truncated',False) else None
@@ -230,6 +240,7 @@ def generate_hint(messages, level=None):
             'calculation_conflict': '上一個候選回覆含有與系統手算核對不符的數值，或把學生正確的加總說成算錯。請依工具提供的總和、筆數、平均與距離重新核對；先承認已算對的值，區分「加總正確」與「策略是否最佳」，不要捏造未核對的數字，仍只推進一小步。',
             'lesson_order': '上一個候選回覆沒有精確完成所附 verified_next_step。請只給該步驟的 snippet，保持學生變數名稱與必要宣告，不插入其他步驟，也不重貼 main。',
             'unverified_edit': '本輪是概念或手算說明，不是已驗證的修改計畫。請只解釋目前程式或數值，可以引用原碼，不提供新的C++修改片段。需要修改時應請學生明確要求局部修正，交由系統驗證後提供。',
+            'cpp_fact_conflict': '上一個候選回覆與本輪C++知識卡不符或漏掉關鍵條件。請直接依所附規則回答，不沿用先前錯誤。整數除法在賦值前完成，乘法要在運算前提升型別，區域物件的參考與獨立副本不同。只說與本輪相關的規則及一個必要示範。',
         }[issue]
         if retry and retry[0]['role'] == 'system':
             retry[0]['content'] += '\n' + instruction
@@ -242,7 +253,10 @@ def generate_hint(messages, level=None):
         answer = traditional_reply(str(reply))
         answer,projected=project_next_step(answer,payload)
         remaining_issue=quality_issue(answer, messages)
+        if payload.get('cpp_knowledge') and getattr(reply,'truncated',False):remaining_issue='cpp_fact_conflict'
         if remaining_issue or (payload.get('verified_next_step',{}).get('snippet') and not projected):
+            if payload.get('question_kind')=='cpp_concept' and payload.get('cpp_knowledge'):
+                return HintText(cpp_fallback(payload['cpp_knowledge']),source='knowledge',quality_audit={'issue':remaining_issue,'candidates':[first_answer,answer]})
             if payload.get('learning_mode')=='next_step' and payload.get('verified_next_step'):
                 return HintText(verified_step_text(payload['verified_next_step']),source='verified_step')
             if remaining_issue=='calculation_conflict' and payload.get('verified_calculation'):

@@ -1,0 +1,140 @@
+[
+  {
+    "name": "integer_division",
+    "code": "#include <iostream>\nint main(){int total=5,count=2;double average=total/count;std::cout<<average;}\n",
+    "expected": "2",
+    "expected_status": "accepted",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "integer_division",
+          "input": "",
+          "expected": "2",
+          "actual": "2",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.011
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "passed": true
+  },
+  {
+    "name": "floating_division",
+    "code": "#include <iostream>\nint main(){int total=5,count=2;double average=static_cast<double>(total)/count;std::cout<<average;}\n",
+    "expected": "2.5",
+    "expected_status": "accepted",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "floating_division",
+          "input": "",
+          "expected": "2.5",
+          "actual": "2.5",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "passed": true
+  },
+  {
+    "name": "safe_copy",
+    "code": "#include <iostream>\nint main(){int saved=0;if(true){int home=7;saved=home;}std::cout<<saved;}\n",
+    "expected": "7",
+    "expected_status": "accepted",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "safe_copy",
+          "input": "",
+          "expected": "7",
+          "actual": "7",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.002
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "passed": true
+  },
+  {
+    "name": "promote_before_multiply",
+    "code": "#include <iostream>\nint main(){int x=100000,y=100000;long long area=1LL*x*y;std::cout<<area;}\n",
+    "expected": "10000000000",
+    "expected_status": "accepted",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "promote_before_multiply",
+          "input": "",
+          "expected": "10000000000",
+          "actual": "10000000000",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "passed": true
+  },
+  {
+    "name": "out_of_scope",
+    "code": "#include <iostream>\nint main(){if(true){int home=7;}std::cout<<home;}\n",
+    "expected": "7",
+    "expected_status": "compile_error",
+    "judge": {
+      "status": "compile_error",
+      "label": "編譯錯誤",
+      "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:2:44: error: ‘home’ was not declared in this scope\n    2 | int main(){if(true){int home=7;}std::cout<<home;}\n      |                                            ^~~~\n",
+      "cases": []
+    },
+    "passed": true
+  },
+  {
+    "name": "negative_integer_division",
+    "code": "#include <iostream>\nint main(){int a=-7,b=2;double result=a/b;std::cout<<result;}\n",
+    "expected": "-3",
+    "expected_status": "accepted",
+    "judge": {
+      "status": "accepted",
+      "label": "測資通過 1 / 1",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "negative_integer_division",
+          "input": "",
+          "expected": "-3",
+          "actual": "-3",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "passed": true
+  }
+]
