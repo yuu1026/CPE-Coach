@@ -1,0 +1,37 @@
+{
+  "prompt_version": "cpe-coach-v30-adaptive",
+  "health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  },
+  "method": "Real generation observed; system safeguards active; manual review required; no learner records changed.",
+  "cases": [
+    {
+      "case": "student-repair",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int count; cin >> count;\n        vector<int> houses(count);\n        int sum = 0;\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / count;\n        int total = 0;\n        for (int i = 0; i < count; ++i) total += abs(houses[i] - place);\n        cout << total << '\n';\n    }\n    return 0;\n}\n",
+      "question": "請在我的原程式上給我完整修正後的 C++。保留 houses、place、total 和原本迴圈，請說明更改原因。",
+      "raw_generations": [
+        {
+          "text": "程式碼中 `sum` 的計算方式不正確，導致 `place` 的計算也存在問題。`sum` 應該是所有房屋地址的總和，而不是每個房屋地址的單獨值。`place` 應該是所有房屋地址的平均值，而不是 `sum / count`。因此，需要將 `sum` 初始化為 0，然後計算所有房屋地址的總和，並將其分配給 `sum`。`place` 也應該計算所有房屋地址的平均值，而不是 `sum / count`。\n\n以下是修正後的程式碼：\n\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\n\nusing namespace std;\n\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n\n        double sum = accumulate(houses.begin(), houses.end(), 0.0);\n        int place = static_cast<int>(sum / count); // 確保 place 是整數\n        int total = 0;\n        for (int i = 0; i < count; ++i) {\n            total += abs(houses[i] - place);\n        }\n        cout << total << endl;\n    }\n    return 0;\n}\n```\n\n**更改原因：**\n\n1.  `sum` 的初始化：將 `sum` 初始化為 0.0，以便計算所有房屋地址的總和。\n2.  `sum` 的計算：使用 `accumulate` 函數來計算所有房屋地址的總和。\n3.  `place` 的計算：使用 `static_cast<int>` 將 `sum / count` 轉換為整數，因為 `place` 應該是一個整數。\n4.  `std::endl` 改為 `endl`，避免額外換行。\n5.  `accumulate` 使用 double 類型，避免整數除法的精度問題。\n",
+          "truncated": false,
+          "seconds": 37.06
+        }
+      ],
+      "baseline": {
+        "status": "system_error",
+        "label": "判題環境未就緒或程序異常",
+        "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+        "cases": []
+      },
+      "response_mode": "solution",
+      "learning_mode": null,
+      "status": "rejected",
+      "error": "修改驗證服務未就緒，未交付未驗證程式。你的原程式已保留。",
+      "audit": null,
+      "revision_audit": null,
+      "seconds": 37.67
+    }
+  ]
+}

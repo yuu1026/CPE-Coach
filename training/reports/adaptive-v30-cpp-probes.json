@@ -1,0 +1,57 @@
+[
+  {
+    "name": "integer_division",
+    "code": "#include <iostream>\nint main(){int total=5,count=2;double average=total/count;std::cout<<average;}",
+    "expected": "2",
+    "judge": {
+      "status": "system_error",
+      "label": "判題環境未就緒或程序異常",
+      "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+      "cases": []
+    }
+  },
+  {
+    "name": "floating_division",
+    "code": "#include <iostream>\nint main(){int total=5,count=2;double average=static_cast<double>(total)/count;std::cout<<average;}",
+    "expected": "2.5",
+    "judge": {
+      "status": "system_error",
+      "label": "判題環境未就緒或程序異常",
+      "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+      "cases": []
+    }
+  },
+  {
+    "name": "safe_copy",
+    "code": "#include <iostream>\nint main(){int saved=0;if(true){int home=7;saved=home;}std::cout<<saved;}",
+    "expected": "7",
+    "judge": {
+      "status": "system_error",
+      "label": "判題環境未就緒或程序異常",
+      "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+      "cases": []
+    }
+  },
+  {
+    "name": "promote_before_multiply",
+    "code": "#include <iostream>\nint main(){int x=100000,y=100000;long long area=1LL*x*y;std::cout<<area;}",
+    "expected": "10000000000",
+    "judge": {
+      "status": "system_error",
+      "label": "判題環境未就緒或程序異常",
+      "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+      "cases": []
+    }
+  },
+  {
+    "name": "out_of_scope",
+    "code": "#include <iostream>\nint main(){if(true){int home=7;}std::cout<<home;}",
+    "expected": "7",
+    "judge": {
+      "status": "system_error",
+      "label": "判題環境未就緒或程序異常",
+      "note": "確認 Docker Desktop 已啟動、映像已建置。若已就緒，程式也可能超出記憶體或容器資源限制。",
+      "cases": []
+    }
+  }
+]
