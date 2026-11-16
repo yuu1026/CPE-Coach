@@ -4,6 +4,7 @@ import re
 from difflib import SequenceMatcher
 from functools import lru_cache
 from opencc import OpenCC
+from .diagnostics import code_tokens
 
 PROTECTED = re.compile(r'(`+)[^\n]*?\1|https?://[^\s)]+')
 
@@ -62,6 +63,13 @@ def quality_issue(answer, messages, *, check_grounding=True, check_tutoring=True
         try:payload=json.loads(messages[-1]['content'])
         except (ValueError,KeyError,TypeError,IndexError):payload={}
         if isinstance(payload,dict):
+            if payload.get('guard_local_edits') and not payload.get('revision_request'):
+                original=code_tokens(payload.get('code',''))
+                snippets=re.findall(r'^ {0,3}(?:`{3,}|~{3,})(?:cpp17|c\+\+17|cpp|c\+\+|cxx|cc)?\s*\n(.*?)(?:^ {0,3}(?:`{3,}|~{3,})|\Z)',answer,re.M|re.S|re.I)
+                for snippet in snippets:
+                    tokens=code_tokens(snippet)
+                    if not original or not tokens or not any(original[i:i+len(tokens)]==tokens for i in range(len(original)-len(tokens)+1)):
+                        return 'unverified_edit'
             conflict=grounded_conflict(payload,prose)
             if conflict:return conflict
             if payload.get('verified_next_step',{}).get('step')=='median':

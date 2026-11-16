@@ -1,0 +1,259 @@
+{
+  "prompt_version": "cpe-tutor-v28",
+  "scope": "Known Vito regression replays with real restricted Docker. Optional live model call. No student study or all-topic claim.",
+  "baseline": {
+    "status": "failed",
+    "label": "測資通過 1 / 3",
+    "compiler": "",
+    "cases": [
+      {
+        "name": "範例",
+        "input": "1\n3 1 2 100\n",
+        "expected": "99\n",
+        "actual": "131\n",
+        "stderr": "",
+        "status": "wrong_answer",
+        "label": "答案不符",
+        "seconds": 0.005
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n3 10 100 1\n",
+        "expected": "99\n",
+        "actual": "126\n",
+        "stderr": "",
+        "status": "wrong_answer",
+        "label": "答案不符",
+        "seconds": 0.003
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 7\n4 5 5 5 5\n",
+        "expected": "0\n0\n",
+        "actual": "0\n0\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.002
+      }
+    ],
+    "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+  },
+  "replays": [
+    {
+      "name": "identical_replacement",
+      "expected_publish": false,
+      "base_sha256": "595c4c865ee3453b6d861941e7f26e0e7976acf290663c26ab534cda860e41a0",
+      "edits": [
+        {
+          "before": "int place = sum / r;",
+          "after": "int place = sum / r;"
+        }
+      ],
+      "publish": false,
+      "error": "不能以相同片段替換，也不能整份改寫。",
+      "check_pass": true
+    },
+    {
+      "name": "missing_sort_partial_progress",
+      "expected_publish": true,
+      "base_sha256": "595c4c865ee3453b6d861941e7f26e0e7976acf290663c26ab534cda860e41a0",
+      "edits": [
+        {
+          "before": "int place = sum / r;",
+          "after": "int place = houses[r / 2];"
+        }
+      ],
+      "candidate": {
+        "status": "failed",
+        "label": "測資通過 2 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "189\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "publish": true,
+      "error": null,
+      "check_pass": true
+    },
+    {
+      "name": "place_before_input",
+      "expected_publish": false,
+      "base_sha256": "ea985cdc42fff6adbb5c71658820c2a3860c89a1aa3c8d62b3ad6620fdde38e1",
+      "edits": [
+        {
+          "before": "        int place = houses[r / 2];\n",
+          "after": ""
+        },
+        {
+          "before": "        vector<int> houses(r);",
+          "after": "        vector<int> houses(r);\n        int place = houses[r / 2];"
+        }
+      ],
+      "candidate": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "103\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "111\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "7\n20\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "publish": false,
+      "error": "修改造成退步：原先通過的案例失敗：範例、自編測資3",
+      "check_pass": true
+    },
+    {
+      "name": "sort_at_main_start",
+      "expected_publish": false,
+      "base_sha256": "ea985cdc42fff6adbb5c71658820c2a3860c89a1aa3c8d62b3ad6620fdde38e1",
+      "edits": [
+        {
+          "before": "#include <iostream>",
+          "after": "#include <algorithm>\n#include <iostream>"
+        },
+        {
+          "before": "int main() {",
+          "after": "int main() {\n    sort(houses.begin(), houses.end());"
+        }
+      ],
+      "candidate": {
+        "status": "compile_error",
+        "label": "編譯錯誤",
+        "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:7:10: error: ‘houses’ was not declared in this scope\n    7 |     sort(houses.begin(), houses.end());\n      |          ^~~~~~\n",
+        "cases": []
+      },
+      "publish": false,
+      "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:7:10: error: ‘houses’ was not declared in this scope\n    7 |     sort(houses.begin(), houses.end());\n      |          ^~~~~~\n",
+      "check_pass": true
+    },
+    {
+      "name": "correct_minimal_repair",
+      "expected_publish": true,
+      "base_sha256": "595c4c865ee3453b6d861941e7f26e0e7976acf290663c26ab534cda860e41a0",
+      "edits": [
+        {
+          "before": "#include <iostream>",
+          "after": "#include <algorithm>\n#include <iostream>"
+        },
+        {
+          "before": "int place = sum / r;",
+          "after": "sort(houses.begin(), houses.end());\n        int place = houses[r / 2];"
+        }
+      ],
+      "candidate": {
+        "status": "accepted",
+        "label": "測資通過 3 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.006
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "publish": true,
+      "error": null,
+      "check_pass": true
+    }
+  ],
+  "live": {
+    "original_code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+    "original_sha256": "595c4c865ee3453b6d861941e7f26e0e7976acf290663c26ab534cda860e41a0",
+    "attempts": [
+      "```json\n{\"explanation\":\"學生選擇了平均數作為放置位置，但對於提供的測試案例，計算出的結果不正確。需要修正程式碼以計算實際的中位數，並將其用於計算總距離。\",\"edits\":[\n{\n\"before\":\"#include <iostream>\\n#include <vector>\\n#include <cstdlib>\\nusing namespace std;\\nint main() {\\n    int t; cin >> t;\\n    while (t--) {\\n        int r; cin >> r;\\n        vector<int> houses(r);\\n        int sum = 0;\\n        for (int i = 0; i < r; i++) {\\n            cin >> houses[i];\\n            sum += houses[i];\\n        }\\n        int place = sum / r; // 使用平均數\\n        int answer = 0;\\n        for (int i = 0; i < r; i++) {\\n            answer += abs(houses[i] - place);\\n        }\\n        cout << answer << '\\\\n';\\n    }\\n}\",\n\"after\":\"#include <iostream>\\n#include <vector>\\n#include <algorithm>\\n#include <numeric>\\nusing namespace std;\\nint main() {\\n    int t; cin >> t;\\n    while (t--) {\\n        int r; cin >> r;\\n        vector<int> houses(r);\\n        int sum = 0;\\n        for (int i = 0; i < r; i++) {\\n            cin >> houses[i];\\n            sum += houses[i];\\n        }\\n        sort(houses.begin(), houses.end()); // 排序地址\\n        int mid = r / 2; // 計算中位數索引\\n        int place = houses[mid]; // 選擇中位數作為放置位置\\n        int answer = 0;\\n        for (int i = 0; i < r; i++) {\\n            answer += abs(houses[i] - place);\\n        }\\n        cout << answer << '\\\\n';\\n    }\\n}\"\n}\n]}\n```",
+      "```json\n{\n  \"explanation\": \"學生使用了平均數作為放置位置，導致結果錯誤。需要將地址排序後，選擇中位數作為放置位置，並重新計算總距離。\",\n  \"edits\": [\n    {\n      \"before\": \"#include <iostream>\\n#include <vector>\\n#include <cstdlib>\\nusing namespace std;\",\n      \"after\": \"#include <iostream>\\n#include <vector>\\n#include <algorithm>\\n#include <numeric>\\nusing namespace std;\"\n    },\n    {\n      \"before\": \"int main() {\\n    int t; cin >> t;\\n    while (t--) { ... \",\n      \"after\": \"int main() {\\n    int t; cin >> t;\\n    while (t--) { ...\"\n    },\n    {\n      \"before\": \"int place = sum / r; // 使用平均數\",\n      \"after\": \"sort(houses.begin(), houses.end()); // 排序地址\\n        int mid = r / 2; // 計算中位數索引\\n        int place = houses[mid]; // 選擇中位數作為放置位置\"\n    },\n    {\n      \"before\": \"int answer = 0; \\n        for (int i = 0; i < r; i++) { \\n            answer += abs(houses[i] - place); \\n        }\",\n      \"after\": \"int answer = 0; \\n        for (int i = 0; i < r; i++) { \\n            answer += abs(houses[i] - place); \\n        }\"\n    }\n  ]\n}\n```"
+    ],
+    "status": "blocked",
+    "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n原片段必須逐字存在且只出現一次，不猜位置或行號。\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生使用了平均數作為放置位置，導致結果錯誤。需要將地址排序後，選擇中位數作為放置位置，並重新計算總距離。\", \"edits\": [{\"before\": \"#include <iostream>\\n#include <vector>\\n#include <cstdlib>\\nusing namespace std;\", \"after\": \"#include <iostream>\\n#include <vector>\\n#include <algorithm>\\n#include <numeric>\\nusing namespace std;\"}, {\"before\": \"int main() {\\n    int t; cin >> t;\\n    while (t--) { ... \", \"after\": \"int main() {\\n    int t; cin >> t;\\n    while (t--) { ...\"}, {\"before\": \"int place = sum / r; // 使用平均數\", \"after\": \"sort(houses.begin(), houses.end()); // 排序地址\\n        int mid = r / 2; // 計算中位數索引\\n        int place = houses[mid]; // 選擇中位數作為放置位置\"}, {\"before\": \"int answer = 0; \\n        for (int i = 0; i < r; i++) { \\n            answer += abs(houses[i] - place); \\n        }\", \"after\": \"int answer = 0; \\n        for (int i = 0; i < r; i++) { \\n            answer += abs(houses[i] - place); \\n        }\"}]}",
+    "original_preserved": true,
+    "seconds": 113.75
+  },
+  "regression_replays_pass": true
+}

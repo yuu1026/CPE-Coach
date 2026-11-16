@@ -1,0 +1,8 @@
+{
+  "scope": "Actual second startup attempt while the first server is listening; capture bytes to avoid Windows codepage decoding.",
+  "returncode": 1,
+  "seconds": 0.27,
+  "port_conflict": true,
+  "weight_loading_started": false,
+  "pass": true
+}

@@ -39,8 +39,38 @@
   let originalCode = originalNode ? JSON.parse(originalNode.textContent) : null;
   const originalCustomNode = document.getElementById('original-custom-test');
   const originalCustom = originalCustomNode ? JSON.parse(originalCustomNode.textContent) : null;
-  function normalizeCustom(custom) { return JSON.stringify(custom?.enabled ? {enabled:true, input:custom.input || '', expected:custom.expected || ''} : {enabled:false}); }
+  function normalizeCustom(custom) {
+    const eol = text => (text || '').replace(/\r\n?/g,'\n');
+    return JSON.stringify(custom?.enabled ? {enabled:true, input:eol(custom.input), expected:eol(custom.expected)} : {enabled:false});
+  }
   let customSnapshot = normalizeCustom(originalCustom && typeof originalCustom === 'object' ? originalCustom : {enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
+  const revisionNode = document.getElementById('verified-revision');
+  let revision = revisionNode ? JSON.parse(revisionNode.textContent) : null;
+  const revisionCustomSnapshot = customSnapshot;
+  const applyRevision = document.getElementById('apply-revision');
+  const undoRevision = document.getElementById('undo-revision');
+  const revisionStatus = document.getElementById('revision-status');
+  // Native form submission and CodeMirror can differ only in CRLF/LF.
+  const sameRevisionCode = (left, right) => left.replace(/\r\n?/g,'\n') === right.replace(/\r\n?/g,'\n');
+  function setRevisionCode(value) {
+    if (editor) editor.setValue(value); else { textarea.value = value; updateEditor(); }
+  }
+  if (applyRevision) applyRevision.addEventListener('click', () => {
+    const currentCustom = normalizeCustom({enabled:document.getElementById('id_run_custom').checked,input:document.getElementById('id_custom_input').value,expected:document.getElementById('id_custom_expected').value});
+    if (form.getAttribute('aria-busy') === 'true') return;
+    if (!revision || !sameRevisionCode(code(),revision.base_code) || currentCustom !== revisionCustomSnapshot) {
+      revisionStatus.textContent = '程式或測資已改變，請重新詢問以驗證目前版本；沒有覆寫你的編輯。'; return;
+    }
+    setRevisionCode(revision.candidate_code);
+    revisionStatus.textContent = '已套用，套用前程式仍保留。請執行測試核對目前編輯器版本。';
+  });
+  if (undoRevision) undoRevision.addEventListener('click', () => {
+    if (form.getAttribute('aria-busy') === 'true') return;
+    if (!revision || !sameRevisionCode(code(),revision.candidate_code)) {
+      revisionStatus.textContent = '套用後已有其他編輯，未覆寫；可使用編輯器復原功能。'; return;
+    }
+    setRevisionCode(revision.base_code); revisionStatus.textContent = '已還原套用前程式。';
+  });
   function updateEditor() {
     const count = Array.from(code()).length;
     const counter = document.getElementById('code-count');
@@ -50,6 +80,7 @@
     const custom = normalizeCustom({enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
     document.getElementById('stale-result').hidden = originalCode === null || (code() === originalCode && custom === customSnapshot);
     document.getElementById('result-freshness').textContent = document.getElementById('stale-result').hidden ? '' : '已修改，請重新測試';
+    if (undoRevision) undoRevision.disabled = !revision || !sameRevisionCode(code(),revision.candidate_code);
     form.dispatchEvent(new Event('draft-change'));
   }
   textarea.addEventListener('input', updateEditor);
@@ -137,6 +168,8 @@
       if (!response.ok) throw new Error('清除失敗，請重新整理後重試。');
       const result = await response.json();
       history.replaceChildren();
+      revision = null;
+      const revisionControls = document.getElementById('revision-controls'); if (revisionControls) revisionControls.hidden = true;
       const notice = document.createElement('p'); notice.className = 'muted'; notice.textContent = '聊天紀錄已清除，可以開始新的對話。'; history.append(notice);
       question.value = '';
       form.elements.namedItem('parent_submission').value = result.parent;

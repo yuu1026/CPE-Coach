@@ -3,7 +3,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 from django.test import SimpleTestCase,override_settings
 from .answer_validation import compile_full_reply
-from .services import build_messages,generate_hint,HintError
+from .services import build_messages,generate_hint,HintError,HintText
 from .model_prompt import readable_messages
 
 BAD='int main(){ if(true){int home=1;} return home; }'
@@ -69,6 +69,12 @@ class GeneratedCompilationTests(SimpleTestCase):
 
     def test_unavailable_docker_is_disclosed_and_missing_code_is_not_accepted(self):
         with patch('coach.services._generate_once',return_value=GOOD_REPLY),patch('coach.answer_validation.judge',return_value={'status':'unavailable','label':'Docker 未啟動'}):
-            answer=generate_hint(self.messages(),3)
-        self.assertIn('尚未驗證',answer)
+            with self.assertRaisesMessage(HintError,'修改驗證服務未就緒'):
+                generate_hint(self.messages(),3)
         self.assertEqual(compile_full_reply('我已經修好了。',{'response_mode':'solution'})['status'],'missing_program')
+
+    def test_truncated_full_repair_cannot_bypass_validation(self):
+        with patch('coach.services._generate_once',return_value=HintText(GOOD_REPLY,truncated=True)),patch('coach.answer_validation.judge') as docker:
+            with self.assertRaisesMessage(HintError,'被截斷'):
+                generate_hint(self.messages(),3)
+        docker.assert_not_called()

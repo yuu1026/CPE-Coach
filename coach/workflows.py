@@ -69,10 +69,11 @@ def submit(owner, problem, data, parent=None):
     try:
         prior = thread_records(parent) if parent else []
         history = [{'question': s.question, 'hint': s.answer, 'code': s.code} for s in prior if s.status in ('done', 'partial') and s.answer]
-        record.messages = services.build_messages(problem, record.code, record.question, record.hint_level, history, evidence=record.judge_result)
+        record.messages = services.build_messages(problem, record.code, record.question, record.hint_level, history, evidence=record.judge_result,validation_tests=tests)
         record.save(update_fields=['messages'])
         reply = services.generate_hint(record.messages, record.hint_level)
         record.answer = str(reply)
+        if getattr(reply,'revision_check',None):record.messages[-1]['verified_revision']=reply.revision_check
         if getattr(reply,'tutoring_projection',False):record.messages[-1]['tutoring_projection']=True
         if getattr(reply, 'source', '') == 'reference':
             record.mode, record.model = 'reference', '題庫參考解答（未呼叫模型）'
@@ -80,12 +81,16 @@ def submit(owner, problem, data, parent=None):
             record.mode,record.model='verified_hint','題庫診斷提示（未呼叫模型）'
         elif getattr(reply,'source','')=='verified_step':
             record.mode,record.model='verified_hint','系統教學步驟（模型候選經題庫規則替代）'
+        elif getattr(reply,'source','')=='verified_test':
+            record.mode,record.model='verified_hint','系統測試確認（未呼叫模型）'
         record.status = 'partial' if getattr(reply, 'truncated', False) else 'done'
         omitted = getattr(reply, 'omitted_history_turns', 0)
         if omitted:
             record.messages = record.messages[:1] + record.messages[1 + omitted * 2:]
     except services.HintError as exc:
         record.error, record.status = str(exc), 'failed'
+        if getattr(exc,'revision_audit',None) and record.messages:
+            record.messages[-1]['revision_failure']=exc.revision_audit
     record.finished_at = timezone.now()
     # A reply finishing in another tab must not recreate chat deleted meanwhile.
     Submission.objects.filter(pk=record.pk, owner=owner).update(answer=record.answer,

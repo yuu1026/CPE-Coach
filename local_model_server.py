@@ -4,6 +4,7 @@ Run one process; do not expose this development service to the network.
 import json
 import os
 import threading
+import socket
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from model_backend import MODEL_NAME as DEFAULT_MODEL_NAME, active_deployment, model_path, load_text_model, validate_adapter
@@ -128,10 +129,25 @@ class Handler(BaseHTTPRequestHandler):
             LOCK.release()
 
 
+class ExclusiveModelServer(ThreadingHTTPServer):
+    allow_reuse_address=False
+
+    def server_bind(self):
+        if hasattr(socket,'SO_EXCLUSIVEADDRUSE'):
+            self.socket.setsockopt(socket.SOL_SOCKET,socket.SO_EXCLUSIVEADDRUSE,1)
+        super().server_bind()
+
+
+def serve():
+    # Reserve the port before allocating GPU memory, including on Windows.
+    with ExclusiveModelServer(('127.0.0.1',11436),Handler,bind_and_activate=False) as server:
+        server.server_bind()
+        print('正在從本地硬碟以 4-bit 載入模型，請等待…', flush=True)
+        server.tokenizer,server.model=load_model()
+        server.server_activate()
+        print('模型已就緒：http://127.0.0.1:11436/healthz', flush=True)
+        server.serve_forever()
+
+
 if __name__ == '__main__':
-    print('正在從本地硬碟以 4-bit 載入模型，請等待…', flush=True)
-    tokenizer, model = load_model()
-    server = ThreadingHTTPServer(('127.0.0.1', 11436), Handler)
-    server.tokenizer, server.model = tokenizer, model
-    print('模型已就緒：http://127.0.0.1:11436/healthz', flush=True)
-    server.serve_forever()
+    serve()

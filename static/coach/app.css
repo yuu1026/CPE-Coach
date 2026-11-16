@@ -171,6 +171,11 @@ a.button-quiet{background:transparent;color:var(--text);border-color:var(--line)
 .workspace-picker .problem-switcher button{grid-column:1}
 .workspace-picker .problem-switcher small{justify-self:end}
 #test-results{display:contents}
+.revision-toolbar{padding:8px 12px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:6px;flex-shrink:0;background:#152d2a}
+.revision-toolbar strong{font-size:11px;color:var(--accent)}
+.revision-toolbar button{font-size:11px;padding:6px 8px}
+.revision-toolbar p{flex-basis:100%;font-size:11px;line-height:1.5;margin:0;max-height:60px;overflow:auto}
+.revision-toolbar p:empty{display:none}
 #clear-chat{font-size:11px;padding:6px 8px;color:var(--muted);margin-left:auto}
 #clear-chat:hover{color:#ffb4ac}
 .test-drawer[open]{min-height:120px;max-height:min(55%,calc(100% - 280px))}

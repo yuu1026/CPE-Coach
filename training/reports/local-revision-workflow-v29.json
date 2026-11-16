@@ -1,0 +1,246 @@
+{
+  "scope": "Injected deterministic model JSON, actual Django controller/templates and real restricted Docker. No actual model call or browser visual QA.",
+  "prompt_version": "cpe-tutor-v29",
+  "checks": {
+    "original_unchanged": true,
+    "editor_not_marked_passed": true,
+    "actual_base_and_candidate_saved": true,
+    "custom_case_verified": true,
+    "apply_and_undo_controls": true,
+    "explicit_test_passed": true,
+    "explicit_test_did_not_call_model": true
+  },
+  "cleanup": true,
+  "verification": {
+    "base_code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+    "candidate_code": "#include <algorithm>\n#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        sort(houses.begin(), houses.end());\n        int place = houses[r / 2];\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+    "base_sha256": "595c4c865ee3453b6d861941e7f26e0e7976acf290663c26ab534cda860e41a0",
+    "candidate_sha256": "abc0da1ee47f0f0cd0bec5ea5cc52d3033ccd76cc9cffd752ccd7a821241d95b",
+    "tests_sha256": "9d2a7edd7e3543e9100c466b196e5b070f58b00e4747c03a3f87da5893860648",
+    "baseline": {
+      "status": "failed",
+      "label": "測資通過 2 / 4",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "範例測資",
+          "input": "1\n3 1 2 100\n",
+          "expected": "99\n",
+          "actual": "131\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.005
+        },
+        {
+          "name": "自編測資2",
+          "input": "1\n3 10 100 1\n",
+          "expected": "99\n",
+          "actual": "126\n",
+          "stderr": "",
+          "status": "wrong_answer",
+          "label": "答案不符",
+          "seconds": 0.003
+        },
+        {
+          "name": "自編測資3",
+          "input": "2\n1 7\n4 5 5 5 5\n",
+          "expected": "0\n0\n",
+          "actual": "0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.004
+        },
+        {
+          "name": "自訂測資",
+          "input": "1\n4 101 2 100 1\n",
+          "expected": "198\n",
+          "actual": "198\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "candidate": {
+      "status": "accepted",
+      "label": "測資通過 4 / 4",
+      "compiler": "",
+      "cases": [
+        {
+          "name": "範例測資",
+          "input": "1\n3 1 2 100\n",
+          "expected": "99\n",
+          "actual": "99\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.005
+        },
+        {
+          "name": "自編測資2",
+          "input": "1\n3 10 100 1\n",
+          "expected": "99\n",
+          "actual": "99\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "自編測資3",
+          "input": "2\n1 7\n4 5 5 5 5\n",
+          "expected": "0\n0\n",
+          "actual": "0\n0\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        },
+        {
+          "name": "自訂測資",
+          "input": "1\n4 101 2 100 1\n",
+          "expected": "198\n",
+          "actual": "198\n",
+          "stderr": "",
+          "status": "accepted",
+          "label": "通過",
+          "seconds": 0.003
+        }
+      ],
+      "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+    },
+    "edits": [
+      {
+        "before": "#include <iostream>\n",
+        "after": "#include <algorithm>\n#include <iostream>\n"
+      },
+      {
+        "before": "        int place = sum / r;\n",
+        "after": "        sort(houses.begin(), houses.end());\n        int place = houses[r / 2];\n"
+      }
+    ],
+    "attempts": [
+      {
+        "plan": {
+          "explanation": "讀完地址後先排序，再取中間值選址，保留原本的距離累加。",
+          "edits": [
+            {
+              "line_id": "L1",
+              "after": "#include <algorithm>\n#include <iostream>"
+            },
+            {
+              "line_id": "L15",
+              "after": "        sort(houses.begin(), houses.end());\n        int place = houses[r / 2];"
+            }
+          ]
+        },
+        "result": {
+          "status": "accepted",
+          "label": "測資通過 4 / 4",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自訂測資",
+              "input": "1\n4 101 2 100 1\n",
+              "expected": "198\n",
+              "actual": "198\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        }
+      }
+    ]
+  },
+  "student_test": {
+    "status": "accepted",
+    "label": "測資通過 4 / 4",
+    "compiler": "",
+    "cases": [
+      {
+        "name": "範例測資",
+        "input": "1\n3 1 2 100\n",
+        "expected": "99\n",
+        "actual": "99\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.003
+      },
+      {
+        "name": "自編測資2",
+        "input": "1\n3 10 100 1\n",
+        "expected": "99\n",
+        "actual": "99\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.002
+      },
+      {
+        "name": "自編測資3",
+        "input": "2\n1 7\n4 5 5 5 5\n",
+        "expected": "0\n0\n",
+        "actual": "0\n0\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.003
+      },
+      {
+        "name": "自訂測資",
+        "input": "1\n4 101 2 100 1\n",
+        "expected": "198\n",
+        "actual": "198\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.003
+      }
+    ],
+    "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+    "fingerprint": "2bfa656c6921e586f4c02c843276eb56285c4122ef8f3085699fbb2fa7b073cb",
+    "custom_test": {
+      "enabled": true,
+      "input": "1\n4 101 2 100 1\n",
+      "expected": "198\n"
+    }
+  }
+}

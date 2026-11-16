@@ -11,10 +11,12 @@ class Element {
   append(child) { this.children.push(child); }
   focus() {}
 }
-const ids=['workspace-form','id_code','id_question','run-test','ask-assistant','clear-chat','editor-error','id_run_custom','id_custom_input','id_custom_expected','code-count','stale-result','result-freshness','chat-history','test-results'];
+const ids=['workspace-form','id_code','id_question','run-test','ask-assistant','clear-chat','editor-error','id_run_custom','id_custom_input','id_custom_expected','code-count','stale-result','result-freshness','chat-history','test-results','verified-revision','apply-revision','undo-revision','revision-status','revision-controls'];
 const nodes=Object.fromEntries(ids.map(id=>[id,new Element()]));
 const form=nodes['workspace-form'], question=nodes.id_question, code=nodes.id_code;
 code.value='int main(){}'; question.value='not submitted';
+const revisedCode='int main(){\r\nreturn 0;\r\n}';
+nodes['verified-revision'].textContent=JSON.stringify({base_code:code.value,candidate_code:revisedCode});
 nodes['run-test'].value='test'; nodes['ask-assistant'].value='ask';
 form.dataset={initialTab:'code',testUrl:'/test/',clearUrl:'/clear/',practiceUrl:'/problem/1/'};
 const fields={action:new Element(),parent_submission:new Element(),submission_id:new Element('token'),csrfmiddlewaretoken:new Element('csrf'),question,code};
@@ -33,6 +35,16 @@ const context={document:{getElementById:id=>nodes[id]||null,querySelectorAll:()=
   fetch:async(url,options)=>{requests.push({url,options}); return {ok:true,json:async()=>url==='/clear/'?{parent:4,next_token:'clear-token',url:'/submission/4/'}:{html:'results',record:4,token:'test-token',next_token:'new-token',url:'/submission/4/',code:code.value,custom_test:{enabled:false}}};}};
 vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
 (async()=>{
+  code.value='independent edit';
+  await nodes['apply-revision'].emit('click'); assert.equal(code.value,'independent edit','stale suggestions cannot overwrite later edits');
+  code.value='int main(){}'; nodes.id_run_custom.checked=true;
+  await nodes['apply-revision'].emit('click'); assert.equal(code.value,'int main(){}','changed tests invalidate verification');
+  nodes.id_run_custom.checked=false;
+  await nodes['apply-revision'].emit('click'); assert.equal(code.value,revisedCode);
+  assert.equal(nodes['undo-revision'].disabled,false);
+  code.value='later edits'; await nodes['undo-revision'].emit('click'); assert.equal(code.value,'later edits','undo must preserve later edits');
+  code.value=revisedCode.replace(/\r\n/g,'\n'); await nodes['undo-revision'].emit('click'); assert.equal(code.value,'int main(){}','CRLF/LF normalization must not prevent safe undo');
+  form.setAttribute('aria-busy','true'); await nodes['apply-revision'].emit('click'); assert.equal(code.value,'int main(){}'); form.removeAttribute('aria-busy');
   await question.emit('keydown',{key:'Enter'}); assert.deepEqual(submissions,['ask']);
   for (const props of [{shiftKey:true},{isComposing:true},{keyCode:229},{repeat:true}]) await question.emit('keydown',{key:'Enter',...props});
   assert.equal(submissions.length,1,'newline, IME confirmation, and held keys must not send');
@@ -52,5 +64,7 @@ vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
   await nodes['clear-chat'].emit('click');
   assert.equal(requests[1].url,'/clear/'); assert.equal(question.value,''); assert.equal(code.value,'int main(){}');
   assert.equal(nodes['chat-history'].children.length,1); assert.equal(fields.submission_id.value,'clear-token');
+  assert.equal(nodes['revision-controls'].hidden,true);
+  await nodes['apply-revision'].emit('click'); assert.equal(code.value,'int main(){}','cleared chat cannot apply a deleted suggestion');
   console.log('Enter/IME, independent testing, and chat clearing checks passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
