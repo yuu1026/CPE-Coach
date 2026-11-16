@@ -42,7 +42,9 @@ def vito_next_step(code):
                 'snippet':f'std::sort({values}.begin(), {values}.end());'}
     median=re.search(r'\b(?:int|auto|long\s+long)\s+(\w+)\s*=\s*'+v+r'\s*\[\s*'+n+r'\s*/\s*2\s*\]\s*;',body)
     if not median:
-        if re.search(r'\bhome\b',body):return None
+        # A previous hint may already use home without declaring it. Repair
+        # that missing prerequisite instead of refusing to continue or using 0.
+        if re.search(r'\b(?:int|auto|long|double|float)\s+home\b',body):return None
         return {'step':'median','reason':'已排序，現在選上中位數作為位置；奇偶筆數都可用這個位置。',
                 'placement':'排序之後','header':'','snippet':f'int home = {values}[{count} / 2];'}
     home=median[1];accumulation=None

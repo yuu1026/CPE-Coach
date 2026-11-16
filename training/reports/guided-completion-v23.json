@@ -1,0 +1,8 @@
+{
+  "prompt_version": "cpe-tutor-v23",
+  "scope": "Known-topic adaptive delivery, authored insertion location, real local model and Docker; not independent model teaching or real learner evidence.",
+  "steps": [],
+  "error": "模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。",
+  "system_completion_pass": false,
+  "model_only_completion_pass": false
+}

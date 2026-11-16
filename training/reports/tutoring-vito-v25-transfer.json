@@ -1,0 +1,41 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "transfer",
+  "stages": [
+    {
+      "id": "transfer",
+      "expected_behavior": "手算1+0+998=999，承接相同中位數原理，不假稱新輸入已實測。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "transfer",
+      "question": "我想確認自己懂了。若地址改成 1、2、1000，仍選 home=2，總距離應是多少？這組我沒有實際執行，請手算說明，不要貼完整程式。",
+      "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases;\n    cin >> cases;\n    while (cases--) {\n        int relatives;\n        cin >> relatives;\n        vector<int> addresses(relatives);\n        int addressSum = 0;\n        for (int i = 0; i < relatives; ++i) {\n            cin >> addresses[i];\n            addressSum += addresses[i];\n        }\n        sort(addresses.begin(), addresses.end());\n        int home = addresses[relatives / 2];\n        int distanceSum = 0;\n        for (int address : addresses) distanceSum += abs(address - home);\n        cout << distanceSum << '\\n';\n    }\n    return 0;\n}\n",
+      "expected_behavior": "手算1+0+998=999，承接相同中位數原理，不假稱新輸入已實測。",
+      "answer": "好的，我們來手算一下。\n\n地址是 1, 2, 1000，選擇 home = 2。\n\n*   地址 1 到 home (2) 的距離: |1 - 2| = 1\n*   地址 2 到 home (2) 的距離: |2 - 2| = 0\n*   地址 1000 到 home (2) 的距離: |1000 - 2| = 998\n\n總距離 = 1 + 0 + 998 = 999\n\n所以，對於地址 1, 2, 1000，如果 home = 2，總距離應該是 999。\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v23",
+      "seconds": 15.19,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_run",
+      "message_count": 2,
+      "scaffold_step": null,
+      "calculation_tool_used": true,
+      "tutoring_projection": false,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}

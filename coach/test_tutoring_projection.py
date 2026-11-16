@@ -30,6 +30,30 @@ class SingleStepProjectionTests(SimpleTestCase):
         messages=[{'role':'user','content':json.dumps(payload)}]
         self.assertEqual(quality_issue('```cpp\ntotal += abs(address-home);\n```',messages),'lesson_order')
 
+    def test_local_step_discards_conflicting_model_prose(self):
+        payload=self.payload()
+        result,changed=project_next_step('先算平均數。\n```cpp\n'+payload['verified_next_step']['snippet']+'\n```',payload)
+        self.assertTrue(changed)
+        self.assertNotIn('平均數',result)
+        self.assertIn('非模型獨立判斷',result)
+
+    @override_settings(HINT_MODE='live')
+    def test_two_bad_candidates_recover_with_labelled_step_without_changing_code(self):
+        payload=self.payload()
+        messages=[{'role':'system','content':'提示模式'},{'role':'user','content':json.dumps(payload)}]
+        with patch('coach.services._generate_once',return_value='```cpp\nint home=0;\n```') as model:
+            result=generate_hint(messages,3)
+        self.assertEqual(model.call_count,2)
+        self.assertEqual(result.source,'verified_step')
+        self.assertIn('std::sort(places.begin(), places.end());',result)
+        self.assertNotIn('home=0',result)
+        self.assertEqual(json.loads(messages[-1]['content'])['code'],SOURCE)
+
+    def test_undeclared_home_is_repaired_before_distance_work(self):
+        code=self.added().replace('// next','int total=0; for(int address:places)total+=abs(address-home);')
+        self.assertEqual(vito_next_step(code)['step'],'median')
+        self.assertIsNone(vito_next_step(code.replace('int total=0;','int home=0; int total=0;')))
+
     @override_settings(HINT_MODE='live')
     def test_pipeline_records_projection_and_does_not_retry_a_correct_small_step(self):
         messages=[{'role':'system','content':'提示模式'},{'role':'user','content':json.dumps(self.payload())}]

@@ -1,0 +1,41 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "even-median",
+  "stages": [
+    {
+      "id": "even-median",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "even-median",
+      "question": "我比較後選 2 只要 99，所以想排序取中間。若有 4 個地址 1、2、100、101，中間有兩個，要怎麼選？",
+      "code": "",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。",
+      "answer": "根據您提出的例子，對於四個地址（1、2、100、101）來說，中間確實存在兩個位置（2 和 100）。由於您選擇了 2，並且認為應該取中間位置，那麼您可以考慮以下幾種方法來確定哪個位置是最佳的：\n\n1.  **計算每個位置的距離總和：** 對於每個可能的“家”位置（例如 2 和 100），分別計算所有地址到該位置的距離之和。\n2.  **比較總和：** 將不同位置的距離總和進行比較，選擇總和最小的位置作為“家”。\n\n在您的例子中，您選擇了 2，那麼我們需要計算住在 2 的時候，所有地址到 2 的距離之和。\n```cpp\n// 這裡只是為了展示計算過程，並不會實際運行\nint calculate_total_distance(const std::vector<int> &addresses, int home_location) {\n    int total_distance = 0;\n    for (int address : addresses) {\n        total_distance += abs(address - home_location);\n    }\n    return total_distance;\n}\n```",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v25",
+      "seconds": 39.36,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 2,
+      "scaffold_step": null,
+      "calculation_tool_used": true,
+      "tutoring_projection": false,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}

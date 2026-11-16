@@ -7,6 +7,27 @@ from .model_prompt import readable_messages
 
 @override_settings(HINT_MODE='live')
 class TutoringPolicyTests(SimpleTestCase):
+    def test_repeated_wrong_distance_uses_labelled_calculator_instead_of_wrong_prose(self):
+        import json
+        from .teaching_tools import vito_calculation
+        payload={'response_mode':'tutor','code':'','question':'地址 1、2、100、101，要怎麼選？',
+                 'verified_calculation':vito_calculation('地址 1、2、100、101，要怎麼選？')}
+        messages=[{'role':'system','content':'提示模式'},{'role':'user','content':json.dumps(payload)}]
+        with patch('coach.services._generate_once',return_value='如果選擇 2，距離總和 = 100。') as model:
+            result=generate_hint(messages,2)
+        self.assertEqual(model.call_count,2)
+        self.assertEqual(result.source,'verified_step')
+        self.assertIn('最小距離總和=198',result)
+        self.assertIn('不是程式執行結果',result)
+
+    def test_numeric_question_cannot_be_answered_only_with_another_task(self):
+        from .teaching_tools import vito_calculation
+        from .reply_quality import grounded_conflict
+        payload={'question':'地址 1、2、100、101，要怎麼選？',
+                 'verified_calculation':vito_calculation('地址 1、2、100、101，要怎麼選？')}
+        self.assertEqual(grounded_conflict(payload,'請先寫一個函式來計算距離，再比較兩個位置。'),'calculation_conflict')
+        self.assertIsNone(grounded_conflict(payload,'可選2到100之間的任何位置，最小總和198。'))
+
     def test_incomplete_draft_and_result_confirmation_have_different_tasks(self):
         problem=SimpleNamespace(statement='一維地址練習')
         next_step=build_messages(problem,'vector<int> addresses(relatives);','已讀好，下一步如何寫？',3,[])
@@ -33,6 +54,13 @@ class TutoringPolicyTests(SimpleTestCase):
         self.assertIsNone(grounded_conflict({'verified_calculation':calculation},'你計算的距離總和沒有錯，但這個住處不一定最佳。'))
         self.assertEqual(grounded_conflict({'verified_calculation':calculation},'平均數 (1+2+100)/3 = 33.666...'),'calculation_conflict')
         self.assertIsNone(grounded_conflict({'verified_calculation':calculation},'平均數 (1+2+100)/3 = 34.333...'))
+        even={'verified_calculation':vito_calculation('地址 1、2、100、101，要怎麼選？')}
+        self.assertEqual(grounded_conflict(even,'如果選擇 2，距離總和就是 |1-2| + |2-100| + |100-101| = 1 + 98 + 1 = 100。'),'calculation_conflict')
+        self.assertEqual(grounded_conflict(even,'例如，選擇 2 的話，總和會是 |1-2| + |2-100| + |100-101| = 1 + 98 + 1 = 100。選擇 100 的話，總和 = 198。'),'calculation_conflict')
+        self.assertIsNone(grounded_conflict(even,'如果選擇 2，距離總和 = 1 + 0 + 98 + 99 = 198。'))
+        transfer={'verified_calculation':vito_calculation('地址 1、2、1000，home=2，總距離是多少？')}
+        self.assertEqual(grounded_conflict(transfer,'選 home=2。\n\n總距離 = 1 + 998 + 998 = 1997。'),'calculation_conflict')
+        self.assertIsNone(grounded_conflict(transfer,'選 home=2。\n\n總距離 = 1 + 0 + 998 = 999。'))
 
     def test_manual_math_and_genuine_new_step_are_not_rejected_for_missing_old_expression(self):
         from .reply_quality import missing_code_anchor

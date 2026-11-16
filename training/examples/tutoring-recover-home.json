@@ -1,0 +1,7 @@
+{
+  "action": "ask",
+  "question": "我已照前面的教學加入距離計算，但還沒宣告 home，接下來一步怎麼寫？",
+  "code": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance=0;\n        for(int address:addresses)totalDistance+=std::abs(address-home);\n        // 下一步放這裡\n    }\n}\n",
+  "rationale": "起始草稿只使用預先聲明會的輸入與容器語法；尚未插入任何排序、選址或距離演算法。",
+  "level": 3
+}

@@ -8,10 +8,10 @@ from .code_format import format_cpp_blocks
 from .diagnostics import lookup as lookup_diagnostic, direct_hint
 from .model_prompt import readable_messages
 from .answer_validation import compile_full_reply
-from .teaching_tools import vito_calculation,vito_next_step
-from .tutoring_projection import project_next_step
+from .teaching_tools import vito_calculation,vito_next_step,calculation_text
+from .tutoring_projection import project_next_step,verified_step_text
 
-PROMPT_VERSION = 'cpe-tutor-v22'
+PROMPT_VERSION = 'cpe-tutor-v26'
 
 class HintError(Exception):
     pass
@@ -181,6 +181,8 @@ def generate_hint(messages, level):
     answer = traditional_reply(str(reply))
     answer,projected=project_next_step(answer,payload)
     issue = quality_issue(answer, messages)
+    if payload.get('verified_next_step',{}).get('snippet') and not projected:
+        issue='lesson_order'
     validation=compile_full_reply(answer,payload) if not issue and not getattr(reply,'truncated',False) else None
     if validation and validation['status'] in ('compile_error','multiple_programs','missing_program','test_failure'):
         issue='compile_error'
@@ -199,7 +201,7 @@ def generate_hint(messages, level):
             'topic_conflict': '上一個候選回覆與本題已核對的題意重點矛盾。請重新依題意重點回答，不沿用歷史錯誤；Vito 的地址是一維門牌，距離為絕對差，中位數能使距離總和最小。仍需依本輪學生程度只推進一小步，不直接貼整題。',
             'verdict_conflict': '上一個候選回覆沿用舊錯誤，與目前版本已通過本次測資的證據衝突。本輪只確認提供測資已通過，沒有具體新反例就保留程式，不再指責 home 等變數；同時說明這不是官方 AC 保證。',
             'calculation_conflict': '上一個候選回覆含有與系統手算核對不符的數值，或把學生正確的加總說成算錯。請依工具提供的總和、筆數、平均與距離重新核對；先承認已算對的值，區分「加總正確」與「策略是否最佳」，不要捏造未核對的數字，仍只推進一小步。',
-            'lesson_order': '上一個候選回覆跳過了本輪步驟，先使用尚未宣告的 home 去計算距離。這輪只教選中位數並宣告 home，依所附教學步驟給必要那一行，不先加入距離迴圈或輸出，也不重貼 main。',
+            'lesson_order': '上一個候選回覆沒有精確完成所附 verified_next_step。請只給該步驟的 snippet，保持學生變數名稱與必要宣告，不插入其他步驟，也不重貼 main。',
         }[issue]
         if retry and retry[0]['role'] == 'system':
             retry[0]['content'] += '\n' + instruction
@@ -211,7 +213,12 @@ def generate_hint(messages, level):
         reply = _generate_once(retry, level)
         answer = traditional_reply(str(reply))
         answer,projected=project_next_step(answer,payload)
-        if quality_issue(answer, messages):
+        remaining_issue=quality_issue(answer, messages)
+        if remaining_issue or (payload.get('verified_next_step',{}).get('snippet') and not projected):
+            if payload.get('learning_mode')=='next_step' and payload.get('verified_next_step'):
+                return HintText(verified_step_text(payload['verified_next_step']),source='verified_step')
+            if remaining_issue=='calculation_conflict' and payload.get('verified_calculation'):
+                return HintText('系統手算核對（模型兩次候選未通過數值檢查，改用計算工具；不是程式執行結果）：\n\n'+calculation_text(payload['verified_calculation']),source='verified_step')
             raise HintError('模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。')
         validation=compile_full_reply(answer,payload) if not getattr(reply,'truncated',False) else None
         if validation and validation['status'] in ('compile_error','multiple_programs','missing_program','test_failure'):
@@ -222,4 +229,4 @@ def generate_hint(messages, level):
         answer+=f'\n\n系統檢查：模型產生的程式通過 {validation["passed"]} 組題庫測資；不代表所有輸入或官方評測皆正確。你的編輯器程式未被修改，也不因此視為已通過測試。'
     elif validation and validation['status']=='unavailable':
         answer+='\n\n系統檢查：編譯服務未就緒或檢查未完成，這份模型程式尚未驗證，請先執行測試。'
-    return HintText(format_cpp_blocks(answer), truncated=getattr(reply, 'truncated', False), omitted_history_turns=getattr(reply, 'omitted_history_turns', 0),tutoring_projection=projected)
+    return HintText(format_cpp_blocks(answer), truncated=getattr(reply, 'truncated', False), omitted_history_turns=getattr(reply, 'omitted_history_turns', 0),source='verified_step' if projected else 'model',tutoring_projection=projected)

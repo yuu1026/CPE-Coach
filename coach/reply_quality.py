@@ -79,6 +79,28 @@ def quality_issue(answer, messages, *, check_grounding=True, check_tutoring=True
 def grounded_conflict(payload,prose):
     """Narrow regression guards, not a general semantic correctness checker."""
     if payload.get('verified_calculation'):
+        calculation=payload['verified_calculation']
+        required=calculation['distance_sum'] if calculation.get('home') is not None else calculation['minimum_sum']
+        asks_numeric=re.search(r'總距離.{0,12}(?:多少|是)|距離總和.{0,8}多少|怎麼選|如何選',payload.get('question',''))
+        if asks_numeric and not re.search(r'(?<![\d.])'+str(required)+r'(?![\d.])',prose):
+            # Replacing a numeric question with another task or code is not
+            # a successful answer, even when no false number is asserted.
+            return 'calculation_conflict'
+        # Verify an explicitly stated cost at an explicitly selected home.
+        # Paragraph-local only: do not associate unrelated hypothetical values.
+        addresses=payload['verified_calculation']['addresses']
+        selected_home=payload['verified_calculation'].get('home')
+        for paragraph in re.split(r'\n\n|[。！？]',prose):
+            homes=re.findall(r'(?:選擇|住在|home\s*[=是為])\s*(\d+)',paragraph,re.I)
+            if homes:
+                selected_home=int(homes[0]) if len(set(homes))==1 else None
+            totals=re.findall(r'(?:距離總和|總距離|總和)[^。\n]*?=\s*(\d+)(?![\d.])',paragraph)
+            # Chained equalities: use the final asserted numeric result.
+            if selected_home is not None and totals:
+                tail=paragraph[paragraph.find('距離總和'):] if '距離總和' in paragraph else paragraph
+                results=re.findall(r'=\s*(\d+)(?![\d.])',tail)
+                if results and int(results[-1])!=sum(abs(x-selected_home) for x in addresses):
+                    return 'calculation_conflict'
         for expression,value in re.findall(r'(\(?\s*\d+(?:\s*\+\s*\d+)+\s*\)?\s*/\s*\d+)\s*=\s*(\d+\.\d+)',prose):
             if len(expression)>80:continue
             numbers=list(map(int,re.findall(r'\d+',expression)))

@@ -1,0 +1,25 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "even-median",
+  "stages": [
+    {
+      "id": "even-median",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。"
+    }
+  ],
+  "turns": [],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  },
+  "deployment_mismatch": {
+    "expected": "cpe-tutor-v26",
+    "actual": "cpe-tutor-v25"
+  },
+  "fatal_error": "RuntimeError: Website has not loaded the expected prompt version; restart the actual listening process."
+}

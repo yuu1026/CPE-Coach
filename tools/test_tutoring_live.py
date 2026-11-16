@@ -20,6 +20,7 @@ import httpx
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
 from coach.models import Problem,Submission
+from coach.services import PROMPT_VERSION
 from tools.test_live_system import GOOD,CUSTOM,EXPECTED
 
 READ_ONLY='''#include <iostream>
@@ -100,6 +101,9 @@ def main():
             pk=int(response.headers['location'].strip('/').split('/')[-1])
             parent=Submission.objects.get(pk=pk,owner=owner)
             payload=json.loads(parent.messages[-1]['content']) if parent.messages else {}
+            if parent.prompt_version!=PROMPT_VERSION:
+                report['deployment_mismatch']={'expected':PROMPT_VERSION,'actual':parent.prompt_version}
+                raise RuntimeError('Website has not loaded the expected prompt version; restart the actual listening process.')
             report['turns'].append(dict(id=name,question=question,code=code,expected_behavior=expectation,answer=parent.answer,error=parent.error,
                 status=parent.status,mode=parent.mode,model=parent.model,prompt_version=parent.prompt_version,
                 seconds=round(time.monotonic()-started,2),editor_code_unchanged=parent.code==code,

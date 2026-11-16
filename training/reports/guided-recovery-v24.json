@@ -1,0 +1,23 @@
+{
+  "prompt_version": "cpe-tutor-v24",
+  "scope": "Known-topic adaptive delivery, authored insertion location, real local model and Docker; not independent model teaching or real learner evidence.",
+  "steps": [
+    {
+      "question": "我已照前面的教學加入距離計算，但還沒宣告 home，接下來一步怎麼寫？",
+      "before": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance=0;\n        for(int address:addresses)totalDistance+=std::abs(address-home);\n        // 下一步放這裡\n    }\n}\n",
+      "answer": "系統教學步驟（題庫規則輔助，非模型獨立判斷）：\n\n已排序，現在選上中位數作為位置；奇偶筆數都可用這個位置。\n\n放置位置：排序之後。\n```cpp\nint home = addresses[relatives / 2];\n```\n請只加入這一步，保留其他程式，再執行測試；尚未代表你的程式已通過。",
+      "source": "verified_step",
+      "after": "#include <algorithm>\n#include <cstdlib>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        std::sort(addresses.begin(), addresses.end());\n        int totalDistance=0;\n        for(int address:addresses)totalDistance+=std::abs(address-home);\n        int home = addresses[relatives / 2];\n        // 下一步放這裡\n    }\n}\n",
+      "compile": {
+        "status": "compile_error",
+        "label": "編譯錯誤",
+        "compiler": "main.cpp: In function ‘int main()’:\nmain.cpp:14:67: error: ‘home’ was not declared in this scope\n   14 |         for(int address:addresses)totalDistance+=std::abs(address-home);\n      |                                                                   ^~~~\n",
+        "cases": []
+      },
+      "seconds": 12.23
+    }
+  ],
+  "error": "Delivered addition did not compile",
+  "system_completion_pass": false,
+  "model_only_completion_pass": false
+}

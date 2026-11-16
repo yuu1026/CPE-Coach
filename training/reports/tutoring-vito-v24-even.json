@@ -1,0 +1,41 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "even-median",
+  "stages": [
+    {
+      "id": "even-median",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "even-median",
+      "question": "我比較後選 2 只要 99，所以想排序取中間。若有 4 個地址 1、2、100、101，中間有兩個，要怎麼選？",
+      "code": "",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。",
+      "answer": "由於有四個地址，中間兩個是 2 和 100。根據題意，選擇位於這兩個地址之間的任何一個作為「最佳」位置都能得到相同的最小總和。例如，選擇 2 的話，總和會是 |1 - 2| + |2 - 100| + |100 - 101| = 1 + 98 + 1 = 100。選擇 100 的話，總和會是 |1 - 100| + |2 - 100| + |100 - 101| = 99 + 98 + 1 = 198。因此，無論選擇哪個中間位置，結果都會一樣。\n",
+      "error": "",
+      "status": "done",
+      "mode": "live",
+      "model": "gemma-3-4b-it",
+      "prompt_version": "cpe-tutor-v23",
+      "seconds": 15.38,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 2,
+      "scaffold_step": null,
+      "calculation_tool_used": true,
+      "tutoring_projection": false,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "scope": "Fixed nine-turn learner script on seen UVa10041. Actual HTTP/CSRF, local model and Docker. Learner code authored beforehand; not evidence that a real student learned. No model outputs used for training.",
+  "acceptance": "Every reply done/live; no unrequested full program; no critical mathematical or code diagnosis error; each turn self-review >=4/5. Review is not independent teacher assessment.",
+  "script_subset": "even-median",
+  "stages": [
+    {
+      "id": "even-median",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。"
+    }
+  ],
+  "turns": [
+    {
+      "id": "even-median",
+      "question": "我比較後選 2 只要 99，所以想排序取中間。若有 4 個地址 1、2、100、101，中間有兩個，要怎麼選？",
+      "code": "",
+      "expected_behavior": "承接中位數；選2或100或兩者間皆可，距離總和198，不能把平均數說成唯一最佳。",
+      "answer": "系統手算核對（模型兩次候選未通過數值檢查，改用計算工具；不是程式執行結果）：\n\n一維地址：1、2、100、101\n地址加總=204，筆數=4，數學平均=204/4≈51.000000000（平均不一定最優）。\n最小距離總和=198，可取的位置區間=2 至 100。",
+      "error": "",
+      "status": "done",
+      "mode": "verified_hint",
+      "model": "系統教學步驟（模型候選經題庫規則替代）",
+      "prompt_version": "cpe-tutor-v26",
+      "seconds": 39.73,
+      "editor_code_unchanged": true,
+      "evidence_status": "not_submitted",
+      "message_count": 2,
+      "scaffold_step": null,
+      "calculation_tool_used": true,
+      "tutoring_projection": false,
+      "unrequested_main": false
+    }
+  ],
+  "tests": [],
+  "cleanup": true,
+  "model_health": {
+    "status": "ready",
+    "model": "gemma-3-4b-it",
+    "context": 4096,
+    "quantization": "nf4"
+  }
+}
