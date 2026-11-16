@@ -1,0 +1,173 @@
+{
+  "prompt_version": "cpe-coach-v34-grounded",
+  "scope": "Frozen backend, agent-simulated learners; post-hoc formatting control is separate. Not human learning or a 49-topic success rate.",
+  "total_questions": 14,
+  "total_generations": 23,
+  "paths": {
+    "blank": {
+      "learner_questions": 5,
+      "real_model_generations": 7,
+      "delivered": 4,
+      "blocked": 1,
+      "code_lineage_verified": true,
+      "code_sha256": "2ef2eab3d1cee656eff01c89ef0ce580cbab97085e1c884f8311d1162b7cf608",
+      "program_completed_on_provided_tests": true,
+      "current_test_labels": [
+        "測資通過 3 / 3",
+        "測資通過 1 / 1"
+      ],
+      "independent_examples_passed": 24,
+      "support_used": [
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        }
+      ]
+    },
+    "vito": {
+      "learner_questions": 3,
+      "real_model_generations": 6,
+      "delivered": 0,
+      "blocked": 3,
+      "code_lineage_verified": true,
+      "code_sha256": "e5a91de77e98c3ced28658c9c62fb0396f2738a62d3ec0edec7de0e927b9083f",
+      "program_completed_on_provided_tests": false,
+      "current_test_labels": [
+        "測資通過 1 / 3",
+        "測資通過 1 / 3"
+      ],
+      "independent_examples_passed": 0,
+      "support_used": [
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": true,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": true,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": true,
+          "knowledge": false,
+          "known_diagnostic": false
+        }
+      ]
+    },
+    "hashmat": {
+      "learner_questions": 4,
+      "real_model_generations": 8,
+      "delivered": 1,
+      "blocked": 3,
+      "code_lineage_verified": true,
+      "code_sha256": "ada544a28c1d559e03b66d75b852a98e1896b88b877316a7dec2ff8d9f4eb211",
+      "program_completed_on_provided_tests": false,
+      "current_test_labels": [
+        "測資通過 1 / 3",
+        "測資通過 1 / 3"
+      ],
+      "independent_examples_passed": 0,
+      "support_used": [
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": false,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": true,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        }
+      ]
+    },
+    "hashmat-formatted": {
+      "learner_questions": 2,
+      "real_model_generations": 2,
+      "delivered": 2,
+      "blocked": 0,
+      "code_lineage_verified": true,
+      "code_sha256": "373469dd485fe2ef566c4696020fc2c5c4fa5519731e2af5e19767d6d53e4768",
+      "program_completed_on_provided_tests": true,
+      "current_test_labels": [
+        "測資通過 3 / 3",
+        "測資通過 1 / 1"
+      ],
+      "independent_examples_passed": 40,
+      "support_used": [
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum": false,
+          "calculator": false,
+          "knowledge": false,
+          "known_diagnostic": false
+        }
+      ]
+    }
+  },
+  "formatting_control_identical_tokens": true,
+  "reliable_independent_teaching": false,
+  "judgement": "Manual semantic review recorded separately; program passing alone does not establish teaching success."
+}

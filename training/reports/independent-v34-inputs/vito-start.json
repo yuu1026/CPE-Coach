@@ -1,0 +1,5 @@
+{
+  "topic": 10041,
+  "initial_code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int count; cin >> count;\n        vector<int> houses(count);\n        int sum = 0;\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / count;\n        int total = 0;\n        for (int i = 0; i < count; ++i) total += abs(houses[i] - place);\n        cout << total << endl;\n    }\n    return 0;\n}\n",
+  "action": "test"
+}

@@ -1,0 +1,4 @@
+{
+  "action": "ask",
+  "question": "我用first減second，但測試有時得到負數。請根據我的原程式解釋原因，給一個最小的局部修正，保留first和second，不要整份重寫。"
+}

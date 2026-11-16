@@ -1,0 +1,4 @@
+{
+  "action": "ask",
+  "question": "我理解first小於second時，first-second會是負數。請用剛才的公式手算：first=2、second=9與first=9、second=2是不是都得到7？兩個都9是不是得到0？請確認理由，不需要改程式。"
+}
