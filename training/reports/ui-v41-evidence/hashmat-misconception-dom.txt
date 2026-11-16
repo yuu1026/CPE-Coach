@@ -52,7 +52,7 @@ Browser tab: 1, Title: "UVa 10055 · Hashmat the brave warrior · CPE Coach", UR
 					47 button (collapsed) 題目來源與說明, Secondary Actions: Expand
 						48 text 題目來源與說明
 					49 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
-						50 AXListMarker ▸ 
+						50 AXListMarker ▸
 						51 text 我的思考筆記
 						52 text 僅保存在此瀏覽器
 					53 text 目前學習路線 輸入與基礎運算 1 / 6 題已標記完成
@@ -107,18 +107,18 @@ Browser tab: 1, Title: "UVa 10055 · Hashmat the brave warrior · CPE Coach", UR
 							100 text first = 3 ,  second = 8  時，程式會執行以下步驟：
 						101 content list
 							102 container
-								103 AXListMarker 1. 
+								103 AXListMarker 1.
 								104 text abs(3 - 8)  計算。
 							105 container
-								106 AXListMarker 2. 
+								106 AXListMarker 2.
 								107 text abs(-5)  的結果是 5。
 							108 container
-								109 AXListMarker 3. 
+								109 AXListMarker 3.
 								110 text cout << 5 << endl;  將 5 印出。
 						111 container
 							112 text 所以， first = 3  和  second = 8  的輸出結果是 5。
 						113 text 下一步
-						114 text 為了確認你是否理解 
+						114 text 為了確認你是否理解
 						115 text abs()
 						116 text  的功能，請回答：
 						117 text abs(x)
@@ -135,7 +135,7 @@ Browser tab: 1, Title: "UVa 10055 · Hashmat the brave warrior · CPE Coach", UR
 						128 container
 							129 text 你可以想像成， abs(x)  總是返回一個非負的數，表示數的大小。
 						130 text 下一步
-						131 text 為了確認你是否理解 
+						131 text 為了確認你是否理解
 						132 text abs()
 						133 text  的正確意義，請回答：
 						134 text abs(x)

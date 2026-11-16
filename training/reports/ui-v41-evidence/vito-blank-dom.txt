@@ -51,7 +51,7 @@ Browser tab: 1, Title: "UVa 10041 · Vito's family · CPE Coach", URL: "http://1
 					46 button (collapsed) 題目來源與說明, Secondary Actions: Expand
 						47 text 題目來源與說明
 					48 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
-						49 AXListMarker ▸ 
+						49 AXListMarker ▸
 						50 text 我的思考筆記
 						51 text 僅保存在此瀏覽器
 					52 text 目前學習路線 排序與序列 0 / 5 題已標記完成

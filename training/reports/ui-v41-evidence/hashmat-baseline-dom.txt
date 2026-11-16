@@ -52,7 +52,7 @@ Browser tab: 1, Title: "UVa 10055 · Hashmat the brave warrior · CPE Coach", UR
 					47 button (collapsed) 題目來源與說明, Secondary Actions: Expand
 						48 text 題目來源與說明
 					49 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
-						50 AXListMarker ▸ 
+						50 AXListMarker ▸
 						51 text 我的思考筆記
 						52 text 僅保存在此瀏覽器
 					53 text 目前學習路線 輸入與基礎運算 1 / 6 題已標記完成
