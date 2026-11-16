@@ -1,0 +1,222 @@
+{
+  "variant": "baseline-v41",
+  "prompt_version": "cpe-coach-v41-lessons",
+  "commit": "7660976a521a56a75a478d271413c121e3527f0e",
+  "source_sha256": "1b15ae9a1017bfb489885aad578ddaf58a57762fb30a6b9f55951a20d58655a4",
+  "cases": [
+    {
+      "source_record": 179,
+      "question": "我只會 cin、cout、for 和 vector，這題沒有想法。請先用一個小例子引導我，不要直接給完整答案，每次只問我一個問題。",
+      "calls": [
+        {
+          "output_limit": 384,
+          "stream": false,
+          "request_chars": 1737,
+          "http_status": 200,
+          "first_event_seconds": 15.174,
+          "prompt_eval_count": 1160,
+          "eval_count": 112,
+          "done_reason": "stop",
+          "seconds": 15.175
+        }
+      ],
+      "status": "delivered",
+      "answer": "好的，沒問題。我們先來看看一個簡單的例子吧。假設我們有一些地址，以及一些親戚。\n\n讓我們考慮一個包含三個地址的例子：`addresses = {1, 2, 3}`，以及 `relatives = {1, 2}`。  意思是說，親戚 1 住址是 1，親戚 2 住址是 2。\n\n首先，我想知道一下，對於這個例子，你覺得「距離」應該怎麼計算呢？ 請用一個數字說明。\n",
+      "source": "model",
+      "truncated": false,
+      "revision_check": null,
+      "performance": null,
+      "total_seconds": 15.337
+    },
+    {
+      "source_record": 184,
+      "question": "測試只有 1/3 通過，3 8 會印出 -5。我以為 first-second 就是兩軍差距，為什麼不對？請只改我現有程式的錯誤片段，保留變數，不要整份重寫。",
+      "calls": [
+        {
+          "output_limit": 512,
+          "stream": false,
+          "request_chars": 2755,
+          "http_status": 200,
+          "first_event_seconds": 6.517,
+          "prompt_eval_count": 1401,
+          "eval_count": 47,
+          "done_reason": "stop",
+          "seconds": 6.517
+        }
+      ],
+      "status": "delivered",
+      "answer": "學生計算錯誤導致輸出結果錯誤，需要修正計算式。\n\n修改 1：系統已定位以下原片段（套用按鈕使用完整版本核對）：\n```cpp\ncout<<first-second<<endl;\n```\n替換為：\n```cpp\ncout << abs(first - second) << endl;\n```\n\n系統已在暫存副本編譯與測試：1/3 → 3/3，原先通過的案例沒有退步。你的編輯器尚未修改；可套用後再自行測試。這不代表官方AC或文字解釋已被證明正確。",
+      "source": "model",
+      "truncated": false,
+      "revision_check": {
+        "base_code": "#include <iostream>\r\nusing namespace std;\r\nint main(){long long first,second;while(cin>>first>>second){cout<<first-second<<endl;}return 0;}\r\n",
+        "candidate_code": "#include <iostream>\r\nusing namespace std;\r\nint main(){long long first,second;while(cin>>first>>second){cout << abs(first - second) << endl;}return 0;}\r\n",
+        "base_sha256": "64ed3457e86676a5c9d0dc38ecec5114021dfd12559bdc7e514760aa0a8d7498",
+        "candidate_sha256": "ce633b31258e2a732f527e5f86fd09b5b18bdd1e70d3349a2ef62c5f440a824d",
+        "tests_sha256": "b2732658b3d01c496d11b76095db86f761b00b0d9229172a695a3a6300ea84e1",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 1 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n-5\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.005
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n-3\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "candidate": {
+          "status": "accepted",
+          "label": "測資通過 3 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n5\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n3\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "edits": [
+          {
+            "before": "cout<<first-second<<endl;",
+            "after": "cout << abs(first - second) << endl;"
+          }
+        ],
+        "attempts": [
+          {
+            "plan": {
+              "explanation": "學生計算錯誤導致輸出結果錯誤，需要修正計算式。",
+              "edits": [
+                {
+                  "unit_id": "U4",
+                  "after": "cout << abs(first - second) << endl;"
+                }
+              ]
+            },
+            "result": {
+              "status": "accepted",
+              "label": "測資通過 3 / 3",
+              "compiler": "",
+              "cases": [
+                {
+                  "name": "範例測資",
+                  "input": "8 3\n3 8\n",
+                  "expected": "5\n5\n",
+                  "actual": "5\n5\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資2",
+                  "input": "4294967296 0\n",
+                  "expected": "4294967296\n",
+                  "actual": "4294967296\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.005
+                },
+                {
+                  "name": "自編測資3",
+                  "input": "9 9\n1 4\n",
+                  "expected": "0\n3\n",
+                  "actual": "0\n3\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.003
+                }
+              ],
+              "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+            }
+          }
+        ],
+        "scope_projection": false,
+        "verification_scope": "improved_tests"
+      },
+      "performance": null,
+      "total_seconds": 14.834
+    },
+    {
+      "source_record": 186,
+      "question": "我套用後 3/3 通過了，但我還不懂 abs。請用 first=3、second=8，按我的這行程式一步步算給我看，並問我一題確認我懂了。先不要改程式。",
+      "calls": [
+        {
+          "output_limit": 384,
+          "stream": false,
+          "request_chars": 1719,
+          "http_status": 200,
+          "first_event_seconds": 14.243,
+          "prompt_eval_count": 1062,
+          "eval_count": 117,
+          "done_reason": "stop",
+          "seconds": 14.244
+        }
+      ],
+      "status": "delivered",
+      "answer": "`first = 3`, `second = 8` 時，程式會執行以下步驟：\n\n1.  `abs(3 - 8)` 計算。\n2.  `abs(-5)` 的結果是 5。\n3.  `cout << 5 << endl;` 將 5 印出。\n\n所以，`first = 3` 和 `second = 8` 的輸出結果是 5。\n\n為了確認你是否理解 `abs()` 的功能，請回答：`abs(x)` 代表什麼意思？\n",
+      "source": "model",
+      "truncated": false,
+      "revision_check": null,
+      "performance": null,
+      "total_seconds": 14.327
+    }
+  ],
+  "scope": "Sequential replays of fixed synthetic UI questions; production service, real model HTTP and Docker. No UI or DB writes. Not a human teaching study."
+}

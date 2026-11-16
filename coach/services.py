@@ -1,5 +1,7 @@
 import json
 import re
+import time
+import hashlib
 import httpx
 from django.conf import settings
 from .answer_policy import requests_solution, reference_for, reference_answer, learning_notes_for
@@ -15,8 +17,9 @@ from .conversation_policy import response_intent,explanation_only
 from .learning_context import cpp_concept,vito_context
 from .cpp_knowledge import retrieve as cpp_cards, fallback as cpp_fallback
 from .lesson_progress import progress
+from . import performance
 
-PROMPT_VERSION = 'cpe-coach-v41-lessons'
+PROMPT_VERSION = 'cpe-coach-v44-latency'
 
 class HintError(Exception):
     pass
@@ -112,6 +115,11 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
         payload['execution_evidence'] = {'status': evidence['status'], 'label': evidence['label'], 'compiler_excerpt': evidence.get('compiler', '')[:600], 'case_summary': [{'name': c['name'], 'status': c['status']} for c in cases], 'failed_case_excerpts': [{'name': c['name'], 'input_excerpt': c['input'][:200], 'expected_excerpt': c['expected'][:200], 'actual_excerpt': c['actual'][:200]} for c in failed[:2]]}
     if validation_tests is not None:
         payload['generated_program_tests']=[dict(c) for c in validation_tests]
+    selected_tests=payload.get('generated_program_tests',[])
+    fingerprint=hashlib.sha256(json.dumps({'code':code,'tests':selected_tests,'policy':'cpp17-docker-v2'},ensure_ascii=False,sort_keys=True).encode('utf-8')).hexdigest()
+    if (evidence and evidence.get('fingerprint')==fingerprint and evidence.get('status') in ('accepted','failed')
+            and len(evidence.get('cases',[]))==len(selected_tests)):
+        payload['verified_baseline']=dict(evidence)
     if scaffold:payload['learning_mode']='scaffold'
     elif payload['explanation_only']:payload['learning_mode']='explanation'
     payload['guard_local_edits']=bool(code.strip() and not solution and not scaffold and not concept and payload.get('generated_program_tests'))
@@ -172,17 +180,46 @@ def _generate_once(messages, level=None):
     except (ValueError,KeyError,TypeError,IndexError,AttributeError):
         full_solution=False
         revision=False
+    maximum = 1024 if full_solution else 512 if revision else 256
+    transport = readable_messages(messages)
+    stream = getattr(settings, 'MODEL_STREAM', True) and settings.MODEL_URL in ('http://127.0.0.1:11436','http://localhost:11436')
+    started = time.perf_counter()
+    call = {'output_limit': maximum, 'request_chars': sum(len(m['content']) for m in transport), 'stream': stream}
+    performance.phase('generation', generated_chars=0)
     try:
         with httpx.Client(trust_env=False, follow_redirects=False, timeout=120) as client:
-            with client.stream('POST', settings.MODEL_URL + '/api/chat', headers=headers, json={'model': settings.MODEL_NAME, 'messages': readable_messages(messages), 'stream': False, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': 1024 if full_solution else 512 if revision else 384}}) as response:
-                body = bytearray()
-                for chunk in response.iter_bytes():
-                    body.extend(chunk)
-                    if len(body) > 1000000:
-                        raise HintError('模型回應過大。')
-                data = json.loads(body)
+            with client.stream('POST', settings.MODEL_URL + '/api/chat', headers=headers, json={'model': settings.MODEL_NAME, 'messages': transport, 'stream': stream, 'options': {'temperature': 0.2, 'num_ctx': settings.CONTEXT_TOKENS, 'num_predict': maximum}}) as response:
+                call['http_status'] = response.status_code
+                if response.is_success and 'ndjson' in response.headers.get('Content-Type',''):
+                    parts=[]; size=0; data={}; done=False
+                    for line in response.iter_lines():
+                        if not line: continue
+                        size += len(line.encode('utf-8'))
+                        if size > 1000000: raise HintError('模型回應過大。')
+                        event=json.loads(line)
+                        if not isinstance(event,dict): raise HintError('模型串流格式不符。')
+                        if event.get('error'): raise HintError('模型生成失敗，請查看模型服務終端機。')
+                        message=event.get('message',{})
+                        if not isinstance(message,dict): raise HintError('模型串流格式不符。')
+                        content=message.get('content','')
+                        if not isinstance(content,str): raise HintError('模型串流格式不符。')
+                        if content:
+                            call.setdefault('first_text_seconds',round(time.perf_counter()-started,3))
+                            parts.append(content)
+                            performance.phase('generation',generated_chars=sum(map(len,parts)))
+                        if event.get('done') is True:
+                            data=event; done=True; break
+                    if not done: raise HintError('模型串流中斷，沒有交付不完整回覆。')
+                    data=dict(data,message={'content':''.join(parts)})
+                else:
+                    body = bytearray()
+                    for chunk in response.iter_bytes():
+                        body.extend(chunk)
+                        if len(body) > 1000000: raise HintError('模型回應過大。')
+                    data = json.loads(body)
                 if response.status_code == 400 and settings.MODEL_URL in ('http://127.0.0.1:11436', 'http://localhost:11436') and isinstance(data, dict) and data.get('code') == 'context_limit':
                     raise HintError('模型實際輸入長度超過可用範圍。請縮小程式或問題後重試；測資結果已保留，程式碼未裁切。')
+                if response.status_code==429: raise HintError('模型正在處理其他問題，請稍後再試；原程式已保留。')
                 response.raise_for_status()
         if not isinstance(data, dict):
             raise HintError('模型回應格式不符。')
@@ -190,15 +227,29 @@ def _generate_once(messages, level=None):
         answer = message.get('content') if isinstance(message, dict) else None
         if data.get('done') is not True or not isinstance(answer, str) or not answer.strip():
             raise HintError('模型沒有回傳完整提示。')
+        for key in ('prompt_eval_count','eval_count','done_reason','metrics'):
+            if key in data: call[key]=data[key]
         omitted = data.get('history_turns_omitted', 0)
         if type(omitted) is not int or not 0 <= omitted <= (len(messages) - 2) // 2:
             omitted = 0
         return HintText(answer, truncated=data.get('done_reason') == 'length', omitted_history_turns=omitted)
+    except httpx.TimeoutException:
+        raise HintError('模型回覆逾時，尚未交付答案；原程式已保留。請縮小本輪問題或稍後重試。') from None
     except (httpx.HTTPError, ValueError):
         raise HintError('模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。') from None
+    finally:
+        call['seconds']=round(time.perf_counter()-started,3)
+        performance.model_call(call)
 
 
 def generate_hint(messages, level=None):
+    with performance.measure() as measurement:
+        reply = _generate_hint(messages, level)
+        if isinstance(reply, HintText): reply.performance = measurement.snapshot()
+        return reply
+
+
+def _generate_hint(messages, level=None):
     try:
         payload = json.loads(messages[-1]['content'])
     except (IndexError, KeyError, TypeError, ValueError):
@@ -221,7 +272,9 @@ def generate_hint(messages, level=None):
     answer = traditional_reply(str(reply))
     first_answer=answer
     answer,projected=project_next_step(answer,payload)
+    performance.phase('quality')
     issue = quality_issue(answer, messages)
+    if getattr(reply,'truncated',False) and payload.get('response_mode')=='tutor':issue='truncated'
     if payload.get('cpp_knowledge') and getattr(reply,'truncated',False):issue='cpp_fact_conflict'
     if payload.get('verified_next_step',{}).get('snippet') and not projected:
         issue='lesson_order'
@@ -229,10 +282,12 @@ def generate_hint(messages, level=None):
     if validation and validation['status'] in ('compile_error','multiple_programs','missing_program','test_failure'):
         issue='compile_error'
     if issue:
+        performance.retry(issue)
         # One bounded retry. Do not reuse bad prose as conversation history;
         # attach only a failing program and real compiler diagnostics as data.
         retry = [dict(message) for message in messages]
         instruction = {
+            'truncated': '上一個候選回覆因篇幅過長被截斷。請在100個中文字內完整回答最新問題，不寒暄、不列標題、不重述問題；最後最多一個具體問題。不要省略必要的原因。',
             'language': '上一個候選回覆未符合要求。本次請全程使用繁體中文，直接回答最後一則問題。',
             'code_language': '上一個候選回覆使用了非 C++ 程式碼。請重新以 C++17 撰寫所有程式片段，使用 cpp 區塊；不能只替其他語言的程式改標籤。文字說明使用繁體中文。',
             'repetition': '上一個候選回覆與先前提示過度相似。本次請先回答學生最新的具體問題，換用新的例子或推進一步；不要再問學生已回答的問題。',
@@ -258,6 +313,7 @@ def generate_hint(messages, level=None):
         answer = traditional_reply(str(reply))
         answer,projected=project_next_step(answer,payload)
         remaining_issue=quality_issue(answer, messages)
+        if getattr(reply,'truncated',False) and payload.get('response_mode')=='tutor':remaining_issue='truncated'
         if payload.get('cpp_knowledge') and getattr(reply,'truncated',False):remaining_issue='cpp_fact_conflict'
         if remaining_issue or (payload.get('verified_next_step',{}).get('snippet') and not projected):
             if payload.get('question_kind')=='cpp_concept' and payload.get('cpp_knowledge'):

@@ -7,10 +7,54 @@ from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db import transaction
+from django.utils import timezone
 from .forms import SubmissionForm
 from .models import Problem, Submission, ProblemCompletion
 from .workflows import submit, thread_records
 from .learning import learning_context
+from .jobs import launch, BusyError
+
+
+@login_required
+@require_http_methods(['POST'])
+def ask_program(request, pk):
+    problem = get_object_or_404(cpe_problems(), pk=pk)
+    payload = request.POST.copy()
+    payload['action'] = 'ask'
+    form = SubmissionForm(payload)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors.get_json_data()}, status=400)
+    parent_id = form.cleaned_data.get('parent_submission')
+    parent = get_object_or_404(Submission, pk=parent_id, owner=request.user, problem=problem) if parent_id else None
+    try:
+        record = launch(request.user, problem, form.cleaned_data, parent)
+    except BusyError as exc:
+        return JsonResponse({'error': str(exc)}, status=429)
+    if record.problem_id != problem.pk or record.action != 'ask':
+        return JsonResponse({'error': '提交編號已使用，請重新整理後再試。'}, status=409)
+    from django.urls import reverse
+    return JsonResponse({'record': record.pk, 'status_url': reverse('reply_progress', args=[record.pk]),
+                         'url': reverse('detail', args=[record.pk])}, status=202)
+
+
+@login_required
+@require_http_methods(['GET'])
+def reply_progress(request, pk):
+    record = get_object_or_404(Submission, pk=pk, owner=request.user)
+    from django.urls import reverse
+    # Expose only progress, never an unvalidated candidate or generation text.
+    data = record.performance
+    phase = data.get('phase', 'preparing')
+    labels = {'preparing': '正在整理你的問題', 'generation': '正在生成回覆',
+              'retry': '正在修正未通過檢查的回覆', 'baseline': '正在核對目前程式',
+              'candidate': '正在編譯與測試局部修改', 'validation': '正在驗證模型程式',
+              'quality': '正在檢查回覆', 'done': '回覆已完成', 'failed': '本次回覆未完成'}
+    response = JsonResponse({'status': record.status, 'phase': phase,
+        'label': labels.get(phase, '正在處理'), 'generated_chars': data.get('generated_chars', 0),
+        'elapsed_seconds': max(0, ((record.finished_at or timezone.now())-record.created_at).total_seconds()),
+        'url': reverse('detail', args=[record.pk])})
+    response['Cache-Control'] = 'no-store'
+    return response
 
 def cpe_problems():
     return Problem.objects.filter(category__startswith='CPE ').order_by('title')

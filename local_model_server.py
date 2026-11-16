@@ -5,9 +5,11 @@ import json
 import os
 import threading
 import socket
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from model_backend import MODEL_NAME as DEFAULT_MODEL_NAME, active_deployment, model_path, load_text_model, validate_adapter
+from model_stream import events as generation_events
 
 FORCE_BASE = os.environ.get('HF_USE_BASE_MODEL') == '1'
 DEPLOYMENT = active_deployment() if not FORCE_BASE and 'HF_ADAPTER_PATH' not in os.environ else {'name': DEFAULT_MODEL_NAME, 'adapter_path': ''}
@@ -79,7 +81,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply(403, {'error': 'local backend requests only'})
         if self.path != '/healthz':
             return self.reply(404, {'error': 'not found'})
-        self.reply(200, {'status': 'ready', 'model': MODEL_NAME, 'context': MAX_CONTEXT, 'quantization': 'nf4'})
+        self.reply(200, {'status': 'ready', 'model': MODEL_NAME, 'context': MAX_CONTEXT, 'quantization': 'nf4', 'streaming': True})
 
     def do_POST(self):
         if not self.local_request():
@@ -88,13 +90,14 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply(404, {'error': 'not found'})
         if not LOCK.acquire(blocking=False):
             return self.reply(429, {'error': '模型忙碌，請稍後再試'})
+        streaming_started = False
         try:
             self.connection.settimeout(15)
             size = int(self.headers.get('Content-Length', '0'))
             if not 0 < size <= 100000:
                 return self.reply(413, {'error': 'invalid request size'})
             data = json.loads(self.rfile.read(size))
-            if not isinstance(data, dict) or data.get('model') != MODEL_NAME or data.get('stream') is not False:
+            if not isinstance(data, dict) or data.get('model') != MODEL_NAME or type(data.get('stream')) is not bool:
                 return self.reply(400, {'error': 'model 或 stream 設定不符'})
             messages = data.get('messages')
             if not isinstance(messages, list) or not 1 <= len(messages) <= 20:
@@ -110,8 +113,29 @@ class Handler(BaseHTTPRequestHandler):
                 messages, omitted = fit_history(self.server.tokenizer, messages, maximum, MAX_CONTEXT)
             except ValueError:
                 return self.reply(400, {'code': 'context_limit', 'error': '本輪程式與問題超過可用長度，程式未裁切', 'output_reserve': maximum, 'context_limit': MAX_CONTEXT})
+            tokenize_started = time.perf_counter()
             inputs = self.server.tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors='pt').to('cuda:0')
+            tokenize_seconds = round(time.perf_counter()-tokenize_started,3)
             length = inputs['input_ids'].shape[-1]
+            if data['stream']:
+                self.send_response(200)
+                self.send_header('Content-Type','application/x-ndjson; charset=utf-8')
+                self.send_header('Connection','close')
+                self.end_headers()
+                self.close_connection = True
+                streaming_started = True
+                stream = generation_events(self.server.model, self.server.tokenizer, inputs, maximum, MODEL_NAME)
+                try:
+                    for event in stream:
+                        if event.get('done'):
+                            event['history_turns_omitted'] = omitted
+                            event['metrics']['tokenize_seconds'] = tokenize_seconds
+                        self.wfile.write((json.dumps(event,ensure_ascii=False)+'\n').encode('utf-8'))
+                        self.wfile.flush()
+                finally:
+                    stream.close()
+                return
+            generation_started = time.perf_counter()
             with torch.inference_mode():
                 output = self.server.model.generate(**inputs, max_new_tokens=maximum, do_sample=False, repetition_penalty=1.1, pad_token_id=self.server.tokenizer.pad_token_id if self.server.tokenizer.pad_token_id is not None else self.server.tokenizer.eos_token_id)
             tokens = output[0][length:]
@@ -119,12 +143,16 @@ class Handler(BaseHTTPRequestHandler):
             answer = self.server.tokenizer.decode(tokens, skip_special_tokens=True)
             reason = finish_reason(tokens.tolist(), maximum, eos)
             print(f'推論完成：input={length}, output={len(tokens)}, reason={reason}', flush=True)
-            self.reply(200, {'model': MODEL_NAME, 'message': {'role': 'assistant', 'content': answer}, 'done': True, 'done_reason': reason, 'prompt_eval_count': length, 'eval_count': len(tokens), 'history_turns_omitted': omitted})
+            self.reply(200, {'model': MODEL_NAME, 'message': {'role': 'assistant', 'content': answer}, 'done': True, 'done_reason': reason, 'prompt_eval_count': length, 'eval_count': len(tokens), 'history_turns_omitted': omitted, 'metrics': {'tokenize_seconds':tokenize_seconds,'generation_seconds':round(time.perf_counter()-generation_started,3)}})
+        except (BrokenPipeError,ConnectionResetError):
+            pass
         except (ValueError, TypeError):
-            self.reply(400, {'error': 'invalid JSON or options'})
+            if not streaming_started:
+                self.reply(400, {'error': 'invalid JSON or options'})
         except Exception as exc:
             print(f'推論失敗：{type(exc).__name__}: {exc}', flush=True)
-            self.reply(500, {'error': '推論失敗，請查看模型服務終端機'})
+            if not streaming_started:
+                self.reply(500, {'error': '推論失敗，請查看模型服務終端機'})
         finally:
             LOCK.release()
 

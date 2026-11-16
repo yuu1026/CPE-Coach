@@ -32,4 +32,5 @@ from model_backend import active_deployment
 MODEL_NAME = os.environ.get('Model_Name') or active_deployment()['name']
 OLLAMA_GATEWAY_API_KEY = os.environ.get('OLLAMA_GATEWAY_API_KEY', '')
 CONTEXT_TOKENS = int(os.environ.get('CONTEXT_TOKENS', '4096'))
+MODEL_STREAM = os.environ.get('MODEL_STREAM', '1') == '1'
 STATIC_URL = '/assets/'

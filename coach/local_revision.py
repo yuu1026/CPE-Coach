@@ -6,6 +6,7 @@ from collections import Counter
 from .judging import judge
 from .diagnostics import code_tokens
 from .code_units import units
+from . import performance
 
 STANDARD_HEADERS={'algorithm','cstdlib','vector','iostream','numeric','cmath','iomanip','limits','string','map','set','queue','stack','utility','array','functional','cstdint','climits','cstring','sstream','cstdio'}
 
@@ -165,7 +166,15 @@ def header_setup_only(before,after):
 
 def generate_revision(messages,level,generate,traditional):
     payload=json.loads(messages[-1]['content']);code=payload['code'];tests=payload['revision_tests']
-    baseline=judge(code,tests)
+    verified=payload.get('verified_baseline')
+    fingerprint=digest(json.dumps({'code':code,'tests':tests,'policy':'cpp17-docker-v2'},ensure_ascii=False,sort_keys=True))
+    if (verified and verified.get('fingerprint')==fingerprint and verified.get('status') in ('accepted','failed')
+            and len(verified.get('cases',[]))==len(tests)):
+        baseline=verified
+        performance.phase('baseline',baseline_reused=True)
+    else:
+        with performance.span('baseline'):
+            baseline=judge(code,tests)
     if baseline.get('status') not in ('accepted','failed','compile_error','compile_timeout'):
         raise RevisionError('修改驗證服務未就緒，沒有交付未驗證片段。原程式已保留。')
     if baseline.get('status') in ('accepted','failed') and len(baseline.get('cases',[]))!=len(tests):
@@ -178,7 +187,7 @@ def generate_revision(messages,level,generate,traditional):
         'failed_case_excerpts':[{'name':c['name'],'input_excerpt':c['input'][:300],
                                'expected_excerpt':c['expected'][:300],'actual_excerpt':c['actual'][:300]}
                               for c in baseline.get('cases',[]) if c['status']!='accepted'][:2]})
-    for _ in range(2):
+    for attempt in range(2):
         request=[dict(m) for m in messages]
         request[-1]['content']=json.dumps(dict(payload,revision_feedback=feedback),ensure_ascii=False)
         reply=generate(request,level)
@@ -189,7 +198,8 @@ def generate_revision(messages,level,generate,traditional):
             setup_only=header_setup_only(code,candidate_code)
             if payload.get('edit_scope')=='dependency_only' and not setup_only:
                 raise RevisionError('使用者本輪只要求新增標頭，不能順便修改運算或加入排序。')
-            candidate=judge(candidate_code,tests)
+            with performance.span('candidate'):
+                candidate=judge(candidate_code,tests)
             no_output=not any(token in (code_tokens(code) or []) for token in ('cout','wcout','printf','puts','putchar','fputs','fwrite'))
             provisional=payload.get('learning_mode')=='next_step' and (setup_only or no_output)
             issue=check_candidate(baseline,candidate,tests,provisional)
@@ -219,6 +229,7 @@ def generate_revision(messages,level,generate,traditional):
             return text,check
         except RevisionError as exc:
             last_error=str(exc);feedback=last_error
+            if attempt == 0: performance.retry('local_revision')
             if 'plan' in locals():feedback+='\n上次候選計畫（未通過，不可照抄）：'+json.dumps(plan,ensure_ascii=False)
             attempts.append({'reply':str(reply),'error':feedback})
     error=RevisionError('模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n'+last_error)

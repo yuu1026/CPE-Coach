@@ -66,5 +66,33 @@ vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
   assert.equal(nodes['chat-history'].children.length,1); assert.equal(fields.submission_id.value,'clear-token');
   assert.equal(nodes['revision-controls'].hidden,true);
   await nodes['apply-revision'].emit('click'); assert.equal(code.value,'int main(){}','cleared chat cannot apply a deleted suggestion');
+  // Exercise the new asynchronous path instead of only the native fallback.
+  form.dataset.askUrl='/ask/';
+  context.AbortSignal={timeout:()=>undefined}; context.setTimeout=fn=>fn();
+  browser.location={assign:url=>locations.push(url)};
+  browser.sessionStorage={setItem(){},removeItem(){},getItem(){return null;}};
+  let polls=0, asks=0;
+  context.fetch=async(url,options)=>{
+    if (url==='/ask/') {
+      asks++; assert.equal(options.body.get('question'),'新的問題');
+      return {ok:true,json:async()=>({record:5,status_url:'/submission/5/progress/',url:'/submission/5/'})};
+    }
+    polls++;
+    return {ok:true,json:async()=>polls===1 ? {status:'running',phase:'generation',label:'正在生成回覆',generated_chars:30,elapsed_seconds:2} : {status:'done',url:'/submission/5/'}};
+  };
+  question.value='新的問題';
+  const flight=form.emit('submit',{submitter:nodes['ask-assistant']});
+  const repeated=await form.emit('submit',{submitter:nodes['ask-assistant']});
+  assert.equal(repeated.defaultPrevented,true);
+  await flight;
+  assert.equal(asks,1,'busy UI must not send a second chat');
+  assert.equal(polls,2); assert.equal(question.value,'');
+  assert.equal(locations.at(-1),'/submission/5/');
+  context.fetch=async()=>({ok:false,json:async()=>({error:'目前忙碌，尚未送出'})});
+  question.value='不能丟失的訊息';
+  await form.emit('submit',{submitter:nodes['ask-assistant']});
+  assert.equal(question.value,'不能丟失的訊息');
+  assert.equal(wait.hidden,false,'failed acknowledgements must stay visible');
+  assert.match(wait.textContent,/忙碌/);
   console.log('Enter/IME, independent testing, and chat clearing checks passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

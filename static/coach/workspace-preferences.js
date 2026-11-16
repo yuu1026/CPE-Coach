@@ -24,6 +24,7 @@
   function schedule() { if (!saving && !blocked) { status.textContent = '正在保存草稿…'; clearTimeout(timer); timer = setTimeout(save, 350); } }
   function apply(draft) {
     saving = true;
+    pending = draft.pending || null;
     if (editor) editor.setValue(String(draft.code || '')); else field('code').value = String(draft.code || '');
     for (const name of ['question', 'custom_input', 'custom_expected']) field(name).value = String(draft[name] || '');
     field('run_custom').checked = draft.run_custom === true;
@@ -54,6 +55,12 @@
   form.addEventListener('change', schedule);
   form.addEventListener('draft-change', schedule);
   form.addEventListener('chat-sent', save);
+  form.addEventListener('chat-accepted', () => {
+    // Async fetch prevents native navigation, so preserve the accepted token
+    // explicitly. Later editor changes can then be restored on its result page.
+    pending = {token:field('submission_id').value, action:'ask', question:''};
+    blocked = false; save();
+  });
   form.addEventListener('chat-cleared', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
   form.addEventListener('test-completed', () => { blocked = false; pending = null; restore.hidden = keepCurrent.hidden = true; save(); });
   form.addEventListener('submit', event => {

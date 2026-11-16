@@ -1,0 +1,341 @@
+{
+  "variant": "optimized-v42",
+  "prompt_version": "cpe-coach-v42-latency",
+  "commit": "7660976a521a56a75a478d271413c121e3527f0e",
+  "source_sha256": "f3cd7e58204d27902280ca0af89665109c046acd0c7f51afc3ba88e94b49b35e",
+  "cases": [
+    {
+      "source_record": 179,
+      "question": "我只會 cin、cout、for 和 vector，這題沒有想法。請先用一個小例子引導我，不要直接給完整答案，每次只問我一個問題。",
+      "calls": [
+        {
+          "output_limit": 256,
+          "stream": true,
+          "request_chars": 1450,
+          "http_status": 200,
+          "first_event_seconds": 0.028,
+          "first_text_seconds": 1.281,
+          "prompt_eval_count": 1019,
+          "eval_count": 256,
+          "done_reason": "length",
+          "metrics": {
+            "generation_seconds": 33.753,
+            "first_text_seconds": 1.255,
+            "tokenize_seconds": 0.003
+          },
+          "seconds": 33.779
+        }
+      ],
+      "status": "delivered",
+      "answer": "好的，沒問題。讓我們從一個簡單的例子開始，幫助你理清思路。\n\n假設我們有一些地址，以及它們相對於某個家庭成員的距離。例如，一家人住在一條街道上的三個門牌上，分別有地址 1、2 和 3。家庭成員住在門牌 2 上。那麼，我們需要計算將家庭成員移到哪個門牌上，使得所有地址的距離總和最小。\n\n在這個例子中，我們可以這樣計算：\n\n*   地址 1 到門牌 2 的距離: |1 - 2| = 1\n*   地址 2 到門牌 2 的距離: |2 - 2| = 0\n*   地址 3 到門牌 2 的距離: |3 - 2| = 1\n*   總距離: 1 + 0 + 1 = 2\n\n現在，讓我們考慮一下如果家庭成員住在其他門牌上會發生什麼情況。\n\n*   如果家庭成員住在門牌 1 上，總距離將是 |1 - 1| + |2 - 1| + |3 - 1| = 0 + 1 + 2 = ",
+      "source": "model",
+      "truncated": true,
+      "revision_check": null,
+      "performance": {
+        "phase": "quality",
+        "spans": [],
+        "model_calls": [
+          {
+            "output_limit": 256,
+            "request_chars": 1450,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 1.392,
+            "prompt_eval_count": 1019,
+            "eval_count": 256,
+            "done_reason": "length",
+            "metrics": {
+              "generation_seconds": 33.753,
+              "first_text_seconds": 1.255,
+              "tokenize_seconds": 0.003
+            },
+            "seconds": 33.89
+          }
+        ],
+        "retries": [],
+        "generated_chars": 381,
+        "elapsed_seconds": 33.94,
+        "phase_seconds": {
+          "preparing": 0.0,
+          "generation": 33.936,
+          "quality": 0.004
+        }
+      },
+      "total_seconds": 33.94
+    },
+    {
+      "source_record": 184,
+      "question": "測試只有 1/3 通過，3 8 會印出 -5。我以為 first-second 就是兩軍差距，為什麼不對？請只改我現有程式的錯誤片段，保留變數，不要整份重寫。",
+      "calls": [
+        {
+          "output_limit": 512,
+          "stream": true,
+          "request_chars": 2276,
+          "http_status": 200,
+          "first_event_seconds": 0.032,
+          "first_text_seconds": 0.995,
+          "prompt_eval_count": 1101,
+          "eval_count": 60,
+          "done_reason": "stop",
+          "metrics": {
+            "generation_seconds": 7.864,
+            "first_text_seconds": 0.964,
+            "tokenize_seconds": 0.003
+          },
+          "seconds": 7.895
+        }
+      ],
+      "status": "delivered",
+      "answer": "學生將第一個數字減去第二個數字，但題目要求輸出絕對值。需要修正計算方式以得到絕對值。\n\n修改 1：系統已定位以下原片段（套用按鈕使用完整版本核對）：\n```cpp\ncout<<first-second<<endl;\n```\n替換為：\n```cpp\ncout << abs(first - second) << endl;\n```\n\n系統已在暫存副本編譯與測試：1/3 → 3/3，原先通過的案例沒有退步。你的編輯器尚未修改；可套用後再自行測試。這不代表官方AC或文字解釋已被證明正確。",
+      "source": "model",
+      "truncated": false,
+      "revision_check": {
+        "base_code": "#include <iostream>\r\nusing namespace std;\r\nint main(){long long first,second;while(cin>>first>>second){cout<<first-second<<endl;}return 0;}\r\n",
+        "candidate_code": "#include <iostream>\r\nusing namespace std;\r\nint main(){long long first,second;while(cin>>first>>second){cout << abs(first - second) << endl;}return 0;}\r\n",
+        "base_sha256": "64ed3457e86676a5c9d0dc38ecec5114021dfd12559bdc7e514760aa0a8d7498",
+        "candidate_sha256": "ce633b31258e2a732f527e5f86fd09b5b18bdd1e70d3349a2ef62c5f440a824d",
+        "tests_sha256": "b2732658b3d01c496d11b76095db86f761b00b0d9229172a695a3a6300ea84e1",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 1 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n-5\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.005
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n-3\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "e2ed9ff1ba479a924aae6cb697899aa5cdcb5f9c0d5b33a0e7cf9c3d37faabd4",
+          "custom_test": {
+            "enabled": false,
+            "input": "",
+            "expected": ""
+          },
+          "reused_from": 183
+        },
+        "candidate": {
+          "status": "accepted",
+          "label": "測資通過 3 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n5\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n3\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "edits": [
+          {
+            "before": "cout<<first-second<<endl;",
+            "after": "cout << abs(first - second) << endl;"
+          }
+        ],
+        "attempts": [
+          {
+            "plan": {
+              "explanation": "學生將第一個數字減去第二個數字，但題目要求輸出絕對值。需要修正計算方式以得到絕對值。",
+              "edits": [
+                {
+                  "unit_id": "U4",
+                  "after": "cout << abs(first - second) << endl;"
+                }
+              ]
+            },
+            "result": {
+              "status": "accepted",
+              "label": "測資通過 3 / 3",
+              "compiler": "",
+              "cases": [
+                {
+                  "name": "範例測資",
+                  "input": "8 3\n3 8\n",
+                  "expected": "5\n5\n",
+                  "actual": "5\n5\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.005
+                },
+                {
+                  "name": "自編測資2",
+                  "input": "4294967296 0\n",
+                  "expected": "4294967296\n",
+                  "actual": "4294967296\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.002
+                },
+                {
+                  "name": "自編測資3",
+                  "input": "9 9\n1 4\n",
+                  "expected": "0\n3\n",
+                  "actual": "0\n3\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.003
+                }
+              ],
+              "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+            }
+          }
+        ],
+        "scope_projection": false,
+        "verification_scope": "improved_tests"
+      },
+      "performance": {
+        "phase": "candidate",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 6.466
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 2276,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 1.007,
+            "prompt_eval_count": 1101,
+            "eval_count": 60,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 7.864,
+              "first_text_seconds": 0.964,
+              "tokenize_seconds": 0.003
+            },
+            "seconds": 7.906
+          }
+        ],
+        "retries": [],
+        "baseline_reused": true,
+        "generated_chars": 146,
+        "elapsed_seconds": 14.375,
+        "phase_seconds": {
+          "preparing": 0.0,
+          "baseline": 0.0,
+          "generation": 7.907,
+          "candidate": 6.467
+        }
+      },
+      "total_seconds": 14.375
+    },
+    {
+      "source_record": 186,
+      "question": "我套用後 3/3 通過了，但我還不懂 abs。請用 first=3、second=8，按我的這行程式一步步算給我看，並問我一題確認我懂了。先不要改程式。",
+      "calls": [
+        {
+          "output_limit": 256,
+          "stream": true,
+          "request_chars": 1474,
+          "http_status": 200,
+          "first_event_seconds": 0.027,
+          "first_text_seconds": 0.76,
+          "prompt_eval_count": 931,
+          "eval_count": 196,
+          "done_reason": "stop",
+          "metrics": {
+            "generation_seconds": 28.037,
+            "first_text_seconds": 0.734,
+            "tokenize_seconds": 0.003
+          },
+          "seconds": 28.064
+        }
+      ],
+      "status": "delivered",
+      "answer": "好的，我們來一步步分析 `abs(first - second)` 的運作，並確認你是否理解。\n\n**情況：** `first = 3`，`second = 8`\n\n1.  **計算 `first - second`:**  `3 - 8 = -5`\n2.  **計算 `abs(-5)`:**  `abs(-5)` 表示 `-5` 的絕對值，也就是 `-5` 的符號相反的數值，即 `5`。\n3.  **輸出結果:**  `cout << abs(first - second) << endl;` 將會輸出 `5`。\n\n所以，對於 `first = 3` 和 `second = 8` 的輸入，`abs(first - second)` 的運算結果是 `5`。\n\n**確認問題：** 請解釋 `abs()` 這個函式的作用，以及它如何處理負數。\n",
+      "source": "model",
+      "truncated": false,
+      "revision_check": null,
+      "performance": {
+        "phase": "quality",
+        "spans": [],
+        "model_calls": [
+          {
+            "output_limit": 256,
+            "request_chars": 1474,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.769,
+            "prompt_eval_count": 931,
+            "eval_count": 196,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 28.037,
+              "first_text_seconds": 0.734,
+              "tokenize_seconds": 0.003
+            },
+            "seconds": 28.072
+          }
+        ],
+        "retries": [],
+        "generated_chars": 375,
+        "elapsed_seconds": 28.099,
+        "phase_seconds": {
+          "preparing": 0.024,
+          "generation": 28.074,
+          "quality": 0.002
+        }
+      },
+      "total_seconds": 28.099
+    }
+  ],
+  "scope": "Sequential replays of fixed synthetic UI questions; production service, real model HTTP and Docker. No UI or DB writes. Not a human teaching study."
+}

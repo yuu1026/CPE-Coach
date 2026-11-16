@@ -3,6 +3,7 @@ from django.utils import timezone
 from .models import Submission
 from . import services
 from .judging import judge
+from . import performance
 import hashlib
 import json
 
@@ -46,14 +47,37 @@ def thread_records(record):
     return list(reversed(turns))
 
 def submit(owner, problem, data, parent=None):
+    record, created = reserve(owner, problem, data, parent)
+    if created:
+        complete(record, data, parent)
+    return record
+
+
+def reserve(owner, problem, data, parent=None):
     action = data.get('action') or 'ask'
     record, created = Submission.objects.get_or_create(owner=owner, submission_id=data['submission_id'], defaults={'problem': problem, 'parent': parent, 'action': action, 'code': data['code'], 'question': '' if action == 'test' else data['question'], 'hint_level': 1, 'mode': 'judge' if action == 'test' else settings.HINT_MODE, 'model': '未呼叫模型' if action == 'test' else 'demo' if settings.HINT_MODE == 'demo' else settings.MODEL_NAME, 'prompt_version': services.PROMPT_VERSION})
-    if not created:
-        return record
+    return record, created
+
+
+def complete(record, data, parent=None):
+    # Only update existing records: clearing a chat must never resurrect it.
+    def persist(snapshot):
+        Submission.objects.filter(pk=record.pk).update(performance=snapshot)
+    with performance.measure(persist) as measurement:
+        try:
+            _complete(record, data, parent)
+            performance.phase('failed' if record.status=='failed' else 'done')
+        finally:
+            record.performance = measurement.snapshot()
+
+
+def _complete(record, data, parent=None):
+    owner, problem, action = record.owner, record.problem, record.action
     tests = test_inputs(problem, data)
     fingerprint = test_fingerprint(record.code, tests)
     if action == 'test':
-        record.judge_result = judge(record.code, tests)
+        with performance.span('testing'):
+            record.judge_result = judge(record.code, tests)
         record.judge_result['fingerprint'] = fingerprint
     elif not record.code.strip():
         record.judge_result = {'status': 'not_submitted', 'label': '尚未提供程式碼：從想法開始', 'note': '本次只詢問助理，未編譯或執行測資。', 'cases': []}
@@ -67,6 +91,7 @@ def submit(owner, problem, data, parent=None):
         record.save(update_fields=['status', 'finished_at'])
         return record
     try:
+        performance.phase('preparing')
         prior = thread_records(parent) if parent else []
         history = [{'question':s.question,'hint':s.answer if s.status in ('done','partial') else '上一輪未交付可用回覆；不要沿用未驗證的候選。',
                     'code':s.code,'delivered':s.status in ('done','partial') and bool(s.answer)}

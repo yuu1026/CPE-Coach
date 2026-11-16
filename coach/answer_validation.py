@@ -2,6 +2,7 @@
 import re
 from .judging import judge
 from .scaffold_policy import scaffold_issue
+from . import performance
 
 
 def cpp_blocks(answer):
@@ -33,7 +34,8 @@ def compile_full_reply(answer,payload):
     candidate=programs[0]
     if mode=='scaffold' and not re.search(r'\bmain\s*\(',candidate):candidate+='\nint main(){return 0;}\n'
     # Without a real problem test suite, compile/link only; no invented inputs.
-    result=judge(candidate,tests)
+    with performance.span('validation'):
+        result=judge(candidate,tests)
     if result['status']=='accepted':return {'status':'tested','passed':len(tests)} if tests else {'status':'compiled'}
     if result['status']=='compile_error':
         return {'status':'compile_error','compiler':result.get('compiler','')[:800],'candidate':programs[0]}

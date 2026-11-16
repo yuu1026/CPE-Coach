@@ -50,6 +50,16 @@ assert.equal(page.fields.question.value, '', 'a submitted message must not reapp
 page = workspace({stored:draft,dataset:{errors:'yes'}}); assert.equal(page.fields.code.value, '', 'server validation form wins over autosave');
 page = workspace({error:true}); page.form.dispatchEvent({type:'input'}); page.flush(); assert.match(page.nodes['draft-status'].textContent, /無法保存/);
 page = workspace(); page.fields.code.value = 'draft'; page.form.dispatchEvent({type:'submit', defaultPrevented:false}); assert.equal(page.saved().pending.token, 'new-token');
+page = workspace({stored:{...draft,record:'old'},dataset:{record:'current'}});
+page.fields.code.value='edited while waiting'; page.fields.question.value='';
+page.form.dispatchEvent({type:'chat-accepted'});
+assert.equal(page.saved().pending.token,'new-token');
+const acceptedDraft=page.saved();
+page=workspace({stored:acceptedDraft,dataset:{record:'current',token:'older-token'}});
+assert.equal(page.saved().pending.token,'new-token','refresh while waiting must preserve the accepted request token');
+page=workspace({stored:page.saved(),dataset:{record:'result',token:'new-token'}});
+assert.equal(page.fields.code.value,'edited while waiting','async result must retain code edited during generation');
+assert.equal(page.fields.question.value,'');
 const search = new Element(), filter = new Element('all'), track = new Element(''), select = new Element('1'), matches = new Element(), button = new Element();
 const options = [{value:'',textContent:'choose'},{value:'1',textContent:'UVa 100',dataset:{done:'yes',track:'simulation'}},{value:'2',textContent:'UVa 101',dataset:{done:'no',track:'numbers'}}];
 select.options = [...options]; select.replaceChildren = (...children) => { select.options = children; };

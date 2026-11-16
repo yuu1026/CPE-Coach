@@ -38,6 +38,7 @@ class Submission(models.Model):
     answer = models.TextField(blank=True)
     error = models.TextField(blank=True)
     judge_result = models.JSONField(default=dict, blank=True)
+    performance = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     finished_at = models.DateTimeField(null=True)
 

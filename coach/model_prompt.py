@@ -83,7 +83,7 @@ def readable_messages(messages):
     elif has_code and mode!='explanation':
         instructions+='\n本輪已有學生目前版本（可能尚未完成解題），必須以它為分析對象。先引用與問題相關的原始運算式或敘述（用反引號或 cpp 區塊），再說明目前行為及問題；保留變數、函式和解題思路。若需修改，只展示必要的局部修改及原因；完整解答模式則在原程式上修正並解釋差異，不另換一份題庫解法。不要要求重貼已有程式，不猜行號，不硬找錯。'
     result=[{'role':'system','content':instructions}]
-    for message in ([] if mode=='result_review' else messages[1:-1]):
+    for message in ([] if mode=='result_review' else messages[1:-1][-4:]):
         if message['role']!='user':
             result.append(dict(message));continue
         try: old=json.loads(message['content'])

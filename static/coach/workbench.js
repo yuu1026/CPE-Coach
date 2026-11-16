@@ -78,7 +78,7 @@
     counter.classList.toggle('error', count > 12000);
     editorError.hidden = true;
     const custom = normalizeCustom({enabled: document.getElementById('id_run_custom').checked, input: document.getElementById('id_custom_input').value, expected: document.getElementById('id_custom_expected').value});
-    document.getElementById('stale-result').hidden = originalCode === null || (code() === originalCode && custom === customSnapshot);
+    document.getElementById('stale-result').hidden = originalCode === null || (sameRevisionCode(code(),originalCode) && custom === customSnapshot);
     document.getElementById('result-freshness').textContent = document.getElementById('stale-result').hidden ? '' : '已修改，請重新測試';
     if (undoRevision) undoRevision.disabled = !revision || !sameRevisionCode(code(),revision.candidate_code);
     form.dispatchEvent(new Event('draft-change'));
@@ -109,15 +109,46 @@
     }
   });
   const clearButton = document.getElementById('clear-chat');
+  let following = false;
   function resetBusy() {
     form.removeAttribute('aria-busy'); testButton.disabled = askButton.disabled = clearButton.disabled = false;
     testButton.textContent = '▷ 執行測試'; askButton.textContent = '送出訊息 ↑'; wait.hidden = true;
+  }
+  const pendingKey = `cpe-pending-${form.dataset.user}-${form.dataset.problem}`;
+  function rememberPending(value) {
+    try { if (value) window.sessionStorage?.setItem(pendingKey, JSON.stringify(value)); else window.sessionStorage?.removeItem(pendingKey); } catch (_) {}
+  }
+  async function followReply(pending) {
+    if (!/^\/submission\/\d+\/progress\/$/.test(pending.status_url)) throw new Error('回覆狀態網址不符。');
+    const started = Date.now();
+    while (Date.now()-started < 300000) {
+      const response = await fetch(pending.status_url, {headers:{Accept:'application/json'}, signal:AbortSignal.timeout(10000)});
+      if (!response.ok) throw new Error(response.status === 404 ? '這次對話已移除，未重新送出。' : '暫時無法讀取進度，請查看本次紀錄。');
+      const state = await response.json();
+      const seconds = Math.floor(state.elapsed_seconds || 0);
+      wait.textContent = `${state.label} · ${seconds} 秒${state.phase === 'generation' && state.generated_chars ? ` · 已生成 ${state.generated_chars} 字` : ''}。完成檢查後顯示答案。`;
+      if (state.status !== 'running') {
+        if (!/^\/submission\/\d+\/$/.test(state.url)) throw new Error('回覆網址不符。');
+        rememberPending(null);
+        window.location.assign(state.url);
+        return;
+      }
+      await new Promise(resolve => setTimeout(resolve, 700));
+    }
+    throw new Error('等待時間較長，請查看本次紀錄；沒有重複送出問題。');
+  }
+  function showReplyRecovery(error, pending) {
+    wait.hidden = false;
+    wait.textContent = error.message || '暫時無法取得回覆；原程式已保留。';
+    if (pending && /^\/submission\/\d+\/$/.test(pending.url)) {
+      const link = document.createElement('a'); link.href = pending.url; link.textContent = ' 查看本次紀錄'; wait.append(link);
+    }
   }
   form.addEventListener('submit', async event => {
     if (form.getAttribute('aria-busy') === 'true') { event.preventDefault(); return; }
     if (editor) editor.save();
     const action = event.submitter?.value || 'ask';
-    if (action === 'test') event.preventDefault();
+    if (action === 'test' || form.dataset.askUrl) event.preventDefault();
     if (Array.from(code()).length > 12000 || (action === 'test' && !code().trim())) {
       event.preventDefault(); showPane('code');
       editorError.textContent = Array.from(code()).length > 12000 ? '程式碼超過 12000 字元，請縮小範圍。' : '請先輸入程式碼；沒有想法時可直接送出訊息。';
@@ -127,10 +158,11 @@
     }
     form.querySelector('input[name="action"]').value = action;
     form.setAttribute('aria-busy', 'true');
+    const sentQuestion = question.value;
     const testData = action === 'test' ? new FormData(form) : null;
     if (testData) testData.delete('question');
     testButton.disabled = askButton.disabled = clearButton.disabled = true;
-    wait.textContent = action === 'test' ? '正在編譯與執行測資…' : '本地模型正在分析程式；必要時會自動重試一次，可能需要一至數分鐘，請勿重複送出。';
+    wait.textContent = action === 'test' ? '正在編譯與執行測資…' : '正在送出問題；請勿重複送出。';
     wait.hidden = action === 'test';
     if (action === 'test') document.getElementById('result-freshness').textContent = '正在編譯與執行測資…';
     if (action === 'test') testButton.textContent = '測試中…'; else askButton.textContent = '回覆中…';
@@ -157,6 +189,29 @@
         document.getElementById('result-freshness').textContent = '本次測試未取得結果';
         form.elements.namedItem('submission_id').value = crypto.randomUUID();
       } finally { resetBusy(); }
+    } else if (form.dataset.askUrl) {
+      let pending, failed = false;
+      try {
+        const data = new FormData(form);
+        // Capture before clearing; FormData's event may already clear it.
+        data.set('question', sentQuestion);
+        const response = await fetch(form.dataset.askUrl, {method:'POST', body:data, headers:{Accept:'application/json'}, signal:AbortSignal.timeout(15000)});
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || Object.values(result.errors || {}).flat().map(item => item.message).join('；') || '問題未送出，請重試。');
+        pending = result; rememberPending(pending);
+        if (question.value === sentQuestion) question.value = '';
+        form.dispatchEvent(new Event('chat-sent'));
+        form.dispatchEvent(new Event('chat-accepted'));
+        following = true;
+        await followReply(pending);
+      } catch (error) {
+        failed = true;
+        if (!pending && !question.value) { question.value = sentQuestion; question.dispatchEvent(new Event('input', {bubbles:true})); }
+        resetBusy(); showReplyRecovery(error,pending);
+      } finally {
+        following = false; resetBusy();
+        if (failed) { wait.hidden = false; if (pending) askButton.disabled = true; }
+      }
     }
   });
   clearButton.addEventListener('click', async () => {
@@ -182,5 +237,16 @@
     } catch (error) { window.alert(error.message); }
     finally { resetBusy(); }
   });
-  window.addEventListener('pageshow', resetBusy);
+  window.addEventListener('pageshow', () => { if (!following) resetBusy(); });
+  try {
+    const pending = JSON.parse(window.sessionStorage?.getItem(pendingKey) || 'null');
+    if (pending) {
+      form.setAttribute('aria-busy','true'); testButton.disabled = askButton.disabled = clearButton.disabled = true;
+      wait.hidden = false; wait.textContent = '正在恢復本次回覆進度；沒有重新呼叫模型。';
+      following = true;
+      followReply(pending).catch(error => {
+        following = false; resetBusy(); showReplyRecovery(error,pending); askButton.disabled = true;
+      });
+    }
+  } catch (_) { rememberPending(null); }
 })();

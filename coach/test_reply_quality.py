@@ -22,7 +22,7 @@ class ReplyQualityTests(TestCase):
             for mode in ['tutor','solution']:
                 messages=[{'role':'system','content':'規則'},{'role':'user','content':json.dumps({'response_mode':mode,'code':'','question':'解釋這一步'})}]
                 generate_hint(messages,1)
-        self.assertEqual([c['options']['num_predict'] for c in calls],[384,1024])
+        self.assertEqual([c['options']['num_predict'] for c in calls],[256,1024])
 
     def test_code_language_guard_accepts_cpp_and_literal_test_output(self):
         self.assertFalse(non_cpp_code('局部修正：\n```cpp\nstd::cout << sum << "\\n";\n```'))
