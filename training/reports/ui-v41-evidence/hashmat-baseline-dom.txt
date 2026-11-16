@@ -1,0 +1,148 @@
+Browser tab: 1, Title: "UVa 10055 · Hashmat the brave warrior · CPE Coach", URL: "http://127.0.0.1:8000/submission/183/".
+1 AXWebArea UVa 10055 · Hashmat the brave warrior · CPE Coach, URL: 127.0.0.1:8000/submission/183/
+	2 container
+		3 link Description: CPE Coach, Value: 127.0.0.1:8000/
+		4 text 先理解，再寫出自己的解法。
+		5 container 主要導覽
+			6 link Description: 練習總覽, Value: 127.0.0.1:8000/
+			7 text T test
+			8 button 登出
+	9 container
+		10 link Description: 練習總覽 / CPE 一星, Value: 127.0.0.1:8000/
+		11 heading UVa 10055 · Hashmat the brave warrior, Value: 1
+			12 text UVa 10055 · Hashmat the brave warrior
+		13 button (collapsed) 切換題目⌄, Secondary Actions: Expand
+			14 text 切換題目⌄
+		15 button ✓ 標記已完成
+		16 button (expanded) 收合題目 ‹, Secondary Actions: Collapse
+		17 button (expanded) 收合助理 ›, Secondary Actions: Collapse
+		18 text 閱讀字級
+		19 pop up button (collapsed, settable) 閱讀字級, Value: 15, ID: reading-size, Secondary Actions: Expand
+			20 menu
+				21 14
+				22 (selected) 15
+				23 16
+				24 18
+		25 text 程式字級
+		26 pop up button (collapsed, settable) 程式字級, Value: 15, ID: editor-size, Secondary Actions: Expand
+			27 menu
+				28 13
+				29 14
+				30 (selected) 15
+				31 16
+				32 18
+				33 20
+		34 button 重設版面, ID: reset-layout
+		105 text 草稿已保存於此瀏覽器
+		36 button 清除保存草稿, ID: clear-draft
+		37 container workspace-form
+			38 container 題目, ID: panel-problem
+				39 heading 題目說明, Value: 2
+					40 text 題目說明
+				41 text 一星
+				42 container
+					43 text 先讀懂，再動手
+					44 heading UVa 10055 · Hashmat the brave warrior, Value: 3
+						45 text UVa 10055 · Hashmat the brave warrior
+					46 text 反覆讀取兩個非負整數到 EOF，逐行輸出兩者差的絕對值。輸入可達 2^32，順序不固定。 自編測資範例 輸入 8 3
+3 8
+ 預期輸出 5
+5
+
+					47 button (collapsed) 題目來源與說明, Secondary Actions: Expand
+						48 text 題目來源與說明
+					49 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
+						50 AXListMarker ▸ 
+						51 text 我的思考筆記
+						52 text 僅保存在此瀏覽器
+					53 text 目前學習路線 輸入與基礎運算 1 / 6 題已標記完成
+					54 link Description: 回到這個題組 →, Value: 127.0.0.1:8000/?track=basics#practice-picker
+					55 text 沒有想法，也可以開始。 程式留白，在右側告訴助理你讀懂了什麼，或讓它陪你拆解第一步。
+				56 text 完成標記依你的學習狀況自行設定。
+			57 splitter Description: 調整題目與程式區寬度, Value: 24
+			58 container 程式與測試, ID: panel-code
+				59 heading main.cpp, Value: 2
+					60 text main.cpp
+				61 text C++17
+				62 container
+					63 text 你的 C++ 程式碼（可留白）
+					64 text entry area (settable) C++ 程式碼編輯器
+					65 container
+						102 container
+							106 text #include <iostream> using namespace std ; int main (){ long long first , second ; while ( cin >> first >> second ){ cout << first - second << endl ;} return 0 ;}
+				104 text 第 4 行，第 1 欄
+				107 text 138 / 12000 字元
+				68 text UTF-8 只執行程式，不呼叫助理
+				69 button ▷ 執行測試, ID: run-test
+				108 container test-drawer
+					109 button (expanded) 測資通過 1 / 3 1 已修改，請重新測試, Secondary Actions: Collapse
+						110 text 測資通過 1 / 3
+						111 progress indicator Description: 測資通過比例, Value: 1
+						112 text 已修改，請重新測試
+					113 container test-area
+						114 heading 測試結果, Value: 3
+							115 text 測試結果
+						116 text 需要檢查
+						117 text 程式或測資已修改，以下是上一版本結果；請重新執行測試。
+						118 button 展開全部測資
+						119 button 收合全部測資
+						120 container
+							121 button (expanded) 範例測資 答案不符 0.005 秒 ⌃, Secondary Actions: Collapse
+								122 text 範例測資
+								123 text 答案不符
+								124 text 0.005 秒
+								125 text ⌃
+							126 text 輸入 8 3
+3 8
+ 預期輸出 5
+5
+ 實際輸出 5
+-5
+
+						127 button (collapsed) 自編測資3 答案不符 0.002 秒 ⌄, Secondary Actions: Expand
+							128 text 自編測資3
+							129 text 答案不符
+							130 text 0.002 秒
+							131 text ⌄
+						132 button (collapsed) 自編測資2 通過 0.002 秒 ⌄, Secondary Actions: Expand
+							133 text 自編測資2
+							134 text 通過
+							135 text 0.002 秒
+							136 text ⌄
+						137 button (collapsed) 測試說明, Secondary Actions: Expand
+							138 text 測試說明
+						139 button (collapsed) ＋ 自訂測資, Secondary Actions: Expand
+							140 text ＋ 自訂測資
+						141 text 本輪未呼叫模型。
+						142 text 通過這些測資，不代表所有合法輸入皆正確。
+			72 splitter Description: 調整程式與對話區寬度, Value: 48
+			73 container 助理對話, ID: panel-chat
+				74 heading 解題助理, Value: 2
+					75 text 解題助理
+				76 button 清除此題聊天紀錄, ID: clear-chat
+				77 text 本地模型
+				78 container Description: 解題對話紀錄, ID: chat-history
+					79 heading 一起想出下一步。, Value: 3
+						80 text 一起想出下一步。
+					81 container
+						82 text 說說你的想法，或貼上程式。
+						83 text 助理會給提示，讓你自己完成解法。
+					84 button 我不知道怎麼開始
+					85 button 先釐清輸入與輸出
+				86 container
+					87 button (expanded) 也可以這樣問, Secondary Actions: Collapse
+						88 text 也可以這樣問
+					89 container 快捷提問
+						90 button 理解題意
+						91 button 給我骨架
+						92 button 一起看測試結果
+						93 button 想想邊界情況
+				94 container reply
+					95 text 你的回答或問題
+					96 text entry area (settable) 你的回答或問題, Value: 這段文字只是尚未送出的草稿，執行測試不應把它送給助理。, ID: id_question
+					97 text Enter 送出 · Shift + Enter 換行
+					98 button 送出訊息 ↑, ID: ask-assistant
+					99 button (collapsed) 對話與模型資訊, Secondary Actions: Expand
+						100 text 對話與模型資訊
+
+The focused UI element is 1 AXWebArea UVa 10055 · Hashmat the brave warrior · CPE Coach, URL: 127.0.0.1:8000/submission/183/

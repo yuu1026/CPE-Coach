@@ -1,0 +1,115 @@
+Browser tab: 1, Title: "UVa 10041 · Vito's family · CPE Coach", URL: "http://127.0.0.1:8000/submission/182/".
+0 AXWebArea UVa 10041 · Vito's family · CPE Coach, URL: 127.0.0.1:8000/submission/182/
+	1 container
+		2 link Description: CPE Coach, Value: 127.0.0.1:8000/
+		3 text 先理解，再寫出自己的解法。
+		4 container 主要導覽
+			5 link Description: 練習總覽, Value: 127.0.0.1:8000/
+			6 text T test
+			7 button 登出
+	8 container
+		9 link Description: 練習總覽 / CPE 一星, Value: 127.0.0.1:8000/
+		10 heading UVa 10041 · Vito's family, Value: 1
+			11 text UVa 10041 · Vito's family
+		12 button (collapsed) 切換題目⌄, Secondary Actions: Expand
+			13 text 切換題目⌄
+		14 button ✓ 標記已完成
+		15 button (expanded) 收合題目 ‹, Secondary Actions: Collapse
+		16 button (expanded) 收合助理 ›, Secondary Actions: Collapse
+		17 text 閱讀字級
+		18 pop up button (collapsed, settable) 閱讀字級, Value: 15, ID: reading-size, Secondary Actions: Expand
+			19 menu
+				20 14
+				21 (selected) 15
+				22 16
+				23 18
+		24 text 程式字級
+		25 pop up button (collapsed, settable) 程式字級, Value: 15, ID: editor-size, Secondary Actions: Expand
+			26 menu
+				27 13
+				28 14
+				29 (selected) 15
+				30 16
+				31 18
+				32 20
+		33 button 重設版面, ID: reset-layout
+		34 text 已還原這題草稿（此瀏覽器）
+		35 button 清除保存草稿, ID: clear-draft
+		36 container workspace-form
+			37 container 題目, ID: panel-problem
+				38 heading 題目說明, Value: 2
+					39 text 題目說明
+				40 text 一星
+				41 container
+					42 text 先讀懂，再動手
+					43 heading UVa 10041 · Vito's family, Value: 3
+						44 text UVa 10041 · Vito's family
+					45 text 先讀案例數，每組讀親戚數與地址（可重複），選居住位置使到所有地址的距離總和最小，逐行輸出該最小總和。 自編測資範例 輸入 1
+3 1 2 100
+ 預期輸出 99
+
+					46 button (collapsed) 題目來源與說明, Secondary Actions: Expand
+						47 text 題目來源與說明
+					48 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
+						49 AXListMarker ▸ 
+						50 text 我的思考筆記
+						51 text 僅保存在此瀏覽器
+					52 text 目前學習路線 排序與序列 0 / 5 題已標記完成
+					53 link Description: 回到這個題組 →, Value: 127.0.0.1:8000/?track=sorting#practice-picker
+					54 text 沒有想法，也可以開始。 程式留白，在右側告訴助理你讀懂了什麼，或讓它陪你拆解第一步。
+				55 text 完成標記依你的學習狀況自行設定。
+			56 splitter Description: 調整題目與程式區寬度, Value: 24
+			57 container 程式與測試, ID: panel-code
+				58 heading main.cpp, Value: 2
+					59 text main.cpp
+				60 text C++17
+				61 container
+					62 text 你的 C++ 程式碼（可留白）
+					63 text entry area (settable) C++ 程式碼編輯器
+					64 container
+				65 text 第 1 行，第 1 欄
+				66 text 0 / 12000 字元
+				67 text UTF-8 只執行程式，不呼叫助理
+				68 button ▷ 執行測試, ID: run-test
+				69 button (collapsed) 尚未提供程式碼：從想法開始, Secondary Actions: Expand
+					70 text 尚未提供程式碼：從想法開始
+			71 splitter Description: 調整程式與對話區寬度, Value: 48
+			72 container 助理對話, ID: panel-chat
+				73 heading 解題助理, Value: 2
+					74 text 解題助理
+				75 button 清除此題聊天紀錄, ID: clear-chat
+				76 text 本地模型
+				77 container Description: 解題對話紀錄, ID: chat-history
+					78 container turn-179
+						79 text 你
+						80 text 第 1 輪
+						81 text 我只會 cin、cout、for 和 vector，這題沒有想法。請先用一個小例子引導我，不要直接給完整答案，每次只問我一個問題。
+						82 text 尚未撰寫程式，從想法開始。 助理
+						83 text 好的，沒問題。我們先來看看一個簡單的例子吧。假設我們有一些地址，以及一些親戚。
+						84 container
+							85 text 讓我們考慮一個包含三個地址的例子： addresses = {1, 2, 3} ，以及  relatives = {1, 2} 。 意思是說，親戚 1 住址是 1，親戚 2 住址是 2。
+						86 text 下一步
+						87 text 首先，我想知道一下，對於這個例子，你覺得「距離」應該怎麼計算呢？ 請用一個數字說明。
+					88 container turn-181
+						89 text 你
+						90 text 第 2 輪
+						91 text 1 和 2 的距離應該是 1。如果三位親戚住在 1、2、3，我選住在 2，總距離是 2。這樣對嗎？我想先寫讀取輸入，請給可編譯的 C++ 骨架，計算先留 TODO。
+						92 text 尚未撰寫程式，從想法開始。 助理
+						93 text 模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。
+					94 container turn-182
+						95 text 你
+						96 text 第 3 輪
+						97 text 請再試一次，只給最小的輸入骨架：讀測試組數、每組人數與地址，核心留 TODO，不計算、不輸出。
+						98 text 尚未撰寫程式，從想法開始。 助理
+						99 text 模型連線或回應失敗。程式已保留，請確認模型服務設定後重新提交。
+				100 button (collapsed) 也可以這樣問, Secondary Actions: Expand
+					101 text 也可以這樣問
+				102 container reply
+					103 text 你的回答或問題
+					104 text entry area (settable) 你的回答或問題, ID: id_question
+					105 text Enter 送出 · Shift + Enter 換行
+					106 button 送出訊息 ↑, ID: ask-assistant
+					107 button (collapsed) 對話與模型資訊, Secondary Actions: Expand
+						108 text 對話與模型資訊
+
+The focused UI element is 0 AXWebArea UVa 10041 · Vito's family · CPE Coach, URL: 127.0.0.1:8000/submission/182/
