@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "question": "我已照你的片段加入標頭。下一步請保留原本讀取addresses的for迴圈，教我一個真正要新增的步驟與放置位置，不要重複加同樣標頭，也不要完整程式。",
+  "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+  "rationale": "學生依已交付片段加入標頭後追問下一步；只要求保留自己已完成的輸入，不提供任何排序語法或其他解法。",
+  "level": 3,
+  "topic": 10041
+}

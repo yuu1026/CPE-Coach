@@ -1,0 +1,8 @@
+{
+  "topic": 10041,
+  "action": "test",
+  "question": "",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+  "rationale": "已達3次詢問上限，沒有任何候選交付，最後重測保留的原程式，確認沒有因錯誤教學退步。",
+  "level": 3
+}

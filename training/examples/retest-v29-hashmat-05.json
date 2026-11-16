@@ -1,0 +1,8 @@
+{
+  "topic": 10055,
+  "action": "ask",
+  "question": "我想確認算術：輸入2與9、9與2、2與2，結果分別是多少？請手算說明，先不要貼程式。",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+  "rationale": "上輪正確手算候選被系統誤擋，模擬者僅看到拒絕訊息，故以更簡單的手算問題重問，程式不變。這是本路徑第3次、也是最後一次詢問。",
+  "level": 3
+}

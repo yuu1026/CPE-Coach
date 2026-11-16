@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "question": "剛剛候選沒有交付，我保留原碼。下一步請保留已完成的讀取、排序及所有大括號，只在排序後新增一行選擇住址，先不要其他註解或後續步驟。請依我目前原碼給能編譯的片段，不要整題程式。",
+  "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+  "rationale": "第三次候選未交付，原碼未變。模擬者只要求保留既有輸入、排序及括號，沒有提供中位數索引或程式。此為草稿路徑第4次詢問。",
+  "level": 3,
+  "topic": 10041
+}

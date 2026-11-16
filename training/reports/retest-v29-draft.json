@@ -1,0 +1,748 @@
+{
+  "scope": "Adaptive scripted learner, direct app service -> real local model HTTP and Docker. Not live browser or actual student learning. No private student data.",
+  "learner_prior_skills": "Can write cin/cout, for loops and vector input; core algorithm and unfamiliar APIs must come from recorded teacher replies.",
+  "rule": "Record justification for each code edit; do not insert algorithmic steps the teacher has not supplied.",
+  "steps": [
+    {
+      "action": "ask",
+      "question": "我會 cin、for、vector，已照題目讀入地址，但不知道下一步怎麼寫。請一步步引導，這次只教一個步驟，不要給完整程式。",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "第三條路徑僅會讀入地址與vector，不會選址演算法；必須依當輪模型真正交付的修改推進。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 0,
+      "response_mode": "tutor",
+      "learning_mode": "next_step",
+      "answer": "學生嘗試使用 `std::sort` 進行排序，但由於缺少 `<algorithm>` 頭檔，導致編譯錯誤。需要新增頭檔，並修正程式碼中的 `sort` 為 `std::sort`。\n\n修改 1：找到以下原片段（唯一位置）：\n```cpp\n#include <iostream>\n\n```\n替換為：\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n```\n\n系統已在暫存副本編譯與測試：0/3 → 0/3，原先通過的案例沒有退步。你的編輯器尚未修改；可套用後再自行測試。這不代表官方AC或文字解釋已被證明正確。",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": false,
+      "scaffold_step": "sort",
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+        "base_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27",
+        "candidate_sha256": "969f4abb302e677d57203c71d627982b78e383704ebe24b6a030bcecbf6233d4",
+        "tests_sha256": "9e695897407c99553cc739b058968eaf4bab1d516da8c214be1df9380617ae64",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "candidate": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "edits": [
+          {
+            "before": "#include <iostream>\n",
+            "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n"
+          }
+        ],
+        "attempts": [
+          {
+            "reply": "```json\n{\n  \"explanation\": \"現在需要將地址排序，以便找到位於中間位置的地址，作為最佳位置的選擇。這一步驟可以確保我們計算的是所有地址的絕對距離總和的最小值。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L9\",\n      \"after\": \"std::sort(addresses.begin(), addresses.end());\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:9:6: error: ‘sort’ is not a member of ‘std’; did you mean ‘qsort’?\n    9 | std::sort(addresses.begin(), addresses.end());\n      |      ^~~~\n      |      qsort\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"現在需要將地址排序，以便找到位於中間位置的地址，作為最佳位置的選擇。這一步驟可以確保我們計算的是所有地址的絕對距離總和的最小值。\", \"edits\": [{\"line_id\": \"L9\", \"after\": \"std::sort(addresses.begin(), addresses.end());\"}]}"
+          },
+          {
+            "plan": {
+              "explanation": "學生嘗試使用 `std::sort` 進行排序，但由於缺少 `<algorithm>` 頭檔，導致編譯錯誤。需要添加頭檔，並修正程式碼中的 `sort` 為 `std::sort`。",
+              "edits": [
+                {
+                  "line_id": "L1",
+                  "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;"
+                }
+              ]
+            },
+            "result": {
+              "status": "failed",
+              "label": "測資通過 0 / 3",
+              "compiler": "",
+              "cases": [
+                {
+                  "name": "題庫範例",
+                  "input": "1\n3 1 2 100\n",
+                  "expected": "99\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資2",
+                  "input": "1\n3 10 100 1\n",
+                  "expected": "99\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資3",
+                  "input": "2\n1 7\n4 5 5 5 5\n",
+                  "expected": "0\n0\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.003
+                }
+              ],
+              "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+            }
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": true,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"現在需要將地址排序，以便找到位於中間位置的地址，作為最佳位置的選擇。這一步驟可以確保我們計算的是所有地址的絕對距離總和的最小值。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L9\",\n      \"after\": \"std::sort(addresses.begin(), addresses.end());\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\n  \"explanation\": \"學生嘗試使用 `std::sort` 進行排序，但由於缺少 `<algorithm>` 頭檔，導致編譯錯誤。需要添加頭檔，並修正程式碼中的 `sort` 為 `std::sort`。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L1\",\n      \"after\": \"#include <iostream>\\n#include <vector>\\n#include <algorithm>\\nusing namespace std;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 37.58,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27"
+    },
+    {
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "只套用已交付候選：新增標頭與using，含重複宣告亦不自行清理；尚未自行加入排序。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.006
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "969f4abb302e677d57203c71d627982b78e383704ebe24b6a030bcecbf6233d4"
+    },
+    {
+      "action": "ask",
+      "question": "我已照你的片段加入標頭。下一步請保留原本讀取addresses的for迴圈，教我一個真正要新增的步驟與放置位置，不要重複加同樣標頭，也不要完整程式。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+      "rationale": "學生依已交付片段加入標頭後追問下一步；只要求保留自己已完成的輸入，不提供任何排序語法或其他解法。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 1,
+      "response_mode": "tutor",
+      "learning_mode": "next_step",
+      "answer": "現在需要將地址向量排序，以便找到中位數。這將確保我們選擇居住位置時考慮到地址的順序，從而更準確地計算距離總和。\n\n修改 1：找到以下原片段（唯一位置）：\n```cpp\n        // 下一步放這裡\n\n```\n替換為：\n```cpp\nstd::sort(addresses.begin(), addresses.end());\n\n```\n\n系統已在暫存副本編譯與測試：0/3 → 0/3，原先通過的案例沒有退步。你的編輯器尚未修改；可套用後再自行測試。這不代表官方AC或文字解釋已被證明正確。",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": false,
+      "scaffold_step": "sort",
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+        "base_sha256": "969f4abb302e677d57203c71d627982b78e383704ebe24b6a030bcecbf6233d4",
+        "candidate_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a",
+        "tests_sha256": "9e695897407c99553cc739b058968eaf4bab1d516da8c214be1df9380617ae64",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "candidate": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.004
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "edits": [
+          {
+            "before": "        // 下一步放這裡\n",
+            "after": "std::sort(addresses.begin(), addresses.end());\n"
+          }
+        ],
+        "attempts": [
+          {
+            "plan": {
+              "explanation": "現在需要將地址向量排序，以便找到中位數。這將確保我們選擇居住位置時考慮到地址的順序，從而更準確地計算距離總和。",
+              "edits": [
+                {
+                  "line_id": "L13",
+                  "after": "std::sort(addresses.begin(), addresses.end());"
+                }
+              ]
+            },
+            "result": {
+              "status": "failed",
+              "label": "測資通過 0 / 3",
+              "compiler": "",
+              "cases": [
+                {
+                  "name": "題庫範例",
+                  "input": "1\n3 1 2 100\n",
+                  "expected": "99\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.004
+                },
+                {
+                  "name": "自編測資2",
+                  "input": "1\n3 10 100 1\n",
+                  "expected": "99\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資3",
+                  "input": "2\n1 7\n4 5 5 5 5\n",
+                  "expected": "0\n0\n",
+                  "actual": "",
+                  "stderr": "",
+                  "status": "wrong_answer",
+                  "label": "答案不符",
+                  "seconds": 0.003
+                }
+              ],
+              "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+            }
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": true,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"現在需要將地址向量排序，以便找到中位數。這將確保我們選擇居住位置時考慮到地址的順序，從而更準確地計算距離總和。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L13\",\n      \"after\": \"std::sort(addresses.begin(), addresses.end());\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 15.62,
+      "code_sha256": "969f4abb302e677d57203c71d627982b78e383704ebe24b6a030bcecbf6233d4"
+    },
+    {
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+      "rationale": "只套用已交付的排序候選，原讀取for保留，沒有自行加入中位數、距離或輸出。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a"
+    },
+    {
+      "action": "ask",
+      "question": "我已加上你教的排序。你提到排序後找中位數，我還不會怎麼寫；下一步請只教這一個步驟，保留已經完成的輸入與排序，不要整題程式。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+      "rationale": "依實際回覆中已教過的中位數觀念詢問語法，未自行給出索引公式或選址程式。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 2,
+      "response_mode": "tutor",
+      "learning_mode": "next_step",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n候選未完成編譯與測試。\nmain.cpp:14:39: error: stray ‘\\’ in program\n   14 | int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\n      |                                       ^\nmain.cpp: In function ‘int main()’:\nmain.cpp:14:40: error: ‘n’ was not declared in this scope\n   14 | int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\n      |                                        ^\nmain.cpp:15:2: error: expected ‘}’ at end of input\n   15 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n",
+      "revision_failure": {
+        "base_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\n  \"explanation\": \"學生尚未找到如何選擇中位數作為房屋位置，需要明確指出中位數的計算方法以及如何將其應用於解決問題。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\\n        int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:18:2: error: expected ‘}’ at end of input\n   18 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生尚未找到如何選擇中位數作為房屋位置，需要明確指出中位數的計算方法以及如何將其應用於解決問題。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int home = addresses[relatives / 2];\\n        int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\"}]}"
+          },
+          {
+            "reply": "```json\n{\"explanation\":\"學生沒有找到如何計算中位數，也沒有說明如何將中位數作為房屋位置。需要明確指出中位數的計算方法以及如何將其應用於解決問題。\",\"edits\":[{\"line_id\":\"L14\",\"after\":\"int median = addresses[relatives / 2];\\\\n        // 假設家就在中位數位置\\\\n        long long total_distance = 0;\"}]}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp:14:39: error: stray ‘\\’ in program\n   14 | int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\n      |                                       ^\nmain.cpp: In function ‘int main()’:\nmain.cpp:14:40: error: ‘n’ was not declared in this scope\n   14 | int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\n      |                                        ^\nmain.cpp:15:2: error: expected ‘}’ at end of input\n   15 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生沒有找到如何計算中位數，也沒有說明如何將中位數作為房屋位置。需要明確指出中位數的計算方法以及如何將其應用於解決問題。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int median = addresses[relatives / 2];\\\\n        // 假設家就在中位數位置\\\\n        long long total_distance = 0;\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": true,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"學生尚未找到如何選擇中位數作為房屋位置，需要明確指出中位數的計算方法以及如何將其應用於解決問題。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\\n        int median = addresses[relatives / 2];\\n        // 假設家就在中位數位置\\n        long long total_distance = 0;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\"explanation\":\"學生沒有找到如何計算中位數，也沒有說明如何將中位數作為房屋位置。需要明確指出中位數的計算方法以及如何將其應用於解決問題。\",\"edits\":[{\"line_id\":\"L14\",\"after\":\"int median = addresses[relatives / 2];\\\\n        // 假設家就在中位數位置\\\\n        long long total_distance = 0;\"}]}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 25.77,
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a"
+    },
+    {
+      "action": "ask",
+      "question": "剛剛候選沒有交付，我保留原碼。下一步請保留已完成的讀取、排序及所有大括號，只在排序後新增一行選擇住址，先不要其他註解或後續步驟。請依我目前原碼給能編譯的片段，不要整題程式。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+      "rationale": "第三次候選未交付，原碼未變。模擬者只要求保留既有輸入、排序及括號，沒有提供中位數索引或程式。此為草稿路徑第4次詢問。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 2,
+      "response_mode": "tutor",
+      "learning_mode": "next_step",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:20:2: error: expected ‘}’ at end of input\n   20 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n",
+      "revision_failure": {
+        "base_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.004
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\n  \"explanation\": \"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:20:2: error: expected ‘}’ at end of input\n   20 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"}]}"
+          },
+          {
+            "reply": "```json\n{\"explanation\":\"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\",\"edits\":[{\"line_id\":\"L14\",\"after\":\"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"}]}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:20:2: error: expected ‘}’ at end of input\n   20 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": true,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\"explanation\":\"學生尚未找到住址位置，需要加入選中位數作為住址的邏輯。\",\"edits\":[{\"line_id\":\"L14\",\"after\":\"int home = addresses[relatives / 2];\\n    int total_distance = 0;\\n    for (int i = 0; i < relatives; ++i) {\\n        total_distance += abs(addresses[i] - home);\\n    }\\n    cout << total_distance << endl;\"}]}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 24.25,
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a"
+    },
+    {
+      "action": "ask",
+      "question": "系統仍沒有交付候選，說缺大括號；我原本程式能編譯。我還停在只有輸入與排序。下一步只教一行如何選住址，先不要距離計算或輸出。新增時請保留原有行與大括號，不要刪掉已完成的部分。",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+      "rationale": "依可見的候選缺括號原因追問，原碼仍是第二次交付的輸入與排序版本，沒有套用任何未交付選址／距離程式。此為第5次，達預先設定上限後停止。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 2,
+      "response_mode": "tutor",
+      "learning_mode": "next_step",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n請只回傳指定的JSON修改計畫。",
+      "revision_failure": {
+        "base_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\n  \"explanation\": \"學生尚未實現選擇住址的功能，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。這一步驟是為了計算每個地址到住址的距離。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:15:2: error: expected ‘}’ at end of input\n   15 | }\n      |  ^\nmain.cpp:7:12: note: to match this ‘{’\n    7 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生尚未實現選擇住址的功能，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。這一步驟是為了計算每個地址到住址的距離。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int home = addresses[relatives / 2];\"}]}"
+          },
+          {
+            "reply": "```json\n{\"explanation\":\"學生程式碼缺少主函數結束標示，且缺少選出住址的邏輯。目前只完成了輸入與排序，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。\",\"edits\":[{\"line_id\":\"L15\", \"after\":\"return 0;\"}], [\"line_id\":\"L16\", \"after\":\"\"}\"]}\n```",
+            "error": "請只回傳指定的JSON修改計畫。\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"學生尚未實現選擇住址的功能，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。這一步驟是為了計算每個地址到住址的距離。\", \"edits\": [{\"line_id\": \"L14\", \"after\": \"int home = addresses[relatives / 2];\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": true,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"學生尚未實現選擇住址的功能，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。這一步驟是為了計算每個地址到住址的距離。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L14\",\n      \"after\": \"int home = addresses[relatives / 2];\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\"explanation\":\"學生程式碼缺少主函數結束標示，且缺少選出住址的邏輯。目前只完成了輸入與排序，需要新增一行程式碼來確定住址，並將其儲存在變數 home 中。\",\"edits\":[{\"line_id\":\"L15\", \"after\":\"return 0;\"}], [\"line_id\":\"L16\", \"after\":\"\"}\"]}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 18.91,
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a"
+    },
+    {
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+      "rationale": "已達5次詢問上限，最後三個候選未交付，保留最後真正交付的輸入與排序版本重測；不自行加入住址、加總或輸出。",
+      "level": 3,
+      "topic": 10041,
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.006
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a"
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "scope": "Adaptive scripted learner, direct app service -> real local model HTTP and Docker. Not live browser or actual student learning. No private student data.",
+  "learner_prior_skills": "Can write cin/cout, for loops and vector input; core algorithm and unfamiliar APIs must come from recorded teacher replies.",
+  "rule": "Record justification for each code edit; do not insert algorithmic steps the teacher has not supplied.",
+  "steps": [
+    {
+      "topic": 10041,
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+      "rationale": "已知Vito題的不同錯誤草稿：使用自己的streets、meeting、cost，先猜第一位親戚家。核心選址修改必須來自模型，不能自行補排序或中位數。",
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 2 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "100\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745"
+    },
+    {
+      "topic": 10041,
+      "action": "ask",
+      "question": "我先猜住在第一位親戚家，但範例輸出100，應該99。請根據我現在的streets、meeting、cost程式給一個小步驟，說明為什麼，不要完整答案。",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+      "rationale": "先依真實失敗結果詢問本地模型；尚未編輯自己的錯誤演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 0,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n修改造成退步：原先通過的案例失敗：自編測資2、自編測資3",
+      "revision_failure": {
+        "base_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 2 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "100\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\"explanation\":\"目前的程式將 `meeting` 初始化為第一個街道的地址，然後計算從每個街道到 `meeting` 的絕對差值之總和。由於範例輸入的第一個地址是 1，而 `meeting` 最初設置為 1，因此計算的成本會高於實際的最佳解決方案。這表明 `meeting` 的初始設置很重要，並且需要更精確地選擇 `meeting` 的位置。\",\n\"edits\":[\n  {\n    \"line_id\": \"L11\",\n    \"after\":\" int meeting = streets[0];\"\n  }\n]}\n```",
+            "error": "只改空白或註解，不是有效程式修正。\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"目前的程式將 `meeting` 初始化為第一個街道的地址，然後計算從每個街道到 `meeting` 的絕對差值之總和。由於範例輸入的第一個地址是 1，而 `meeting` 最初設置為 1，因此計算的成本會高於實際的最佳解決方案。這表明 `meeting` 的初始設置很重要，並且需要更精確地選擇 `meeting` 的位置。\", \"edits\": [{\"line_id\": \"L11\", \"after\": \" int meeting = streets[0];\"}]}"
+          },
+          {
+            "reply": "```json\n{\n  \"explanation\": \"當初設定 `meeting` 為第一個街道的地址時，導致了錯誤的計算結果。因為題目要求的是最小總距離，所以 `meeting` 應該是所有地址的均值或中位數，而不是固定一個地址。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L11\",\n      \"after\": \" int meeting = 0;\"\n    }\n  ]\n}\n```",
+            "error": "修改造成退步：原先通過的案例失敗：自編測資2、自編測資3\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"當初設定 `meeting` 為第一個街道的地址時，導致了錯誤的計算結果。因為題目要求的是最小總距離，所以 `meeting` 應該是所有地址的均值或中位數，而不是固定一個地址。\", \"edits\": [{\"line_id\": \"L11\", \"after\": \" int meeting = 0;\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\"explanation\":\"目前的程式將 `meeting` 初始化為第一個街道的地址，然後計算從每個街道到 `meeting` 的絕對差值之總和。由於範例輸入的第一個地址是 1，而 `meeting` 最初設置為 1，因此計算的成本會高於實際的最佳解決方案。這表明 `meeting` 的初始設置很重要，並且需要更精確地選擇 `meeting` 的位置。\",\n\"edits\":[\n  {\n    \"line_id\": \"L11\",\n    \"after\":\" int meeting = streets[0];\"\n  }\n]}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\n  \"explanation\": \"當初設定 `meeting` 為第一個街道的地址時，導致了錯誤的計算結果。因為題目要求的是最小總距離，所以 `meeting` 應該是所有地址的均值或中位數，而不是固定一個地址。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L11\",\n      \"after\": \" int meeting = 0;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 35.59,
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745"
+    },
+    {
+      "topic": 10041,
+      "action": "ask",
+      "question": "系統說修改會讓原本通過的案例失敗，所以沒有交付，我的程式也還沒改。我仍不知道meeting該怎麼選。請沿用streets與familySize，教一個具體可操作的局部修正；如果需要新函式，請教我那行語法，不要完整答案。",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+      "rationale": "只依可見的拒絕訊息追問；沒有讀取或採用被擋下的候選，不自行補中位數或排序。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 0,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n候選未完成編譯與測試。\nmain.cpp:11:35: error: stray ‘\\’ in program\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                   ^\nmain.cpp:11:72: error: stray ‘\\’ in program\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                                                        ^\nmain.cpp: In function ‘int main()’:\nmain.cpp:11:36: error: ‘nint’ was not declared in this scope; did you mean ‘uint’?\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                    ^~~~\n      |                                    uint\nmain.cpp:11:73: error: ‘nmeeting’ was not declared in this scope\n   11 | in",
+      "revision_failure": {
+        "base_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 2 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "100\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.005
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\"explanation\":\"目前的 `meeting` 初始化為 `streets[0]`，這可能導致錯誤的結果。應該將 `meeting` 初始化為 `streets` 向量的中位數，這樣才能找到最小的總距離。\",\"edits\":[{\"line_id\":\"L11\",\"after\":\"int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\"}]}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:13:1: error: ‘meeting’ was not declared in this scope\n   13 | meeting = median;\n      | ^~~~~~~\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"目前的 `meeting` 初始化為 `streets[0]`，這可能導致錯誤的結果。應該將 `meeting` 初始化為 `streets` 向量的中位數，這樣才能找到最小的總距離。\", \"edits\": [{\"line_id\": \"L11\", \"after\": \"int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\"}]}"
+          },
+          {
+            "reply": "```json\n{\n  \"explanation\": \"目前程式碼中，`meeting` 被初始化為 `streets[0]`，這可能會導致錯誤的結果。我們需要計算 `streets` 向量的中位數作為 `meeting` 的初始值，以確保算法能夠找到最小的總距離。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L11\",\n      \"after\": \"int median_index = familySize / 2;\\\\nint median = streets[median_index];\\\\nmeeting = median;\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp:11:35: error: stray ‘\\’ in program\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                   ^\nmain.cpp:11:72: error: stray ‘\\’ in program\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                                                        ^\nmain.cpp: In function ‘int main()’:\nmain.cpp:11:36: error: ‘nint’ was not declared in this scope; did you mean ‘uint’?\n   11 | int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\n      |                                    ^~~~\n      |                                    uint\nmain.cpp:11:73: error: ‘nmeeting’ was not declared in this scope\n   11 | in\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"目前程式碼中，`meeting` 被初始化為 `streets[0]`，這可能會導致錯誤的結果。我們需要計算 `streets` 向量的中位數作為 `meeting` 的初始值，以確保算法能夠找到最小的總距離。\", \"edits\": [{\"line_id\": \"L11\", \"after\": \"int median_index = familySize / 2;\\\\nint median = streets[median_index];\\\\nmeeting = median;\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\"explanation\":\"目前的 `meeting` 初始化為 `streets[0]`，這可能導致錯誤的結果。應該將 `meeting` 初始化為 `streets` 向量的中位數，這樣才能找到最小的總距離。\",\"edits\":[{\"line_id\":\"L11\",\"after\":\"int median_index = familySize / 2;\\nint median = streets[median_index];\\nmeeting = median;\"}]}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\n  \"explanation\": \"目前程式碼中，`meeting` 被初始化為 `streets[0]`，這可能會導致錯誤的結果。我們需要計算 `streets` 向量的中位數作為 `meeting` 的初始值，以確保算法能夠找到最小的總距離。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L11\",\n      \"after\": \"int median_index = familySize / 2;\\\\nint median = streets[median_index];\\\\nmeeting = median;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 35.7,
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745"
+    },
+    {
+      "topic": 10041,
+      "action": "ask",
+      "question": "系統又沒有交付修改，說候選不能編譯，有stray反斜線。我自己的原碼還能編譯，只是答案不對，所以我沒有套用候選。請重新根據原碼給能編譯的最小局部修正，保留meeting與cost，不要完整答案。",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+      "rationale": "只將可見的候選編譯拒絕原因交回模型；原程式未變，也沒有從未交付計畫學取中位數程式。這是本路徑第3次、也是最後一次詢問。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 0,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "",
+      "status": "failed",
+      "error": "模型兩次局部修改仍未通過片段、編譯或退步檢查，未交付修改。原程式已保留。\n候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:16:2: error: expected ‘}’ at end of input\n   16 | }\n      |  ^\nmain.cpp:5:12: note: to match this ‘{’\n    5 | int main() {\n      |            ^\n",
+      "revision_failure": {
+        "base_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 2 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "100\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "attempts": [
+          {
+            "reply": "```json\n{\n  \"explanation\": \"L1的#include <iostream> 和 #include <vector> 兩行沒有錯誤，但 L15 的 '\\\\n' 可能導致編譯錯誤，將其更正。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L15\",\n      \"after\": \"cout << cost << \\\\n;\"\n    }\n  ]\n}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp:15:17: error: stray ‘\\’ in program\n   15 | cout << cost << \\n;\n      |                 ^\nmain.cpp: In function ‘int main()’:\nmain.cpp:15:18: error: ‘n’ was not declared in this scope\n   15 | cout << cost << \\n;\n      |                  ^\nmain.cpp:16:2: error: expected ‘}’ at end of input\n   16 | }\n      |  ^\nmain.cpp:5:12: note: to match this ‘{’\n    5 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"L1的#include <iostream> 和 #include <vector> 兩行沒有錯誤，但 L15 的 '\\\\n' 可能導致編譯錯誤，將其更正。\", \"edits\": [{\"line_id\": \"L15\", \"after\": \"cout << cost << \\\\n;\"}]}"
+          },
+          {
+            "reply": "```json\n{\"explanation\":\"L15中的‘\\\\’可能被解釋成轉義字符，導致編譯錯誤。將其更正為‘\\\\n’可以解決這個問題。\",\"edits\":[{\"line_id\":\"L15\", \"after\":\"cout << cost << '\\\\n';\"}]}\n```",
+            "error": "候選未完成編譯與測試。\nmain.cpp: In function ‘int main()’:\nmain.cpp:16:2: error: expected ‘}’ at end of input\n   16 | }\n      |  ^\nmain.cpp:5:12: note: to match this ‘{’\n    5 | int main() {\n      |            ^\n\n上次候選計畫（未通過，不可照抄）：{\"explanation\": \"L15中的‘\\\\’可能被解釋成轉義字符，導致編譯錯誤。將其更正為‘\\\\n’可以解決這個問題。\", \"edits\": [{\"line_id\": \"L15\", \"after\": \"cout << cost << '\\\\n';\"}]}"
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\n  \"explanation\": \"L1的#include <iostream> 和 #include <vector> 兩行沒有錯誤，但 L15 的 '\\\\n' 可能導致編譯錯誤，將其更正。\",\n  \"edits\": [\n    {\n      \"line_id\": \"L15\",\n      \"after\": \"cout << cost << \\\\n;\"\n    }\n  ]\n}\n```",
+          "issue": "code_language"
+        },
+        {
+          "answer": "```json\n{\"explanation\":\"L15中的‘\\\\’可能被解釋成轉義字符，導致編譯錯誤。將其更正為‘\\\\n’可以解決這個問題。\",\"edits\":[{\"line_id\":\"L15\", \"after\":\"cout << cost << '\\\\n';\"}]}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 26.88,
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745"
+    },
+    {
+      "topic": 10041,
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+      "rationale": "已達3次詢問上限，沒有任何候選交付，最後重測保留的原程式，確認沒有因錯誤教學退步。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 2 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "100\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.006
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745"
+    }
+  ]
+}

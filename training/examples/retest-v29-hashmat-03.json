@@ -1,0 +1,8 @@
+{
+  "topic": 10055,
+  "action": "test",
+  "question": "",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+  "rationale": "只套用本地模型實際交付且驗證的候選，沒有自行加abs或重寫程式。模擬使用者按執行測試。",
+  "level": 3
+}

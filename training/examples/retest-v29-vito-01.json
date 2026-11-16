@@ -1,0 +1,7 @@
+{
+  "topic":10041,
+  "action":"test",
+  "question":"",
+  "code":"#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+  "rationale":"已知Vito題的不同錯誤草稿：使用自己的streets、meeting、cost，先猜第一位親戚家。核心選址修改必須來自模型，不能自行補排序或中位數。"
+}

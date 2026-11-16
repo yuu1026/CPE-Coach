@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "question": "我已加上你教的排序。你提到排序後找中位數，我還不會怎麼寫；下一步請只教這一個步驟，保留已經完成的輸入與排序，不要整題程式。",
+  "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+  "rationale": "依實際回覆中已教過的中位數觀念詢問語法，未自行給出索引公式或選址程式。",
+  "level": 3,
+  "topic": 10041
+}

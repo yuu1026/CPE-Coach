@@ -1,0 +1,179 @@
+{
+  "scope": "Frozen application 04fa415/v29, agent-simulated learners on two seen topics and three paths. Not independent educators, real students, or an all-49-topic accuracy estimate.",
+  "reviewer": "Implementing agent; manual delivery-quality review, not blinded teacher review.",
+  "rubric": "0=no usable delivered teaching; 1-3=material errors/incomplete guidance; 4=correct actionable teaching; 5=clear correct teaching. Coding completion scored separately.",
+  "raw_attempt_issue_note": "Legacy attempts.issue runs a prose checker on raw JSON. It is not the structured-revision pipeline verdict and is NOT used to grade those plans.",
+  "paths": {
+    "hashmat": {
+      "learner_questions": 3,
+      "raw_model_calls": 4,
+      "delivered": 2,
+      "blocked": 1,
+      "workflow_seconds": 64.17,
+      "coding_completed": true,
+      "all_turns_at_least_4": false,
+      "reviews": [
+        {
+          "turn": 1,
+          "delivery_score": 4,
+          "reason": "沿用原變數，以abs修正正負差；GCC實測可用，理由將帶符號差值說成符號稍不精確。"
+        },
+        {
+          "turn": 2,
+          "delivery_score": 0,
+          "reason": "兩個手算候選均正確，但交付被程式引用規則誤擋；這是系統誤擋，不是模型算錯。"
+        },
+        {
+          "turn": 3,
+          "delivery_score": 5,
+          "reason": "重問後正確手算7、7、0，承接絕對值概念，未要求新程式。"
+        }
+      ],
+      "student_test_labels": [
+        "測資通過 1 / 3",
+        "測資通過 3 / 3"
+      ],
+      "system_knowledge": [
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        }
+      ],
+      "source_report": "retest-v29-hashmat.json",
+      "additional_numeric_cases_passed": 70,
+      "understanding_confirmed_after_rephrase": true
+    },
+    "vito": {
+      "learner_questions": 3,
+      "raw_model_calls": 6,
+      "delivered": 0,
+      "blocked": 3,
+      "workflow_seconds": 98.17,
+      "coding_completed": false,
+      "all_turns_at_least_4": false,
+      "reviews": [
+        {
+          "turn": 1,
+          "delivery_score": 0,
+          "reason": "未交付；相同程式只改空白、選址改0造成原通過案例退步。"
+        },
+        {
+          "turn": 2,
+          "delivery_score": 0,
+          "reason": "未交付；候選含字面反斜線n、未正確完成選址與排序。"
+        },
+        {
+          "turn": 3,
+          "delivery_score": 0,
+          "reason": "未交付；將候選錯誤歸到原碼的輸出字元，錯換括號導致不能編譯。"
+        }
+      ],
+      "student_test_labels": [
+        "測資通過 2 / 3",
+        "測資通過 2 / 3"
+      ],
+      "system_knowledge": [
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": false,
+          "calculator": false
+        }
+      ],
+      "source_report": "retest-v29-vito.json"
+    },
+    "draft": {
+      "learner_questions": 5,
+      "raw_model_calls": 9,
+      "delivered": 2,
+      "blocked": 3,
+      "workflow_seconds": 122.13,
+      "coding_completed": false,
+      "all_turns_at_least_4": false,
+      "reviews": [
+        {
+          "turn": 1,
+          "delivery_score": 2,
+          "reason": "交付標頭新增，卻誤稱學生已用sort且有編譯錯；實際原稿可編譯、只是未完成。"
+        },
+        {
+          "turn": 2,
+          "delivery_score": 4,
+          "reason": "正確保留輸入，在其後加入排序，這是可操作的局部進展。"
+        },
+        {
+          "turn": 3,
+          "delivery_score": 0,
+          "reason": "未交付；選址候選破壞括號、換行轉義錯誤。"
+        },
+        {
+          "turn": 4,
+          "delivery_score": 0,
+          "reason": "未交付；要求一行卻提出住址、加總與輸出，且破壞原括號。"
+        },
+        {
+          "turn": 5,
+          "delivery_score": 0,
+          "reason": "未交付；再次破壞括號、第二候選JSON無效，未能繼續教選址。"
+        }
+      ],
+      "student_test_labels": [
+        "測資通過 0 / 3",
+        "測資通過 0 / 3",
+        "測資通過 0 / 3"
+      ],
+      "system_knowledge": [
+        {
+          "topic_notes": true,
+          "curriculum_step": true,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": true,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": true,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": true,
+          "calculator": false
+        },
+        {
+          "topic_notes": true,
+          "curriculum_step": true,
+          "calculator": false
+        }
+      ],
+      "source_report": "retest-v29-draft.json"
+    }
+  },
+  "overall_reliable_independent_teaching": false,
+  "total_learner_questions": 11,
+  "total_model_calls": 19,
+  "coding_paths_completed": 1
+}

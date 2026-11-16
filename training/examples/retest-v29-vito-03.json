@@ -1,0 +1,8 @@
+{
+  "topic": 10041,
+  "action": "ask",
+  "question": "系統說修改會讓原本通過的案例失敗，所以沒有交付，我的程式也還沒改。我仍不知道meeting該怎麼選。請沿用streets與familySize，教一個具體可操作的局部修正；如果需要新函式，請教我那行語法，不要完整答案。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+  "rationale": "只依可見的拒絕訊息追問；沒有讀取或採用被擋下的候選，不自行補中位數或排序。",
+  "level": 3
+}

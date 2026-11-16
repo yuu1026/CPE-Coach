@@ -1,0 +1,8 @@
+{
+  "scope": "Deterministic production quality-check replay; no model generation and no app changes. Same correct answer/code/evidence; only the past-reference word changes.",
+  "original_question": "我照你的修改測試通過了。我理解成2、9與9、2都應該得到7，兩個數相等則得到0。這樣理解對嗎？請手算確認，不要改程式。",
+  "counterfactual_question": "我照你的提示測試通過了。我理解成2、9與9、2都應該得到7，兩個數相等則得到0。這樣理解對嗎？請手算確認，不要改程式。",
+  "answer": "你的理解是正確的。對於 `2` 和 `9` 的差的絕對值，計算結果確實是 `abs(2 - 9) = 7`。同樣地，對於 `9` 和 `2` 的差的絕對值，計算結果也是 `abs(9 - 2) = 7`。因此，交換輸入順序不會影響結果，且對於相等數字，結果應為 `0`。\n",
+  "original_issue": "code_grounding",
+  "counterfactual_issue": null
+}

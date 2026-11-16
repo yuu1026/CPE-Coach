@@ -1,0 +1,334 @@
+{
+  "scope": "Adaptive scripted learner, direct app service -> real local model HTTP and Docker. Not live browser or actual student learning. No private student data.",
+  "learner_prior_skills": "Can write cin/cout, for loops and vector input; core algorithm and unfamiliar APIs must come from recorded teacher replies.",
+  "rule": "Record justification for each code edit; do not insert algorithmic steps the teacher has not supplied.",
+  "steps": [
+    {
+      "topic": 10055,
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\n        cout << leftArmy - rightArmy << '\\n';\n    }\n}\n",
+      "rationale": "新模擬者會cin/cout、long long與while讀到EOF，但直覺以固定方向相減；尚未知道如何處理輸入大小順序。",
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 1 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "8 3\n3 8\n",
+            "expected": "5\n5\n",
+            "actual": "5\n-5\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.005
+          },
+          {
+            "name": "自編測資2",
+            "input": "4294967296 0\n",
+            "expected": "4294967296\n",
+            "actual": "4294967296\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.004
+          },
+          {
+            "name": "自編測資3",
+            "input": "9 9\n1 4\n",
+            "expected": "0\n3\n",
+            "actual": "0\n-3\n",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "0d6f5d896fed31cc7591223fd59243300fe88ac59be96ea4349dc9e2ec2f0c5b"
+    },
+    {
+      "topic": 10055,
+      "action": "ask",
+      "question": "我把兩個軍隊人數直接相減，但測試輸出有負數，題目預期正數。我還不懂哪裡錯。請沿用leftArmy與rightArmy，給一個最小局部修正並解釋，不要完整程式。",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\n        cout << leftArmy - rightArmy << '\\n';\n    }\n}\n",
+      "rationale": "先依真實失敗結果詢問本地模型；尚未編輯自己的錯誤演算法。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 0,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "題目要求的是絕對值，而原程式碼計算的是差值的符號，導致輸出為負數。需要將差值的絕對值輸出。\n\n修改 1：找到以下原片段（唯一位置）：\n```cpp\n        cout << leftArmy - rightArmy << '\\n';\n\n```\n替換為：\n```cpp\ncout << abs(leftArmy - rightArmy) << '\\n';\n\n```\n\n系統已在暫存副本編譯與測試：1/3 → 3/3，原先通過的案例沒有退步。你的編輯器尚未修改；可套用後再自行測試。這不代表官方AC或文字解釋已被證明正確。",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": false,
+      "scaffold_step": null,
+      "revision_check": {
+        "base_code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\n        cout << leftArmy - rightArmy << '\\n';\n    }\n}\n",
+        "candidate_code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+        "base_sha256": "0d6f5d896fed31cc7591223fd59243300fe88ac59be96ea4349dc9e2ec2f0c5b",
+        "candidate_sha256": "58793fcb9c32bd040ec67397123c14a8542565316d280d53501f4e9abc1f7cd5",
+        "tests_sha256": "771bd8779bef72877d5ad9c1152265846928fdcd67b561c8105084822b50c5e0",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 1 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n-5\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n-3\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "candidate": {
+          "status": "accepted",
+          "label": "測資通過 3 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "題庫範例",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n5\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n3\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "edits": [
+          {
+            "before": "        cout << leftArmy - rightArmy << '\\n';\n",
+            "after": "cout << abs(leftArmy - rightArmy) << '\\n';\n"
+          }
+        ],
+        "attempts": [
+          {
+            "plan": {
+              "explanation": "題目要求的是絕對值，而原程式碼計算的是差值的符號，導致輸出為負數。需要將差值的絕對值輸出。",
+              "edits": [
+                {
+                  "line_id": "L6",
+                  "after": "cout << abs(leftArmy - rightArmy) << '\\n';"
+                }
+              ]
+            },
+            "result": {
+              "status": "accepted",
+              "label": "測資通過 3 / 3",
+              "compiler": "",
+              "cases": [
+                {
+                  "name": "題庫範例",
+                  "input": "8 3\n3 8\n",
+                  "expected": "5\n5\n",
+                  "actual": "5\n5\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資2",
+                  "input": "4294967296 0\n",
+                  "expected": "4294967296\n",
+                  "actual": "4294967296\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.003
+                },
+                {
+                  "name": "自編測資3",
+                  "input": "9 9\n1 4\n",
+                  "expected": "0\n3\n",
+                  "actual": "0\n3\n",
+                  "stderr": "",
+                  "status": "accepted",
+                  "label": "通過",
+                  "seconds": 0.002
+                }
+              ],
+              "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+            }
+          }
+        ]
+      },
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "```json\n{\"explanation\":\"題目要求的是絕對值，而原程式碼計算的是差值的符號，導致輸出為負數。需要將差值的絕對值輸出。\",\"edits\":[{\"line_id\":\"L6\", \"after\":\"cout << abs(leftArmy - rightArmy) << '\\\\n';\"}]}\n```",
+          "issue": "code_language"
+        }
+      ],
+      "seconds": 13.31,
+      "code_sha256": "0d6f5d896fed31cc7591223fd59243300fe88ac59be96ea4349dc9e2ec2f0c5b"
+    },
+    {
+      "topic": 10055,
+      "action": "test",
+      "question": "",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+      "rationale": "只套用本地模型實際交付且驗證的候選，沒有自行加abs或重寫程式。模擬使用者按執行測試。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "judge": {
+        "status": "accepted",
+        "label": "測資通過 3 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "題庫範例",
+            "input": "8 3\n3 8\n",
+            "expected": "5\n5\n",
+            "actual": "5\n5\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.005
+          },
+          {
+            "name": "自編測資2",
+            "input": "4294967296 0\n",
+            "expected": "4294967296\n",
+            "actual": "4294967296\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.004
+          },
+          {
+            "name": "自編測資3",
+            "input": "9 9\n1 4\n",
+            "expected": "0\n3\n",
+            "actual": "0\n3\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+      },
+      "code_sha256": "58793fcb9c32bd040ec67397123c14a8542565316d280d53501f4e9abc1f7cd5"
+    },
+    {
+      "topic": 10055,
+      "action": "ask",
+      "question": "我照你的修改測試通過了。我理解成2、9與9、2都應該得到7，兩個數相等則得到0。這樣理解對嗎？請手算確認，不要改程式。",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+      "rationale": "依已交付的絕對值知識，由模擬者以基本算術提出自己的理解；程式不再修改，檢查老師能否承接並確認。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 1,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "",
+      "status": "failed",
+      "error": "模型這次仍未產生符合繁體中文、C++、目前程式引用、提示層級或連貫性要求的回覆，已停止重複回答。程式已保留；可指出希望檢查的運算式或步驟後重試。",
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "你的理解是正確的。對於 `2` 和 `9` 的差的絕對值，計算結果確實是 `abs(2 - 9) = 7`。同樣地，對於 `9` 和 `2` 的差的絕對值，計算結果也是 `abs(9 - 2) = 7`。因此，交換輸入順序不會影響結果，且對於相等數字，結果應為 `0`。\n",
+          "issue": "code_grounding"
+        },
+        {
+          "answer": "你的理解是正確的。對於輸入 2 和 9，差的絕對值是 |2 - 9| = 7。對於輸入 9 和 2，差的絕對值也是 |9 - 2| = 7。對於輸入 2 和 2，差的絕對值是 |2 - 2| = 0。因此，你的理解是對的。\n",
+          "issue": "code_grounding"
+        }
+      ],
+      "seconds": 25.17,
+      "code_sha256": "58793fcb9c32bd040ec67397123c14a8542565316d280d53501f4e9abc1f7cd5"
+    },
+    {
+      "topic": 10055,
+      "action": "ask",
+      "question": "我想確認算術：輸入2與9、9與2、2與2，結果分別是多少？請手算說明，先不要貼程式。",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\ncout << abs(leftArmy - rightArmy) << '\\n';\n    }\n}\n",
+      "rationale": "上輪正確手算候選被系統誤擋，模擬者僅看到拒絕訊息，故以更簡單的手算問題重問，程式不變。這是本路徑第3次、也是最後一次詢問。",
+      "level": 3,
+      "prompt_version": "cpe-tutor-v29",
+      "history_turns_supplied": 1,
+      "response_mode": "tutor",
+      "learning_mode": "code_review",
+      "answer": "好的，我們來手算一下這三個例子，驗證輸出是否符合預期。\n\n*   **輸入 2 與 9:**  `abs(2 - 9) = abs(-7) = 7`\n*   **輸入 9 與 2:**  `abs(9 - 2) = abs(7) = 7`\n*   **輸入 2 與 2:**  `abs(2 - 2) = abs(0) = 0`\n\n根據上述計算，對於輸入 `2` 和 `9` 的結果應該是 `7`，對於輸入 `9` 和 `2` 的結果也應該是 `7`，對於輸入 `2` 和 `2` 的結果應該是 `0`。\n",
+      "source": "model",
+      "status": "done",
+      "tutoring_projection": false,
+      "scaffold_step": null,
+      "system_knowledge": {
+        "topic_notes": true,
+        "curriculum_step": false,
+        "calculator": false
+      },
+      "attempts": [
+        {
+          "answer": "好的，我們來手算一下這三個例子，驗證輸出是否符合預期。\n\n*   **輸入 2 與 9:**  `abs(2 - 9) = abs(-7) = 7`\n*   **輸入 9 與 2:**  `abs(9 - 2) = abs(7) = 7`\n*   **輸入 2 與 2:**  `abs(2 - 2) = abs(0) = 0`\n\n根據上述計算，對於輸入 `2` 和 `9` 的結果應該是 `7`，對於輸入 `9` 和 `2` 的結果也應該是 `7`，對於輸入 `2` 和 `2` 的結果應該是 `0`。\n",
+          "issue": null
+        }
+      ],
+      "seconds": 25.69,
+      "code_sha256": "58793fcb9c32bd040ec67397123c14a8542565316d280d53501f4e9abc1f7cd5"
+    }
+  ]
+}

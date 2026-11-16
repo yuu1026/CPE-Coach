@@ -1,0 +1,36 @@
+{
+  "scope": "Read-only check of whether disabled fixture diagnosis lookup would match any actual program in the trials.",
+  "programs": [
+    {
+      "topic": 10055,
+      "code_sha256": "0d6f5d896fed31cc7591223fd59243300fe88ac59be96ea4349dc9e2ec2f0c5b",
+      "diagnostic_matches": false
+    },
+    {
+      "topic": 10055,
+      "code_sha256": "58793fcb9c32bd040ec67397123c14a8542565316d280d53501f4e9abc1f7cd5",
+      "diagnostic_matches": false
+    },
+    {
+      "topic": 10041,
+      "code_sha256": "502ff25dffe9e7a27eccae0b55de23e7d509c4320fa82f0d11dabe5dc7278745",
+      "diagnostic_matches": false
+    },
+    {
+      "topic": 10041,
+      "code_sha256": "725f05d3b5a83e85c54b871f63b72bd0dde2459f77af53ba34b3bef1ca725b27",
+      "diagnostic_matches": false
+    },
+    {
+      "topic": 10041,
+      "code_sha256": "969f4abb302e677d57203c71d627982b78e383704ebe24b6a030bcecbf6233d4",
+      "diagnostic_matches": false
+    },
+    {
+      "topic": 10041,
+      "code_sha256": "fa3b7423e4d891a62275e729cbc8fcfebab09ef360b25c1d5faef205c3414f3a",
+      "diagnostic_matches": false
+    }
+  ],
+  "matches": 0
+}

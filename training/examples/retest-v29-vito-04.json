@@ -1,0 +1,8 @@
+{
+  "topic": 10041,
+  "action": "ask",
+  "question": "系統又沒有交付修改，說候選不能編譯，有stray反斜線。我自己的原碼還能編譯，只是答案不對，所以我沒有套用候選。請重新根據原碼給能編譯的最小局部修正，保留meeting與cost，不要完整答案。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+  "rationale": "只將可見的候選編譯拒絕原因交回模型；原程式未變，也沒有從未交付計畫學取中位數程式。這是本路徑第3次、也是最後一次詢問。",
+  "level": 3
+}

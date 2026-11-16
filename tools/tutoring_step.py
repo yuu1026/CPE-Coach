@@ -53,14 +53,23 @@ def main():
         original=services._generate_once;attempts=[]
         def capture(prompt,level):
             reply=original(prompt,level)
-            attempts.append({'answer':str(reply),'issue':quality_issue(traditional_reply(str(reply)),messages)})
+            structured=bool(payload.get('revision_request'))
+            attempts.append({'answer':str(reply),
+                             'issue':None if structured else quality_issue(traditional_reply(str(reply)),messages),
+                             'checker':'structured_revision_pipeline' if structured else 'prose_quality'})
             return reply
         try:
             with patch('coach.services._generate_once',side_effect=capture):
                 reply=generate_hint(messages,request.get('level',3))
             entry.update(answer=str(reply),source=reply.source,status='partial' if reply.truncated else 'done',tutoring_projection=reply.tutoring_projection,
                          scaffold_step=json.loads(messages[-1]['content']).get('verified_next_step',{}).get('step'))
-        except HintError as exc:entry.update(answer='',status='failed',error=str(exc))
+            if getattr(reply,'revision_check',None):entry['revision_check']=reply.revision_check
+        except HintError as exc:
+            entry.update(answer='',status='failed',error=str(exc))
+            if getattr(exc,'revision_audit',None):entry['revision_failure']=exc.revision_audit
+        entry['system_knowledge']={'topic_notes':bool(payload.get('verified_topic_notes')),
+                                   'curriculum_step':bool(payload.get('verified_next_step')),
+                                   'calculator':bool(payload.get('verified_calculation'))}
         entry['attempts']=attempts
         entry['seconds']=round(time.monotonic()-started,2)
         print(json.dumps(entry,ensure_ascii=True),flush=True)

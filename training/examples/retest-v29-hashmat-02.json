@@ -1,0 +1,8 @@
+{
+  "topic": 10055,
+  "action": "ask",
+  "question": "我把兩個軍隊人數直接相減，但測試輸出有負數，題目預期正數。我還不懂哪裡錯。請沿用leftArmy與rightArmy，給一個最小局部修正並解釋，不要完整程式。",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long leftArmy, rightArmy;\n    while (cin >> leftArmy >> rightArmy) {\n        cout << leftArmy - rightArmy << '\\n';\n    }\n}\n",
+  "rationale": "先依真實失敗結果詢問本地模型；尚未編輯自己的錯誤演算法。",
+  "level": 3
+}

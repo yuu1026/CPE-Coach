@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "question": "系統仍沒有交付候選，說缺大括號；我原本程式能編譯。我還停在只有輸入與排序。下一步只教一行如何選住址，先不要距離計算或輸出。新增時請保留原有行與大括號，不要刪掉已完成的部分。",
+  "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\nstd::sort(addresses.begin(), addresses.end());\n    }\n}\n",
+  "rationale": "依可見的候選缺括號原因追問，原碼仍是第二次交付的輸入與排序版本，沒有套用任何未交付選址／距離程式。此為第5次，達預先設定上限後停止。",
+  "level": 3,
+  "topic": 10041
+}

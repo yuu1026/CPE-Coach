@@ -1,0 +1,8 @@
+{
+  "topic": 10041,
+  "action": "ask",
+  "question": "我先猜住在第一位親戚家，但範例輸出100，應該99。請根據我現在的streets、meeting、cost程式給一個小步驟，說明為什麼，不要完整答案。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int rounds; cin >> rounds;\n    while (rounds--) {\n        int familySize; cin >> familySize;\n        vector<int> streets(familySize);\n        for (int k = 0; k < familySize; ++k) cin >> streets[k];\n        int meeting = streets[0];\n        int cost = 0;\n        for (int k = 0; k < familySize; ++k) cost += abs(streets[k] - meeting);\n        cout << cost << '\\n';\n    }\n}\n",
+  "rationale": "先依真實失敗結果詢問本地模型；尚未編輯自己的錯誤演算法。",
+  "level": 3
+}

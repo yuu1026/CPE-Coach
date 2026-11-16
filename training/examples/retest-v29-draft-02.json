@@ -1,0 +1,8 @@
+{
+  "action": "test",
+  "question": "",
+  "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n#include <vector>\nusing namespace std;\nint main() {\n    int cases; cin >> cases;\n    while (cases--) {\n        int relatives; cin >> relatives;\n        vector<int> addresses(relatives);\n        for (int i=0; i<relatives; ++i) cin >> addresses[i];\n        // 下一步放這裡\n    }\n}\n",
+  "rationale": "只套用已交付候選：新增標頭與using，含重複宣告亦不自行清理；尚未自行加入排序。",
+  "level": 3,
+  "topic": 10041
+}
