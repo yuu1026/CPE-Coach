@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "我已把place改成你給的 houses[r / 2]，範例過了，但地址10、100、1卻輸出189，應該99。你剛剛說排序後，我還不會怎麼排序vector。請針對我現在這份程式，引用原本那行指出放置位置，告訴我要加哪個標頭與哪一行，不要main。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = houses[r / 2];\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "依模型上一輪明確提過的排序觀念、實際2/3通過與失敗案例追問排序語法；沒有提前自行加入sort。",
+  "level": 3
+}

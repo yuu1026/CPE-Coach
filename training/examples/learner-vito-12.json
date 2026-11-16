@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "我照你說的把place搬到讀取houses的for之前，現在從2組通過變成0組通過，範例輸出103。你前面說讀完後排序，後來又說讀取之前，我更不懂了。請針對目前這份程式更正你給錯的放置位置，並真正給出sort要怎麼寫的那一行，不要整份main。",
+  "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int place = houses[r / 2];\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "依模型搬移指示導致0/3後追問矛盾，保留錯誤修改後的完整程式供模型修正，不偷偷回復正確位置。",
+  "level": 3
+}

@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "我照你說的放到main開頭，現在編譯說houses還沒宣告。我已經被幾次不同指示搞混了。請直接給我完整修正後的程式，但一定以我目前這份程式為基礎，保留t、r、houses、place、answer與原有迴圈，並說明你把哪幾行搬到哪裡，讓我比較。",
+  "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    sort(houses.begin(), houses.end());\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int place = houses[r / 2];\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "模擬使用者經8輪提示仍退步到無法編譯，明確改為要求完整修正供比較；這不是成功的提示式教學，完整答案模式需另行標記。",
+  "level": 3
+}

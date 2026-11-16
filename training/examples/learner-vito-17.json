@@ -1,0 +1,9 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "這是我自己最初寫的UVa10041程式。我用平均數選place，範例輸出131但答案應是99。請給我完整修正後的程式，保留t、r、houses、place、answer和原本for迴圈，使用C++17，並解釋你針對我的程式改了哪裡。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "最後一次有界對照：模擬使用者撤銷助理造成的修改、回復原始可編譯但答案錯誤的平均數草稿，並清除歷史；未自行寫入任何正確演算法。第12次詢問後不再無限重試。",
+  "new_chat": true,
+  "level": 3
+}

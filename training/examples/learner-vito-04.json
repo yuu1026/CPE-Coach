@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "可是我的迴圈有 answer += abs(houses[i] - place);，不是有用到place嗎？你說平均數只是近似值，我應該改成double嗎？請沿用houses、r、place、answer，明確給一個最小局部修正和理由，不要重寫整份程式。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "初學者引用自己現有的距離累加行追問；double只是詢問，沒有偷偷修改或插入中位數。",
+  "level": 3
+}

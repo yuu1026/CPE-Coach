@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "我用平均數當住址。範例我算出131，但應該是99。我不知道問題在哪，請針對我這份程式給一個提示，不要直接貼完整答案。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "先問實際失敗的程式，尚未修改任何演算法。",
+  "level": 2
+}

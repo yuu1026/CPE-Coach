@@ -1,0 +1,22 @@
+{
+  "scope": "Adaptive agent-simulated beginner on seen UVa10041, real local model HTTP and Docker. Not real students, browser QA, independent teacher review, or an all-topic score.",
+  "source_report": "learner-vito-adaptive-20261116.json",
+  "learner_questions": 12,
+  "raw_model_calls_including_retries": 19,
+  "student_docker_tests": 6,
+  "failed_reply_deliveries": 5,
+  "delivered_replies": 7,
+  "delivered_does_not_mean_semantically_correct": true,
+  "workflow_seconds_including_checks_and_retries": 532.38,
+  "student_test_progression": ["1/3", "1/3", "2/3", "0/3", "compile_error", "1/3 after explicit restore"],
+  "continuous_tutoring_completed": false,
+  "full_solution_rescue_completed": false,
+  "final_student_program_passed": false,
+  "generalization_test_performed": false,
+  "real_student_learning_measured": false,
+  "system_policy_issue_fixed": "Recognize explicit requests for corrected C++ as full solution mode, preserving negations and snippet-only requests.",
+  "experimental_phase_change": "v26 to v27 intent-policy fix during explicitly recorded reset comparison; no causal claim that clearing chat fixes teaching.",
+  "weights_changed": false,
+  "training_dataset_updated": false,
+  "assessment_author": "Implementing agent; not independent educator"
+}

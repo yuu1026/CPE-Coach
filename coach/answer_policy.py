@@ -7,6 +7,14 @@ from .code_format import format_cpp
 
 def requests_solution(question):
     text = re.sub(r'\s+', '', question)
+    # Users may name the requested language instead of repeating 程式碼.
+    # Preserve explicit refusal before recognizing the affirmative form.
+    cpp_repair=r'(?:完整)?(?:修正|修改|修好|改好)(?:過|好|後)?的?C\+\+(?:17|20|23)?(?:程式碼?)?'
+    if re.search(r'(?:不要|不想|不用|別|先不|不需要)(?:直接)?(?:給我|提供|貼出|顯示)?'+cpp_repair,text,re.I):
+        return False
+    if (re.search(r'(?:給我|提供|貼出|顯示|我要|請給)'+cpp_repair,text,re.I)
+            and not re.search(cpp_repair+r'(?:片段|範例)',text,re.I)):
+        return True
     if re.search(r'(不要|不想|不用|別|先不|不需要)(直接)?(給我|给我|提供|貼出|贴出|顯示|显示)?(修正|修改|改好|修好|修復|修复|更正)(過|过|好|後|后)?的?(程式碼?|代码|代碼)',text):
         return False
     # A student may discuss wrong answers without requesting a solution.

@@ -1,0 +1,8 @@
+{
+  "action": "test",
+  "topic": 10041,
+  "question": "",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "第12次模型完整候選仍未通過測資，未交付或套用。最後保留已回復的初始平均數程式並重測，誠實記錄最後學生程式狀態；不再追加模型重試。",
+  "level": 3
+}

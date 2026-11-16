@@ -1,0 +1,8 @@
+{
+  "action": "test",
+  "topic": 10041,
+  "question": "",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "模型交付將 int place = sum / r; 改成同一行，實際差異為空。依原樣保留並重測，不自行補中位數。",
+  "level": 3
+}

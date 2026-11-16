@@ -1,0 +1,8 @@
+{
+  "action": "test",
+  "topic": 10041,
+  "question": "",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = houses[r / 2];\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "只套用模型第5次詢問實際交付的 int place = houses[r / 2];。回覆提到排序，但未教排序語法；初學者不會自行補上sort。其餘原程式保留。",
+  "level": 3
+}

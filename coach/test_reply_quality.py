@@ -56,9 +56,9 @@ class ReplyQualityTests(TestCase):
         return json.loads((Path(settings.BASE_DIR) / 'data/cpe49.json').read_text(encoding='utf-8'))
 
     def test_explicit_answers_and_negations_are_distinct(self):
-        for question in ['給我正確答案', '請提供完整程式碼', '正確答案是什麼？', '不要繞圈，直接給我答案', '直接給我修正過的程式', '請提供修改後的程式碼', 'Show me the complete solution']:
+        for question in ['給我正確答案', '請提供完整程式碼', '正確答案是什麼？', '不要繞圈，直接給我答案', '直接給我修正過的程式', '請提供修改後的程式碼', 'Show me the complete solution','給我完整修正後的C++','請提供修改後的 C++17']:
             self.assertTrue(requests_solution(question), question)
-        for question in ['不要直接給我答案', '不需要完整解答', '不要給我修正過的程式', '我的答案為什麼不對？', '請幫我找錯誤', "Do not give me the complete solution"]:
+        for question in ['不要直接給我答案', '不需要完整解答', '不要給我修正過的程式', '我的答案為什麼不對？', '請幫我找錯誤', "Do not give me the complete solution",'不要給我完整修正後的C++','先不提供修改後的C++17','這段C++要怎麼修改？','只給我修改後的C++片段','請提供修正後的C++17範例']:
             self.assertFalse(requests_solution(question), question)
 
     def test_traditional_prose_does_not_change_code_or_literal_outputs(self):

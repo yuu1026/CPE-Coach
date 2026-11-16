@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "剛剛系統顯示回覆失敗，沒有可用的修正。我只想先處理 int place = sum / r; 這一行。請給替換這一行的一到兩行C++，不要main或整份程式，並用一句話解釋；其他部分先保留。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "前輪候選被系統擋下，使用者看不到，故不採用未交付的double程式；縮小問題要求可直接套用的局部修改。",
+  "level": 3
+}

@@ -1,0 +1,9 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "這份UVa10041程式編譯失敗，說houses沒有宣告。請根據目前這份程式與編譯錯誤，給我完整修正後的C++，保留t、r、houses、place、answer與原有迴圈，並解釋sort與place應放在哪裡。",
+  "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    sort(houses.begin(), houses.end());\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int place = houses[r / 2];\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "第10次請求雖明確要完整修正後的C++，卻被舊意圖辨識錯當提示模式而擋下完整候選。修正系統政策後用同一問題、同一失敗程式、同樣清空歷史重試；這是系統修正後對照，不能當單純清除歷史的因果測試。",
+  "level": 3,
+  "new_chat": true
+}

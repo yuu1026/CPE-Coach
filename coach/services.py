@@ -11,7 +11,7 @@ from .answer_validation import compile_full_reply
 from .teaching_tools import vito_calculation,vito_next_step,calculation_text
 from .tutoring_projection import project_next_step,verified_step_text
 
-PROMPT_VERSION = 'cpe-tutor-v26'
+PROMPT_VERSION = 'cpe-tutor-v27'
 
 class HintError(Exception):
     pass

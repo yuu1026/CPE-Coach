@@ -37,10 +37,18 @@ def main():
         entry['judge']=judge(code,tests)
         print(json.dumps(entry['judge'],ensure_ascii=True),flush=True)
     else:
-        history=[{'question':s['question'],'hint':s['answer'],'code':s['code']} for s in report['steps'] if s.get('answer')]
+        # Explicitly simulate the existing clear-chat control without changing
+        # editor code or discarding its actual test evidence. Keep old turns
+        # in the audit report, but stop sending them to the model afterwards.
+        reset=max((i for i,s in enumerate(report['steps']) if s.get('new_chat') is True),default=0)
+        prior=[] if request.get('new_chat') is True else report['steps'][reset:]
+        history=[{'question':s['question'],'hint':s['answer'],'code':s['code']} for s in prior if s.get('answer')]
+        entry['history_turns_supplied']=len(history)
         previous=next((s for s in reversed(report['steps']) if s.get('judge') and s['code']==code),None)
         evidence=previous['judge'] if previous else {'status':'not_run','label':'這份程式尚未測試','cases':[]}
         messages=build_messages(problem,code,request['question'],request.get('level',3),history,evidence,include_diagnostics=False)
+        payload=json.loads(messages[-1]['content'])
+        entry.update(response_mode=payload['response_mode'],learning_mode=payload.get('learning_mode'))
         started=time.monotonic()
         original=services._generate_once;attempts=[]
         def capture(prompt,level):

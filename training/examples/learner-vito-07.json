@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "你給的修改前後完全一樣，我照做重測還是131，沒有進展。我是不是不該用平均數？請直接說明這份程式應該如何選place，並給必要的局部修正，沿用houses和r，不要完整main。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "依已交付的無變更建議重測失敗後追問；尚不知道正確選址方式，要求模型教並局部修正。",
+  "level": 3
+}

@@ -1,0 +1,8 @@
+{
+  "action": "ask",
+  "topic": 10041,
+  "question": "我有點混亂。地址 1、2、100，sum應該是103、r是3，所以place應該是34，不是1。我實際測試也輸出131。你剛剛是不是把place看成1？請先更正，再告訴我這份程式真正該檢查哪一行，先不要完整答案。",
+  "code": "#include <iostream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\nint main() {\n    int t; cin >> t;\n    while (t--) {\n        int r; cin >> r;\n        vector<int> houses(r);\n        int sum = 0;\n        for (int i = 0; i < r; i++) {\n            cin >> houses[i];\n            sum += houses[i];\n        }\n        int place = sum / r;\n        int answer = 0;\n        for (int i = 0; i < r; i++) {\n            answer += abs(houses[i] - place);\n        }\n        cout << answer << '\\n';\n    }\n}\n",
+  "rationale": "初學者依已會的基本整數除法與真實測試結果追問矛盾；沒有加入任何新演算法或修改程式。",
+  "level": 2
+}
