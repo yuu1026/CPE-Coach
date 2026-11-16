@@ -1,0 +1,522 @@
+{
+  "scenario": "hashmat_own_code",
+  "topic": 10055,
+  "prompt_version": "cpe-coach-v46-guided",
+  "backend_sha256": "35c17abf01ef30134ad273ebcf9b29afdd9f46cc92067650191bcc7d33fac86e",
+  "commit": "928e3cb5812143a11cb6d572310b27acf5fa07a3",
+  "scope": "Fixed agent-authored learner answers; real production service/model/Docker. No database writes. Only delivered scaffolds and exact verified candidates adopted. Not a human learning study or proof of model-only competence.",
+  "initial_code": "#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<armyA-armyB<<endl;}return 0;}\n",
+  "steps": [
+    {
+      "question": "請引導我修正這份程式，只改錯的地方，保留 armyA 與 armyB。",
+      "before": "#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<armyA-armyB<<endl;}return 0;}\n",
+      "status": "delivered",
+      "answer": "模型提出局部修改；步驟與原因由系統教學卡核對。\n\n`armyA - armyB` 是帶正負號的差；題目要絕對差，交換兩個輸入時輸出應相同。long long 能表示負數。\n\n在函式外加入：\n```cpp\n#include <cstdlib>\n```\n\n原片段：\n```cpp\narmyA-armyB\n```\n本步替換為：\n```cpp\nstd::abs(armyA - armyB)\n```\n\n暫存副本已編譯，測資 1/3 → 3/3，原先通過案例沒有退步；概念小實驗也通過。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。\n\n理解確認：abs(-7)、abs(0)、abs(7) 的值依序是多少？",
+      "source": "lesson_model",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10055,
+        "signature": "41507862b4e0fa8f23ccf911106136f453ae53dc5719cf649e692bbd9d64dd02",
+        "checks": [],
+        "passed": [],
+        "pending": "hashmat_abs",
+        "last_step": "difference",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"題目要求計算絕對差，因此需要使用 `abs()` 函數來計算 `armyA` 和 `armyB` 的差的絕對值。\",\n  \"edits\": [\n    {\n      \"header\": \"cstdlib\"\n    },\n    {\n      \"unit_id\": \"U5\",\n      \"after\": \"std::abs(armyA - armyB)\"\n    }\n  ]\n}\n```"
+        },
+        "source": "lesson_model"
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 1.011
+          },
+          {
+            "name": "validation",
+            "seconds": 1.084
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 551,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.743,
+            "prompt_eval_count": 271,
+            "eval_count": 103,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 11.985,
+              "first_text_seconds": 0.621,
+              "tokenize_seconds": 0.002
+            },
+            "seconds": 12.107
+          }
+        ],
+        "retries": [],
+        "generated_chars": 224,
+        "elapsed_seconds": 14.205,
+        "phase_seconds": {
+          "preparing": 0.0,
+          "generation": 12.11,
+          "candidate": 1.011,
+          "validation": 1.084
+        }
+      },
+      "revision_check": {
+        "base_code": "#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<armyA-armyB<<endl;}return 0;}\n",
+        "candidate_code": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n",
+        "base_sha256": "955e14f1859bcdd22f4e59c0af5fec3eee04637bac5b8b26035b8988f3254f37",
+        "candidate_sha256": "822b1cc34dc03c17afd86345cd2faf872a107b6c35aa9e4f3ea5314776042051",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 1 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n-5\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n-3\n",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "55f7d63414e53bc34f159df6775de2f7869c9f46d5d81e958dd08babaa353397"
+        },
+        "candidate": {
+          "status": "accepted",
+          "label": "測資通過 3 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "8 3\n3 8\n",
+              "expected": "5\n5\n",
+              "actual": "5\n5\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "4294967296 0\n",
+              "expected": "4294967296\n",
+              "actual": "4294967296\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "9 9\n1 4\n",
+              "expected": "0\n3\n",
+              "actual": "0\n3\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "verification_scope": "lesson_step",
+        "lesson_step": "difference",
+        "concept_probe": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "教學概念小實驗",
+              "input": "",
+              "expected": "5\n5",
+              "actual": "5\n5",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "tests_sha256": "b2732658b3d01c496d11b76095db86f761b00b0d9229172a695a3a6300ea84e1"
+      },
+      "adoption": "exact_verified_candidate",
+      "after": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n",
+      "judge": {
+        "status": "accepted",
+        "label": "測資通過 3 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "8 3\n3 8\n",
+            "expected": "5\n5\n",
+            "actual": "5\n5\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "4294967296 0\n",
+            "expected": "4294967296\n",
+            "actual": "4294967296\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "9 9\n1 4\n",
+            "expected": "0\n3\n",
+            "actual": "0\n3\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "c4bc058720cce2f84bd15ae1962f5947d36161f12d37404a949471371e4dce6e"
+      },
+      "seconds": 15.254
+    },
+    {
+      "question": "7、0、-7",
+      "before": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n",
+      "status": "delivered",
+      "answer": "這個作答還不正確。三者依序為 7、0、7；正數不變，零仍為零，負數才去掉負號。\n\n理解確認：換一組：abs(-4)、abs(0)、abs(2) 的值依序是多少？",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10055,
+        "signature": "41507862b4e0fa8f23ccf911106136f453ae53dc5719cf649e692bbd9d64dd02",
+        "checks": [
+          {
+            "id": "hashmat_abs",
+            "variant": 0,
+            "answer": "7、0、-7",
+            "correct": false
+          }
+        ],
+        "passed": [],
+        "pending": "hashmat_abs",
+        "last_step": "difference",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"題目要求計算絕對差，因此需要使用 `abs()` 函數來計算 `armyA` 和 `armyB` 的差的絕對值。\",\n  \"edits\": [\n    {\n      \"header\": \"cstdlib\"\n    },\n    {\n      \"unit_id\": \"U5\",\n      \"after\": \"std::abs(armyA - armyB)\"\n    }\n  ]\n}\n```"
+        },
+        "source": "lesson_system",
+        "variants": {
+          "hashmat_abs": 1
+        }
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.0,
+        "phase_seconds": {
+          "preparing": 0.0
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.004
+    },
+    {
+      "question": "4、0、2，下一步",
+      "before": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。依序為 4、0、2；絕對值是到零的距離。\n\n系統核對教學：目前程式通過題庫測資與額外 40 組輸入（額外輸入合併為一個 judge 案例）。這不是官方 AC。接著確認你能自行運用觀念。\n\n理解確認：兩筆新輸入是 100 60 與 60 100，輸出依序是多少？",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10055,
+        "signature": "41507862b4e0fa8f23ccf911106136f453ae53dc5719cf649e692bbd9d64dd02",
+        "checks": [
+          {
+            "id": "hashmat_abs",
+            "variant": 0,
+            "answer": "7、0、-7",
+            "correct": false
+          },
+          {
+            "id": "hashmat_abs",
+            "variant": 1,
+            "answer": "4、0、2，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "absolute_value"
+        ],
+        "pending": "hashmat_transfer",
+        "last_step": "difference",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"題目要求計算絕對差，因此需要使用 `abs()` 函數來計算 `armyA` 和 `armyB` 的差的絕對值。\",\n  \"edits\": [\n    {\n      \"header\": \"cstdlib\"\n    },\n    {\n      \"unit_id\": \"U5\",\n      \"after\": \"std::abs(armyA - armyB)\"\n    }\n  ]\n}\n```"
+        },
+        "source": "lesson_system",
+        "variants": {
+          "hashmat_abs": 1
+        },
+        "validation": {
+          "code_sha256": "822b1cc34dc03c17afd86345cd2faf872a107b6c35aa9e4f3ea5314776042051",
+          "tests_sha256": "3142737ffa8ce69d6748ddf62710a82a9084372997cd3f51f9a27e9d92daac6a",
+          "status": "accepted",
+          "independent_examples": 40,
+          "result": {
+            "status": "accepted",
+            "label": "測資通過 4 / 4",
+            "compiler": "",
+            "cases": [
+              {
+                "name": "範例測資",
+                "input": "8 3\n3 8\n",
+                "expected": "5\n5\n",
+                "actual": "5\n5\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資2",
+                "input": "4294967296 0\n",
+                "expected": "4294967296\n",
+                "actual": "4294967296\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.005
+              },
+              {
+                "name": "自編測資3",
+                "input": "9 9\n1 4\n",
+                "expected": "0\n3\n",
+                "actual": "0\n3\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              },
+              {
+                "name": "40 組額外差距案例",
+                "input": "0 0\n0 4294967296\n4294967296 0\n3 8\n8 3\n3897887404 2639029422\n552387814 2815921040\n685171587 3066038684\n1699761536 4130548159\n2311296178 241353894\n1216631275 1002815622\n196050796 1682493564\n2943868730 1154805743\n1480473395 821329737\n1452568281 1932921108\n3421152814 1346197964\n1367970952 4026883421\n3371231336 2429915616\n2405163451 2379258640\n3909096902 612920769\n474100193 4040464801\n2253184746 1720023945\n3338715998 3947742019\n1737572977 2065318518\n723754027 3241901679\n934142119 704469503\n2854285367 1784865702\n3558318429 3634811146\n1864897036 1337171096\n1083651281 66044133\n3760075081 1837082431\n922056896 3432585764\n4288450925 3660550200\n667643155 3175225614\n635404161 618757582\n1086362966 99061589\n237240074 2152137718\n1990496781 846556495\n2041329591 1229590803\n3128558932 343684264\n",
+                "expected": "0\n4294967296\n4294967296\n5\n5\n1258857982\n2263533226\n2380867097\n2430786623\n2069942284\n213815653\n1486442768\n1789062987\n659143658\n480352827\n2074954850\n2658912469\n941315720\n25904811\n3296176133\n3566364608\n533160801\n609026021\n327745541\n2518147652\n229672616\n1069419665\n76492717\n527725940\n1017607148\n1922992650\n2510528868\n627900725\n2507582459\n16646579\n987301377\n1914897644\n1143940286\n811738788\n2784874668\n",
+                "actual": "0\n4294967296\n4294967296\n5\n5\n1258857982\n2263533226\n2380867097\n2430786623\n2069942284\n213815653\n1486442768\n1789062987\n659143658\n480352827\n2074954850\n2658912469\n941315720\n25904811\n3296176133\n3566364608\n533160801\n609026021\n327745541\n2518147652\n229672616\n1069419665\n76492717\n527725940\n1017607148\n1922992650\n2510528868\n627900725\n2507582459\n16646579\n987301377\n1914897644\n1143940286\n811738788\n2784874668\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              }
+            ],
+            "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+          }
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "validation",
+            "seconds": 1.094
+          }
+        ],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 1.095,
+        "phase_seconds": {
+          "preparing": 0.001,
+          "validation": 1.094
+        }
+      },
+      "revision_check": null,
+      "seconds": 1.095
+    },
+    {
+      "question": "40、40，下一步",
+      "before": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。|100-60|=40、|60-100|=40，交換輸入順序不改變差距。\n\n這條教學路徑已完成：目前程式通過題庫測資與額外 40 組輸入，也完成 2 個具體觀念作答。\n\n這不代表已證明你能獨立重寫或通過官方評測。下一個練習是先保存目前程式，再不看原碼自行重寫；完成後重新測試。完成標記仍由你自行決定。",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10055,
+        "signature": "41507862b4e0fa8f23ccf911106136f453ae53dc5719cf649e692bbd9d64dd02",
+        "checks": [
+          {
+            "id": "hashmat_abs",
+            "variant": 0,
+            "answer": "7、0、-7",
+            "correct": false
+          },
+          {
+            "id": "hashmat_abs",
+            "variant": 1,
+            "answer": "4、0、2，下一步",
+            "correct": true
+          },
+          {
+            "id": "hashmat_transfer",
+            "variant": 0,
+            "answer": "40、40，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "absolute_value",
+          "transfer"
+        ],
+        "pending": null,
+        "last_step": "difference",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"題目要求計算絕對差，因此需要使用 `abs()` 函數來計算 `armyA` 和 `armyB` 的差的絕對值。\",\n  \"edits\": [\n    {\n      \"header\": \"cstdlib\"\n    },\n    {\n      \"unit_id\": \"U5\",\n      \"after\": \"std::abs(armyA - armyB)\"\n    }\n  ]\n}\n```"
+        },
+        "source": "lesson_system",
+        "variants": {
+          "hashmat_abs": 1
+        },
+        "validation": {
+          "code_sha256": "822b1cc34dc03c17afd86345cd2faf872a107b6c35aa9e4f3ea5314776042051",
+          "tests_sha256": "3142737ffa8ce69d6748ddf62710a82a9084372997cd3f51f9a27e9d92daac6a",
+          "status": "accepted",
+          "independent_examples": 40,
+          "result": {
+            "status": "accepted",
+            "label": "測資通過 4 / 4",
+            "compiler": "",
+            "cases": [
+              {
+                "name": "範例測資",
+                "input": "8 3\n3 8\n",
+                "expected": "5\n5\n",
+                "actual": "5\n5\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資2",
+                "input": "4294967296 0\n",
+                "expected": "4294967296\n",
+                "actual": "4294967296\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.005
+              },
+              {
+                "name": "自編測資3",
+                "input": "9 9\n1 4\n",
+                "expected": "0\n3\n",
+                "actual": "0\n3\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              },
+              {
+                "name": "40 組額外差距案例",
+                "input": "0 0\n0 4294967296\n4294967296 0\n3 8\n8 3\n3897887404 2639029422\n552387814 2815921040\n685171587 3066038684\n1699761536 4130548159\n2311296178 241353894\n1216631275 1002815622\n196050796 1682493564\n2943868730 1154805743\n1480473395 821329737\n1452568281 1932921108\n3421152814 1346197964\n1367970952 4026883421\n3371231336 2429915616\n2405163451 2379258640\n3909096902 612920769\n474100193 4040464801\n2253184746 1720023945\n3338715998 3947742019\n1737572977 2065318518\n723754027 3241901679\n934142119 704469503\n2854285367 1784865702\n3558318429 3634811146\n1864897036 1337171096\n1083651281 66044133\n3760075081 1837082431\n922056896 3432585764\n4288450925 3660550200\n667643155 3175225614\n635404161 618757582\n1086362966 99061589\n237240074 2152137718\n1990496781 846556495\n2041329591 1229590803\n3128558932 343684264\n",
+                "expected": "0\n4294967296\n4294967296\n5\n5\n1258857982\n2263533226\n2380867097\n2430786623\n2069942284\n213815653\n1486442768\n1789062987\n659143658\n480352827\n2074954850\n2658912469\n941315720\n25904811\n3296176133\n3566364608\n533160801\n609026021\n327745541\n2518147652\n229672616\n1069419665\n76492717\n527725940\n1017607148\n1922992650\n2510528868\n627900725\n2507582459\n16646579\n987301377\n1914897644\n1143940286\n811738788\n2784874668\n",
+                "actual": "0\n4294967296\n4294967296\n5\n5\n1258857982\n2263533226\n2380867097\n2430786623\n2069942284\n213815653\n1486442768\n1789062987\n659143658\n480352827\n2074954850\n2658912469\n941315720\n25904811\n3296176133\n3566364608\n533160801\n609026021\n327745541\n2518147652\n229672616\n1069419665\n76492717\n527725940\n1017607148\n1922992650\n2510528868\n627900725\n2507582459\n16646579\n987301377\n1914897644\n1143940286\n811738788\n2784874668\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              }
+            ],
+            "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+          }
+        },
+        "completion": "tests_and_checks_complete",
+        "independent_rebuild": "not_assessed"
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.001,
+        "phase_seconds": {
+          "preparing": 0.001
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.001
+    }
+  ],
+  "initial_judge": {
+    "status": "failed",
+    "label": "測資通過 1 / 3",
+    "compiler": "",
+    "cases": [
+      {
+        "name": "範例測資",
+        "input": "8 3\n3 8\n",
+        "expected": "5\n5\n",
+        "actual": "5\n-5\n",
+        "stderr": "",
+        "status": "wrong_answer",
+        "label": "答案不符",
+        "seconds": 0.003
+      },
+      {
+        "name": "自編測資2",
+        "input": "4294967296 0\n",
+        "expected": "4294967296\n",
+        "actual": "4294967296\n",
+        "stderr": "",
+        "status": "accepted",
+        "label": "通過",
+        "seconds": 0.003
+      },
+      {
+        "name": "自編測資3",
+        "input": "9 9\n1 4\n",
+        "expected": "0\n3\n",
+        "actual": "0\n-3\n",
+        "stderr": "",
+        "status": "wrong_answer",
+        "label": "答案不符",
+        "seconds": 0.003
+      }
+    ],
+    "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+    "fingerprint": "55f7d63414e53bc34f159df6775de2f7869c9f46d5d81e958dd08babaa353397"
+  },
+  "current_code": "#include <cstdlib>\n#include <iostream>\nusing namespace std;\nint main(){long long armyA,armyB;while(cin>>armyA>>armyB){cout<<std::abs(armyA - armyB)<<endl;}return 0;}\n"
+}

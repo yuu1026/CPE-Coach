@@ -181,3 +181,6 @@ a.button-quiet{background:transparent;color:var(--text);border-color:var(--line)
 .test-drawer[open]{min-height:120px;max-height:min(55%,calc(100% - 280px))}
 .test-drawer summary:focus-visible,.topic-chips a:focus-visible,.pane-toggles button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(max-width:600px){.workspace-picker .problem-switcher{left:0;right:auto}.workspace-tools .workspace-picker{width:auto}}
+
+/* Show the newest reply immediately, including very long teaching threads. */
+.chat-scroll{scroll-behavior:auto}

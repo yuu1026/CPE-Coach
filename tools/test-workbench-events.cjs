@@ -32,6 +32,7 @@ const requests=[], locations=[];
 const browser=new Element(); browser.confirm=()=>true; browser.alert=message=>{throw Error(message);}; browser.history={replaceState:(_,__,url)=>locations.push(url)};
 const context={document:{getElementById:id=>nodes[id]||null,querySelectorAll:()=>[],querySelector:()=>null,createElement:()=>new Element(),documentElement:new Element()},window:browser,
   FormData:FakeFormData,Event:class {constructor(type){this.type=type;}},crypto:{randomUUID:()=> 'retry-token'},
+  requestAnimationFrame:fn=>fn(),setTimeout:fn=>fn(),
   fetch:async(url,options)=>{requests.push({url,options}); return {ok:true,json:async()=>url==='/clear/'?{parent:4,next_token:'clear-token',url:'/submission/4/'}:{html:'results',record:4,token:'test-token',next_token:'new-token',url:'/submission/4/',code:code.value,custom_test:{enabled:false}}};}};
 vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
 (async()=>{
@@ -60,7 +61,9 @@ vm.runInNewContext(fs.readFileSync('static/coach/workbench.js','utf8'),context);
   await form.emit('formdata',{formData:sentData});
   assert.equal(question.value,'','sending chat clears the visible composer');
   assert.equal(sentData.get('question'),'not submitted','the actual message must remain in the outgoing request');
+  nodes['chat-history'].scrollHeight=5000;
   await browser.emit('pageshow');
+  assert.equal(nodes['chat-history'].scrollTop,5000,'long conversations should show the latest reply after page restoration');
   await nodes['clear-chat'].emit('click');
   assert.equal(requests[1].url,'/clear/'); assert.equal(question.value,''); assert.equal(code.value,'int main(){}');
   assert.equal(nodes['chat-history'].children.length,1); assert.equal(fields.submission_id.value,'clear-token');

@@ -1,0 +1,1408 @@
+{
+  "scenario": "vito_blank",
+  "topic": 10041,
+  "prompt_version": "cpe-coach-v47-guided",
+  "backend_sha256": "d2686ff2ab847616f2ea7003bf1bc62ea32a1da8feb566eb2affda13e37144a9",
+  "commit": "928e3cb5812143a11cb6d572310b27acf5fa07a3",
+  "scope": "Fixed agent-authored learner answers; real production service/model/Docker. No database writes. Only delivered scaffolds and exact verified candidates adopted. Not a human learning study or proof of model-only competence.",
+  "initial_code": "",
+  "steps": [
+    {
+      "question": "我沒有想法，請用小例子引導我。",
+      "before": "",
+      "status": "delivered",
+      "answer": "系統核對教學：\n\n本題要選一個住址，讓到所有親戚地址的距離總和最小。例：地址 1、2、3，住在 2 的總距離為 1+0+1=2。\n\n理解確認：三位親戚住在 1、2、3。如果住在 1，距離總和是多少？只回答這個數值即可。",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [],
+        "passed": [],
+        "pending": "vito_start",
+        "source": "lesson_system"
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.0,
+        "phase_seconds": {
+          "preparing": 0.0
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.011
+    },
+    {
+      "question": "4",
+      "before": "",
+      "status": "delivered",
+      "answer": "這個作答還不正確。住在 1 時，總距離是 |1-1|+|2-1|+|3-1|=0+1+2=3。\n\n理解確認：換個例子：地址 2、4、9，住在 4，距離總和是多少？",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          }
+        ],
+        "passed": [],
+        "pending": "vito_distance_retry",
+        "source": "lesson_system"
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.0,
+        "phase_seconds": {
+          "preparing": 0.0
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.002
+    },
+    {
+      "question": "我懂了，下一步",
+      "before": "",
+      "status": "delivered",
+      "answer": "我們先算這個小例子，確認後再接下一步。\n\n理解確認：換個例子：地址 2、4、9，住在 4，距離總和是多少？",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          }
+        ],
+        "passed": [],
+        "pending": "vito_distance_retry",
+        "source": "lesson_system"
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.0,
+        "phase_seconds": {
+          "preparing": 0.0
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.001
+    },
+    {
+      "question": "7",
+      "before": "",
+      "status": "delivered",
+      "answer": "這個小例題答對了。距離須分別取絕對值，再相加：|2-4|+|4-4|+|9-4|=2+0+5=7。\n\n系統核對教學：以下是本題的輸入骨架，已通過 C++17 編譯，核心留白，尚未執行題目測資。\n\n```cpp\n#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n```\n\n可將它放入編輯器，再說「下一步」。已有程式時不會自動覆寫。",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance"
+        ],
+        "pending": null,
+        "source": "lesson_system",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c"
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "validation",
+            "seconds": 1.044
+          }
+        ],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 1.045,
+        "phase_seconds": {
+          "preparing": 0.001,
+          "validation": 1.044
+        }
+      },
+      "revision_check": null,
+      "adoption": "exact_delivered_scaffold",
+      "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "eaf6324d63bebed072c06e149e04375c0e199e50d2055fa1d97538e58296e9e6"
+      },
+      "seconds": 2.097
+    },
+    {
+      "question": "下一步，請只改一小處。",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "模型這輪未交付符合本步驟的修改，改用系統核對教學；以下不是模型獨立產生的解法。\n\n這一步將已讀完的 `houses` 由小到大排序。中位數是排序後的中間地址，後續再核對選址與距離加總。\n\n原片段：\n```cpp\nfor (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n```\n本步替換為：\n```cpp\nfor (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n```\n\n暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。\n\n理解確認：先確認排序的作用：9、1、4 排序後的順序是什麼？請依序回答三個數字。",
+      "source": "lesson_fallback",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance"
+        ],
+        "pending": "vito_order",
+        "source": "lesson_fallback",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "sort",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"為了按照核對計畫的要求，對 `houses` 向量進行排序。\",\n  \"edits\": [\n    {\n      \"before\": \"for (int i = 0; i < count; ++i) {\\n            cin >> houses[i];\\n        }\",\n      \"after\": \"std::sort(houses.begin(), houses.end());\"\n    }\n  ]\n}\n```",
+          "recovery_reason": "模型候選超出本輪已核對修改。"
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 1.097
+          },
+          {
+            "name": "validation",
+            "seconds": 1.126
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 949,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.721,
+            "prompt_eval_count": 408,
+            "eval_count": 100,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 11.545,
+              "first_text_seconds": 0.584,
+              "tokenize_seconds": 0.001
+            },
+            "seconds": 11.683
+          }
+        ],
+        "retries": [],
+        "generated_chars": 248,
+        "elapsed_seconds": 13.91,
+        "phase_seconds": {
+          "preparing": 0.001,
+          "generation": 11.686,
+          "candidate": 1.097,
+          "validation": 1.126
+        }
+      },
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "base_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "candidate_sha256": "81b942edd9f751ee1032ff0d425562ab987cd2ea80dd75e6ad8796c1c020890c",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "eaf6324d63bebed072c06e149e04375c0e199e50d2055fa1d97538e58296e9e6"
+        },
+        "candidate": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "verification_scope": "lesson_step",
+        "lesson_step": "sort",
+        "concept_probe": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "教學概念小實驗",
+              "input": "",
+              "expected": "1 4 9",
+              "actual": "1 4 9 ",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "tests_sha256": "400735d1f0dd461838ec2695ef44c9dd586bc21bdba40dc666fe80cc0af4c471"
+      },
+      "adoption": "exact_verified_candidate",
+      "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.006
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "9ed5306fe7c6a0d8d8dd64876f4a4905de1c186ff5d79d76b9de7ae9d51bf5cd"
+      },
+      "seconds": 14.992
+    },
+    {
+      "question": "1、4、9，下一步",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。由小到大依序是 1、4、9；排序不會增加或刪除地址。\n\n模型提出局部修改；步驟與原因由系統教學卡核對。\n\n`houses` 已排序。選中間的地址能使一維絕對距離總和最小；整數平均即使計算正確，也未必選到最佳位置。\n\n原片段：\n```cpp\nstd::sort(houses.begin(), houses.end());\n```\n本步替換為：\n```cpp\nstd::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n```\n\n暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。\n\n理解確認：換一組地址 8、1、5：排序後，中間那個地址是多少？",
+      "source": "lesson_model",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          },
+          {
+            "id": "vito_order",
+            "variant": 0,
+            "answer": "1、4、9，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance",
+          "sorting"
+        ],
+        "pending": "vito_median",
+        "source": "lesson_model",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "median",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"由於 `houses` 已經排序，因此需要計算中位數作為目標房屋號碼，以便在後續的計算中找到最小的總距離。\",\n  \"edits\": [\n    {\n      \"before\": \"std::sort(houses.begin(), houses.end());\",\n      \"after\": \"std::sort(houses.begin(), houses.end());\\n        int home = houses[count / 2];\"\n    }\n  ]\n}\n```"
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 1.089
+          },
+          {
+            "name": "validation",
+            "seconds": 1.083
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 920,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.558,
+            "prompt_eval_count": 385,
+            "eval_count": 115,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 12.973,
+              "first_text_seconds": 0.543,
+              "tokenize_seconds": 0.001
+            },
+            "seconds": 12.988
+          }
+        ],
+        "retries": [],
+        "generated_chars": 275,
+        "elapsed_seconds": 15.162,
+        "phase_seconds": {
+          "preparing": 0.001,
+          "generation": 12.988,
+          "candidate": 1.089,
+          "validation": 1.083
+        }
+      },
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "base_sha256": "81b942edd9f751ee1032ff0d425562ab987cd2ea80dd75e6ad8796c1c020890c",
+        "candidate_sha256": "a3b83b54258954d49d3f122890bf93850994539d37cc3f02aa38026b50c9c2ea",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.006
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "9ed5306fe7c6a0d8d8dd64876f4a4905de1c186ff5d79d76b9de7ae9d51bf5cd"
+        },
+        "candidate": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "verification_scope": "lesson_step",
+        "lesson_step": "median",
+        "concept_probe": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "教學概念小實驗",
+              "input": "",
+              "expected": "5",
+              "actual": "5",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "tests_sha256": "400735d1f0dd461838ec2695ef44c9dd586bc21bdba40dc666fe80cc0af4c471"
+      },
+      "adoption": "exact_verified_candidate",
+      "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "4a4320d2da3f98aa2b6de694d155c257bfb334209eb68cb09c6c4af0af0e3a8f"
+      },
+      "seconds": 16.325
+    },
+    {
+      "question": "5，下一步",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。排序後是 1、5、8，中間地址為 5。對一維絕對距離總和可選中位數，不是把地址平均。\n\n模型這輪未交付符合本步驟的修改，改用系統核對教學；以下不是模型獨立產生的解法。\n\n每組重新將 `distanceSum` 設為零，分別計算各地址到 `home` 的絕對距離再相加，避免正負互抵。\n\n原片段：\n```cpp\nint home = houses[count / 2];\n```\n本步替換為：\n```cpp\nint home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n```\n\n暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。\n\n理解確認：地址 2、4、9，住在 4，三位親戚的距離總和是多少？",
+      "source": "lesson_fallback",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          },
+          {
+            "id": "vito_order",
+            "variant": 0,
+            "answer": "1、4、9，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_median",
+            "variant": 0,
+            "answer": "5，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance",
+          "sorting",
+          "median"
+        ],
+        "pending": "vito_distance",
+        "source": "lesson_fallback",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "distance",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"為了計算每個地址到家園的距離總和，我們需要初始化一個變量 `distanceSum` 為零，並遍歷所有房屋，計算每個房屋到家園的絕對距離，然後將這些距離加到 `distanceSum` 上。\",\n  \"edits\": [\n    {\n      \"before\": \"int home = houses[count / 2];\",\n      \"after\": \"int home = houses[count / 2];\\n        int distanceSum = 0;\"\n    }\n  ]\n}\n```",
+          "recovery_reason": "模型候選超出本輪已核對修改。"
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 1.095
+          },
+          {
+            "name": "validation",
+            "seconds": 1.03
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 1032,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.557,
+            "prompt_eval_count": 413,
+            "eval_count": 127,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 14.268,
+              "first_text_seconds": 0.54,
+              "tokenize_seconds": 0.002
+            },
+            "seconds": 14.286
+          }
+        ],
+        "retries": [],
+        "generated_chars": 286,
+        "elapsed_seconds": 16.412,
+        "phase_seconds": {
+          "preparing": 0.002,
+          "generation": 14.286,
+          "candidate": 1.095,
+          "validation": 1.03
+        }
+      },
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "base_sha256": "a3b83b54258954d49d3f122890bf93850994539d37cc3f02aa38026b50c9c2ea",
+        "candidate_sha256": "eb413c25be6240c26bea9ddba8b2038e8cb0a36727112d7844bccfa0ece1cfac",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "4a4320d2da3f98aa2b6de694d155c257bfb334209eb68cb09c6c4af0af0e3a8f"
+        },
+        "candidate": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.008
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "verification_scope": "lesson_step",
+        "lesson_step": "distance",
+        "concept_probe": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "教學概念小實驗",
+              "input": "",
+              "expected": "99",
+              "actual": "99",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "tests_sha256": "400735d1f0dd461838ec2695ef44c9dd586bc21bdba40dc666fe80cc0af4c471"
+      },
+      "adoption": "exact_verified_candidate",
+      "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "judge": {
+        "status": "failed",
+        "label": "測資通過 0 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.002
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "",
+            "stderr": "",
+            "status": "wrong_answer",
+            "label": "答案不符",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "95cc2db88987159a42a417b16bb2dad8d7c1631436516b2222e1e9d3ed48815d"
+      },
+      "seconds": 17.504
+    },
+    {
+      "question": "7，下一步",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。每段距離都非負，總和為 2+0+5=7；不能先加有正負號的差再取一次絕對值。\n\n模型提出局部修改；步驟與原因由系統教學卡核對。\n\n這組地址的距離全部累加完成後，才輸出 `distanceSum`，每組一行。\n\n原片段：\n```cpp\nfor (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n```\n本步替換為：\n```cpp\nfor (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n```\n\n暫存副本已編譯，測資 0/3 → 3/3，原先通過案例沒有退步；概念小實驗也通過。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。\n\n理解確認：如果兩組案例的距離總和分別是 7 與 0，應輸出哪些數值？請依序回答。",
+      "source": "lesson_model",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          },
+          {
+            "id": "vito_order",
+            "variant": 0,
+            "answer": "1、4、9，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_median",
+            "variant": 0,
+            "answer": "5，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_distance",
+            "variant": 0,
+            "answer": "7，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance",
+          "sorting",
+          "median",
+          "accumulation"
+        ],
+        "pending": "vito_output",
+        "source": "lesson_model",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "output",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"為了按照核對計畫的要求，在計算完所有地址的距離總和後，將結果輸出到標準輸出流。\",\n  \"edits\": [\n    {\n      \"before\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\",\n      \"after\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\\n        std::cout << distanceSum << \\\"\\\\n\\\";\"\n    }\n  ]\n}\n```"
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "candidate",
+            "seconds": 1.083
+          },
+          {
+            "name": "validation",
+            "seconds": 1.032
+          }
+        ],
+        "model_calls": [
+          {
+            "output_limit": 512,
+            "request_chars": 1186,
+            "stream": true,
+            "http_status": 200,
+            "first_text_seconds": 0.58,
+            "prompt_eval_count": 441,
+            "eval_count": 131,
+            "done_reason": "stop",
+            "metrics": {
+              "generation_seconds": 14.953,
+              "first_text_seconds": 0.565,
+              "tokenize_seconds": 0.002
+            },
+            "seconds": 14.968
+          }
+        ],
+        "retries": [],
+        "generated_chars": 374,
+        "elapsed_seconds": 17.085,
+        "phase_seconds": {
+          "preparing": 0.001,
+          "generation": 14.969,
+          "candidate": 1.083,
+          "validation": 1.032
+        }
+      },
+      "revision_check": {
+        "base_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "candidate_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+        "base_sha256": "eb413c25be6240c26bea9ddba8b2038e8cb0a36727112d7844bccfa0ece1cfac",
+        "candidate_sha256": "1d83cd332f7dd3d66be60e476693554b8dbd888ba4ce3ce29f82a278b5ec99b0",
+        "baseline": {
+          "status": "failed",
+          "label": "測資通過 0 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "",
+              "stderr": "",
+              "status": "wrong_answer",
+              "label": "答案不符",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+          "fingerprint": "95cc2db88987159a42a417b16bb2dad8d7c1631436516b2222e1e9d3ed48815d"
+        },
+        "candidate": {
+          "status": "accepted",
+          "label": "測資通過 3 / 3",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "範例測資",
+              "input": "1\n3 1 2 100\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            },
+            {
+              "name": "自編測資2",
+              "input": "1\n3 10 100 1\n",
+              "expected": "99\n",
+              "actual": "99\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.002
+            },
+            {
+              "name": "自編測資3",
+              "input": "2\n1 7\n4 5 5 5 5\n",
+              "expected": "0\n0\n",
+              "actual": "0\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "verification_scope": "lesson_step",
+        "lesson_step": "output",
+        "concept_probe": {
+          "status": "accepted",
+          "label": "測資通過 1 / 1",
+          "compiler": "",
+          "cases": [
+            {
+              "name": "教學概念小實驗",
+              "input": "",
+              "expected": "7\n0\n",
+              "actual": "7\n0\n",
+              "stderr": "",
+              "status": "accepted",
+              "label": "通過",
+              "seconds": 0.003
+            }
+          ],
+          "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+        },
+        "tests_sha256": "400735d1f0dd461838ec2695ef44c9dd586bc21bdba40dc666fe80cc0af4c471"
+      },
+      "adoption": "exact_verified_candidate",
+      "after": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "judge": {
+        "status": "accepted",
+        "label": "測資通過 3 / 3",
+        "compiler": "",
+        "cases": [
+          {
+            "name": "範例測資",
+            "input": "1\n3 1 2 100\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資2",
+            "input": "1\n3 10 100 1\n",
+            "expected": "99\n",
+            "actual": "99\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          },
+          {
+            "name": "自編測資3",
+            "input": "2\n1 7\n4 5 5 5 5\n",
+            "expected": "0\n0\n",
+            "actual": "0\n0\n",
+            "stderr": "",
+            "status": "accepted",
+            "label": "通過",
+            "seconds": 0.003
+          }
+        ],
+        "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。",
+        "fingerprint": "bac82bf8ddf5b0e3b5b1a71ba61933708049b70cce38b965ea46fa12ad1956bb"
+      },
+      "seconds": 18.15
+    },
+    {
+      "question": "7、0，下一步",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。每組案例輸出一行，依序為 7、0，不加提示文字。\n\n系統核對教學：目前程式通過題庫測資與額外 24 組輸入（額外輸入合併為一個 judge 案例）。這不是官方 AC。接著確認你能自行運用觀念。\n\n理解確認：最後用未在前面示範的地址 3、8、14：請自行選一個最佳位置，回答最小距離總和（不是地址）。",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          },
+          {
+            "id": "vito_order",
+            "variant": 0,
+            "answer": "1、4、9，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_median",
+            "variant": 0,
+            "answer": "5，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_distance",
+            "variant": 0,
+            "answer": "7，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_output",
+            "variant": 0,
+            "answer": "7、0，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance",
+          "sorting",
+          "median",
+          "accumulation",
+          "output"
+        ],
+        "pending": "vito_transfer",
+        "source": "lesson_system",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "output",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"為了按照核對計畫的要求，在計算完所有地址的距離總和後，將結果輸出到標準輸出流。\",\n  \"edits\": [\n    {\n      \"before\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\",\n      \"after\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\\n        std::cout << distanceSum << \\\"\\\\n\\\";\"\n    }\n  ]\n}\n```"
+        },
+        "validation": {
+          "code_sha256": "1d83cd332f7dd3d66be60e476693554b8dbd888ba4ce3ce29f82a278b5ec99b0",
+          "tests_sha256": "90214ce32542cce6abadfb61c412f57dc9347f7614fa6bd1def4b570d5fdb447",
+          "status": "accepted",
+          "independent_examples": 24,
+          "result": {
+            "status": "accepted",
+            "label": "測資通過 4 / 4",
+            "compiler": "",
+            "cases": [
+              {
+                "name": "範例測資",
+                "input": "1\n3 1 2 100\n",
+                "expected": "99\n",
+                "actual": "99\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資2",
+                "input": "1\n3 10 100 1\n",
+                "expected": "99\n",
+                "actual": "99\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資3",
+                "input": "2\n1 7\n4 5 5 5 5\n",
+                "expected": "0\n0\n",
+                "actual": "0\n0\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              },
+              {
+                "name": "24 組額外選址案例",
+                "input": "24\n1 1\n3 1 2 100\n3 9 1 4\n4 5 5 5 5\n2 29999 1\n1 14\n3 30 10 20\n8 18 10 24 20 1 5 4 21\n8 29 27 21 28 6 9 6 18\n2 30 21\n7 1 14 18 13 5 22 2\n2 10 13\n4 12 3 27 2\n8 6 13 16 22 12 23 24 9\n4 1 12 9 10\n4 12 25 21 11\n8 15 16 26 15 26 20 1 17\n6 5 11 16 6 26 1\n4 11 17 18 13\n8 28 18 7 30 12 15 19 10\n1 20\n3 7 29 24\n2 11 14\n4 17 5 13 3\n",
+                "expected": "0\n99\n8\n0\n29998\n0\n20\n63\n66\n9\n46\n3\n34\n45\n12\n23\n42\n41\n11\n51\n0\n22\n3\n22\n",
+                "actual": "0\n99\n8\n0\n29998\n0\n20\n63\n66\n9\n46\n3\n34\n45\n12\n23\n42\n41\n11\n51\n0\n22\n3\n22\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              }
+            ],
+            "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+          }
+        }
+      },
+      "performance": {
+        "phase": "validation",
+        "spans": [
+          {
+            "name": "validation",
+            "seconds": 1.065
+          }
+        ],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 1.085,
+        "phase_seconds": {
+          "preparing": 0.02,
+          "validation": 1.065
+        }
+      },
+      "revision_check": null,
+      "seconds": 1.087
+    },
+    {
+      "question": "11，下一步",
+      "before": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n",
+      "status": "delivered",
+      "answer": "這個小例題答對了。可選中位數 8，總距離為 |3-8|+|8-8|+|14-8|=5+0+6=11。\n\n這條教學路徑已完成：目前程式通過題庫測資與額外 24 組輸入，也完成 6 個具體觀念作答。\n\n這不代表已證明你能獨立重寫或通過官方評測。下一個練習是先保存目前程式，再不看原碼自行重寫；完成後重新測試。完成標記仍由你自行決定。",
+      "source": "lesson_system",
+      "lesson_record": {
+        "version": "guided-v2",
+        "topic": 10041,
+        "signature": "546ebf595a6790d3e4b0598ebd40c960f99c165f293549f41c385b9590078a0d",
+        "checks": [
+          {
+            "id": "vito_start",
+            "variant": 0,
+            "answer": "4",
+            "correct": false
+          },
+          {
+            "id": "vito_distance_retry",
+            "variant": 0,
+            "answer": "7",
+            "correct": true
+          },
+          {
+            "id": "vito_order",
+            "variant": 0,
+            "answer": "1、4、9，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_median",
+            "variant": 0,
+            "answer": "5，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_distance",
+            "variant": 0,
+            "answer": "7，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_output",
+            "variant": 0,
+            "answer": "7、0，下一步",
+            "correct": true
+          },
+          {
+            "id": "vito_transfer",
+            "variant": 0,
+            "answer": "11，下一步",
+            "correct": true
+          }
+        ],
+        "passed": [
+          "distance",
+          "sorting",
+          "median",
+          "accumulation",
+          "output",
+          "transfer"
+        ],
+        "pending": null,
+        "source": "lesson_system",
+        "scaffold_sha256": "b9b6d0ac1e48244bc4c6b0961afa87cde07b176df21616f83e8b36839329426c",
+        "last_step": "output",
+        "proposal_audit": {
+          "raw_candidate": "```json\n{\n  \"explanation\": \"為了按照核對計畫的要求，在計算完所有地址的距離總和後，將結果輸出到標準輸出流。\",\n  \"edits\": [\n    {\n      \"before\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\",\n      \"after\": \"for (int address : houses) {\\n            distanceSum += std::abs(address - home);\\n        }\\n        std::cout << distanceSum << \\\"\\\\n\\\";\"\n    }\n  ]\n}\n```"
+        },
+        "validation": {
+          "code_sha256": "1d83cd332f7dd3d66be60e476693554b8dbd888ba4ce3ce29f82a278b5ec99b0",
+          "tests_sha256": "90214ce32542cce6abadfb61c412f57dc9347f7614fa6bd1def4b570d5fdb447",
+          "status": "accepted",
+          "independent_examples": 24,
+          "result": {
+            "status": "accepted",
+            "label": "測資通過 4 / 4",
+            "compiler": "",
+            "cases": [
+              {
+                "name": "範例測資",
+                "input": "1\n3 1 2 100\n",
+                "expected": "99\n",
+                "actual": "99\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資2",
+                "input": "1\n3 10 100 1\n",
+                "expected": "99\n",
+                "actual": "99\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              },
+              {
+                "name": "自編測資3",
+                "input": "2\n1 7\n4 5 5 5 5\n",
+                "expected": "0\n0\n",
+                "actual": "0\n0\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.002
+              },
+              {
+                "name": "24 組額外選址案例",
+                "input": "24\n1 1\n3 1 2 100\n3 9 1 4\n4 5 5 5 5\n2 29999 1\n1 14\n3 30 10 20\n8 18 10 24 20 1 5 4 21\n8 29 27 21 28 6 9 6 18\n2 30 21\n7 1 14 18 13 5 22 2\n2 10 13\n4 12 3 27 2\n8 6 13 16 22 12 23 24 9\n4 1 12 9 10\n4 12 25 21 11\n8 15 16 26 15 26 20 1 17\n6 5 11 16 6 26 1\n4 11 17 18 13\n8 28 18 7 30 12 15 19 10\n1 20\n3 7 29 24\n2 11 14\n4 17 5 13 3\n",
+                "expected": "0\n99\n8\n0\n29998\n0\n20\n63\n66\n9\n46\n3\n34\n45\n12\n23\n42\n41\n11\n51\n0\n22\n3\n22\n",
+                "actual": "0\n99\n8\n0\n29998\n0\n20\n63\n66\n9\n46\n3\n34\n45\n12\n23\n42\n41\n11\n51\n0\n22\n3\n22\n",
+                "stderr": "",
+                "status": "accepted",
+                "label": "通過",
+                "seconds": 0.003
+              }
+            ],
+            "note": "只代表通過本次提供的測資，不保證所有輸入皆正確。忽略輸出結尾空白，其他內容逐字比較。"
+          }
+        },
+        "completion": "tests_and_checks_complete",
+        "independent_rebuild": "not_assessed"
+      },
+      "performance": {
+        "phase": "preparing",
+        "spans": [],
+        "model_calls": [],
+        "retries": [],
+        "elapsed_seconds": 0.018,
+        "phase_seconds": {
+          "preparing": 0.018
+        }
+      },
+      "revision_check": null,
+      "seconds": 0.019
+    }
+  ],
+  "current_code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    int cases;\n    if (!(cin >> cases)) return 0;\n    while (cases--) {\n        int count;\n        cin >> count;\n        vector<int> houses(count);\n        for (int i = 0; i < count; ++i) {\n            cin >> houses[i];\n        }\n        std::sort(houses.begin(), houses.end());\n        int home = houses[count / 2];\n        int distanceSum = 0;\n        for (int address : houses) {\n            distanceSum += std::abs(address - home);\n        }\n        std::cout << distanceSum << \"\\n\";\n        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。\n    }\n    return 0;\n}\n"
+}

@@ -21,6 +21,10 @@ def readable_messages(messages):
         return messages
     if not isinstance(payload,dict) or 'question' not in payload or 'code' not in payload:
         return messages
+    if payload.get('approved_lesson_step'):
+        instruction='你是繁體中文C++17教學助理。只完成本輪已核對的一小步，保留學生原碼與變數。只回傳JSON：{"explanation":"簡短理由","edits":[...] }。參照核對計畫中的精確before/after或unit_id定位，header操作只填標頭名。不改別處、不貼整題、不加額外欄位；理由須符合核對原因。'
+        data={'學生原碼':payload['code'],'學生問題':payload['question'],'核對計畫':payload['approved_lesson_step']}
+        return [{'role':'system','content':instruction},{'role':'user','content':json.dumps(data,ensure_ascii=False)}]
     if payload.get('question_kind')=='cpp_concept':
         instruction='你是繁體中文C++17教學助理。用3至5句、約180個中文字直接回答最新概念問題，不重述問題、不列長清單。保留程式原有變數的意義，不把它解釋成其他題目的角色。需要範例時最多一個短cpp區塊，不貼整份main。依知識卡核對語意，不確定則明說；未執行不可聲稱通過。示範不會自動修改學生程式。'
         system=messages[0]['content'] if messages else ''

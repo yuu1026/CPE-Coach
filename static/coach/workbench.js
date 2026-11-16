@@ -237,7 +237,11 @@
     } catch (error) { window.alert(error.message); }
     finally { resetBusy(); }
   });
-  window.addEventListener('pageshow', () => { if (!following) resetBusy(); });
+  window.addEventListener('pageshow', () => {
+    if (!following) resetBusy();
+    // Wait until browser scroll restoration and markdown layout finish.
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => { history.scrollTop = history.scrollHeight; });
+  });
   try {
     const pending = JSON.parse(window.sessionStorage?.getItem(pendingKey) || 'null');
     if (pending) {

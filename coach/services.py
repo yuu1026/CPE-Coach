@@ -18,8 +18,10 @@ from .learning_context import cpp_concept,vito_context
 from .cpp_knowledge import retrieve as cpp_cards, fallback as cpp_fallback
 from .lesson_progress import progress
 from . import performance
+from .guided_learning import plan as guided_plan
+from .lesson_delivery import deliver as deliver_lesson, LessonError
 
-PROMPT_VERSION = 'cpe-coach-v44-latency'
+PROMPT_VERSION = 'cpe-coach-v47-guided'
 
 class HintError(Exception):
     pass
@@ -130,6 +132,8 @@ def build_messages(problem, code, question, level=None, history=None, evidence=N
             and payload.get('learning_mode')!='result_review'):
         payload['revision_request']=True
         payload['revision_tests']=payload['generated_program_tests']
+    lesson=guided_plan(payload,history)
+    if lesson:payload['guided_lesson']=lesson
     instruction = SYSTEM + '\n這是連續教學對話：先理解並回應使用者對上一輪問題的回答，再推進一個小步驟。若回答不正確，以一個小問題協助釐清，不要機械式重複起始提示。以本輪完整程式及測試結果為準，不沿用舊版程式的錯誤結論。若 execution_evidence.status 為 not_run 或 not_submitted，本輪沒有可用執行證據，只能靜態分析或引導，不可沿用對話中舊版程式的通過或失敗結論。'
     if notes:
         instruction+='\nverified_topic_notes 是本專案整理的題意重點，可作解釋依據，避免把指令、索引與輸出規則說反；它不是學生程式的執行結果，也不表示學生一定有錯。仍須核對目前程式及最新問題，只回答相關部分，不整段抄重點。'
@@ -254,6 +258,12 @@ def _generate_hint(messages, level=None):
         payload = json.loads(messages[-1]['content'])
     except (IndexError, KeyError, TypeError, ValueError):
         payload = {}
+    if payload.get('guided_lesson') and settings.HINT_MODE=='live':
+        try:result=deliver_lesson(payload['guided_lesson'],payload,_generate_once)
+        except LessonError as exc:raise HintError(str(exc)) from None
+        reply=HintText(result['text'],source=result['source'],revision_check=result.get('revision_check'))
+        reply.lesson_record=result['state']
+        return reply
     if payload.get('response_mode') == 'solution' and payload.get('reference_solution'):
         return HintText(reference_answer(payload['reference_solution']), source='reference')
     if payload.get('revision_request') and settings.HINT_MODE=='live':

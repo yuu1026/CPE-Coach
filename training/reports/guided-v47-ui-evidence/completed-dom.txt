@@ -1,0 +1,257 @@
+Browser tab: 5, Title: "UVa 10041 · Vito's family · CPE Coach", URL: "http://127.0.0.1:8000/submission/207/".
+1 AXWebArea UVa 10041 · Vito's family · CPE Coach, URL: 127.0.0.1:8000/submission/207/
+	2 container
+		3 link Description: CPE Coach, Value: 127.0.0.1:8000/
+		4 text 先理解，再寫出自己的解法。
+		5 container 主要導覽
+			6 link Description: 練習總覽, Value: 127.0.0.1:8000/
+			7 text T test
+			8 button 登出
+	9 container
+		10 link Description: 練習總覽 / CPE 一星, Value: 127.0.0.1:8000/
+		11 heading UVa 10041 · Vito's family, Value: 1
+			12 text UVa 10041 · Vito's family
+		13 button (collapsed) 切換題目⌄, Secondary Actions: Expand
+			14 text 切換題目⌄
+		15 button ✓ 標記已完成
+		16 button (expanded) 收合題目 ‹, Secondary Actions: Collapse
+		17 button (expanded) 收合助理 ›, Secondary Actions: Collapse
+		18 text 閱讀字級
+		19 pop up button (collapsed, settable) 閱讀字級, Value: 15, ID: reading-size, Secondary Actions: Expand
+			20 menu
+				21 14
+				22 (selected) 15
+				23 16
+				24 18
+		25 text 程式字級
+		26 pop up button (collapsed, settable) 程式字級, Value: 15, ID: editor-size, Secondary Actions: Expand
+			27 menu
+				28 13
+				29 14
+				30 (selected) 15
+				31 16
+				32 18
+				33 20
+		34 button 重設版面, ID: reset-layout
+		35 text 已還原這題草稿（此瀏覽器）
+		36 button 清除保存草稿, ID: clear-draft
+		37 container workspace-form
+			38 container 題目, ID: panel-problem
+				39 heading 題目說明, Value: 2
+					40 text 題目說明
+				41 text 一星
+				42 container
+					43 text 先讀懂，再動手
+					44 heading UVa 10041 · Vito's family, Value: 3
+						45 text UVa 10041 · Vito's family
+					46 text 先讀案例數，每組讀親戚數與地址（可重複），選居住位置使到所有地址的距離總和最小，逐行輸出該最小總和。 自編測資範例 輸入 1
+3 1 2 100
+ 預期輸出 99
+
+					47 button (collapsed) 題目來源與說明, Secondary Actions: Expand
+						48 text 題目來源與說明
+					49 button (collapsed) 我的思考筆記 僅保存在此瀏覽器, Secondary Actions: Expand
+						50 AXListMarker ▸
+						51 text 我的思考筆記
+						52 text 僅保存在此瀏覽器
+					53 text 目前學習路線 排序與序列 0 / 5 題已標記完成
+					54 link Description: 回到這個題組 →, Value: 127.0.0.1:8000/?track=sorting#practice-picker
+					55 text 沒有想法，也可以開始。 程式留白，在右側告訴助理你讀懂了什麼，或讓它陪你拆解第一步。
+				56 text 完成標記依你的學習狀況自行設定。
+			57 splitter Description: 調整題目與程式區寬度, Value: 24
+			58 container 程式與測試, ID: panel-code
+				59 heading main.cpp, Value: 2
+					60 text main.cpp
+				61 text C++17
+				62 container
+					63 text 你的 C++ 程式碼（可留白）
+					64 text entry area (settable) C++ 程式碼編輯器
+					65 container
+						66 container
+							67 text #include <iostream> #include <vector> #include <algorithm> #include <cstdlib> using namespace std ; int main () { int cases ; if  ( ! ( cin >> cases )) return 0 ; while  ( cases -- ) { int count ; cin >> count ; vector < int > houses ( count ); for  ( int i = 0 ;  i < count ;  ++ i ) { cin >> houses [ i ];         } std::sort ( houses . begin (),  houses . end ()); int home = houses [ count / 2 ]; int distanceSum = 0 ; for  ( int address  :  houses ) { distanceSum += std::abs ( address - home );         } std::cout << distanceSum << "\n" ; // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。     } return 0 ; }
+				68 text 第 1 行，第 1 欄
+				69 text 670 / 12000 字元
+				70 text UTF-8 只執行程式，不呼叫助理
+				71 button ▷ 執行測試, ID: run-test
+				72 button (collapsed) 測資通過 3 / 3 3, Secondary Actions: Expand
+					73 text 測資通過 3 / 3
+					74 progress indicator Description: 測資通過比例, Value: 3
+			75 splitter Description: 調整程式與對話區寬度, Value: 48
+			76 container 助理對話, ID: panel-chat
+				77 heading 解題助理, Value: 2
+					78 text 解題助理
+				79 button 清除此題聊天紀錄, ID: clear-chat
+				80 text 本地模型
+				81 container Description: 解題對話紀錄, ID: chat-history
+					82 container turn-194
+						83 text 你
+						84 text 第 1 輪
+						85 text 我沒有想法，請用小例子引導我，不要直接給完整答案。
+						86 text 尚未撰寫程式，從想法開始。 核對教學
+						87 text 系統核對教學：
+						88 text 本題要選一個住址，讓到所有親戚地址的距離總和最小。例：地址 1、2、3，住在 2 的總距離為 1+0+1=2。
+						89 text 下一步
+						90 text 理解確認：三位親戚住在 1、2、3。如果住在 1，距離總和是多少？只回答這個數值即可。
+					91 container turn-195
+						92 text 你
+						93 text 第 2 輪
+						94 text 4
+						95 text 尚未撰寫程式，從想法開始。 核對教學
+						96 text 這個作答還不正確。住在 1 時，總距離是 |1-1|+|2-1|+|3-1|=0+1+2=3。
+						97 text 下一步
+						98 text 理解確認：換個例子：地址 2、4、9，住在 4，距離總和是多少？
+					99 container turn-196
+						100 text 你
+						101 text 第 3 輪
+						102 text 我懂了，下一步
+						103 text 尚未撰寫程式，從想法開始。 核對教學
+						104 text 先確認這個具體作答；說「懂了」不會直接算通過。
+						105 text 下一步
+						106 text 理解確認：換個例子：地址 2、4、9，住在 4，距離總和是多少？
+					107 container turn-197
+						108 text 你
+						109 text 第 4 輪
+						110 text 7
+						111 text 尚未撰寫程式，從想法開始。 核對教學
+						112 text 這個小例題答對了。距離須分別取絕對值，再相加：|2-4|+|4-4|+|9-4|=2+0+5=7。
+						113 text 系統核對教學：以下是本題的輸入骨架，已通過 C++17 編譯，核心留白，尚未執行題目測資。
+						114 text #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+using namespace std;
+
+int main() {
+    int cases;
+    if (!(cin >> cases))
+        return 0;
+    while (cases--) {
+        int count;
+        cin >> count;
+        vector<int> houses(count);
+        for (int i = 0; i < count; ++i) {
+            cin >> houses[i];
+        }
+        // TODO: 在讀完這組地址後，逐步完成核心運算與輸出。
+    }
+    return 0;
+}
+
+						115 text 可將它放入編輯器，再說「下一步」。已有程式時不會自動覆寫。
+					116 container turn-198
+						117 text 你
+						118 text 第 5 輪
+						119 text 我把骨架貼好了，請教我下一步，只改一小處。
+						120 text 核對教學
+						121 text 模型提出局部修改；步驟與原因由系統教學卡核對。
+						122 container
+							123 text 中位數需要先排序；將  houses  全部讀完後再排序，保留原本的選址與累加。這一步尚未修正平均數選址。
+						124 text 原片段：
+						125 text for (int i = 0; i < count; ++i) {
+
+    cin >> houses[i];
+}
+
+						126 text 本步替換為：
+						127 text for (int i = 0; i < count; ++i) {
+
+    cin >> houses[i];
+}
+std::sort(houses.begin(), houses.end());
+
+						128 text 暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。
+						129 text 下一步
+						130 text 理解確認：先確認排序的作用：9、1、4 排序後的順序是什麼？請依序回答三個數字。
+					131 container turn-200
+						132 text 你
+						133 text 第 6 輪
+						134 text 1、4、9，下一步
+						135 text 核對教學
+						136 text 這個小例題答對了。由小到大依序是 1、4、9；排序不會增加或刪除地址。
+						137 text 模型提出局部修改；步驟與原因由系統教學卡核對。
+						138 container
+							139 text houses  已排序。選中間的地址能使一維絕對距離總和最小；整數平均即使計算正確，也未必選到最佳位置。
+						140 text 原片段：
+						141 text std::sort(houses.begin(), houses.end());
+
+						142 text 本步替換為：
+						143 text std::sort(houses.begin(), houses.end());
+int home = houses[count / 2];
+
+						144 text 暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。
+						145 text 下一步
+						146 text 理解確認：換一組地址 8、1、5：排序後，中間那個地址是多少？
+					147 container turn-202
+						148 text 你
+						149 text 第 7 輪
+						150 text 5，下一步
+						151 text 核對教學
+						152 text 這個小例題答對了。排序後是 1、5、8，中間地址為 5。對一維絕對距離總和可選中位數，不是把地址平均。
+						153 text 模型這輪未交付符合本步驟的修改，改用系統核對教學；以下不是模型獨立產生的解法。
+						154 container
+							155 text 每組重新將  distanceSum  設為零，分別計算各地址到  home  的絕對距離再相加，避免正負互抵。
+						156 text 原片段：
+						157 text int home = houses[count / 2];
+
+						158 text 本步替換為：
+						159 text int home = houses[count / 2];
+int distanceSum = 0;
+for (int address : houses) {
+    distanceSum += std::abs(address - home);
+}
+
+						160 text 暫存副本已編譯，測資 0/3 → 0/3，原先通過案例沒有退步；概念小實驗也通過。本步只建立已核對的前置步驟，整題尚未完成。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。
+						161 text 下一步
+						162 text 理解確認：地址 2、4、9，住在 4，三位親戚的距離總和是多少？
+					163 container turn-204
+						164 text 你
+						165 text 第 8 輪
+						166 text 7，下一步
+						167 text 核對教學
+						168 text 這個小例題答對了。每段距離都非負，總和為 2+0+5=7；不能先加有正負號的差再取一次絕對值。
+						169 text 模型這輪未交付符合本步驟的修改，改用系統核對教學；以下不是模型獨立產生的解法。
+						170 container
+							171 text 這組地址的距離全部累加完成後，才輸出  distanceSum ，每組一行。
+						172 text 原片段：
+						173 text for (int address : houses) {
+
+    distanceSum += std::abs(address - home);
+}
+
+						174 text 本步替換為：
+						175 text for (int address : houses) {
+
+    distanceSum += std::abs(address - home);
+}
+std::cout << distanceSum << "\n";
+
+						176 text 暫存副本已編譯，測資 0/3 → 3/3，原先通過案例沒有退步；概念小實驗也通過。編輯器尚未覆寫，可使用「套用已驗證修改」，再自行測試。
+						177 text 下一步
+						178 text 理解確認：如果兩組案例的距離總和分別是 7 與 0，應輸出哪些數值？請依序回答。
+					179 container turn-206
+						180 text 你
+						181 text 第 9 輪
+						182 text 7、0，下一步
+						183 text 核對教學
+						184 text 這個小例題答對了。每組案例輸出一行，依序為 7、0，不加提示文字。
+						185 text 系統核對教學：目前程式通過題庫測資與額外 24 組輸入（額外輸入合併為一個 judge 案例）。這不是官方 AC。接著確認你能自行運用觀念。
+						186 text 理解確認：最後用未在前面示範的地址 3、8、14：請自行選一個最佳位置，回答最小距離總和（不是地址）。
+					187 container turn-207
+						188 text 你
+						189 text 第 10 輪
+						190 text 11
+						191 text 核對教學
+						192 text 這個小例題答對了。可選中位數 8，總距離為 |3-8|+|8-8|+|14-8|=5+0+6=11。
+						193 text 這條教學路徑已完成：目前程式通過題庫測資與額外 24 組輸入，也完成 6 個具體觀念作答。
+						194 text 這不代表已證明你能獨立重寫或通過官方評測。下一個練習是先保存目前程式，再不看原碼自行重寫；完成後重新測試。完成標記仍由你自行決定。
+				195 button (collapsed) 也可以這樣問, Secondary Actions: Expand
+					196 text 也可以這樣問
+				197 container reply
+					198 text 你的回答或問題
+					199 text entry area (settable) 你的回答或問題, ID: id_question
+					200 text Enter 送出 · Shift + Enter 換行
+					201 button 送出訊息 ↑, ID: ask-assistant
+					202 button (collapsed) 對話與模型資訊, Secondary Actions: Expand
+						203 text 對話與模型資訊
+
+The focused UI element is 1 AXWebArea UVa 10041 · Vito's family · CPE Coach, URL: 127.0.0.1:8000/submission/207/
